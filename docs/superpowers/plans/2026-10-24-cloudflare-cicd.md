@@ -51,8 +51,8 @@ Files: `docs/deployment.md`, root/app `README.md`, `six-faced-life/PRODUCT.md`, 
 
 - [x] Document secrets, production environment, enable switch, first deploy, rollback, local commands, and origin-specific saves.
 - [x] Check root, compiled JS/CSS, artwork/fonts, and fallback through isolated Wrangler serving. Inspect the running app in a browser if available.
-- [ ] Inspect available GitHub/Cloudflare access; activate and verify hosted deployment only with the necessary account access. Otherwise record the exact external blocker and setup steps.
-- [ ] Review diff, run `git diff --check`, fetch/prune, commit task files, push the explicit branch, and create/attach a PR targeting main. Keep incomplete delivery or blocked required checks in draft. Never merge.
+- [x] Inspect available GitHub/Cloudflare access; activate and verify hosted deployment only with the necessary account access. Otherwise record the exact external blocker and setup steps.
+- [x] Review diff, run `git diff --check`, fetch/prune, commit task files, push the explicit branch, and create/attach a PR targeting main. Keep incomplete delivery or blocked required checks in draft. Never merge.
 
 ## Progress ledger
 
@@ -62,4 +62,8 @@ Files: `docs/deployment.md`, root/app `README.md`, `six-faced-life/PRODUCT.md`, 
 - Task 1 complete: Wrangler 4.152.0 installed; 51/51 tests pass, build and dry run pass (17 static files, no upload). Compared every existing lockfile package: zero version changes.
 - Task 2 complete: official action SHAs resolved from GitHub; actionlint 1.7.12 passes. Main-only production environment created with a main branch policy. No credentials or enable variable added.
 - Ruling: the 100-seed lifetime test exceeded the default 5-second budget twice (9.9s and 9.2s) while all assertions completed; give only this heavy test a 30-second budget for shared runners. Preserve every seed and assertion; no simulation changes. Cost if wrong: a genuinely slow simulation can run up to 30 seconds before failing.
-- Pending: final test run, workflow validation, operations documentation, local serving checks, remote setup boundary, and PR delivery.
+- Task 3 code/delivery complete: operations guide and checkpoint updated; 31 local links across seven task documents checked. Isolated port 8787 serves JS/CSS, original WebP, all eight TTF fonts, and SPA fallback. Browser QA verified a fresh life, decision pause, memory choice, paused restore and saved choice after reload, and direct SPA navigation; no captured warnings/errors. No player storage was touched.
+- Final review: independent read-only reviewer found no Critical/Important/Minor code issues. Ruling on review boundaries: token permissions, account authorization, hosted release and rollback remain unverified external operations; do not claim a live site. Remote branch policy was independently queried after creation and permits only branch `main`. An absent or insufficient token must fail publishing rather than broadening permissions automatically.
+- Delivery: implementation commit `6f002b8` pushed to `origin/codex/cloudflare-cicd`; [draft PR #4](https://github.com/ny147/1-in-mushoku-tensei/pull/4) targets `main` and is attached to the chat. Final fetch/prune succeeded; branch contains `origin/main` at `aab3b1b`. User merges manually.
+- GitHub Linux CI passed for implementation commit `6f002b8`: [run 40105781892](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/40105781892). Deployment is skipped on the PR as designed. A documentation-only follow-up records final evidence.
+- Pending external activation: user supplies `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` directly to production secrets, then repository variable `CLOUDFLARE_DEPLOY_ENABLED=true`, manual merge and a successful main deploy. The Worker is not created and no live URL is claimed. Keep PR draft while live deployment remains pending.
