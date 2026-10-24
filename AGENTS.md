@@ -7,8 +7,11 @@ These instructions apply throughout this repository. Read any more specific
 precedence, including later authorization to change the delivery workflow.
 
 Adapted from [ny147/mdez's AGENTS.md](https://github.com/ny147/mdez/blob/main/AGENTS.md)
-for Six-Faced Life's stack, directory layout, verification commands, and local-only
-delivery requirement.
+and [24-HUB/poker-game's AGENTS.md](https://github.com/24-HUB/poker-game/blob/dev/AGENTS.md)
+for Six-Faced Life's stack, directory layout, verification commands, and existing
+checkpoint. The user authorized the automatic commit/push/PR workflow on
+2026-10-24. Git delivery uses `main`; publishing the playable site still requires
+separate authorization.
 
 ## Required Git workflow
 
@@ -17,26 +20,35 @@ delivery requirement.
 - Before starting a new task, require a clean working directory. If tracked changes
   or untracked files exist, stop and ask the user to commit or stash them. Do not
   automatically stash changes or create a worktree to bypass this rule.
-- Run `git fetch origin` before starting a new task. If fetching fails, stop before
+- Run `git fetch origin --prune` before every implementation session, including
+  resumed work, and before final handoff. If fetching fails, stop before further
   implementation and report the blocker; do not use a potentially stale base.
   On this Windows environment, if Git reports the Schannel
   `SEC_E_NO_CREDENTIALS` error, retry with
-  `git -c http.sslBackend=openssl fetch origin`. Keep TLS verification enabled.
+  `git -c http.sslBackend=openssl fetch origin --prune`. Keep TLS verification enabled.
 - Create and switch to a task branch from the freshly fetched `origin/main`
   **before making any changes**, including documentation or configuration:
   `git switch --no-track -c codex/<short-task-name> origin/main`.
-  Use the user's branch name when supplied. Do not run `git pull` on local `main`.
+  Use the user's branch name when supplied. This applies to code, tests,
+  documentation, configuration, dependencies, and generated files.
 - When resuming the same task, continue on its existing task branch and preserve
   its in-progress changes. The clean-start requirement applies to new tasks.
-- Never implement, commit, or push directly on `main`. Do not reset, rebase, delete,
-  force-update, or otherwise modify the local or remote `main` branch.
+- Never implement, commit, or push directly on `main`. Never force-push, reset,
+  rebase, delete, or rewrite local or remote `main`. If the user requests a local
+  update, use `git pull --ff-only origin main` only while on a clean local `main`;
+  if it cannot fast-forward, report the divergence and preserve both histories.
 - If `origin/main` advances during development, report that the task branch is
-  behind. Do not merge or rebase it onto `origin/main`; the user handles integration.
+  behind. Do not automatically merge or rebase it onto `origin/main`; the user
+  handles integration unless they explicitly request branch synchronization.
 - Confirm the task branch is active before writing files. If branch creation fails
   or HEAD is detached, resolve the setup before continuing; do not edit on `main`.
 - Preserve existing uncommitted changes and untracked files. Do not discard, stash,
   overwrite, or include unrelated user work in a commit. Stage only task-owned
   files or hunks; avoid indiscriminate `git add .`.
+- **Every change must go through a pull request targeting `main`.** Each task gets
+  a PR; follow-up changes for that task update its existing open PR. Commit and
+  push only task-owned changes on the task branch, with an explicit branch name
+  and its own upstream. Do not create a separate PR for every commit.
 - Keep the completed result on the task branch for human review. **The user merges
   manually.** Do not merge into `main`, merge a PR, enable auto-merge, or
   automatically delete the task branch after completion.
@@ -52,7 +64,8 @@ There is no application server, account system, or database.
 The Git root is the parent workspace. **The app and npm commands live in
 `six-faced-life/`, not the repository root.**
 
-- Read `CONTINUE.md` for the last checkpoint and user decisions. Its Git setup and
+- Read `CONTINUE.md` for the last checkpoint and user decisions. Keep confirmed
+  decisions distinct from proposals. Its Git setup and
   prior verification notes are historical; inspect Git and rerun relevant checks
   to establish the current state.
 - Read `six-faced-life/README.md` for setup, `six-faced-life/PRODUCT.md` for approved
@@ -101,13 +114,51 @@ The Git root is the parent workspace. **The app and npm commands live in
   claims; acknowledge the source setting as described in the app README.
 - Never store credentials or secrets in source or expose them through `VITE_*`
   variables, which are public browser configuration. Do not log full save payloads.
-- Update relevant documentation when behavior, setup, or domain terminology changes.
+- Update relevant documentation and the `CONTINUE.md` checkpoint when behavior,
+  setup, agreed decisions, domain terminology, or verification evidence changes.
+  Implement only the requested scope; do not describe planned features as complete.
 - Respect `.gitignore`. Keep dependencies, generated builds, caches, screenshots,
   backup archives, and `.openai/` hosting metadata out of commits. Preserve existing
   local hosting metadata on disk.
-- Keep delivery local unless the user explicitly requests an upload or deployment.
-  Configuring a Git remote does not itself authorize publishing source. Do not
-  upload to Sites, deploy, or add remote services without a new user request.
+- The user authorized committing, pushing task branches, and creating/updating
+  PRs on the configured Git remote as the normal delivery workflow. This does not
+  authorize publishing the playable game. Sites source uploads, deployment, new
+  remote services, production data operations, and paid upgrades require explicit
+  user authorization; preparing code does not authorize applying those operations.
+
+## Usage limits and save points
+
+- Check Codex account usage at the start of each implementation session, including
+  resumed work, at task boundaries, and before substantial implementation or
+  expensive verification. Use `get_usage_limits` when available; avoid checking
+  after every small edit or tool call.
+- Inspect all applicable usage windows, including the five-hour and weekly
+  windows when reported. The tool reports **used** percent; remaining percent is
+  `100 - usedPercent`, clamped to 0–100. Prefer `rateLimitsByLimitId` when present.
+  Missing values mean unavailable, not zero remaining; report that limitation
+  rather than inventing a reading or treating zero credit balance as no usage.
+- When **any applicable window has less than 10% remaining**, tell the user and
+  assess whether the next bounded step can finish with enough capacity left to
+  verify and save the work. Prefer a save point before starting substantial new
+  work. A small step that safely completes the current task may finish first;
+  do not wait for exhaustion or abandon an in-flight operation without recording
+  its state. This supersedes older thresholds in historical plans/checkpoints;
+  below 10% is a checkpoint decision trigger, not a claim of completion.
+- At a save point, update the existing `CONTINUE.md` with the task/branch/PR, last
+  completed step and commit, pending changes, checks actually run and their
+  results, blockers, and the exact next step or command. Update the active plan's
+  existing progress ledger when applicable. Record the observation time, remaining
+  percentages, and reset times if available; omit account identifiers, credentials,
+  and reset-credit identifiers. Do not create a competing checkpoint file or mark
+  unchecked work verified.
+- Preserve task-owned work on its task branch. Commit/push and create or update
+  its PR targeting `main` when possible; incomplete or unverified work stays in a
+  draft PR. If saving remotely is blocked, preserve local changes and explain the
+  blocker and resume instructions. Never include unrelated changes just to create
+  a checkpoint.
+- Do not buy credits, redeem usage-reset credits, or change billing automatically.
+  On resumption, recheck usage and read the save point before continuing; do not
+  repeat completed work merely because the session changed.
 
 ## Setup and verification
 
@@ -151,21 +202,20 @@ npm run build
 
 ## Completion handoff
 
-- Review `git diff --check`, the task diff, and `git status --short --branch`.
+- Review `git diff --check`, the complete task diff against `origin/main`, and
+  `git status --short --branch`.
   Inspect newly created, untracked files too; ordinary `git diff` omits them.
-- Fix required check failures. If blocked, record the failed or unavailable checks
-  and their reasons; do not describe the result as passing or ready to merge.
-- Leave the result on its task branch for review. Commit task-owned changes when
-  requested. Push a task branch or create a PR only when the user authorizes that
-  remote upload; the reference repository's automatic push/PR rule is replaced
-  here by this project's local-only delivery requirement.
-- When a PR is authorized, target `main` and use the task branch's own upstream.
-  Open a draft if required checks are failing, unavailable, or freshness cannot be
-  verified. Mark it ready only when the required checks pass.
-- Fetch `origin` before final handoff and report whether the branch is behind
-  `origin/main`. If fetching fails, report that freshness could not be verified.
+- Fix required check failures. If checks remain blocked or failing, describe the
+  limitation and open a draft PR; do not describe the result as ready to merge.
+- Commit task-owned changes on the task branch, push it with an explicit command
+  such as `git push -u origin codex/<short-task-name>`, and create or update its PR
+  with **`main` as the base branch**. Do not rely on the forge's default base.
+  Follow-up commits update the task's existing open PR.
+- Run `git fetch origin --prune` before final handoff and report whether the task branch
+  contains the latest `origin/main`. If freshness cannot be verified, report the
+  blocker and leave the PR in draft. Mark it ready only when required checks pass.
   Do not automatically integrate upstream changes.
-- If a requested commit, push, or PR is blocked, preserve the work and report the
+- If committing, pushing, or PR creation is blocked, preserve the work and report the
   exact blocker and next action. Never fall back to pushing to `main`.
 - Summarize the changes, task branch, verification, remaining issues, and PR link
   if one was created. State that the user merges manually; do not merge a PR,

@@ -1,5 +1,7 @@
 # Story and Progression Expansion Implementation Plan
 
+Status: completed; see the [implementation ledger](2026-10-24-story-progression-progress.md). Local-only wording below records the earlier delivery decision. The user later authorized Git commits, pushes, and task PRs under [AGENTS.md](../../../AGENTS.md); Sites uploads and playable-site deployment still require separate authorization.
+
 > **For agentic workers:** Use superpowers:executing-plans, with test-driven implementation and one final review. The user chose this expansion on 2026-10-24; keep the approved interface and local-only delivery.
 
 **Goal:** Give repeated lives more distinct stories and make magic and careers reward deliberate choices.
