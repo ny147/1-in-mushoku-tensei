@@ -49,8 +49,17 @@ import { BirthRecord, NewLife } from "./components/NewLife";
 import { CharacterView, LifeView } from "./components/LifeView";
 import { Archive, Ending } from "./components/Archive";
 import { WorldView } from "./components/WorldView";
+import { describeChoice, type ChoiceResult } from "./components/ChoiceOutcome";
 
 type Page = "chronicle" | "character" | "world" | "archive" | "new" | "help";
+function focusContent(id: string) {
+  const target = document.getElementById(id);
+  if (!target) return false;
+  target.focus({ preventScroll: true });
+  if (id !== "page-title")
+    target.scrollIntoView?.({ block: "start", behavior: "instant" });
+  return true;
+}
 function readInitial() {
   try {
     return loadGame(window.localStorage);
@@ -90,12 +99,53 @@ export default function App() {
   const [auto, setAuto] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [preview, setPreview] = useState<Life | null>(null);
+  const [outcome, setOutcome] = useState<ChoiceResult | null>(null);
+  const [focusTarget, setFocusTarget] = useState<string | null>(null);
+  const [announcement, setAnnouncement] = useState("");
+  const [loadFailed, setLoadFailed] = useState(!!initial.error);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const dirty = useRef(false);
   const lastSave = useRef(0);
   const previousLife = useRef<Life | null>(null);
   const dataRef = useRef(data);
   dataRef.current = data;
   const life = data.active;
+
+  function persistLatest() {
+    let ok = false;
+    try {
+      ok = saveGame(window.localStorage, dataRef.current);
+    } catch {
+      /* Browser storage is blocked. */
+    }
+    setSaved(ok);
+    if (ok && loadFailed) {
+      setLoadFailed(false);
+      setNotice(null);
+    }
+    lastSave.current = Date.now();
+    previousLife.current = dataRef.current.active;
+    return ok;
+  }
+
+  function retryStorage() {
+    if (loadFailed && !dirty.current) {
+      const result = readInitial();
+      setNotice(result.error);
+      if (result.error) return;
+      setData(result.data);
+      setLoadFailed(false);
+      setSaved(true);
+      setPlaying(false);
+      navigate(result.data.active ? "chronicle" : "new");
+      return;
+    }
+    if (persistLatest()) {
+      setLoadFailed(false);
+      setNotice(null);
+      setAnnouncement("Your latest progress is saved on this device.");
+    }
+  }
 
   const updateLife = useCallback(
     (updater: (current: Life | null) => Life | null) => {
@@ -122,20 +172,20 @@ export default function App() {
       life?.progression?.specialization !==
         previousLife.current?.progression?.specialization;
     if (important || Date.now() - lastSave.current >= 1500) {
-      let ok = false;
-      try {
-        ok = saveGame(window.localStorage, data);
-      } catch {
-        /* storage disabled by browser */
-      }
-      setSaved(ok);
-      lastSave.current = Date.now();
-      previousLife.current = life;
+      persistLatest();
     }
   }, [data, life]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [page, life?.phase]);
+  useEffect(() => {
+    if (!focusTarget) return;
+    if (focusContent(focusTarget)) setFocusTarget(null);
+  }, [focusTarget, page, life?.phase, life?.pending, preview?.id, outcome]);
+  useEffect(() => {
+    if (life?.pending || (outcome && outcome.lifeId !== life?.id))
+      setOutcome(null);
+  }, [life?.pending, life?.id, outcome]);
   useEffect(() => {
     const flush = () => {
       if (dirty.current)
@@ -202,36 +252,64 @@ export default function App() {
       const target = event.target as HTMLElement;
       if (
         event.code === "Space" &&
-        !["INPUT", "SELECT", "TEXTAREA", "BUTTON"].includes(target.tagName) &&
+        !target.closest(
+          "input, select, textarea, button, summary, a, [contenteditable]",
+        ) &&
         page === "chronicle" &&
         life?.phase === "alive"
       ) {
         event.preventDefault();
         setPlaying((value) => !value);
       }
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Escape" && menuOpen) {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [life?.phase, page]);
+  }, [life?.phase, page, menuOpen]);
 
   function navigate(next: Page) {
     setPage(next);
     setMenuOpen(false);
     setPreview(null);
+    setFocusTarget("page-title");
     window.scrollTo({ top: 0, behavior: "instant" });
   }
   function startNew(name: string, region?: RegionId) {
     updateLife(() => createLife({ name, region }));
     setAuto(false);
     setPlaying(false);
+    setOutcome(null);
+    setAnnouncement("");
     navigate("chronicle");
   }
   function selectChoice(id: string) {
-    updateLife((current) => (current ? choose(current, id) : null));
+    const current = dataRef.current.active;
+    if (!current) return;
+    const next = choose(current, id);
+    if (next === current) return;
+    const result = describeChoice(current, next);
+    setOutcome(result);
+    setAnnouncement(
+      `${result.title} ${result.text} ${result.changes.join(". ")}`,
+    );
+    updateLife(() => next);
+    setFocusTarget(next.phase === "ended" ? "page-title" : "outcome-heading");
   }
-  const onAdvance = () =>
-    updateLife((current) => (current ? advance(current, "decision") : null));
+  const onAdvance = () => {
+    const current = dataRef.current.active;
+    if (!current || current.pending) return;
+    const next = advance(current, "decision");
+    setOutcome(null);
+    setFocusTarget(next.phase === "ended" ? "page-title" : "decision-heading");
+    updateLife(() => next);
+  };
+  function openSpellbook() {
+    navigate("character");
+    setFocusTarget("spellbook-heading");
+  }
   const navItems: { id: Page; label: string; icon: typeof BookOpen }[] = [
     { id: "chronicle", label: "Your chronicle", icon: BookOpen },
     { id: "character", label: "Your character", icon: UserRound },
@@ -251,17 +329,31 @@ export default function App() {
       <a className="skip-link" href="#main-content">
         Skip to your story
       </a>
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {announcement}
+      </div>
       <div className="mobile-top">
         <Brand />
         <button
           className="icon-button"
           aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={menuOpen}
+          aria-controls="site-navigation"
+          ref={menuButton}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
-      <aside className={`sidebar ${menuOpen ? "menu-open" : ""}`}>
+      <aside
+        id="site-navigation"
+        className={`sidebar ${menuOpen ? "menu-open" : ""}`}
+      >
         <Brand />
         <div className="sidebar-rule" />
         <nav className="main-nav" aria-label="Main navigation">
@@ -322,7 +414,7 @@ export default function App() {
           </div>
         </div>
       </aside>
-      <main id="main-content" className="main-content">
+      <main id="main-content" className="main-content" tabIndex={-1}>
         <header className="topbar">
           <div className="breadcrumb">
             <span>The Six-Faced World</span>
@@ -355,7 +447,7 @@ export default function App() {
             )}
           </div>
         </header>
-        {notice && (
+        {notice && !loadFailed && (
           <div className="notice" role="alert">
             <p>{notice}</p>
             <button
@@ -367,6 +459,21 @@ export default function App() {
             </button>
           </div>
         )}
+        {!saved && (
+          <div className="save-recovery" role="alert">
+            <div>
+              <strong>Your progress has not been saved.</strong>
+              <p>
+                {loadFailed && !dirty.current
+                  ? `${notice ?? "Your existing save could not be opened."} Try loading again when browser storage is available.`
+                  : "Your current life is still open here. Keep this tab open and try saving again before you leave."}
+              </p>
+            </div>
+            <button className="button" onClick={retryStorage}>
+              {loadFailed && !dirty.current ? "Retry loading" : "Retry save"}
+            </button>
+          </div>
+        )}
         <div
           className={`page-content ${page === "new" ? "new-page-content" : ""}`}
         >
@@ -374,7 +481,7 @@ export default function App() {
             !(life?.phase === "birth" && page === "chronicle") && (
               <header className="page-heading">
                 <div>
-                  <h1>
+                  <h1 id="page-title" tabIndex={-1}>
                     {page === "chronicle"
                       ? life?.phase === "ended"
                         ? "A life worth remembering."
@@ -406,10 +513,39 @@ export default function App() {
             )}
           {showTime && (
             <section className="time-bar" aria-label="Time controls">
+              <div className="time-guidance" id="time-guidance">
+                <div>
+                  <strong>
+                    {life.pending
+                      ? auto && playing
+                        ? "Watch mode is choosing for you"
+                        : "A choice is waiting for you"
+                      : playing
+                        ? "Time is moving"
+                        : "Time is paused"}
+                  </strong>
+                  <p>
+                    {life.pending
+                      ? auto && playing
+                        ? "An affordable option without a danger marker will be chosen automatically. Pause or turn Watch mode off to decide yourself."
+                        : "Choose an option in your story before time can move on."
+                      : "Continue to the next decision, advance up to one year, or press Play to let time pass."}
+                  </p>
+                </div>
+                {life.pending && (
+                  <button
+                    className="button"
+                    onClick={() => focusContent("decision-heading")}
+                  >
+                    Review choices
+                  </button>
+                )}
+              </div>
               <div className="time-main">
                 <button
                   className={`play-button ${playing ? "is-playing" : ""}`}
                   aria-label={playing ? "Pause time" : "Play time"}
+                  aria-describedby="time-guidance"
                   onClick={() => setPlaying(!playing)}
                 >
                   {playing ? (
@@ -417,13 +553,7 @@ export default function App() {
                   ) : (
                     <Play size={15} fill="currentColor" />
                   )}
-                  <span>
-                    {playing
-                      ? life.pending
-                        ? "Waiting for you"
-                        : "Life is unfolding"
-                      : "Paused"}
-                  </span>
+                  <span>{playing ? "Pause" : "Play"}</span>
                 </button>
                 <div className="speed-controls" aria-label="Playback speed">
                   {[1, 2, 4, 8].map((s) => (
@@ -445,6 +575,7 @@ export default function App() {
                 <label className="auto-control">
                   <input
                     type="checkbox"
+                    aria-describedby="watch-mode-help"
                     checked={auto}
                     onChange={(e) => setAuto(e.target.checked)}
                   />
@@ -454,23 +585,29 @@ export default function App() {
                 <button
                   className="time-step"
                   disabled={!!life.pending}
-                  onClick={() =>
+                  title="Advance up to one year; stop early if a choice appears"
+                  onClick={() => {
+                    setOutcome(null);
                     updateLife((current) =>
                       current ? advance(current, "year") : null,
-                    )
-                  }
+                    );
+                  }}
                 >
                   +1 year
                 </button>
                 <button
                   className="next-decision"
                   disabled={!!life.pending}
+                  title="Advance until the next choice, up to twelve years at a time"
                   onClick={onAdvance}
                 >
                   Next decision
                   <SkipForward size={14} />
                 </button>
               </div>
+              <p className="watch-mode-help" id="watch-mode-help">
+                Watch mode makes choices for you while time plays.
+              </p>
               <div className="year-progress">
                 <span style={{ width: `${life.progress * 100}%` }} />
               </div>
@@ -478,6 +615,7 @@ export default function App() {
           )}
           {page === "new" ? (
             <NewLife
+              saved={saved}
               hasActive={!!life && life.phase !== "ended"}
               onCreate={startNew}
               onCancel={() => navigate("chronicle")}
@@ -489,15 +627,26 @@ export default function App() {
           ) : page === "archive" ? (
             preview ? (
               <Ending
+                saved={saved}
                 life={preview}
                 onNew={() => navigate("new")}
-                onBack={() => setPreview(null)}
+                onBack={() => {
+                  setPreview(null);
+                  setFocusTarget("page-title");
+                }}
               />
             ) : (
               <Archive
+                saved={saved}
+                hasActive={!!life && life.phase !== "ended"}
                 lives={data.archive}
-                onRead={setPreview}
-                onNew={() => navigate(life ? "chronicle" : "new")}
+                onRead={(value) => {
+                  setPreview(value);
+                  setFocusTarget("retrospective-heading");
+                }}
+                onNew={() =>
+                  navigate(life && life.phase !== "ended" ? "chronicle" : "new")
+                }
               />
             )
           ) : page === "character" ? (
@@ -519,10 +668,11 @@ export default function App() {
               onBegin={() => {
                 updateLife((current) => (current ? beginLife(current) : null));
                 setPlaying(true);
+                setFocusTarget("decision-heading");
               }}
             />
           ) : life?.phase === "ended" ? (
-            <Ending life={life} onNew={() => navigate("new")} />
+            <Ending life={life} saved={saved} onNew={() => navigate("new")} />
           ) : life ? (
             <LifeView
               life={life}
@@ -538,9 +688,13 @@ export default function App() {
                   current ? setSpecialization(current, school) : null,
                 )
               }
+              outcome={outcome?.lifeId === life.id ? outcome : null}
+              automatic={auto && playing}
+              onSpellbook={openSpellbook}
             />
           ) : (
             <NewLife
+              saved={saved}
               hasActive={false}
               onCreate={startNew}
               onCancel={() => {}}

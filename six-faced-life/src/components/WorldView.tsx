@@ -19,7 +19,7 @@ export function WorldView({ life }: { life: Life | null }) {
       <WorldMap selected={selected} onSelect={setSelected} />
       <p className="map-caption">
         An illustrated regional guide. Geography is simplified; birth weights
-        are game balance.
+        are game balance. Choose a region from the list below to read about it.
       </p>
       <div className="world-below">
         <nav className="region-list" aria-label="World regions">

@@ -9,15 +9,18 @@ import {
 import { useState } from "react";
 import type { Life, RegionId } from "../game/types";
 import { RACES, REGIONS } from "../game/world";
+import { Landscape } from "./Landscape";
 
 export function NewLife({
   onCreate,
   hasActive,
   onCancel,
+  saved = true,
 }: {
   onCreate: (name: string, region?: RegionId) => void;
   hasActive: boolean;
   onCancel: () => void;
+  saved?: boolean;
 }) {
   const [name, setName] = useState("");
   const [region, setRegion] = useState("");
@@ -25,10 +28,7 @@ export function NewLife({
   return (
     <div className="new-life page-enter">
       <div className="opening-art">
-        <img
-          src="/assets/asura-countryside.png"
-          alt="An original painting of a sunlit fantasy village, golden fields, and distant mountains"
-        />
+        <Landscape alt="An original painting of a sunlit fantasy village, golden fields, and distant mountains" />
         <div className="opening-shade" />
         <div className="opening-art-copy">
           <Leaf size={26} strokeWidth={1.3} />
@@ -40,7 +40,7 @@ export function NewLife({
         <span className="art-credit">An imagined corner of Asura</span>
       </div>
       <div className="opening-copy">
-        <h1>
+        <h1 id="page-title" tabIndex={-1}>
           A new world.
           <br />A second chance.
         </h1>
@@ -117,7 +117,11 @@ export function NewLife({
           <p>
             An entire lifetime, one choice at a time.
             <br />
-            <span>Your story is saved in this browser.</span>
+            <span>
+              {saved
+                ? "Progress is saved only in this browser."
+                : "Saving is unavailable. Keep this tab open to keep playing."}
+            </span>
           </p>
         </div>
       </div>
@@ -135,14 +139,13 @@ export function BirthRecord({
   return (
     <section className="birth-record page-enter">
       <div className="birth-illustration">
-        <img
-          src="/assets/asura-countryside.png"
-          alt="A peaceful village in an original fantasy landscape"
-        />
+        <Landscape alt="A peaceful village in an original fantasy landscape" />
       </div>
       <div className="birth-paper">
         <Sparkles className="birth-spark" size={26} strokeWidth={1.2} />
-        <h1>Welcome back to the world.</h1>
+        <h1 id="page-title" tabIndex={-1}>
+          Welcome back to the world.
+        </h1>
         <p className="birth-subtitle">A different sky. The same soul.</p>
         <div className="birth-name">
           {life.name} {life.surname}
