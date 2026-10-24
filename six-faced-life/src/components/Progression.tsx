@@ -24,9 +24,11 @@ import {
 export function StudyFocus({
   life,
   onChange,
+  onSpellbook,
 }: {
   life: Life;
   onChange?: (school: MagicSchool) => void;
+  onSpellbook?: () => void;
 }) {
   const id = useId();
   const p = getProgression(life);
@@ -52,6 +54,18 @@ export function StudyFocus({
         </>
       ) : (
         <p className="study-unlock">Choose your field of study at age eight.</p>
+      )}
+      <p className="study-guidance">
+        {life.age < 3
+          ? "Magic practice opens at age three."
+          : "Choose Practice magic in this year’s focus to train this discipline."}{" "}
+        Changing discipline keeps your previous experience and spells. Higher
+        instruction comes through story opportunities as you grow.
+      </p>
+      {onSpellbook && (
+        <button className="text-button spellbook-link" onClick={onSpellbook}>
+          Open your full spellbook <BookOpen size={14} />
+        </button>
       )}
       <p className="next-spell">
         <BookOpen size={13} />
@@ -190,7 +204,7 @@ export function CareerProgress({ life }: { life: Life }) {
           <p>
             {canPromote(life)
               ? "You are ready. A promotion offer can appear as time unfolds."
-              : "Keep practicing and doing your work. You choose whether to accept more responsibility."}
+              : "Earn career experience through your work; Earn a living focus adds more. Bonds of 60 or higher build reputation faster. Meet the skill requirements above, then look for a promotion offer in your story."}
           </p>
         </div>
       )}
@@ -214,7 +228,9 @@ export function Spellbook({ life }: { life: Life }) {
   const p = getProgression(life);
   return (
     <section className="spellbook">
-      <h2>Your spellbook</h2>
+      <h2 id="spellbook-heading" tabIndex={-1}>
+        Your spellbook
+      </h2>
       <p>
         Practice grows the discipline you choose. Advanced spells also need the
         right instruction.

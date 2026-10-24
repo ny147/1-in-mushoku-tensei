@@ -37,6 +37,8 @@ import {
   MAGIC_SCHOOLS,
 } from "../game/progression";
 import { CareerProgress, Spellbook, StudyFocus } from "./Progression";
+import { ChoiceOutcome, type ChoiceResult } from "./ChoiceOutcome";
+import { Landscape } from "./Landscape";
 
 const statMeta: {
   id: Stat;
@@ -102,9 +104,11 @@ export function CharacterStats({ life }: { life: Life }) {
 export function Training({
   life,
   onStudyChange,
+  onSpellbook,
 }: {
   life: Life;
   onStudyChange?: (school: MagicSchool) => void;
+  onSpellbook?: () => void;
 }) {
   const studies = getProgression(life);
   const tracks = [
@@ -160,7 +164,11 @@ export function Training({
           </div>
         );
       })}
-      <StudyFocus life={life} onChange={onStudyChange} />
+      <StudyFocus
+        life={life}
+        onChange={onStudyChange}
+        onSpellbook={onSpellbook}
+      />
       {life.flags.guildMember && (
         <div className="guild-line">
           <Shield size={16} />
@@ -268,19 +276,34 @@ export function FocusPicker({
 export function DecisionPanel({
   life,
   onChoose,
+  onAdvance,
+  outcome,
+  automatic = false,
 }: {
   life: Life;
   onAdvance: () => void;
   onChoose: (id: string) => void;
+  outcome?: ChoiceResult | null;
+  automatic?: boolean;
 }) {
   const decision = getDecision(life);
+  if (!decision && outcome)
+    return <ChoiceOutcome result={outcome} onContinue={onAdvance} />;
   if (!decision)
     return (
       <section className="quiet-moment">
         <Feather size={23} strokeWidth={1.2} />
         <div>
-          <h2>A little time to live.</h2>
-          <p>Let the days unfold, or turn the page to your next decision.</p>
+          <h2 id="decision-heading" tabIndex={-1}>
+            A little time to live.
+          </h2>
+          <p>
+            Choose your focus below, then continue to the next decision or press
+            Play.
+          </p>
+          <button className="text-button" onClick={onAdvance}>
+            Continue to next decision <ArrowRight size={15} />
+          </button>
         </div>
       </section>
     );
@@ -292,7 +315,9 @@ export function DecisionPanel({
         </span>
         <span>{decision.kind}</span>
       </div>
-      <h2 id="decision-heading">{decision.title}</h2>
+      <h2 id="decision-heading" tabIndex={-1}>
+        {decision.title}
+      </h2>
       <p className="decision-narrative">{decision.text}</p>
       <div className="choices">
         {decision.choices.map((choice) => {
@@ -322,7 +347,9 @@ export function DecisionPanel({
       </div>
       <p className="decision-note">
         <span className="tiny-dot" />
-        Time pauses while you decide. There is no need to rush.
+        {automatic
+          ? "Watch mode will choose an affordable option without a danger marker. Pause to decide yourself."
+          : "Time pauses while you decide. There is no need to rush."}
       </p>
     </section>
   );
@@ -388,7 +415,7 @@ export function LifeRecord({
                 </div>
                 <p>{entry.text}</p>
                 {i === 0 && life.phase === "alive" && (
-                  <span className="latest-label">Your latest memory</span>
+                  <span className="latest-label">Latest moment</span>
                 )}
               </div>
             </article>
@@ -413,11 +440,14 @@ export function LifeRecord({
   );
 }
 export function LifeTimeline({ life }: { life: Life }) {
-  const max = Math.max(100, Math.ceil((life.age + 1) / 25) * 25);
+  const ended = life.phase === "ended";
+  const max = ended
+    ? life.age + 1
+    : Math.max(100, Math.ceil((life.age + 1) / 25) * 25);
   return (
     <section className="life-timeline">
       <div className="section-topline">
-        <h2>A lifetime, unfolding</h2>
+        <h2>{ended ? "A lifetime, remembered" : "A lifetime, unfolding"}</h2>
         <span>One square, one year</span>
       </div>
       <div className="year-grid">
@@ -438,10 +468,12 @@ export function LifeTimeline({ life }: { life: Life }) {
           <i />
           The years you’ve lived
         </span>
-        <span>
-          <i />
-          The story still ahead
-        </span>
+        {!ended && (
+          <span>
+            <i />
+            The story still ahead
+          </span>
+        )}
       </div>
     </section>
   );
@@ -452,21 +484,26 @@ export function LifeView({
   onChoose,
   onAdvance,
   onStudyChange,
+  outcome,
+  automatic,
+  onSpellbook,
 }: {
   life: Life;
   onFocus: (focus: Focus) => void;
   onChoose: (id: string) => void;
   onAdvance: () => void;
   onStudyChange: (school: MagicSchool) => void;
+  outcome?: ChoiceResult | null;
+  automatic?: boolean;
+  onSpellbook?: () => void;
 }) {
   return (
-    <div className="life-columns page-enter">
+    <div
+      className={`life-columns page-enter ${life.pending ? "has-decision" : ""}`}
+    >
       <div className="story-column">
         <section className="scene">
-          <img
-            src="/assets/asura-countryside.png"
-            alt="An imagined countryside of the Six-Faced World, painted in warm morning light"
-          />
+          <Landscape alt="An imagined countryside of the Six-Faced World, painted in warm morning light" />
           <div className="scene-shade" />
           <div className="scene-top">
             <span>
@@ -494,14 +531,24 @@ export function LifeView({
           </div>
           <span className="scene-art-note">An imagined view of Asura</span>
         </section>
-        <DecisionPanel life={life} onChoose={onChoose} onAdvance={onAdvance} />
+        <DecisionPanel
+          life={life}
+          onChoose={onChoose}
+          onAdvance={onAdvance}
+          outcome={outcome}
+          automatic={automatic}
+        />
         <FocusPicker life={life} onFocus={onFocus} />
         <LifeRecord life={life} />
         <LifeTimeline life={life} />
       </div>
       <aside className="character-rail">
         <CharacterStats life={life} />
-        <Training life={life} onStudyChange={onStudyChange} />
+        <Training
+          life={life}
+          onStudyChange={onStudyChange}
+          onSpellbook={onSpellbook}
+        />
         <CareerProgress life={life} />
         <Family life={life} />
         <section className="rail-section location-section">

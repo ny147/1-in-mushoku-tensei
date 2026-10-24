@@ -1,6 +1,6 @@
 # Save point — Six-Faced Life
 
-Updated 2026-10-24 (Asia/Bangkok). The original game and the chosen story, magic, and career expansion are complete. The latest task refreshes documentation against the current Git repository. Do not repeat discovery or request the original design approval again.
+Updated 2026-10-24 (Asia/Bangkok). The original game, progression expansion, UX review and approved UX fixes are implemented. The active delivery is `codex/ux-clarity-fixes`; see its checkpoint below. Do not repeat the review or request the implementation approval again.
 
 ## User decisions
 
@@ -8,6 +8,7 @@ Updated 2026-10-24 (Asia/Bangkok). The original game and the chosen story, magic
 - Original reincarnated protagonist with memories of a previous life.
 - Design approved; implementation requested and completed.
 - On October 24, the user chose more story events and deeper magic/career progression; that expansion is now implemented and verified.
+- The user identified “What to do next / time controls” as the most confusing area, completed the review, then explicitly requested implementation of its fixes. The approved illustrated-chronicle identity remains the visual direction.
 - The playable game stays local; Sites source uploads and deployment require a new request. On 2026-10-24 the user superseded the earlier restriction on Git delivery by adopting automatic task commits, branch pushes, and PRs targeting `main`. Follow-up commits update the task's existing open PR; the user merges manually.
 
 ## Current state
@@ -19,7 +20,19 @@ Implemented: generated birth records; six regions/five races; memory-driven chil
 
 Original landscape and self-hosted fonts are in `public/assets/`. Font licenses and generation details are included. `PRODUCT.md`, `DESIGN.md`, and `.impeccable/design.json` describe the built product and visual system.
 
-## Current Git and documentation checkpoint
+## Current UX implementation checkpoint
+
+Task branch: `codex/ux-clarity-fixes`, created clean from freshly fetched `origin/main` at `e2bd13f`. The preceding review was delivered separately on [PR #2](https://github.com/ny147/1-in-mushoku-tensei/pull/2), latest review commit `1ff7c45`; its recommendations are now authorized for implementation. This task has its own [spec](docs/superpowers/specs/2026-10-24-ux-clarity-fixes.md) and [plan/progress ledger](docs/superpowers/plans/2026-10-24-ux-clarity-fixes.md). Implementation decisions preserve existing timed playback after a manual choice rather than adding a mandatory confirmation step.
+
+Implemented: explicit time-state/next-action guidance and Review choices; separate Play/Pause action text; adjacent Watch mode explanation and mode-aware pending copy; actual manual-choice outcome and actual deltas in place with continuation, polite announcement and stable focus; navigation/spellbook/archive focus targets; 44px utility controls; accessible phone Help and Escape/menu state; actionable magic/career guidance; retry saving the latest in-memory data and safe retry loading of unreadable data; truthful storage wording; ended timelines without future squares; one h1 per retrospective; Latest moment labels; readable phone region selection. The original landscape now has a 554,172-byte WebP derivative, 83.2% smaller than its 3,293,374-byte PNG, with the original retained as fallback/source. Game engine, event identifiers, random consumption and save schema are unchanged.
+
+Fresh verification on October 24: **51 tests passed across seven files**, including eight initially failing UX/recovery/keyboard cases, actual capped/risky outcomes, hidden automatic playback and immediate focus/study persistence. `npm run build` passed TypeScript and Vite (JS 353.95 kB / 112.86 kB gzip; CSS 51.16 kB / 10.78 kB gzip). Independent code review found no Important/Critical issue; its minor archive save-message concern was corrected to refer to latest progress. A keyboard regression test reproduced Space starting playback from a spell disclosure; the interactive-element guard now prevents it, and a fresh browser page confirmed it.
+
+Browser QA used only isolated port 5176: desktop 1280px, phones 390×844 and 320×800; pending-choice navigation, actual outcomes, mobile help, full spellbook, 44px playback controls, Escape focus, automatic choice/playback, pause/reload, failed writes/repeated retry/recovery and persisted choice after real app reload, failed reads/retry, a 114-year ending/archive reopen, one h1, completed timeline and region selection. No horizontal overflow or captured console warnings/errors on inspected paths. WebP currentSrc and visual fidelity checked. Port 5173 and existing 5174/5175 browser saves were untouched. QA fixture source files were removed, preview stopped, tab closed and viewport reset. Ignored evidence: `six-faced-life/screenshots/ux-clarity-desktop.png` and `ux-outcome-mobile.png`. Full assistive-technology sessions, actual 200% zoom and exhaustive pixel/network/event audits were not claimed.
+
+Usage observed 2026-10-24 at 21:41:52 Asia/Bangkok: five-hour **52% remaining** (resets October 25 at 02:06:33), weekly **62% remaining** (resets October 31 at 10:39:46). Neither window triggers the low-capacity save point. Last completed commit before this task is base `e2bd13f`; task-owned implementation/docs are pending final diff verification and initial delivery commit. Next step: check documentation references/design JSON, complete the final diff/status and freshness checks, commit/push this task branch and create a PR targeting `main`; record delivery here. No publication is authorized; the user merges manually.
+
+## Previous documentation checkpoint (historical; PR #1 is merged)
 
 The workspace is now a Git repository; the earlier no-Git note described initial development only. On 2026-10-24, the documentation task began with a clean working tree on `main`. `git fetch origin` succeeded, and `codex/update-project-docs` was created from freshly fetched `origin/main` at `19364d8` (`docs: add project-specific agent instructions`). The user then authorized adopting the poker-game repository's workflow rules, adapted to this game's stack and `main` base. This continues the same documentation task and preserves its changes. Commit/push/PR delivery is now authorized; the user merges manually.
 
@@ -87,4 +100,4 @@ The expansion's review found no Important/Critical defects. One misleading affor
 
 ## Next session
 
-Start by reading this file and inspecting Git as required by `AGENTS.md`. Do not redo the original implementation, the completed progression expansion, or reference investigation. The main preview is 5173; 5174 is reserved for isolated QA. No further game feature is currently authorized. If the user only wants to play, help restart the preview and preserve browser storage.
+Start with the current UX implementation checkpoint and plan ledger, then inspect Git as required by `AGENTS.md`. Preserve the completed fixes and do not repeat review discovery or request their implementation approval again. Review/merge the task PR manually when delivered. If delivery was interrupted, resume its exact next step on `codex/ux-clarity-fixes`. The main preview is 5173; QA uses a separate origin and preserves existing saves. Publishing remains separately authorized.

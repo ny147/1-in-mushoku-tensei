@@ -35,13 +35,17 @@ npm run dev -- --port 5174
 - Begin a new life, optionally supplying a name and birthplace.
 - Open the birth record and make your first memory-driven choice.
 - Play/pause, select a speed, advance one year, or jump to the next decision. Decisions always stop time. Space toggles playback outside form controls.
+- The time guidance explains what is happening and what to do next. Use Review choices to go directly to a waiting decision. After a manual choice, read its actual outcome and changes in place, then Continue to next decision or let playback proceed. The result stays in the chronicle after its temporary feedback closes.
 - Change the yearly focus to train, learn, work, connect, explore, or recover. Higher skill ranks require both experience and instruction.
 - From age eight, choose water, fire, earth, wind, or healing as your current magic study. Each discipline has its own experience and six learnable spells. Your character page shows the complete spellbook, including what still needs practice or instruction.
 - Working careers earn experience and reputation. Three promotion steps offer new titles and increased yearly pay when you meet the requirements. You can also change vocation through a later-life decision.
 - Watch mode makes affordable, low-risk choices while playback is active. Progress pauses in hidden tabs and when the page is closed.
+- How to play is available from both desktop and phone navigation. The training section explains yearly focus versus magic discipline and links to the full spellbook.
 - Completed lives appear in Past lives. The most recent 20 are kept.
 
 Saves live only in the current browser's local storage, under `six-faced-life.v1`. The browser profile, hostname, and port must match: `localhost`, `127.0.0.1`, and different ports have separate saves. Reload starts paused and preserves pending decisions; there is no offline catch-up. Source ZIPs and Git commits do not include browser progress. No account or server database is required. The game shows a recovery message when storage cannot be read, and a not-saved indicator when writing fails.
+
+If saving fails, keep the tab open and use Retry save to write the latest in-memory progress after storage becomes available. If an existing save cannot be read, Retry loading attempts to reopen it without writing an empty replacement. Creating a new life remains an explicit player action. Clearing browser data is not a recovery step.
 
 ## Implementation
 

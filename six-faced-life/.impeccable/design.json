@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-24T04:10:01Z",
+  "generatedAt": "2026-10-24T14:38:29Z",
   "title": "Design System: Six-Faced Life",
   "extensions": {
     "colorMeta": {
@@ -249,7 +249,14 @@
         "name": "narrow-phone-max",
         "value": "360px"
       }
-    ]
+    ],
+    "interactionGuidance": {
+      "timeControls": "Separate Play/Pause action from paused/moving/manual-decision/automatic-choice guidance. Review choices focuses the decision. Utility targets are at least 44px high; speeds 44px wide.",
+      "choiceOutcome": "Sage in-place actual outcome with actual changes, polite announcement and Continue to next decision. Automatic play does not steal focus.",
+      "recovery": "Persistent Retry save uses current memory; untouched failed loads offer Retry loading. Storage promises are conditional.",
+      "mobile": "Keep Help visible. Hide scene for pending decisions and tiny map overlays; region-list selection remains accessible.",
+      "illustrations": "Existing previews illustrate base roles; final responsive overrides and interaction behavior are documented in DESIGN.md."
+    }
   },
   "components": [
     {

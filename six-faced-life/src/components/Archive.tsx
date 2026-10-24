@@ -16,10 +16,12 @@ export function Ending({
   life,
   onNew,
   onBack,
+  saved = true,
 }: {
   life: Life;
   onNew: () => void;
   onBack?: () => void;
+  saved?: boolean;
 }) {
   return (
     <div className="ending-page page-enter">
@@ -31,11 +33,11 @@ export function Ending({
       )}
       <section className="ending-letter">
         <Flower2 size={36} strokeWidth={1} />
-        <h1>
+        <h2 id="retrospective-heading" tabIndex={-1}>
           Once, you were
           <br />
           {life.name} {life.surname}.
-        </h1>
+        </h2>
         <p className="ending-years">
           {RACES[life.race].name} · {life.age} years in this world
         </p>
@@ -81,7 +83,9 @@ export function Ending({
         </div>
         <span className="ending-saved">
           <BookOpen size={14} />
-          This life is kept in your past lives.
+          {saved
+            ? "This life is kept in your past lives."
+            : "Your latest progress is not yet saved. Keep this tab open and retry saving above."}
         </span>
         <button className="button primary" onClick={onNew}>
           Somewhere, begin again
@@ -98,10 +102,14 @@ export function Archive({
   lives,
   onRead,
   onNew,
+  hasActive = false,
+  saved = true,
 }: {
   lives: Life[];
   onRead: (life: Life) => void;
   onNew: () => void;
+  hasActive?: boolean;
+  saved?: boolean;
 }) {
   if (!lives.length)
     return (
@@ -114,10 +122,14 @@ export function Archive({
           For now, there are still pages waiting to be written.
         </p>
         <button className="button primary" onClick={onNew}>
-          Begin a new chapter
+          {hasActive ? "Return to your life" : "Begin a new life"}
           <ArrowRight size={17} />
         </button>
-        <span>Saved on this device · up to 20 lives</span>
+        <span>
+          {saved
+            ? "Browser-local archive · up to 20 lives"
+            : "Saving unavailable · keep this tab open"}
+        </span>
       </section>
     );
   return (
@@ -146,7 +158,9 @@ export function Archive({
         </button>
       ))}
       <p className="local-note">
-        Your most recent 20 completed lives are saved in this browser.
+        {saved
+          ? "Your most recent 20 completed lives are saved in this browser."
+          : "Your latest progress is not yet saved. Keep this tab open and retry saving above."}
       </p>
     </div>
   );

@@ -156,9 +156,9 @@ Both families ship weights 400, 500, 600, and 700 with `font-display: swap`. Hea
 
 Desktop uses a fixed left navigation (226px), a top bar (76px), and centered content with a maximum width of 1580px. The chronicle is a story column plus a character rail (274px), separated by the spread-gap token. The rail is divided by rules rather than enclosed in repeated cards.
 
-At 1250px and 1050px the sidebar narrows to 205px and 184px. At 850px the chronicle becomes one column, with the character sections in a two-column grid below the story. At 650px the sidebar becomes a menu below a 72px mobile header, page gutters become 20px, and time controls wrap into rows. The mobile menu has two columns. Additional 360px adjustments support narrow phones.
+At 1250px and 1050px the sidebar narrows to 205px and 184px. At 850px the chronicle becomes one column, with the character sections in a two-column grid below the story. At 650px the sidebar becomes a menu below a 72px mobile header, page gutters become 20px, and time controls wrap into rows. The mobile menu has two columns and a visible How to play row below them. Additional 360px adjustments support narrow phones.
 
-At 1700px the character rail grows to 310px and the spread gap to 40px. Scene height is 300px on wide screens, 160px from 851–1699px, 245px at the stacked tablet layout, and 218px on phones. Keep narrative, decisions, yearly focus, and record in reading order before supporting character information.
+At 1700px the character rail grows to 310px and the spread gap to 40px. Scene height is 300px on wide screens, 160px from 851–1699px, 245px at the stacked tablet layout, and 218px on phones. A pending phone decision hides the scene so its story follows the time guidance directly. Keep narrative, decisions, yearly focus, and record in reading order before supporting character information.
 
 ## Elevation & Depth
 
@@ -201,7 +201,7 @@ Page entrance is a subtle half-second opacity and clipping reveal. Respect `pref
 
 ### Magic Study
 
-The training section contains a compact study selector separated by a dashed paper rule. Its native select uses ivory white, a fine olive border, field corners, 12px sans-serif type, and a 37px minimum height. The labeled selector appears from age eight when a change handler is available; earlier states explain the unlock in plain text.
+The training section contains a compact study selector separated by a dashed paper rule. Its native select uses ivory white, a fine olive border, field corners, 13px sans-serif type, and a 44px minimum height. The labeled selector appears from age eight when a change handler is available; earlier states explain the unlock in plain text. Nearby 12px guidance distinguishes yearly Practice magic focus from discipline selection, explains preserved study and event-based instruction, and links the chronicle rail to the full spellbook. The spellbook heading is the focus/scroll target.
 
 Keep the next spell visible beneath the selector, with its experience threshold and either remaining experience or the instruction requirement. Learned spells use a native details/summary disclosure with a count, check icons, and an empty-state sentence. The summary has its own gold keyboard outline (2px, offset 3px); avoid replacing this compact disclosure with another card.
 
@@ -219,11 +219,15 @@ The current discipline alone receives a pale sage fill (`#edf0e4`), 6px corners,
 
 ## Interaction and state
 
-Time controls sit above the chronicle. Speeds are 1×, 2×, 4×, and 8×, with an explicit pressed state. The playback label distinguishes “Paused,” “Life is unfolding,” and “Waiting for you.” A pending decision blocks year/decision advancement until a choice resolves it. Watch mode chooses an enabled, affordable option without a risk marker while playback is active. Hidden tabs suspend both timed progression and automatic choices; reload starts paused.
+Time controls sit above the chronicle. Speeds are 1×, 2×, 4×, and 8×, with an explicit pressed state and 44px minimum targets. The button names its action, Play or Pause; separate guidance distinguishes paused, moving, waiting for a manual choice, and Watch mode choosing automatically. Review choices focuses and scrolls to the blocking decision. The manual-step tooltips explain that year advance stops early for a decision and next-decision advance searches up to twelve years per activation. A pending decision blocks both advancement buttons. Watch mode has an adjacent explanation that it makes choices while time plays. Hidden tabs suspend both timed progression and automatic choices; reload starts paused.
+
+A manual choice leaves its actual narrative outcome and actual rounded stat/experience/silver changes in a sage paper section where the choice was. The heading receives focus, a polite live region announces the result, and Continue to next decision provides a direct next action. Capped gains and failed risks use actual before/after state, never the promised reward. This transient feedback does not alter saves; the permanent result remains in the chronicle. Timed playback can continue while the result is visible; a new decision or manual time step supersedes it. Automatic choices do not move focus or announce every tick.
+
+Playback, mobile navigation, history filters and study controls have 44px minimum touch height; speed buttons are also at least 44px wide. Mobile choice descriptions and pause reassurance are 12px, and choice titles are 14px. Narrow-phone maps hide tiny overlaid region buttons and retain the existing readable region list. The menu exposes its expanded/controlled state and Escape restores focus to its toggle. Page navigation moves focus to the new h1; completed-life content uses a subordinate heading, and ended timelines stop at their final year without future labels.
 
 Choice rows show their consequences and availability. Add missing-silver text only when the actual cost exceeds savings; a knowledge or story prerequisite must not produce a misleading affordability message. Preserve native disabled controls and the visible requirement explanation.
 
-Focus and magic-study changes save immediately, including while paused. The top bar pairs a status icon with “Saved on this device” or “Not saved.” A failed load uses a dismissible alert explaining recovery and leaves the stored payload untouched on load. Keep storage state visible; do not replace it with a transient decorative toast.
+Focus and magic-study changes save immediately, including while paused. The top bar pairs a status icon with “Saved on this device” or “Not saved.” Failed writes show a persistent recovery alert explaining that current progress remains in this tab, with Retry save for the latest in-memory data. Failed loads show the original recovery explanation and Retry loading; retrying before any new game changes never writes empty state over the stored payload. Opening/archive/ending wording reflects actual save status. Keep storage state visible; do not replace it with a transient decorative toast.
 
 Magic study has five independent experience/spell tracks and one shared instruction cap. Changing the current discipline preserves previous studies and grants no experience. Career requirements describe eligibility for an event offer; they do not promise an immediate promotion. Yearly income is base pay before living costs and work-focus bonuses.
 
@@ -234,6 +238,8 @@ Magic study has five independent experience/spell tracks and one shared instruct
 | [styles.css](src/styles.css) | Font faces, palette, layout, interaction styles, responsive overrides, and reduced motion |
 | [App.tsx](src/App.tsx) | App shell, navigation, time controls, storage feedback, and help |
 | [LifeView.tsx](src/components/LifeView.tsx) | Chronicle, choices, yearly focus, condition/training rail, and character record |
+| [ChoiceOutcome.tsx](src/components/ChoiceOutcome.tsx) | Actual manual-choice feedback and next action |
+| [Landscape.tsx](src/components/Landscape.tsx) | Same original landscape served as optimized WebP with PNG fallback |
 | [Progression.tsx](src/components/Progression.tsx) | Study selector/disclosure, career requirements, and full spellbook |
 | [NewLife.tsx](src/components/NewLife.tsx) | Opening form and birth record |
 | [WorldMap.tsx](src/components/WorldMap.tsx), [WorldView.tsx](src/components/WorldView.tsx) | Simplified regional guide and location information |
