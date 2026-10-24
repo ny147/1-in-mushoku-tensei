@@ -24,6 +24,8 @@ npm run preview
 
 `npm test` runs Vitest and React Testing Library. `npm run build` checks TypeScript and creates `dist/`; `npm run preview` serves that build on the URL printed by Vite. A preview on another port has separate browser saves. No `lint`, `typecheck`, or `test:e2e` script is configured.
 
+GitHub Actions runs tests, build, and Cloudflare dry-run validation on PRs to `main` and main pushes. Successful main builds can deploy to the `six-faced-life` Cloudflare Worker after credentials and the enable variable are configured. The [deployment guide](../docs/deployment.md) covers activation and rollback. After `npm run build`, use `npm run cf:check` for validation without publishing, or `npm run cf:dev` for an isolated Cloudflare preview at `http://127.0.0.1:8787/`. `npm run deploy` publishes immediately and is intended only for an authorized, verified release. Hosted browser saves are separate from local saves.
+
 For QA that creates or replaces a life, use a separate origin so the player's save remains intact:
 
 ```sh
@@ -64,7 +66,7 @@ Existing first-release saves remain supported. Migration preserves the life, ran
 
 ## Scope and credits
 
-The playable game remains local. The user authorized automatic task commits, branch pushes, and PRs targeting `main` on 2026-10-24; follow-up commits update the task's open PR, and the user merges manually. Sites source uploads, deployment, and new remote services still require a separate request. Follow the root [AGENTS.md](../AGENTS.md) for Git delivery, usage monitoring, and save points; the [repository README](../README.md) indexes the project documentation.
+The user authorized automatic task commits, branch pushes, and PRs targeting `main` on 2026-10-24; follow-up commits update the task's open PR, and the user merges manually. The later Cloudflare request authorizes this CI/CD setup and a new `six-faced-life` Worker on `workers.dev`; first publication still depends on credential setup and a successful main run. Sites publishing, other new remote services, and paid upgrades remain outside this request. Follow the root [AGENTS.md](../AGENTS.md) for Git delivery, usage monitoring, and save points; the [repository README](../README.md) indexes the project documentation.
 
 This is an unofficial fan creation. Mushoku Tensei and its setting belong to their respective creators. The code, protagonist names, event prose, and landscape artwork in this project are original. Game lifespans, demographics, probabilities, regional weights, and event timing are authored balance; the map is an illustrated schematic. The first release uses a bounded event catalogue and choice-based danger rather than tactical combat.
 

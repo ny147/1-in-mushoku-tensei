@@ -146,7 +146,7 @@ describe("full life simulation", () => {
       expect(life.age).toBeLessThanOrEqual(RACES[life.race].maxAge);
     }
     expect(seenRaces.size).toBeGreaterThan(2);
-  });
+  }, 30_000); // 100 complete lifetimes need headroom on shared CI runners.
 
   it("restores a pending choice without changing future outcomes", () => {
     const life = advance(ready(22), "decision");
