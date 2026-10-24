@@ -1,6 +1,6 @@
 # Save point — Six-Faced Life
 
-Updated 2026-10-24 (Asia/Bangkok). The original game and the chosen story, magic, and career expansion are complete. The latest task refreshes documentation against the current Git repository. Do not repeat discovery or request the original design approval again.
+Updated 2026-10-24 (Asia/Bangkok). The original game and the chosen story, magic, and career expansion are complete. The active task reviews UX/UI clarity and usability; implementation changes are proposals until selected by the user. Do not repeat discovery or request the original design approval again.
 
 ## User decisions
 
@@ -19,7 +19,21 @@ Implemented: generated birth records; six regions/five races; memory-driven chil
 
 Original landscape and self-hosted fonts are in `public/assets/`. Font licenses and generation details are included. `PRODUCT.md`, `DESIGN.md`, and `.impeccable/design.json` describe the built product and visual system.
 
-## Current Git and documentation checkpoint
+## Current UX review checkpoint
+
+The user requested a UX/UI review because parts of the game are hard to use or understand, authorized two independent review agents, and explicitly requested a saved checkpoint. The clean task branch is `codex/ux-review`, created from freshly fetched `origin/main` at `e2bd13f` (the merge of documentation PR #1). Application files are unchanged. The review preserves the approved illustrated-chronicle direction and the player's browser save on port 5173.
+
+Completed: independent design and detector/browser assessments, followed by a synthesized [UX review](six-faced-life/.impeccable/critique/2026-10-24T08-46-33Z__src-app-tsx.md). The review scores the current experience 25/40 and prioritizes visible choice outcomes/keyboard continuity, reachable mobile help and clear Watch mode wording, larger mobile utility controls, actionable training guidance, and save-failure recovery. These are recommendations; no UI fixes are implemented. Assessments initially stopped with a workspace-credit error, then both completed after the user's continuation request and a successful usage recheck. No credits were purchased or redeemed.
+
+Usage observed 2026-10-24 at 15:46:34 Asia/Bangkok: five-hour window 20% remaining; weekly window 72% remaining. Resets: October 24 at 20:40:38 and October 31 at 10:39:46, Asia/Bangkok. Both applicable windows are above the save-point threshold. On resumption at 15:41, the windows had 98% and 84% remaining respectively.
+
+Verification: browser review covered desktop opening/birth/choices/focus/help/character/world/archive and a 390×844 phone layout on isolated review origins. Enter, mobile menu Escape, pending-decision blocking, pause/reload, and console capture were exercised. No captured console warnings/errors or horizontal overflow occurred in the inspected mobile state. Port 5173 browser storage was untouched; an existing port 5174 adult QA save was read only. Both temporary preview processes were stopped and QA tabs closed. No full screen-reader, contrast, 200% zoom, completed-life, storage-failure or exhaustive-breakpoint audit was performed. Application tests/build were not rerun for this documentation-only review.
+
+The detector completed with exit 2: 402 advisory token/documentation mismatches (171 color, 222 font-size, 9 radius), not 402 demonstrated UX defects. False positives and representative source locations are documented in the report. Native browser evaluation was read-only, so no detector overlay was injected and no overlay server was started. The report temporary file was removed. No ignore list existed; this is the first report for `src-app-tsx`.
+
+Delivery in progress: report and checkpoint are the only task-owned changes, based on `e2bd13f`. Fetch/prune succeeded on resumption. Next step: verify the complete documentation diff and report references, commit/push `codex/ux-review`, and create its PR targeting `main`; record the resulting commit and PR below. The user merges manually. No UI fixes or site publication have been performed. After delivery, ask the user which recommended improvements to implement; do not treat this review as approval of new behavior.
+
+## Previous documentation checkpoint (historical; PR #1 is now merged)
 
 The workspace is now a Git repository; the earlier no-Git note described initial development only. On 2026-10-24, the documentation task began with a clean working tree on `main`. `git fetch origin` succeeded, and `codex/update-project-docs` was created from freshly fetched `origin/main` at `19364d8` (`docs: add project-specific agent instructions`). The user then authorized adopting the poker-game repository's workflow rules, adapted to this game's stack and `main` base. This continues the same documentation task and preserves its changes. Commit/push/PR delivery is now authorized; the user merges manually.
 
@@ -87,4 +101,4 @@ The expansion's review found no Important/Critical defects. One misleading affor
 
 ## Next session
 
-Start by reading this file and inspecting Git as required by `AGENTS.md`. Do not redo the original implementation, the completed progression expansion, or reference investigation. The main preview is 5173; 5174 is reserved for isolated QA. No further game feature is currently authorized. If the user only wants to play, help restart the preview and preserve browser storage.
+Start by reading the current UX review checkpoint above and inspecting Git as required by `AGENTS.md`. Do not redo completed review evidence, original implementation, progression expansion, or reference investigation. The main preview is 5173; use a separate origin for QA and preserve existing saves. UI improvements remain proposals until the user chooses implementation scope. If the user only wants to play, help restart the preview and preserve browser storage.
