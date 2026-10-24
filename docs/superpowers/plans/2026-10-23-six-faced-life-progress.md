@@ -1,5 +1,7 @@
 # Implementation ledger — plan: docs/superpowers/plans/2026-10-23-six-faced-life.md
 
+Historical implementation record. The no-Git workspace and running-preview statements below describe October 23, not the current environment. Read [CONTINUE.md](../../../CONTINUE.md) and inspect Git before resuming. The current repository workflow is in [AGENTS.md](../../../AGENTS.md).
+
 User approved the design and requested implementation. Execute inline without another approval gate.
 Workspace: six-faced-life/ (new project; parent has no Git repository or existing code to isolate).
 Pre-flight: Tasks 1→2→3 share Life and SaveData types; Task 4 verifies their assembled behavior. No interface conflicts.

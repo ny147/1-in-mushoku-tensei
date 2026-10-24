@@ -1,5 +1,7 @@
 # Six-Faced Life Implementation Plan
 
+Status: completed. The original checkboxes below are retained as the planning record; see the [implementation ledger](2026-10-23-six-faced-life-progress.md) for completion and verification, the [expansion plan](2026-10-24-story-progression.md) for subsequent work, and [CONTINUE.md](../../../CONTINUE.md) for current state. Do not restart this plan from unchecked boxes.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox syntax for tracking.
 
 **Goal:** Ship the approved reincarnated-protagonist life simulator with a complete birth-to-ending loop.

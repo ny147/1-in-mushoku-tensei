@@ -1,5 +1,7 @@
 # Implementation ledger — plan: 2026-10-24-story-progression.md
 
+Historical implementation record. The local-only and running-preview statements below describe the expansion handoff. The user later authorized task commits, Git pushes, and PRs; read [AGENTS.md](../../../AGENTS.md) and [CONTINUE.md](../../../CONTINUE.md) for the current workflow and checkpoint. Playable-site deployment remains separately authorized.
+
 User chose: more story events and deeper magic/career progression. Local-only remains in force.
 Resumed the October 23 checkpoint without repeating setup or original reference investigation. Main preview restarted at port5173; isolated QA at5174 preserves player saves.
 

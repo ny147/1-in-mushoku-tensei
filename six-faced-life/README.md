@@ -6,19 +6,28 @@ Your original protagonist remembers another life. Discover a birthplace and fami
 
 ## Run locally
 
-Use Node.js 22.12+ (or a current Node.js 24 release).
+Use Node.js 22.12+ or a supported Node.js 24 release. From the repository root:
 
-```sh
-npm install
+```powershell
+Set-Location 'six-faced-life'
+npm ci
 npm run dev
 ```
 
-Open the Local URL printed by Vite, normally http://127.0.0.1:5173/.
+Open http://127.0.0.1:5173/. Vite binds to loopback and uses a strict port; reuse the existing preview if it is already running. Install dependencies only when needed. All npm commands below run inside `six-faced-life/`.
 
 ```sh
 npm test
 npm run build
 npm run preview
+```
+
+`npm test` runs Vitest and React Testing Library. `npm run build` checks TypeScript and creates `dist/`; `npm run preview` serves that build on the URL printed by Vite. A preview on another port has separate browser saves. No `lint`, `typecheck`, or `test:e2e` script is configured.
+
+For QA that creates or replaces a life, use a separate origin so the player's save remains intact:
+
+```sh
+npm run dev -- --port 5174
 ```
 
 ## Playing
@@ -32,7 +41,7 @@ npm run preview
 - Watch mode makes affordable, low-risk choices while playback is active. Progress pauses in hidden tabs and when the page is closed.
 - Completed lives appear in Past lives. The most recent 20 are kept.
 
-Saves live only in the current browser's local storage. A local development URL and a deployed URL have separate saves. No account or server database is required. The game shows a recovery message when storage cannot be read, and a not-saved indicator when writing fails.
+Saves live only in the current browser's local storage, under `six-faced-life.v1`. The browser profile, hostname, and port must match: `localhost`, `127.0.0.1`, and different ports have separate saves. Reload starts paused and preserves pending decisions; there is no offline catch-up. Source ZIPs and Git commits do not include browser progress. No account or server database is required. The game shows a recovery message when storage cannot be read, and a not-saved indicator when writing fails.
 
 ## Implementation
 
@@ -45,11 +54,13 @@ Saves live only in the current browser's local storage. A local development URL 
 - `src/App.tsx`: playback, navigation, local persistence, and the responsive game interface.
 - `src/components/`: chronicle, character, world guide, birth record, and retrospectives.
 
-The test suite covers complete lifetimes across 100 seeds and all races, every combination of five study paths and five working vocations, deterministic restore, instruction-gated spells, promotions and actual yearly pay, linked research outcomes, malformed saves, legacy-save migration, storage failures, hidden-tab watch mode, immediate focus/study saving, and relationship/travel prerequisites. Browser QA also played an entire original lifetime and the expansion's study, restore, and promotion flows through the visible interface.
+The test suite covers complete lifetimes across 100 seeds and all races, every combination of five study paths and five working vocations, deterministic restore, instruction-gated spells, promotions and actual yearly pay, linked research outcomes, malformed saves, legacy-save migration, storage failures, hidden-tab watch mode, immediate focus/study saving, and relationship/travel prerequisites. Historical browser QA played an entire original lifetime and the expansion's study, restore, and promotion flows through the visible interface; see [CONTINUE.md](../CONTINUE.md) for the dated results. Rerun relevant checks for application changes.
 
 Existing first-release saves remain supported. Migration preserves the life, random state, pending decision, history, savings, and aggregate training. Existing magic experience seeds the named discipline; newly added career experience starts counting with this update. Instruction rank is shared across magic disciplines, while their experience and learned spells are separate. The new events can occur in existing lives once their age, location, and story prerequisites are met; already-passed childhood milestones are not replayed.
 
 ## Scope and credits
+
+The playable game remains local. The user authorized automatic task commits, branch pushes, and PRs targeting `main` on 2026-10-24; follow-up commits update the task's open PR, and the user merges manually. Sites source uploads, deployment, and new remote services still require a separate request. Follow the root [AGENTS.md](../AGENTS.md) for Git delivery, usage monitoring, and save points; the [repository README](../README.md) indexes the project documentation.
 
 This is an unofficial fan creation. Mushoku Tensei and its setting belong to their respective creators. The code, protagonist names, event prose, and landscape artwork in this project are original. Game lifespans, demographics, probabilities, regional weights, and event timing are authored balance; the map is an illustrated schematic. The first release uses a bounded event catalogue and choice-based danger rather than tactical combat.
 

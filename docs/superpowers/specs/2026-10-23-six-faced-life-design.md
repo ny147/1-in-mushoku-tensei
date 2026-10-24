@@ -2,6 +2,10 @@
 
 Status: approved by the user on 2026-10-23 and implemented as the local `six-faced-life` project. The user explicitly chose to keep the game local.
 
+Historical specification: proposal wording below is retained as the approval record. The current [PRODUCT.md](../../../six-faced-life/PRODUCT.md), [DESIGN.md](../../../six-faced-life/DESIGN.md), and [CONTINUE.md](../../../CONTINUE.md) document the implemented expansion and repository state. Any suggestion of Sites hosting below was superseded by the user's explicit local-only decision; it is not deployment authorization.
+
+Later delivery decision (2026-10-24): the user authorized task commits, Git pushes, and PRs under the current [AGENTS.md](../../../AGENTS.md). The playable game remains local; Sites uploads and deployment still need separate authorization.
+
 ## Intent
 
 Build a browser life-simulation game inspired by https://1in8b.life/en/, set in the world of Mushoku Tensei. The user explicitly selected **an original reincarnated protagonist with memories of a previous life**. The player lives from birth to an ending, making choices that change an individual life rather than replaying Rudeus's biography.

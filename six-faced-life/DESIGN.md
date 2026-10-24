@@ -111,7 +111,10 @@ Warm parchment, dark green ink, and original painted fantasy countryside make th
 
 This documents the implemented system in `src/styles.css` and the React components. Typography tokens describe base roles; media queries adjust individual components. The approved direction in PRODUCT.md remains the visual authority.
 
+Reviewed against the source on 2026-10-24. This is the current implementation guide; the original approved spec and implementation ledgers under `../docs/superpowers/` retain historical proposals and validation. The progression expansion uses the same visual system.
+
 **Key Characteristics:**
+
 - Quiet paper surfaces and fine dividers.
 - Self-hosted literary type paired with practical controls.
 - A painted scene beside a readable character record.
@@ -122,10 +125,12 @@ This documents the implemented system in `src/styles.css` and the React componen
 The palette combines mossy greens and warm neutral paper; the frontmatter records the source values.
 
 ### Primary
+
 - **Forest green:** primary actions, active controls, icon strokes, and links; the darker green is the primary button hover state.
 - **Restrained gold:** small accents and time-step hover. Keyboard focus uses a distinct darker gold outline (`#8c7039`).
 
 ### Neutral
+
 - **Warm paper:** the page canvas; **ivory white** and **decision paper** distinguish content surfaces.
 - **Green ink:** main text; **muted olive ink** supports descriptions and metadata.
 - **Paper line:** hairline rules; **sage** and the slightly deeper sidebar paper provide tonal separation.
@@ -140,6 +145,7 @@ Condition meters use subdued clay, olive, blue sage, and ochre fills. Labels and
 Both families ship weights 400, 500, 600, and 700 with `font-display: swap`. Headings use balanced wrapping; scene headlines use pretty wrapping. Body paragraphs default to a generous line height.
 
 ### Hierarchy
+
 - **Display:** the new-life introduction; its base token expands to 64px on wide screens and becomes 47px on phones.
 - **Headline:** the current person or page; 38px at the narrower desktop breakpoint and 35px on phones.
 - **Title:** decision headings; 33px on wide screens and 28px on phones. Character-rail headings are smaller serif companions.
@@ -159,6 +165,7 @@ At 1700px the character rail grows to 310px and the spread gap to 40px. Scene he
 Depth comes primarily from tonal paper layers, hairline borders, and the painted scene's dark text overlay. Standard decision cards are flat. Small ambient shadows belong to primary buttons, opening/birth/ending spreads, and the open mobile navigation.
 
 ### Shadow Vocabulary
+
 - **Primary action:** `0 3px 8px #2c47261a`.
 - **Opening spread:** `0 10px 35px #3c492012`.
 - **Birth record:** `0 10px 40px #4655320d`.
@@ -210,15 +217,44 @@ The character page places the full spellbook after the life details and memory s
 
 The current discipline alone receives a pale sage fill (`#edf0e4`), 6px corners, and 18px padding; the remaining disciplines are separated by paper rules. “Current study” text accompanies the highlight. Preserve the distinction between learned spells, an unwritten spellbook, and instruction needed; these states use words and icons alongside color.
 
+## Interaction and state
+
+Time controls sit above the chronicle. Speeds are 1×, 2×, 4×, and 8×, with an explicit pressed state. The playback label distinguishes “Paused,” “Life is unfolding,” and “Waiting for you.” A pending decision blocks year/decision advancement until a choice resolves it. Watch mode chooses an enabled, affordable option without a risk marker while playback is active. Hidden tabs suspend both timed progression and automatic choices; reload starts paused.
+
+Choice rows show their consequences and availability. Add missing-silver text only when the actual cost exceeds savings; a knowledge or story prerequisite must not produce a misleading affordability message. Preserve native disabled controls and the visible requirement explanation.
+
+Focus and magic-study changes save immediately, including while paused. The top bar pairs a status icon with “Saved on this device” or “Not saved.” A failed load uses a dismissible alert explaining recovery and leaves the stored payload untouched on load. Keep storage state visible; do not replace it with a transient decorative toast.
+
+Magic study has five independent experience/spell tracks and one shared instruction cap. Changing the current discipline preserves previous studies and grants no experience. Career requirements describe eligibility for an event offer; they do not promise an immediate promotion. Yearly income is base pay before living costs and work-focus bonuses.
+
+## Source map and maintenance
+
+| Source | Design responsibility |
+| --- | --- |
+| [styles.css](src/styles.css) | Font faces, palette, layout, interaction styles, responsive overrides, and reduced motion |
+| [App.tsx](src/App.tsx) | App shell, navigation, time controls, storage feedback, and help |
+| [LifeView.tsx](src/components/LifeView.tsx) | Chronicle, choices, yearly focus, condition/training rail, and character record |
+| [Progression.tsx](src/components/Progression.tsx) | Study selector/disclosure, career requirements, and full spellbook |
+| [NewLife.tsx](src/components/NewLife.tsx) | Opening form and birth record |
+| [WorldMap.tsx](src/components/WorldMap.tsx), [WorldView.tsx](src/components/WorldView.tsx) | Simplified regional guide and location information |
+| [Archive.tsx](src/components/Archive.tsx) | Past lives and ending retrospectives |
+| [design.json](.impeccable/design.json) | Structured foundations and 11 illustrative component previews |
+
+Keep this guide and the structured sidecar aligned when foundations or documented components change. Previews illustrate states; the React components and CSS determine runtime behavior. The sidecar is not a complete inventory of every contextual color or responsive override. Retain its existing previews when extending it.
+
+For UI changes, inspect desktop and narrow phone layouts, keyboard operation, explicit state labels, overflow, and the browser console. Exercise pending decisions and reload in an isolated save when persistence or playback changes. Use a separate port such as 5174; preserve the player's `127.0.0.1:5173` storage. Historical screenshots are ignored local evidence and may be absent in a clone. See [CONTINUE.md](../CONTINUE.md) for prior validation; this documentation refresh does not constitute a new browser audit.
+
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** retain the warm paper, forest ink, and restrained gold relationship.
 - **Do** pair serif narrative headings with sans-serif controls and explicit state labels.
 - **Do** keep original painted scenery and maintain its text-supporting overlay.
 - **Do** preserve visible keyboard focus and the stacked mobile reading order.
 
 ### Don't:
+
 - **Don't** add heavy shadows to every character section or decision row.
 - **Don't** replace the self-hosted font pair or introduce a competing display face.
 - **Don't** communicate condition or interaction state through color alone.
