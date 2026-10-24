@@ -1,6 +1,20 @@
 # Save point — Six-Faced Life
 
-Updated 2026-10-24 (Asia/Bangkok). The original game, progression expansion, UX review and approved UX fixes are implemented. The active delivery is `codex/ux-clarity-fixes`; see its checkpoint below. Do not repeat the review or request the implementation approval again.
+Updated 2026-10-24 (Asia/Bangkok). The original game, progression expansion, UX review and approved UX fixes are implemented and now included in `origin/main`. The active task is CI/CD and Cloudflare deployment on `codex/cloudflare-cicd`; start with its checkpoint below. Earlier task checkpoints are historical.
+
+## Current CI/CD and Cloudflare checkpoint
+
+The user requested a plan followed by implementation and selected a new Worker named `six-faced-life` on `workers.dev`. This supersedes local-only hosting for this Cloudflare task; Sites publishing and paid upgrades remain outside the request. The [design](docs/superpowers/specs/2026-10-24-cloudflare-cicd-design.md), [plan and progress ledger](docs/superpowers/plans/2026-10-24-cloudflare-cicd.md), and [operations guide](docs/deployment.md) describe the implementation.
+
+Branch `codex/cloudflare-cicd` started from clean, freshly fetched `origin/main` at `aab3b1b`. Implemented: pinned Wrangler tooling and lockfile; static-only SPA configuration uploading `dist`; local preview/dry-run/deploy scripts; ignored Wrangler state and local secret files; GitHub Actions tests/build/dry-run on PRs, main pushes, and manual runs; dependent main-only production deployment of the same tested artifact, opt-in repository variable, read-only permissions, pinned actions, timeouts, missing-secret errors, serialized releases and stale-main skipping. No game or save behavior changes.
+
+Verification so far: 51/51 tests pass across seven files; TypeScript/Vite production build passes; Wrangler 4.152.0 dry run reads 17 static files and exits without upload; actionlint 1.7.12 passes. No pre-existing lockfile package version changed. The 100-lifetime simulation test exceeded Vitest's default 5 seconds twice (9.9s and 9.2s); only that test now has a bounded 30-second timeout, preserving all seeds/assertions, and passed in 8.4s. Local Wrangler serving at isolated port 8787 loads root/JS/CSS/artwork and SPA fallback. Browser QA opened a fresh life, paused, chose a memory, and reloaded into a paused restored life without captured warnings/errors. Port 5173 storage is untouched. Final review and delivery still pending at this checkpoint edit.
+
+External setup: existing Cloudflare dashboard session is signed in; no local CLI token was found. GitHub initially had no secrets, environments, or variables. Created GitHub environment `production` and restricted deployment branches to `main`; no secret or activation variable has been added. Publication is disabled. The user must supply a scoped Cloudflare token directly to GitHub environment secrets (`CLOUDFLARE_API_TOKEN`, plus `CLOUDFLARE_ACCOUNT_ID`) and set repository variable `CLOUDFLARE_DEPLOY_ENABLED=true`. Then manually merge the task PR, or manually run the workflow on `main` after merging. Do not claim the Worker was created or the site is live without an observed successful deploy and hosted smoke check.
+
+Latest usage observation: 2026-10-24 22:08 Asia/Bangkok (15:08 UTC): five-hour window 37% remaining; weekly 59% remaining. No low-capacity trigger. Exact reset times will be recorded at final handoff if available.
+
+Next: finish the review and verification record, commit task-owned files, push `codex/cloudflare-cicd`, create/attach its PR targeting `main`, and inspect GitHub validation. Keep the PR in draft while the requested live deployment remains blocked by credential setup. Preserve all historical checkpoints below; never merge the PR or change main automatically.
 
 ## User decisions
 
@@ -100,4 +114,4 @@ The expansion's review found no Important/Critical defects. One misleading affor
 
 ## Next session
 
-Start with the current UX implementation checkpoint and plan ledger, then inspect Git as required by `AGENTS.md`. Preserve the completed fixes and do not repeat review discovery or request their implementation approval again. Review/merge the task PR manually when delivered. If delivery was interrupted, resume its exact next step on `codex/ux-clarity-fixes`. The main preview is 5173; QA uses a separate origin and preserves existing saves. Publishing remains separately authorized.
+Start with the current CI/CD and Cloudflare checkpoint and plan ledger, then inspect Git as required by `AGENTS.md`. Preserve the completed game/UX work; do not repeat earlier reviews. Resume this task on `codex/cloudflare-cicd` and update its existing PR once created. The user merges manually. Cloudflare publication is now requested, but requires credentials, activation and a validated main build. The local player preview remains 5173; Cloudflare QA uses isolated port 8787 and preserves existing saves.
