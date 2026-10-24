@@ -50,7 +50,7 @@ Files: reusable landscape component, original WebP derivative, ASSETS.md, PRODUC
 - [x] Run full `npm test` and `npm run build` (final: 51 tests; TypeScript/Vite passed).
 - [x] Batch browser QA on desktop and 390/320px phone, plus failed storage and ending; fix observed issues once and confirm.
 - [x] Independent whole-branch review, address important findings with meaningful tests, update documentation/checkpoint and this ledger.
-- [ ] Inspect full diff, references, untracked files and `git diff --check`; fetch for freshness, commit/push and PR to main.
+- [x] Inspect full diff, references, untracked files and `git diff --check`; fetch for freshness, commit/push and PR to main.
 
 ## Progress ledger
 
@@ -67,3 +67,4 @@ Files: reusable landscape component, original WebP derivative, ASSETS.md, PRODUC
 - Final functional correction: Space on a native spell summary started playback under the original tag-name guard. Added a regression that failed, changed the guard to exclude interactive ancestors (including summary/link/editable content), then passed all 51 tests and build. Confirmed on a fresh browser page that Space toggles the disclosure while Play time remains paused; a stale hot-refreshed page was discarded before confirmation.
 - Final QA: automatic play advanced through childhood with safe choices, Pause and real-app reload restored paused/manual defaults, Escape restored the collapsed menu toggle. Desktop handoff screenshot saved, viewport reset, QA tab closed, preview stopped and fixture source removed. No original-player storage was touched.
 - Documentation: PRODUCT/README/DESIGN/ASSETS updated; design sidecar retains all 11 existing previews and adds interaction guidance metadata. Checkpoint records implementation scope, review, verification, usage and delivery next step.
+- Delivery: `91b52b3` pushed on `codex/ux-clarity-fixes`; [PR #3](https://github.com/ny147/1-in-mushoku-tensei/pull/3) targets `main`. Fresh origin/main is contained, required checks passed, no blockers. This ledger/checkpoint follow-up uses the same PR. User merges manually; no deployment performed.
