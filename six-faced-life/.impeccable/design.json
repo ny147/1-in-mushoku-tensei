@@ -1,0 +1,362 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-24T04:10:01Z",
+  "title": "Design System: Six-Faced Life",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0082 91.48)",
+          "oklch(26.43% 0.0082 91.48)",
+          "oklch(37.86% 0.0082 91.48)",
+          "oklch(49.29% 0.0082 91.48)",
+          "oklch(60.71% 0.0082 91.48)",
+          "oklch(72.14% 0.0082 91.48)",
+          "oklch(83.57% 0.0082 91.48)",
+          "oklch(95% 0.0082 91.48)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "Ivory White",
+        "tonalRamp": [
+          "oklch(15% 0.0054 95.10)",
+          "oklch(26.43% 0.0054 95.10)",
+          "oklch(37.86% 0.0054 95.10)",
+          "oklch(49.29% 0.0054 95.10)",
+          "oklch(60.71% 0.0054 95.10)",
+          "oklch(72.14% 0.0054 95.10)",
+          "oklch(83.57% 0.0054 95.10)",
+          "oklch(95% 0.0054 95.10)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Green Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0214 150.41)",
+          "oklch(26.43% 0.0214 150.41)",
+          "oklch(37.86% 0.0214 150.41)",
+          "oklch(49.29% 0.0214 150.41)",
+          "oklch(60.71% 0.0214 150.41)",
+          "oklch(72.14% 0.0214 150.41)",
+          "oklch(83.57% 0.0214 150.41)",
+          "oklch(95% 0.0214 150.41)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Olive Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0188 133.94)",
+          "oklch(26.43% 0.0188 133.94)",
+          "oklch(37.86% 0.0188 133.94)",
+          "oklch(49.29% 0.0188 133.94)",
+          "oklch(60.71% 0.0188 133.94)",
+          "oklch(72.14% 0.0188 133.94)",
+          "oklch(83.57% 0.0188 133.94)",
+          "oklch(95% 0.0188 133.94)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Paper Line",
+        "tonalRamp": [
+          "oklch(15% 0.0161 110.58)",
+          "oklch(26.43% 0.0161 110.58)",
+          "oklch(37.86% 0.0161 110.58)",
+          "oklch(49.29% 0.0161 110.58)",
+          "oklch(60.71% 0.0161 110.58)",
+          "oklch(72.14% 0.0161 110.58)",
+          "oklch(83.57% 0.0161 110.58)",
+          "oklch(95% 0.0161 110.58)"
+        ]
+      },
+      "green": {
+        "role": "primary",
+        "displayName": "Forest Green",
+        "tonalRamp": [
+          "oklch(15% 0.0469 157.30)",
+          "oklch(26.43% 0.0469 157.30)",
+          "oklch(37.86% 0.0469 157.30)",
+          "oklch(49.29% 0.0469 157.30)",
+          "oklch(60.71% 0.0469 157.30)",
+          "oklch(72.14% 0.0469 157.30)",
+          "oklch(83.57% 0.0469 157.30)",
+          "oklch(95% 0.0469 157.30)"
+        ]
+      },
+      "green-dark": {
+        "role": "primary",
+        "displayName": "Deep Forest",
+        "tonalRamp": [
+          "oklch(15% 0.0453 156.59)",
+          "oklch(26.43% 0.0453 156.59)",
+          "oklch(37.86% 0.0453 156.59)",
+          "oklch(49.29% 0.0453 156.59)",
+          "oklch(60.71% 0.0453 156.59)",
+          "oklch(72.14% 0.0453 156.59)",
+          "oklch(83.57% 0.0453 156.59)",
+          "oklch(95% 0.0453 156.59)"
+        ]
+      },
+      "sage": {
+        "role": "neutral",
+        "displayName": "Sage",
+        "tonalRamp": [
+          "oklch(15% 0.0152 123.05)",
+          "oklch(26.43% 0.0152 123.05)",
+          "oklch(37.86% 0.0152 123.05)",
+          "oklch(49.29% 0.0152 123.05)",
+          "oklch(60.71% 0.0152 123.05)",
+          "oklch(72.14% 0.0152 123.05)",
+          "oklch(83.57% 0.0152 123.05)",
+          "oklch(95% 0.0152 123.05)"
+        ]
+      },
+      "gold": {
+        "role": "primary",
+        "displayName": "Restrained Gold",
+        "tonalRamp": [
+          "oklch(15% 0.0821 85.35)",
+          "oklch(26.43% 0.0821 85.35)",
+          "oklch(37.86% 0.0821 85.35)",
+          "oklch(49.29% 0.0821 85.35)",
+          "oklch(60.71% 0.0821 85.35)",
+          "oklch(72.14% 0.0821 85.35)",
+          "oklch(83.57% 0.0821 85.35)",
+          "oklch(95% 0.0821 85.35)"
+        ]
+      },
+      "sidebar": {
+        "role": "neutral",
+        "displayName": "Sidebar Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0119 106.62)",
+          "oklch(26.43% 0.0119 106.62)",
+          "oklch(37.86% 0.0119 106.62)",
+          "oklch(49.29% 0.0119 106.62)",
+          "oklch(60.71% 0.0119 106.62)",
+          "oklch(72.14% 0.0119 106.62)",
+          "oklch(83.57% 0.0119 106.62)",
+          "oklch(95% 0.0119 106.62)"
+        ]
+      },
+      "decision-paper": {
+        "role": "neutral",
+        "displayName": "Decision Paper",
+        "tonalRamp": [
+          "oklch(15% 0.0092 106.57)",
+          "oklch(26.43% 0.0092 106.57)",
+          "oklch(37.86% 0.0092 106.57)",
+          "oklch(49.29% 0.0092 106.57)",
+          "oklch(60.71% 0.0092 106.57)",
+          "oklch(72.14% 0.0092 106.57)",
+          "oklch(83.57% 0.0092 106.57)",
+          "oklch(95% 0.0092 106.57)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Introduction",
+        "purpose": "New-life headline; responsive sizes are in styles.css."
+      },
+      "headline": {
+        "displayName": "Page Heading",
+        "purpose": "The current person or destination."
+      },
+      "title": {
+        "displayName": "Decision Title",
+        "purpose": "The current narrative choice."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Descriptions and help."
+      },
+      "narrative": {
+        "displayName": "Decision Narrative",
+        "purpose": "An airy reading measure, capped at 70ch."
+      },
+      "label": {
+        "displayName": "Choice Label",
+        "purpose": "Practical controls and decision titles."
+      }
+    },
+    "shadows": [
+      {
+        "name": "primary-action",
+        "value": "0 3px 8px #2c47261a",
+        "purpose": "Primary buttons."
+      },
+      {
+        "name": "opening-spread",
+        "value": "0 10px 35px #3c492012",
+        "purpose": "The new-life spread."
+      },
+      {
+        "name": "birth-record",
+        "value": "0 10px 40px #4655320d",
+        "purpose": "The birth paper."
+      },
+      {
+        "name": "mobile-navigation",
+        "value": "0 12px 22px #3c4a2412",
+        "purpose": "The expanded phone menu."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background 0.15s ease, color 0.15s ease, border-color 0.15s ease",
+        "purpose": "Button hover changes."
+      },
+      {
+        "name": "page-entrance",
+        "value": "page-open 0.5s cubic-bezier(0.16, 1, 0.3, 1) both",
+        "purpose": "Opacity from 0.8 to 1 and clip-path inset(0 0 2% 0) to inset(0). Disabled for reduced motion."
+      },
+      {
+        "name": "focus-outline",
+        "value": "2px solid #8c7039; outline-offset: 4px",
+        "purpose": "Visible keyboard focus on buttons, links, selects, and inputs."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide-min",
+        "value": "1700px"
+      },
+      {
+        "name": "desktop-compact-max",
+        "value": "1250px"
+      },
+      {
+        "name": "tablet-sidebar-max",
+        "value": "1050px"
+      },
+      {
+        "name": "story-stacked-max",
+        "value": "850px"
+      },
+      {
+        "name": "phone-max",
+        "value": "650px"
+      },
+      {
+        "name": "narrow-phone-max",
+        "value": "360px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The principal action on a paper surface.",
+      "html": "<button class=\"ds-button ds-primary\">Begin your life</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--line,#dedfd3);border-radius:6px;padding:11px 17px;font:500 14px LifeSans,Arial,sans-serif;min-height:39px;cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease}.ds-button:hover{background:#e9ece1;border-color:#c6cfbc}.ds-button:focus-visible{outline:2px solid #8c7039;outline-offset:4px}.ds-button:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-primary{background:var(--green,#365442);color:#f8f8ee;border-color:transparent;box-shadow:0 3px 8px #2c47261a}.ds-primary:hover{background:var(--green-dark,#284433)}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "A quiet bordered action.",
+      "html": "<button class=\"ds-button ds-secondary\">New life</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--line,#dedfd3);border-radius:6px;padding:11px 17px;font:500 14px LifeSans,Arial,sans-serif;min-height:39px;cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease}.ds-button:hover{background:#e9ece1;border-color:#c6cfbc}.ds-button:focus-visible{outline:2px solid #8c7039;outline-offset:4px}.ds-button:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-secondary{background:transparent;color:var(--ink,#303b32)}"
+    },
+    {
+      "name": "Quiet Button",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "A subordinate return or cancel action.",
+      "html": "<button class=\"ds-button ds-quiet\">Return to your life</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:1px solid var(--line,#dedfd3);border-radius:6px;padding:11px 17px;font:500 14px LifeSans,Arial,sans-serif;min-height:39px;cursor:pointer;transition:background .15s ease,color .15s ease,border-color .15s ease}.ds-button:hover{background:#e9ece1;border-color:#c6cfbc}.ds-button:focus-visible{outline:2px solid #8c7039;outline-offset:4px}.ds-button:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-button{transition:none}}.ds-quiet{background:transparent;border-color:transparent;color:var(--muted,#697065)}.ds-quiet:hover{background:#eceee4;color:var(--ink,#303b32)}"
+    },
+    {
+      "name": "Name Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "The new-life name input on warm paper.",
+      "html": "<label class=\"ds-field\">Your name<input placeholder=\"Leave it to fate\" /></label>",
+      "css": ".ds-field{display:grid;gap:9px;font:500 12px LifeSans,Arial,sans-serif;color:var(--ink,#303b32)}.ds-field input{background:#f9f9f1;border:1px solid #dfe2d1;border-radius:5px;width:100%;height:42px;padding:0 12px;font:400 13px LifeSans,Arial,sans-serif;color:var(--ink,#303b32)}.ds-field input::placeholder{color:#6a6e5e;opacity:1}.ds-field input:focus-visible{outline:2px solid #8c7039;outline-offset:4px}"
+    },
+    {
+      "name": "Navigation Item",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Sentence-case navigation with an active sage state.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Sample navigation\"><button class=\"ds-active\" aria-current=\"page\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\"><path d=\"M12 7v14M3 3h6a3 3 0 0 1 3 3 3 3 0 0 1 3-3h6v16h-6a3 3 0 0 0-3 2 3 3 0 0 0-3-2H3Z\"/></svg>Your chronicle<span></span></button><button>Your character</button></nav>",
+      "css": ".ds-nav{display:grid;gap:7px}.ds-nav button{display:flex;align-items:center;gap:12px;width:100%;padding:12px 13px;border:0;border-radius:6px;background:transparent;font:500 14px LifeSans,Arial,sans-serif;text-align:left;color:#626b60;cursor:pointer;transition:background .15s ease,color .15s ease}.ds-nav button:hover{background:#e6e9dd}.ds-nav .ds-active{background:#dfe5d8;color:#324f3b;font-weight:600}.ds-active span{width:5px;height:5px;border-radius:50%;background:var(--green,#365442);margin-left:auto}.ds-nav button:focus-visible{outline:2px solid #8c7039;outline-offset:4px}@media(prefers-reduced-motion:reduce){.ds-nav button{transition:none}}"
+    },
+    {
+      "name": "Decision Badge",
+      "kind": "chip",
+      "description": "A non-interactive small contextual badge beside a decision heading.",
+      "html": "<span class=\"ds-badge\">A moment of choice</span>",
+      "css": ".ds-badge{display:inline-block;color:#676d5b;font:400 10px LifeSans,Arial,sans-serif;border:1px solid #e1e4d5;border-radius:4px;padding:3px 6px}"
+    },
+    {
+      "name": "Decision Paper",
+      "kind": "card",
+      "refersTo": "decision-card",
+      "description": "The flat paper container for a narrative decision.",
+      "html": "<article class=\"ds-decision\"><h2>A path beyond the familiar.</h2><p>The next chapter begins with a choice.</p></article>",
+      "css": ".ds-decision{background:var(--decision-paper,#fcfcf5);border:1px solid #d8ddca;border-radius:9px;padding:22px 24px 17px;color:var(--ink,#303b32)}.ds-decision h2{margin:0;font:600 28px/1.17 var(--serif,Chronicle,Georgia,serif);letter-spacing:-.015em}.ds-decision p{margin:11px 0 0;font:400 13px/1.9 LifeSans,Arial,sans-serif;color:#656c5c;max-width:70ch}"
+    },
+    {
+      "name": "Choice Row",
+      "kind": "button",
+      "refersTo": "choice",
+      "description": "A full-width decision with an explicit tradeoff and a visible focus state.",
+      "html": "<button class=\"ds-choice\"><span class=\"ds-choice-dot\"></span><span><strong>Study the unfamiliar pages</strong><small>Knowledge improves · Time passes</small></span><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M5 12h14m-7-7 7 7-7 7\"/></svg></button>",
+      "css": ".ds-choice{display:flex;align-items:center;gap:12px;width:100%;padding:12px 13px;border:1px solid #dce0d0;border-radius:5px;background:#fdfdf9;color:var(--ink,#303b32);text-align:left;font-family:LifeSans,Arial,sans-serif;cursor:pointer;transition:background .15s ease,border-color .15s ease}.ds-choice-dot{width:11px;height:11px;border:1px solid #bac3ad;border-radius:50%;flex-shrink:0}.ds-choice>span:nth-child(2){flex:1;min-width:0}.ds-choice strong{display:block;font-size:12px;font-weight:500;line-height:1.5}.ds-choice small{display:block;margin-top:3px;font-size:11px;line-height:1.6;color:#686f5e}.ds-choice>svg{color:#627153}.ds-choice:hover:not(:disabled){border-color:#a8b68e;background:#eff3e5}.ds-choice:hover:not(:disabled) .ds-choice-dot{background:#6d8454;border:3px solid #e3ead5}.ds-choice:focus-visible{outline:2px solid #8c7039;outline-offset:4px}.ds-choice:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-choice{transition:none}}"
+    },
+    {
+      "name": "Magic Study",
+      "kind": "custom",
+      "description": "Compact training subsection: an age-eight discipline selector, an always-visible next spell with experience or instruction requirements, and a native learned-spells disclosure. The empty state explains practice and instruction.",
+      "html": "<div class=\"ds-study-focus\"><label for=\"ds-magic-school\">Magic discipline</label><select id=\"ds-magic-school\"><option>Water magic</option><option>Fire magic</option><option>Earth magic</option><option>Wind magic</option><option>Healing magic</option></select><p class=\"ds-next-spell\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 7v14M3 3h6a3 3 0 0 1 3 3 3 3 0 0 1 3-3h6v16h-6a3 3 0 0 0-3 2 3 3 0 0 0-3-2H3Z\"/></svg><span>Next: <strong>Water Ball</strong><small>35 experience · 15 to learn</small></span></p><details class=\"ds-known-spells\"><summary>1 spell learned</summary><ul><li><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg><span>Gather water</span></li></ul></details></div>",
+      "css": ".ds-study-focus{font-family:LifeSans,Arial,sans-serif;font-size:14px;color:var(--ink,#303b32)}.ds-study-focus p,.ds-study-focus h2,.ds-study-focus h3{margin:0}.ds-study-focus p{line-height:1.7}.ds-study-focus h2{font-family:var(--serif,Chronicle,Georgia,serif);font-weight:600}.ds-study-focus svg{flex-shrink:0}.ds-study-focus{margin-top: 19px;\n  padding-top: 16px;\n  border-top: 1px dashed var(--line);}\n.ds-study-focus label{display: block;\n  font-size: 11px;\n  color: var(--muted);\n  margin-bottom: 7px;}\n.ds-study-focus select{width: 100%;\n  min-height: 37px;\n  background: #fdfcf8;\n  border: 1px solid #d1d8c5;\n  border-radius: 5px;\n  padding: 7px 9px;\n  font-size: 12px;}\n.ds-study-unlock,\n.ds-known-spells p{font-size: 11px;\n  color: var(--muted);\n  line-height: 1.7;}\n.ds-next-spell{display: flex;\n  align-items: flex-start;\n  gap: 7px;\n  margin-top: 13px;\n  color: var(--green);\n  font-size: 11px;}\n.ds-next-spell > svg{margin-top: 3px;}\n.ds-next-spell strong{font-weight: 500;}\n.ds-next-spell small{display: block;\n  color: var(--muted);\n  font-size: 10px;\n  margin-top: 3px;}\n.ds-known-spells{margin-top: 12px;\n  font-size: 11px;\n  color: var(--green);}\n.ds-known-spells summary{cursor: pointer;\n  padding: 5px 0;}\n.ds-known-spells summary:focus-visible{outline: 2px solid var(--gold);\n  outline-offset: 3px;}\n.ds-known-spells ul{padding: 3px 0 0;\n  list-style: none;\n  margin: 0;}\n.ds-known-spells li{display: flex;\n  align-items: center;\n  gap: 6px;\n  padding: 5px 0;}\n.ds-known-spells p{margin-top: 7px;}.ds-study-focus label{display:block;margin-bottom:7px}.ds-study-focus select{color:var(--ink,#303b32);font-family:inherit}.ds-study-focus select:focus-visible{outline:2px solid #8c7039;outline-offset:4px}.ds-study-focus .ds-next-spell{margin-top:13px}.ds-study-focus .ds-known-spells p{margin-top:7px}"
+    },
+    {
+      "name": "Career Progress",
+      "kind": "custom",
+      "description": "Ruled supporting section on both pages: current calling, qualified annual income, an experience meter, and experience/skill/reputation checks. Readiness explains a future offer; it is not an action. Early and established careers use prose. The section spans supporting columns on phones. Preview values illustrate a developing career.",
+      "html": "<section class=\"ds-career-section\"><h2>Your calling</h2><div class=\"ds-career-title\"><span class=\"ds-career-icon\"><svg width=\"21\" height=\"21\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"6\"/><path d=\"m8.2 12.7-1.4 9 5.2-3 5.2 3-1.4-9\"/></svg></span><div><h3>Town guard</h3><p>2 years of experience in this career</p></div></div><div class=\"ds-career-income\"><span>Yearly income</span><strong>22 silver</strong><small>Before living costs and any work-focus bonus</small></div><div class=\"ds-promotion-plan\"><h4>Next: Senior guard</h4><div class=\"ds-skill-progress\" role=\"meter\" aria-label=\"Career experience toward next promotion\" aria-valuemin=\"0\" aria-valuemax=\"25\" aria-valuenow=\"12\"><span style=\"width:48%\"></span></div><ul><li><svg width=\"10\" height=\"10\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg><span>25 career experience<small>12 earned</small></span></li><li class=\"ds-met\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg><span>25 sword experience<small>30 earned</small></span></li><li class=\"ds-met\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg><span>15 reputation<small>20 earned</small></span></li></ul><p>Keep practicing and doing your work. You choose whether to accept more responsibility.</p></div></section>",
+      "css": ".ds-career-section{font-family:LifeSans,Arial,sans-serif;font-size:14px;color:var(--ink,#303b32)}.ds-career-section p,.ds-career-section h2,.ds-career-section h3{margin:0}.ds-career-section p{line-height:1.7}.ds-career-section h2{font-family:var(--serif,Chronicle,Georgia,serif);font-weight:600}.ds-career-section svg{flex-shrink:0}.ds-career-section > h2 > svg{color: var(--green);}\n.ds-career-title{display: flex;\n  align-items: flex-start;\n  gap: 10px;}\n.ds-career-icon{width: 31px;\n  min-height: 35px;\n  background: #e8e9dc;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 5px;\n  color: #697549;}\n.ds-career-title h3{font-size: 13px;\n  line-height: 1.5;\n  font-weight: 500;}\n.ds-career-title p{font-size: 10px;\n  line-height: 1.6;\n  color: var(--muted);\n  margin-top: 4px;}\n.ds-career-income{display: flex;\n  align-items: baseline;\n  justify-content: space-between;\n  flex-wrap: wrap;\n  gap: 5px;\n  margin-top: 17px;\n  font-size: 11px;}\n.ds-career-income strong{font-weight: 500;\n  color: #6c603a;}\n.ds-career-income small{flex-basis: 100%;\n  font-size: 9px;\n  color: var(--muted);\n  line-height: 1.6;}\n.ds-promotion-plan{padding-top: 16px;\n  margin-top: 16px;\n  border-top: 1px dashed var(--line);}\n.ds-promotion-plan h4{font-size: 11px;\n  font-weight: 500;\n  margin: 0 0 10px;\n  line-height: 1.6;}\n.ds-promotion-plan ul{list-style: none;\n  margin: 12px 0;\n  padding: 0;\n  display: grid;\n  gap: 9px;}\n.ds-promotion-plan li{display: flex;\n  align-items: flex-start;\n  gap: 7px;\n  color: var(--muted);\n  font-size: 11px;\n  line-height: 1.6;}\n.ds-promotion-plan li > svg{margin-top: 4px;}\n.ds-promotion-plan li small{display: block;\n  font-size: 10px;}\n.ds-promotion-plan li.ds-met{color: var(--green);}\n.ds-promotion-plan p,\n.ds-career-established{font-size: 11px;\n  line-height: 1.8;\n  color: var(--muted);}\n.ds-career-established{margin-top: 15px;}.ds-career-section{border-bottom:1px solid var(--line,#dedfd3);padding-bottom:24px;margin-bottom:24px}.ds-career-section>h2{font-size:23px;line-height:1.2;margin-bottom:19px}.ds-career-title p{margin-top:4px}.ds-skill-progress{height:3px;background:#e1e4d6;margin-top:8px;border-radius:3px;overflow:hidden}.ds-skill-progress>span{display:block;height:100%;background:#a5b18a}"
+    },
+    {
+      "name": "Character Spellbook",
+      "kind": "custom",
+      "description": "Expanded character-page record following the life details and memory summary. Each discipline shows rank, learned spell descriptions, and next requirements. Only the current study receives the pale sage inset; words also identify it. This preview shows one current discipline.",
+      "html": "<section class=\"ds-spellbook\"><h2>Your spellbook</h2><p>Practice grows the discipline you choose. Advanced spells also need the right instruction.</p><div class=\"ds-spellbook-studies\"><article class=\"ds-current-study\"><header><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" aria-hidden=\"true\"><path d=\"m12 3 2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4Z\"/></svg><div><h3>Water magic</h3><p>20 experience · Beginner · Current study</p></div></header><p class=\"ds-school-description\">Control, precision, and the movement of water.</p><ul><li><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m20 6-11 11-5-5\"/></svg><span><strong>Gather water</strong><small>Draw a small amount of water from mana.</small></span></li></ul><div class=\"ds-spellbook-next\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M12 7v14M3 3h6a3 3 0 0 1 3 3 3 3 0 0 1 3-3h6v16h-6a3 3 0 0 0-3 2 3 3 0 0 0-3-2H3Z\"/></svg><p>Next: Water Ball<span>35 experience · 15 to learn</span></p></div></article></div></section>",
+      "css": ".ds-spellbook{font-family:LifeSans,Arial,sans-serif;font-size:14px;color:var(--ink,#303b32)}.ds-spellbook p,.ds-spellbook h2,.ds-spellbook h3{margin:0}.ds-spellbook p{line-height:1.7}.ds-spellbook h2{font-family:var(--serif,Chronicle,Georgia,serif);font-weight:600}.ds-spellbook svg{flex-shrink:0}.ds-spellbook{padding-top: 26px;\n  margin-top: 29px;\n  border-top: 1px solid var(--line);}\n.ds-spellbook > h2{font-size: 29px;}\n.ds-spellbook > p{color: var(--muted);\n  font-size: 12px;\n  max-width: 65ch;\n  margin-top: 10px;}\n.ds-spellbook-studies{margin-top: 22px;}\n.ds-spellbook-studies > article{padding: 19px 0 22px;\n  border-bottom: 1px solid var(--line);}\n.ds-spellbook-studies > article.ds-current-study{background: #edf0e4;\n  border-radius: 6px;\n  padding: 18px;\n  margin-bottom: 5px;\n  border: 0;}\n.ds-spellbook-studies header{display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  color: var(--green);}\n.ds-spellbook-studies header > svg{margin-top: 4px;}\n.ds-spellbook-studies h3{font-family: var(--serif);\n  font-size: 25px;\n  font-weight: 600;}\n.ds-spellbook-studies header p{font-size: 11px;\n  color: var(--muted);\n  margin-top: 4px;}\n.ds-school-description{margin-top: 11px;\n  font-size: 12px;\n  color: var(--muted);}\n.ds-spellbook-studies ul{margin: 15px 0 0;\n  padding: 0;\n  list-style: none;}\n.ds-spellbook-studies li{display: flex;\n  align-items: flex-start;\n  gap: 8px;\n  padding: 6px 0;\n  color: var(--green);}\n.ds-spellbook-studies li > svg{margin-top: 3px;}\n.ds-spellbook-studies li strong{display: block;\n  font-size: 12px;\n  font-weight: 500;}\n.ds-spellbook-studies li small{display: block;\n  font-size: 11px;\n  color: var(--muted);\n  line-height: 1.7;\n  margin-top: 4px;}\n.ds-unwritten-spells{color: var(--muted);\n  font-size: 11px;\n  margin-top: 13px;}\n.ds-spellbook-next{display: flex;\n  align-items: flex-start;\n  gap: 7px;\n  padding-top: 12px;\n  margin-top: 13px;\n  color: var(--green);}\n.ds-spellbook-next > svg{margin-top: 4px;}\n.ds-spellbook-next p{font-size: 11px;}\n.ds-spellbook-next span{display: block;\n  color: var(--muted);\n  font-size: 10px;\n  margin-top: 3px;}.ds-spellbook>p{margin-top:10px}.ds-spellbook-studies header p{margin-top:4px}.ds-spellbook-studies .ds-school-description{margin-top:11px}@media(max-width:650px){.ds-spellbook>h2{font-size:27px}.ds-spellbook-studies h3{font-size:24px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The illustrated life chronicle",
+    "overview": "Warm parchment, dark green ink, and original painted fantasy countryside make the interface feel like a personal record. Expressive serif titles carry the story; compact sans-serif controls keep the simulation legible. Gold is a restrained accent, never the dominant surface.\n\nThis documents the implemented system in `src/styles.css` and the React components. Typography tokens describe base roles; media queries adjust individual components. The approved direction in PRODUCT.md remains the visual authority.",
+    "keyCharacteristics": [
+      "Quiet paper surfaces and fine dividers.",
+      "Self-hosted literary type paired with practical controls.",
+      "A painted scene beside a readable character record.",
+      "Muted state colors, clear focus outlines, and restrained motion."
+    ],
+    "rules": [],
+    "dos": [
+      "**Do** retain the warm paper, forest ink, and restrained gold relationship.",
+      "**Do** pair serif narrative headings with sans-serif controls and explicit state labels.",
+      "**Do** keep original painted scenery and maintain its text-supporting overlay.",
+      "**Do** preserve visible keyboard focus and the stacked mobile reading order."
+    ],
+    "donts": [
+      "**Don't** add heavy shadows to every character section or decision row.",
+      "**Don't** replace the self-hosted font pair or introduce a competing display face.",
+      "**Don't** communicate condition or interaction state through color alone."
+    ]
+  }
+}

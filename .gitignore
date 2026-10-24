@@ -1,0 +1,32 @@
+# Dependencies and package manager caches
+node_modules/
+.npm-cache/
+
+# Build output, test coverage, and TypeScript cache
+dist/
+coverage/
+*.tsbuildinfo
+
+# Logs and local environment settings
+*.log
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+
+# Local tooling, screenshots, and backup snapshots
+.rea-tmp/
+.sites-workflow/
+.openai/
+screenshots/
+/checkpoints/
+
+# Editor and operating system files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+Desktop.ini
