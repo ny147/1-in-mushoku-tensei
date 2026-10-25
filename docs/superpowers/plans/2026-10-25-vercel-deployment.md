@@ -46,9 +46,9 @@ Files: `docs/deployment.md`, root/app READMEs, `six-faced-life/PRODUCT.md`, `CON
 
 ### Task 3: New PR delivery
 
-- [ ] Fetch/prune, check diff and branch freshness, commit task-owned files, push explicit task branch and create/attach a new PR to main.
-- [ ] Check GitHub Linux CI; record results and Vercel account setup still pending.
-- [ ] Leave the user to import Vercel after manually merging; no hosted release is claimed.
+- [x] Fetch/prune, check diff and branch freshness, commit task-owned files, push explicit task branch and create/attach a new PR to main.
+- [x] Check GitHub Linux CI; record results and Vercel account setup still pending.
+- [x] Leave the user to import Vercel after manually merging; no hosted release is claimed.
 
 ## Progress ledger
 
@@ -59,4 +59,5 @@ Files: `docs/deployment.md`, root/app READMEs, `six-faced-life/PRODUCT.md`, `CON
 - Local QA: isolated Vite preview on 5177 loads the opening screen and WebP without overflow or captured warnings/errors; fresh life opens a pending decision, pauses, records a memory, restores paused with that outcome after reload, and opens a direct SPA path. This checks built output/local Vite fallback, not Vercel's CDN. Existing 5173 storage is untouched.
 - Remote check: production environment secrets and repository variables are empty. It can remain unused; no remote deletion is needed.
 - Task 2 complete: 13 asset/HTML responses and 39 local links across nine documents checked. Windows PowerShell npm-shim argument stripping was corrected with `npm.cmd`; the guide records that local alternative. Independent read-only reviewer found no Critical/Important/Minor findings. Review boundaries: actual Vercel import/hosting/rollback remain unverified; GitHub's diagnostic artifact is intentionally independent; Git branch rules control automation rather than maintainer authorization; CI checks JSON syntax while local verification checks configured schema fields. No game code changed.
-- Pending: Task 3 delivery and GitHub Linux CI; user imports Vercel after manually merging the new PR.
+- Task 3 complete: implementation `ec62b42` pushed to `origin/codex/vercel-deployment`; [new PR #5](https://github.com/ny147/1-in-mushoku-tensei/pull/5) targets main and is attached. [Linux CI run 40159739528](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/40159739528) passes. Final fetch/prune succeeded; branch contains current `origin/main` at `21e6b06`. Documentation follow-up records this evidence. The QA server/tab are stopped/closed.
+- External next step: user manually merges PR #5, imports the Vercel project with the documented app root/settings, and checks the actual hosted release. No account/project import, hosted routing/rollback validation, source upload to Vercel, or live deployment has been performed or claimed in this code-migration task.
