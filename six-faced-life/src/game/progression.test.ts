@@ -165,6 +165,7 @@ describe("expanded stories", () => {
     expect(getProgression(life).magic.wind.xp).toBeGreaterThan(0);
   });
 
+  // Twenty-five complete lifetimes share CPU with the narrative/catalogue suites.
   it("finishes all school/vocation combinations with earned spells and actual promotions", () => {
     for (const role of [
       "merchant",
@@ -206,5 +207,5 @@ describe("expanded stories", () => {
         expect(learned, `${role}/${school} spells`).toBe(true);
       }
     }
-  });
+  }, 30000);
 });

@@ -48,8 +48,13 @@ export interface Entry {
   age: number;
   title: string;
   text: string;
+  message?: NarrativeMessage;
   kind:
     "birth" | "memory" | "training" | "life" | "world" | "choice" | "ending";
+}
+export interface NarrativeMessage {
+  key: string;
+  params?: Record<string, string | number>;
 }
 export interface Life {
   version: 1;

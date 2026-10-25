@@ -183,7 +183,7 @@ export const WORLD_TH: Record<string, string> = {
   "Seasoned adventurer": "นักผจญภัยชำนาญการ",
   "Party leader": "หัวหน้าคณะผจญภัย",
   "Guild veteran": "นักผจญภัยอาวุโส",
-  "Established trader": "พ่อค้าที่มีหลักฐาน",
+  "Established trader": "พ่อค้าที่ตั้งตัวได้",
   "Caravan master": "หัวหน้าคาราวาน",
   "Guild factor": "ตัวแทนการค้าของกิลด์",
   "Senior healer": "ผู้รักษาอาวุโส",
@@ -226,6 +226,8 @@ export const WORLD_TH: Record<string, string> = {
 const folded = new Map(
   Object.entries(WORLD_TH).map(([key, value]) => [key.toLowerCase(), value]),
 );
+for (const [key, value] of Object.entries(WORLD_TH))
+  if (key.startsWith("A ")) folded.set(key.slice(2).toLowerCase(), value);
 export function domainText(language: Language, value: string): string {
   return language === "en" ? value : (folded.get(value.toLowerCase()) ?? value);
 }

@@ -1,7 +1,20 @@
 import type { Language } from "../game/types";
 import { domainText } from "./world";
+import { NARRATIVE_TH } from "./narrative-th";
 
 export const UI_TH: Record<string, string> = {
+  Unwritten: "ยังไม่ได้เขียน",
+  "A memory": "ความทรงจำ",
+  "You are born in {region}, into {background}. Beyond a small window, a whole world carries on. You have been here before. Just not here.":
+    "คุณเกิดใน{region} ใน{background} พ้นหน้าต่างเล็กออกไป โลกทั้งใบยังดำเนินต่อ คุณเคยมาแล้ว เพียงไม่ใช่ที่นี่",
+  moment: "ช่วงเวลา",
+  moments: "ช่วงเวลา",
+  spell: "เวท",
+  spells: "เวท",
+  " · seek a mentor to progress": " · หาครูเพื่อก้าวต่อ",
+  " · mastery": " · เชี่ยวชาญแล้ว",
+  " · Unwritten": " · ยังไม่ได้เขียน",
+  ...NARRATIVE_TH,
   "A second chance": "โอกาสครั้งที่สอง",
   "Your chronicle": "บันทึกชีวิต",
   "Your character": "ตัวตนของคุณ",
@@ -482,6 +495,10 @@ const templates: readonly [RegExp, (...parts: string[]) => string][] = [
   [/^(\d+) career experience$/, (n) => `ประสบการณ์อาชีพ ${n}`],
   [/^(\d+) reputation$/, (n) => `ชื่อเสียง ${n}`],
   [
+    /^(\d+) (knowledge|health|happiness|bonds|mana)$/i,
+    (n, s) => `${tr(s)} ${n}`,
+  ],
+  [
     /^(\d+) (sword|guild|healing|magic|water|fire|earth|wind) experience$/,
     (n, s) => `${tr(s + " experience")} ${n}`,
   ],
@@ -514,6 +531,11 @@ function tr(source: string): string {
     const match = source.match(pattern);
     if (match) return render(...match.slice(1));
   }
+  if (source.trim() && source.trim() !== source) {
+    const leading = source.match(/^\s*/)?.[0] ?? "";
+    const trailing = source.match(/\s*$/)?.[0] ?? "";
+    return leading + tr(source.trim()) + trailing;
+  }
   return source;
 }
 
@@ -523,12 +545,8 @@ export function translate(
   params?: Record<string, string | number>,
   fallback?: string,
 ): string {
-  const message =
-    language === "en"
-      ? (fallback ?? key)
-      : tr(key) === key
-        ? (fallback ?? key)
-        : tr(key);
+  const translated = language === "en" ? key : tr(key);
+  const message = translated === key ? (fallback ?? key) : translated;
   return params
     ? message.replace(/\{(\w+)\}/g, (token, name: string) =>
         Object.hasOwn(params, name) ? String(params[name]) : token,

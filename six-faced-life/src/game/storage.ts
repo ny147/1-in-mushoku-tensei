@@ -17,6 +17,23 @@ const text = (v: unknown, max = 5000): v is string =>
   typeof v === "string" && v.length <= max;
 const ownKey = (record: object, value: unknown) =>
   typeof value === "string" && Object.hasOwn(record, value);
+function validMessage(value: unknown): boolean {
+  if (!object(value) || !text(value.key, 160) || value.key.length === 0)
+    return false;
+  if (value.params === undefined) return true;
+  return (
+    object(value.params) &&
+    Object.keys(value.params).length <= 20 &&
+    Object.entries(value.params).every(
+      ([key, param]) =>
+        key.length > 0 &&
+        key.length <= 160 &&
+        (typeof param === "string"
+          ? param.length <= 500
+          : typeof param === "number" && Number.isFinite(param)),
+    )
+  );
+}
 
 export function isLife(v: unknown): v is Life {
   if (
@@ -138,6 +155,7 @@ export function isLife(v: unknown): v is Life {
         number(e.age, 0, 300) &&
         text(e.title) &&
         text(e.text) &&
+        (!Object.hasOwn(e, "message") || validMessage(e.message)) &&
         text(e.kind) &&
         [
           "birth",
