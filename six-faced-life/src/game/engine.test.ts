@@ -47,6 +47,39 @@ describe("birth and memory", () => {
 });
 
 describe("time and choices", () => {
+  it("leaves three years between random decisions, including restored lives", () => {
+    for (let seed = 1; seed <= 40; seed++) {
+      const life = ready(seed);
+      life.age = 25;
+      life.seen.journey = 25;
+      const restored = JSON.parse(JSON.stringify(life));
+      const firstQuietYear = advance(restored, "year");
+      expect(firstQuietYear.pending, `seed ${seed}, age 26`).toBeNull();
+      expect(advance(firstQuietYear, "year").pending).toBeNull();
+      expect(firstQuietYear.history.length).toBeGreaterThan(life.history.length);
+    }
+  });
+
+  it("keeps major milestones even immediately after a random decision", () => {
+    const life = ready(22);
+    life.age = 29;
+    life.seen.journey = 29;
+    expect(advance(life, "year").pending).toBe("old-life-truth");
+  });
+
+  it("offers occasional random decisions once the spacing has elapsed", () => {
+    let decisions = 0;
+    for (let seed = 1; seed <= 100; seed++) {
+      const life = ready(seed);
+      life.age = 35;
+      life.seen.journey = 33;
+      if (advance(life, "year").pending) decisions++;
+    }
+    // Fixed seed cohort: sparse opportunities, while stories remain reachable.
+    expect(decisions).toBeGreaterThanOrEqual(10);
+    expect(decisions).toBeLessThanOrEqual(40);
+  });
+
   it("stops every advance mode for a pending decision", () => {
     const life = beginLife(createLife({ seed: 42 }));
     expect(advance(life, "year")).toEqual(life);

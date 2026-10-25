@@ -1,8 +1,22 @@
 # Save point — Six-Faced Life
 
-Updated 2026-10-25 (Asia/Bangkok). The active feature task is `codex/thai-language`; The Thai feature is implemented and verified; draft PR #7 awaits user-owned upstream conflict resolution. Resume from the save point below. Earlier task checkpoints are historical. Separate production-deployment evidence was recorded on `codex/vercel-live-checkpoint` / PR #6, which is not part of this task's fetched base.
+Updated 2026-10-25 (Asia/Bangkok). Active task: calmer decision pacing on `codex/calmer-decisions`, based on freshly fetched `origin/main` at `cc8322e` (Thai PR #7 is now merged). Earlier checkpoints below are historical; the Thai integration blocker is resolved upstream.
 
-## Current Thai-language implementation save point
+## Current calmer-decision save point
+
+The user approved keeping major milestones, reducing random-event probability from 68% to 25% in an eligible year, and at least three years between random decisions. They explicitly requested implementation without further planning questions. Implementation and delivery are complete. There is no new multi-step plan or outstanding design approval.
+
+Implemented in `six-faced-life/src/game/engine.ts`: derive random spacing from existing `life.seen` ages; ignore first-memory, fixed milestones and unknown event IDs for this gap. Major milestones keep their exact dates and neither obey nor reset random spacing. Quiet years retain normal progression and chronicle entries. No save-schema, translation, event/choice ID, pending-choice, history, archive or rendering changes; saved RNG is retained, while future events follow the newly approved balance.
+
+Verification: new regressions failed under old behavior (a random decision at age 26 after one at 25; 71 of 100 eligible-year seeds triggered). After implementation, all **104 tests across eleven files passed** with `npm test`; **npm run build passed** TypeScript/Vite. Vite reports its nonblocking >500 kB chunk warning (JS 500.08 kB / 152.09 kB gzip). Seeded tests cover two quiet intervening years, restored state, normal quiet-year history, milestone priority, and sparse-but-reachable events at the three-year boundary. Existing 100-lifetime, pending/future-equality, progression and storage tests pass. Fresh independent code review found no Critical/Important/Minor issue; reviewer inspected engine/event/save context without rerunning executor checks.
+
+Isolated browser QA on port 5178: resumed the pre-existing QA life at its pending memory, chose normally, advanced two quiet years with chronicle/stat changes, then Next decision stopped at the age-three reading milestone. Reload preserved the exact pending milestone and paused controls; captured console warnings/errors were empty. No UI changes require new layout checks. Player port 5173 and its storage were untouched. QA tab closed and owned Vite server stopped. Proof screenshot outside Git: `C:/Users/Neary/.codex/visualizations/2026/10/25/01a17157-5909-7d52-ba89-f044fa8b0d47/calmer-decisions-preview.png`.
+
+Usage observation 2026-10-25 14:45:49 Asia/Bangkok: five-hour **9% remaining**, resets October 25 at 18:17:43; weekly **86% remaining**, resets November 1 at 13:17:43. Below-10% checkpoint trigger reached after required checks completed. Finish only the bounded delivery step, then reassess before new work. No billing/reset credits changed.
+
+Delivery: implementation and verification checkpoint committed as **`a1dbbe6`**, pushed with its own upstream on `codex/calmer-decisions`. [PR #8](https://github.com/ny147/1-in-mushoku-tensei/pull/8) targets `main`, is ready for review and attached to this chat. A documentation-only follow-up records this delivery. Full task diff and `git diff --check` reviewed; final fetch/prune succeeded and the branch contains latest `origin/main` at `cc8322e`. No remote CI pass is claimed. Exact next step: user reviews and manually merges PR #8; before new work, recheck usage, status and fetch. No deployment is authorized or performed for this task.
+
+## Previous Thai-language implementation save point (merged PR #7)
 
 **Implementation complete; integration blocked.** The user approved full Thai coverage with language chosen only for new lives, the design/plan, native execution, and persistent save points. Use the existing [design](docs/superpowers/specs/2026-10-25-thai-language-design.md), [completed plan/ledger](docs/superpowers/plans/2026-10-25-thai-language.md), branch `codex/thai-language` and [draft PR #7](https://github.com/ny147/1-in-mushoku-tensei/pull/7), targeting `main`. Do not repeat approval questions, completed work, or create another PR.
 

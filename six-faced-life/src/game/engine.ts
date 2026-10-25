@@ -405,7 +405,23 @@ function endYear(life: Life) {
       (!event.condition || event.condition(life)),
   );
   let event = eligible.find((item) => item.atAge === life.age);
-  if (!event && eligible.length && random(life) < 0.68) {
+  // Reuse saved event ages so existing lives keep their pacing after reload.
+  // Fixed milestones retain their dates and do not reset the random-event gap.
+  const recentRandomDecision = Object.entries(life.seen).some(([id, age]) => {
+    const previous = EVENT_MAP.get(id);
+    return (
+      id !== "first-memory" &&
+      previous !== undefined &&
+      previous.atAge === undefined &&
+      life.age - age < 3
+    );
+  });
+  if (
+    !event &&
+    !recentRandomDecision &&
+    eligible.length &&
+    random(life) < 0.25
+  ) {
     let threshold =
       random(life) *
       eligible.reduce((sum, item) => sum + (item.weight ?? 1), 0);
