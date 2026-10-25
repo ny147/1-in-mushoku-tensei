@@ -130,6 +130,11 @@ html:lang(th) :is(.rail-section > h2 > span, .life-record h2 > span) {
   display: block;
   margin-top: 5px;
 }
+.archived-life [lang="th"] {
+  font-family: LifeThaiSans, LifeSans, sans-serif;
+  line-height: 1.8;
+  letter-spacing: 0;
+}
 * {
   box-sizing: border-box;
 }

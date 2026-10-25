@@ -49,7 +49,9 @@ export function entryText(
   const t = (value: string) => translate(language, value);
   if (
     message.key === "birth" &&
-    Object.hasOwn(REGIONS, String(params.region))
+    Object.hasOwn(REGIONS, String(params.region)) &&
+    typeof params.background === "string" &&
+    params.background.length > 0
   ) {
     const region = REGIONS[params.region as keyof typeof REGIONS];
     return {

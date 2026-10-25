@@ -13,7 +13,23 @@ import { entryText } from "../i18n/story";
 import { loadGame, SAVE_KEY } from "./storage";
 import { annualMessage } from "./narrative";
 
+const incompleteBirthParameters: Record<string, string | number>[] = [
+  {},
+  { background: 42 },
+  { background: "" },
+];
 describe("saved narrative references", () => {
+  it.each(incompleteBirthParameters)(
+    "falls back safely for incomplete birth parameters %j",
+    (extra) => {
+      const entry = createLife({ seed: 14 }).history[0];
+      entry.message = { key: "birth", params: { region: "asura", ...extra } };
+      expect(entryText(entry, "th")).toEqual({
+        title: entry.title,
+        text: entry.text,
+      });
+    },
+  );
   it("captures a birth and keeps old unreferenced English text readable", () => {
     const life = createLife({ seed: 14, region: "asura", language: "th" });
     expect(life.history[0].message).toBeDefined();
