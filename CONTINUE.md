@@ -4,7 +4,7 @@ Updated 2026-10-25 (Asia/Bangkok). Active task: calmer decision pacing on `codex
 
 ## Current calmer-decision save point
 
-The user approved keeping major milestones, reducing random-event probability from 68% to 25% in an eligible year, and at least three years between random decisions. They explicitly requested implementation without further planning questions. Native implementation is complete; delivery is next. There is no new multi-step plan or outstanding design approval.
+The user approved keeping major milestones, reducing random-event probability from 68% to 25% in an eligible year, and at least three years between random decisions. They explicitly requested implementation without further planning questions. Implementation and delivery are complete. There is no new multi-step plan or outstanding design approval.
 
 Implemented in `six-faced-life/src/game/engine.ts`: derive random spacing from existing `life.seen` ages; ignore first-memory, fixed milestones and unknown event IDs for this gap. Major milestones keep their exact dates and neither obey nor reset random spacing. Quiet years retain normal progression and chronicle entries. No save-schema, translation, event/choice ID, pending-choice, history, archive or rendering changes; saved RNG is retained, while future events follow the newly approved balance.
 
@@ -14,7 +14,7 @@ Isolated browser QA on port 5178: resumed the pre-existing QA life at its pendin
 
 Usage observation 2026-10-25 14:45:49 Asia/Bangkok: five-hour **9% remaining**, resets October 25 at 18:17:43; weekly **86% remaining**, resets November 1 at 13:17:43. Below-10% checkpoint trigger reached after required checks completed. Finish only the bounded delivery step, then reassess before new work. No billing/reset credits changed.
 
-Pending delivery: review full diff and `git diff --check`, commit only engine.ts, engine.test.ts, PRODUCT.md and this checkpoint; push `git push -u origin codex/calmer-decisions`, create one PR targeting `main`, attach it, and fetch/prune before handoff. Record commit/PR and freshness here. Human merges manually. No deployment is authorized or performed for this task.
+Delivery: implementation and verification checkpoint committed as **`a1dbbe6`**, pushed with its own upstream on `codex/calmer-decisions`. [PR #8](https://github.com/ny147/1-in-mushoku-tensei/pull/8) targets `main`, is ready for review and attached to this chat. A documentation-only follow-up records this delivery. Full task diff and `git diff --check` reviewed; final fetch/prune succeeded and the branch contains latest `origin/main` at `cc8322e`. No remote CI pass is claimed. Exact next step: user reviews and manually merges PR #8; before new work, recheck usage, status and fetch. No deployment is authorized or performed for this task.
 
 ## Previous Thai-language implementation save point (merged PR #7)
 
