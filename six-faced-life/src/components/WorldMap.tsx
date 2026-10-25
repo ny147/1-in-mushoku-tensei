@@ -1,3 +1,4 @@
+import { useI18n } from "../i18n/context";
 import { MapPin } from "lucide-react";
 import { REGIONS } from "../game/world";
 import type { RegionId } from "../game/types";
@@ -11,12 +12,16 @@ export function WorldMap({
   onSelect?: (id: RegionId) => void;
   compact?: boolean;
 }) {
+  const { t } = useI18n();
+
   return (
     <div className={`world-map ${compact ? "compact-map" : ""}`}>
       <svg
         viewBox="0 0 800 480"
         role="img"
-        aria-label="A simplified illustrated guide to the regions of the Six-Faced World"
+        aria-label={t(
+          "A simplified illustrated guide to the regions of the Six-Faced World",
+        )}
       >
         <defs>
           <pattern
@@ -69,10 +74,10 @@ export function WorldMap({
             letterSpacing="3"
           >
             <text x="79" y="440">
-              THE SIX-FACED WORLD
+              {t("THE SIX-FACED WORLD")}
             </text>
             <text x="668" y="430">
-              N ↑
+              {t("N ↑")}
             </text>
           </g>
         )}
@@ -95,11 +100,11 @@ export function WorldMap({
             className={`map-location ${selected === id ? "selected" : ""}`}
             style={{ left: `${region.x}%`, top: `${region.y}%` }}
             onClick={() => onSelect?.(id as RegionId)}
-            aria-label={`Explore ${region.name}`}
+            aria-label={t(`Explore ${region.name}`)}
             aria-pressed={selected === id}
           >
             <span className="map-location-dot" />
-            {region.short}
+            {t(region.short)}
           </button>
         ),
       )}

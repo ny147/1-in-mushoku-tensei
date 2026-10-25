@@ -1,6 +1,16 @@
 import { EVENT_MAP, EVENTS } from "./events";
 import { FIRST_NAMES, FOCUSES, RACES, REGIONS, SURNAMES } from "./world";
-import type { Decision, Entry, Focus, Life, RegionId, Stats } from "./types";
+import type {
+  Decision,
+  Entry,
+  Focus,
+  Language,
+  NarrativeMessage,
+  Life,
+  RegionId,
+  Stats,
+} from "./types";
+import { annualMessage, choiceMessage, spellMessage } from "./narrative";
 import {
   advanceProgression,
   applyChoiceProgression,
@@ -25,6 +35,7 @@ function addEntry(
   title: string,
   text: string,
   kind: Entry["kind"] = "life",
+  message?: NarrativeMessage,
 ) {
   life.history.push({
     id: (life.history.at(-1)?.id ?? 0) + 1,
@@ -32,6 +43,7 @@ function addEntry(
     title,
     text,
     kind,
+    ...(message ? { message } : {}),
   });
   if (life.history.length > 600) life.history.shift();
 }
@@ -42,7 +54,12 @@ function normalizeStats(life: Life) {
 }
 
 export function createLife(
-  options: { name?: string; seed?: number; region?: RegionId } = {},
+  options: {
+    name?: string;
+    seed?: number;
+    region?: RegionId;
+    language?: Language;
+  } = {},
 ): Life {
   const seed =
     (options.seed ?? crypto.getRandomValues(new Uint32Array(1))[0]) >>> 0;
@@ -73,6 +90,7 @@ export function createLife(
   };
   const life: Life = {
     version: 1,
+    ...(options.language === undefined ? {} : { language: options.language }),
     id: `life-${seed.toString(16)}`,
     seed,
     rng: source.rng,
@@ -149,6 +167,7 @@ export function createLife(
     "You are born. Again.",
     `You enter this world in ${REGIONS[region].name}, into ${background.toLowerCase()}. A new name, a new family—and memories that belong somewhere else.`,
     "birth",
+    { key: "birth", params: { region, background } },
   );
   life.progression = getProgression(life);
   return life;
@@ -199,7 +218,10 @@ export function finishLife(life: Life, cause: string) {
           ? "You met the world with courage, one step at a time."
           : "An ordinary life, filled with things that mattered.";
   life.ending = { cause, legacy };
-  addEntry(life, "The last page of this life", `${cause} ${legacy}`, "ending");
+  addEntry(life, "The last page of this life", `${cause} ${legacy}`, "ending", {
+    key: "ending",
+    params: { cause, legacy },
+  });
 }
 
 export function choose(life: Life, choiceId: string): Life {
@@ -264,6 +286,7 @@ export function choose(life: Life, choiceId: string): Life {
         "Your spellbook grows",
         `Through practice and instruction, you learn ${learned.join(", ")}.`,
         "training",
+        spellMessage(learned, "choice"),
       );
   }
   addEntry(
@@ -273,6 +296,7 @@ export function choose(life: Life, choiceId: string): Life {
     decision?.kind === "Past-life memory" || decision?.id === "first-memory"
       ? "memory"
       : "choice",
+    choiceMessage(decision!, option, failed),
   );
   normalizeStats(next);
   if (next.stats.health <= 0)
@@ -332,6 +356,7 @@ function endYear(life: Life) {
       "Your spellbook grows",
       `A year of practice brings ${learned.join(", ")} within your reach.`,
       "training",
+      spellMessage(learned, "year"),
     );
   life.stats.mana = Math.max(
     life.stats.mana,
@@ -352,6 +377,10 @@ function endYear(life: Life) {
         `Remembering ${person.name.split(" ")[0]}`,
         `Your ${person.role.toLowerCase()} reaches the end of a long life. The things they taught you remain.`,
         "life",
+        {
+          key: "farewell",
+          params: { name: person.name.split(" ")[0], role: person.role },
+        },
       );
     }
   }
@@ -432,6 +461,7 @@ function endYear(life: Life) {
       title,
       text,
       life.focus === "magic" || life.focus === "sword" ? "training" : "life",
+      annualMessage(life),
     );
   }
 }

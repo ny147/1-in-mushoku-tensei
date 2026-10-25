@@ -346,7 +346,7 @@
   ],
   "narrative": {
     "northStar": "The illustrated life chronicle",
-    "overview": "Warm parchment, dark green ink, and original painted fantasy countryside make the interface feel like a personal record. Expressive serif titles carry the story; compact sans-serif controls keep the simulation legible. Gold is a restrained accent, never the dominant surface.\n\nThis documents the implemented system in `src/styles.css` and the React components. Typography tokens describe base roles; media queries adjust individual components. The approved direction in PRODUCT.md remains the visual authority.",
+    "overview": "Warm parchment, dark green ink, and original painted fantasy countryside make the interface feel like a personal record. Expressive serif titles carry the story; compact sans-serif controls keep the simulation legible. Gold is a restrained accent, never the dominant surface.\n\nThis documents the implemented system in `src/styles.css` and the React components. Typography tokens describe base roles; media queries adjust individual components. The approved direction in PRODUCT.md remains the visual authority.\n\nThai presentation uses self-hosted Noto Serif Thai for narrative headings and Noto Sans Thai for practical text, with language-scoped line height and tracking. English keeps the original font pair. The labeled new-life language select previews the form, and each life retains its language in the mixed archive.",
     "keyCharacteristics": [
       "Quiet paper surfaces and fine dividers.",
       "Self-hosted literary type paired with practical controls.",

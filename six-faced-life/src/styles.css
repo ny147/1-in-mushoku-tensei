@@ -1,4 +1,16 @@
 @font-face {
+  font-family: LifeThaiSans;
+  src: url("/assets/notosansthai.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: LifeThaiSerif;
+  src: url("/assets/notoserifthai.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
   font-family: Chronicle;
   src: url("/assets/cormorant-0.ttf");
   font-weight: 400;
@@ -63,6 +75,65 @@
   --sage: #e9ede2;
   --gold: #967c43;
   --serif: Chronicle, Georgia, serif;
+}
+html:lang(th) {
+  font-family: LifeThaiSans, LifeSans, sans-serif;
+  --serif: LifeThaiSerif, Chronicle, Georgia, serif;
+}
+html:lang(th) :is(h1, h2, h3, h4, .opening-art-copy, .birth-name) {
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+html:lang(th) :is(button, input, select) {
+  font-family: LifeThaiSans, LifeSans, sans-serif;
+  line-height: 1.6;
+}
+html:lang(th)
+  :is(
+    p,
+    small,
+    label,
+    .brand span,
+    .breadcrumb,
+    .save-indicator,
+    .timeline-key,
+    .page-footer
+  ) {
+  line-height: 1.8;
+  letter-spacing: 0;
+}
+html:lang(th)
+  :is(
+    small,
+    .save-indicator,
+    .breadcrumb,
+    .timeline-key,
+    .watch-mode-help,
+    .choice small
+  ) {
+  font-size: 12px;
+}
+html:lang(th) .world-map text {
+  font-family: LifeThaiSans, LifeSans, sans-serif;
+}
+html:lang(th) :is(.rail-section > h2 > span, .life-record h2 > span) {
+  font-family: LifeThaiSans, LifeSans, sans-serif;
+  font-size: 12px;
+}
+.language-help {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 8px 0 19px;
+}
+.archive-language {
+  display: block;
+  margin-top: 5px;
+}
+.archived-life [lang="th"] {
+  font-family: LifeThaiSans, LifeSans, sans-serif;
+  line-height: 1.8;
+  letter-spacing: 0;
 }
 * {
   box-sizing: border-box;

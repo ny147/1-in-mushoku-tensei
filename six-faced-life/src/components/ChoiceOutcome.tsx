@@ -1,4 +1,7 @@
+import { useI18n } from "../i18n/context";
 import type { Life, Stat } from "../game/types";
+import { entryText } from "../i18n/story";
+import { translate } from "../i18n/messages";
 
 export interface ChoiceResult {
   lifeId: string;
@@ -11,6 +14,8 @@ export function describeChoice(before: Life, after: Life): ChoiceResult {
   const entry = [...after.history]
     .reverse()
     .find((item) => item.kind === "choice" || item.kind === "memory");
+  const language = after.language ?? "en";
+  const localized = entry ? entryText(entry, language) : null;
   const stats: [Stat, string][] = [
     ["health", "Health"],
     ["happiness", "Happiness"],
@@ -30,13 +35,15 @@ export function describeChoice(before: Life, after: Life): ChoiceResult {
   );
   return {
     lifeId: after.id,
-    title: entry?.title ?? "Your choice",
-    text: entry?.text ?? "Your choice becomes part of your story.",
+    title: localized?.title ?? translate(language, "Your choice"),
+    text:
+      localized?.text ??
+      translate(language, "Your choice becomes part of your story."),
     changes: values
       .filter(([, amount]) => amount !== 0)
       .map(
         ([label, amount]) =>
-          `${label} ${amount > 0 ? "+" : "−"}${Math.abs(amount)}`,
+          `${translate(language, label)} ${amount > 0 ? "+" : "−"}${Math.abs(amount)}`,
       ),
   };
 }
@@ -48,24 +55,26 @@ export function ChoiceOutcome({
   result: ChoiceResult;
   onContinue: () => void;
 }) {
+  const { t } = useI18n();
+
   return (
-    <section className="choice-outcome" aria-label="Your choice">
+    <section className="choice-outcome" aria-label={t("Your choice")}>
       <h2 id="outcome-heading" tabIndex={-1}>
-        {result.title}
+        {t(result.title)}
       </h2>
-      <p className="outcome-narrative">{result.text}</p>
+      <p className="outcome-narrative">{t(result.text)}</p>
       {result.changes.length > 0 && (
-        <ul className="outcome-changes" aria-label="What changed">
+        <ul className="outcome-changes" aria-label={t("What changed")}>
           {result.changes.map((change) => (
-            <li key={change}>{change}</li>
+            <li key={change}>{t(change)}</li>
           ))}
         </ul>
       )}
       <button className="button primary" onClick={onContinue}>
-        Continue to next decision
+        {t("Continue to next decision")}
       </button>
       <p className="outcome-note">
-        Your choice is recorded in the chronicle below.
+        {t("Your choice is recorded in the chronicle below.")}
       </p>
     </section>
   );

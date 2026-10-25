@@ -12,6 +12,7 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
+- New lives offer full English or Thai. Language is fixed when the life is created, retained after reload and in the completed-life archive; legacy lives remain English. The new-life form previews its selected language without changing existing progress. Mixed archives label each life and use that life's language when reading its retrospective. Thai prose, controls, help, requirements, errors and accessible labels are authored locally; no translation backend is required.
 - Water, fire, earth, wind, and healing each retain their own experience and learned spells. Study selection unlocks at age eight; changing it preserves prior study and grants no experience. Instruction rank is shared across disciplines.
 - Adventurer, merchant, healer, guard, and teacher careers have three earned promotion steps. Experience, reputation, and vocation-specific skills determine eligibility; the player accepts an event offer for a new title and increased base pay. Changing vocation resets its career track while preserving magical study and savings.
 - Childhood milestones, linked research, regional stories, profession dilemmas, and family/legacy events use age, location, living-family, and story prerequisites. Stable event/choice identifiers preserve pending decisions in existing saves.

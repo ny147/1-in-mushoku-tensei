@@ -1,3 +1,4 @@
+export type Language = "en" | "th";
 export type RaceId = "human" | "elf" | "beastfolk" | "migurd" | "dwarf";
 export type RegionId =
   "asura" | "ranoa" | "millis" | "forest" | "demon" | "begaritt";
@@ -47,11 +48,18 @@ export interface Entry {
   age: number;
   title: string;
   text: string;
+  message?: NarrativeMessage;
   kind:
     "birth" | "memory" | "training" | "life" | "world" | "choice" | "ending";
 }
+export interface NarrativeMessage {
+  key: string;
+  params?: Record<string, string | number>;
+}
 export interface Life {
   version: 1;
+  /** Absent on legacy saves; presentation treats those lives as English. */
+  language?: Language;
   id: string;
   seed: number;
   rng: number;

@@ -15,7 +15,20 @@ Final generation prompt:
 
 Cormorant Garamond and DM Sans were downloaded from the official Google Fonts service and saved as `.ttf` files. Each numbered file contains one weight: 0 = 400, 1 = 500, 2 = 600, 3 = 700. License text is included beside the assets.
 
+## Thai typography
+
+Noto Sans Thai and Noto Serif Thai variable TrueType fonts were downloaded unmodified from the official [Google Fonts repository](https://github.com/google/fonts) on 2026-10-25, pinned to revision `8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5`. Both use the SIL Open Font License 1.1; the complete source license accompanies each font. Weight coverage is 100–900. English assets and licenses remain in place. The app serves these files itself; no font CDN is used at runtime.
+
+| Local file | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `public/assets/notosansthai.ttf` | 218652 | `5a1c559bb539583c8a1fd99d1c5b9491e5e14478c9cd2bd0970d5c3096cc9ef8` |
+| `public/assets/notoserifthai.ttf` | 292188 | `34a7ad11647c845303aabdde639059806c56b84719e5d2ceb28eb038711bdf53` |
+
+Sources: [Noto Sans Thai](https://github.com/google/fonts/tree/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/notosansthai), [Noto Serif Thai](https://github.com/google/fonts/tree/8b0a1d0f5983c89bc2b93f1b5fb55f9e252744b5/ofl/notoserifthai). Local licenses: `public/assets/notosansthai-OFL.txt` and `public/assets/notoserifthai-OFL.txt` (4379 bytes each, SHA-256 `96ac951c8caddd87d8a66fe0d02342127696131d3e935ce4a936dc68cf032e33`).
+
 ## Icons and world guide
 
 Icons: lucide-react (ISC).
 The Six-Faced Life geometric mark and the simplified SVG regional guide were authored in code for this project. The map is explicitly labeled as simplified geography.
+
+The complete OFL text is retained, with one trailing space normalized in each local license so repository whitespace checks pass. Font binaries are unmodified.
