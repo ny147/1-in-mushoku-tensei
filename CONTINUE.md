@@ -47,22 +47,32 @@ Documentation checks passed: 33 local Markdown links across the three task
 files, no trailing whitespace, referenced npm test/build scripts, complete task
 diff review (including the new spec), and `git diff --check`. A final fetch/prune
 initially hit sandbox FETCH_HEAD permissions, then succeeded with escalation;
-the branch contains current `origin/main` at `9d19b9a`. Remote delivery is pending.
+the branch contains current `origin/main` at `9d19b9a`. Final fetch/prune after PR
+creation also succeeded with the same upstream base.
 Application tests/build/browser QA are unnecessary and have not been run for
-this task. Last completed baseline commit: `9d19b9a`; task-owned edits currently
-comprise the spec, this checkpoint and the README index link. GitHub CLI is absent;
-the existing Git credential helper can authenticate GitHub REST under sandbox
-escalation without displaying credentials. No task PR exists yet.
+this task. Specification/README/checkpoint committed as **`eff5cd3`** and pushed
+with its own upstream. [Draft PR #10](https://github.com/ny147/1-in-mushoku-tensei/pull/10)
+explicitly targets `main` and is attached to this chat. A documentation-only
+follow-up records delivery. The draft is intentional: spec approval and the
+detailed plan remain pending. No remote CI pass is claimed.
+
+GitHub CLI is absent; the existing Git credential helper authenticated GitHub
+REST under sandbox escalation without displaying credentials. The initial PR
+attempt was skipped because PowerShell wrapped an empty API list as one item.
+Read-only inspection confirmed no PR existed; using the direct response fixed
+the delivery script, and GitHub confirmed exactly this draft PR. No app code
+was involved. The spec was requested in the Codex panel; opening was queued.
 
 Usage observed **2026-10-25 21:33:00 Asia/Bangkok**: five-hour **57% remaining**,
 resets **October 26 at 00:41:09**; weekly **79% remaining**, resets **November 1 at
 13:17:43**. No below-10% trigger; no billing or reset-credit action.
 
-Exact next step: commit and push
-only these files, create one draft PR targeting `main`, and update this checkpoint
-with its delivery evidence. Ask the user to approve the linked spec. After that
-approval, write/self-review the detailed plan and update the same branch/PR;
-do not repeat the completed interview. The user merges manually.
+Exact next step: **user reviews and approves the linked spec**, starting with
+its four proposed-detail review items. After approval, recheck status/usage and
+fetch, continue this branch, write/self-review the detailed plan, and update
+PR #10. Do not repeat the completed interview or start game implementation.
+The user merges manually; do not merge, enable auto-merge, delete the branch,
+or deploy the game.
 
 Updated 2026-10-25 (Asia/Bangkok). Active task: calmer decision pacing on `codex/calmer-decisions`, based on freshly fetched `origin/main` at `cc8322e` (Thai PR #7 is now merged). Earlier checkpoints below are historical; the Thai integration blocker is resolved upstream.
 
