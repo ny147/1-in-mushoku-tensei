@@ -66,11 +66,11 @@ expect(languageOf(loadGame(storage).data.active)).toBe("th");
 
 Files: new `src/i18n/messages.ts`, `src/i18n/world.ts`, `src/i18n/story.ts`, `src/i18n/context.tsx`, new `src/i18n/catalogues.test.ts`.
 
-- [ ] Write failing catalogue tests enumerating all 55 events, every available choice ID across six regions/five races/five schools/five working careers and all promotion levels, all 30 spells, domain labels, and the UI key inventory. Every authored field must resolve nonempty Thai text instead of a missing-key or English fallback.
-- [ ] Include generated travel, study, promotion and recommit choices; assert parameter values survive interpolation and player names are not translated.
-- [ ] Run `npm test -- src/i18n/catalogues.test.ts`; inspect failure before catalogue implementation.
-- [ ] Implement complete-message Thai translations, ID-based domain lookups and language context. Keep authored Thai prose and a consistent world-name glossary; preserve numbers, costs, signs, requirements and ranks. Do not translate domain values used in conditions.
-- [ ] Rerun catalogue tests and commit. Review prose for natural Thai and consistency rather than relying only on nonempty-string assertions.
+- [x] Write failing catalogue tests enumerating all 55 events, every available choice ID across six regions/five races/five schools/five working careers and all promotion levels, all 30 spells, domain labels, and the UI key inventory. Every authored field must resolve nonempty Thai text instead of a missing-key or English fallback.
+- [x] Include generated travel, study, promotion and recommit choices; assert parameter values survive interpolation and player names are not translated.
+- [x] Run `npm test -- src/i18n/catalogues.test.ts`; inspect failure before catalogue implementation.
+- [x] Implement complete-message Thai translations, ID-based domain lookups and language context. Keep authored Thai prose and a consistent world-name glossary; preserve numbers, costs, signs, requirements and ranks. Do not translate domain values used in conditions.
+- [x] Rerun catalogue tests and commit. Review prose for natural Thai and consistency rather than relying only on nonempty-string assertions.
 
 ## Task 3: Translate New Chronicle Entries Without Changing Outcomes
 
@@ -131,3 +131,5 @@ Files: targeted fixes/tests as needed, this ledger, `CONTINUE.md`; existing PR #
 - Verification after formatting: `npm test` passed all 75 tests across eight files; `npm run build` passed TypeScript/Vite; complete six-file Task 1 diff and both new files reviewed; staged `git diff --check` passed. No browser QA yet because there is no new UI, and the translation feature remains incomplete.
 - Save point observed 2026-10-25 11:47:34 Asia/Bangkok (04:47:34 UTC): five-hour 9% remaining, resetting October 25 at 14:52:47; weekly 42% remaining, resetting October 31 at 10:39:46. Save this verified milestone before substantial catalogue work. Keep PR #7 draft.
 - Next: resume the same branch, inspect CONTINUE.md and usage, fetch/prune; start Task 2 by creating `six-faced-life/src/i18n/catalogues.test.ts` and running `npm test -- src/i18n/catalogues.test.ts` from the app. Do not redo Task 1. No further user approval is needed to continue the plan.
+
+- Task 2: complete on resumption; catalogue RED observed missing messages module, then coverage exposed missing event categories; GREEN passed four catalogue tests including all generated branches, domains, 30 spells, childhood/high-risk/instruction thresholds. TypeScript/Vite build passed. Upstream advanced to ae9a2d1; no merge/rebase performed. Next: Task 3 narrative-reference tests.
