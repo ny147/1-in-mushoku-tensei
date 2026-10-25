@@ -28,6 +28,12 @@ export function isLife(v: unknown): v is Life {
   )
     return false;
   if (
+    Object.hasOwn(v, "language") &&
+    v.language !== "en" &&
+    v.language !== "th"
+  )
+    return false;
+  if (
     !ownKey(RACES, v.race) ||
     !ownKey(REGIONS, v.birthRegion) ||
     !ownKey(REGIONS, v.region)

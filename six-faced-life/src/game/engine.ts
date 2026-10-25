@@ -1,6 +1,14 @@
 import { EVENT_MAP, EVENTS } from "./events";
 import { FIRST_NAMES, FOCUSES, RACES, REGIONS, SURNAMES } from "./world";
-import type { Decision, Entry, Focus, Life, RegionId, Stats } from "./types";
+import type {
+  Decision,
+  Entry,
+  Focus,
+  Language,
+  Life,
+  RegionId,
+  Stats,
+} from "./types";
 import {
   advanceProgression,
   applyChoiceProgression,
@@ -42,7 +50,12 @@ function normalizeStats(life: Life) {
 }
 
 export function createLife(
-  options: { name?: string; seed?: number; region?: RegionId } = {},
+  options: {
+    name?: string;
+    seed?: number;
+    region?: RegionId;
+    language?: Language;
+  } = {},
 ): Life {
   const seed =
     (options.seed ?? crypto.getRandomValues(new Uint32Array(1))[0]) >>> 0;
@@ -73,6 +86,7 @@ export function createLife(
   };
   const life: Life = {
     version: 1,
+    ...(options.language === undefined ? {} : { language: options.language }),
     id: `life-${seed.toString(16)}`,
     seed,
     rng: source.rng,

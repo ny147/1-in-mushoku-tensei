@@ -1,3 +1,4 @@
+export type Language = "en" | "th";
 export type RaceId = "human" | "elf" | "beastfolk" | "migurd" | "dwarf";
 export type RegionId =
   "asura" | "ranoa" | "millis" | "forest" | "demon" | "begaritt";
@@ -52,6 +53,8 @@ export interface Entry {
 }
 export interface Life {
   version: 1;
+  /** Absent on legacy saves; presentation treats those lives as English. */
+  language?: Language;
   id: string;
   seed: number;
   rng: number;

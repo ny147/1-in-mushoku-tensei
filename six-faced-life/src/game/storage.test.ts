@@ -12,6 +12,89 @@ function memoryStorage() {
   };
 }
 describe("local persistence", () => {
+  it.each(["en", "th"] as const)(
+    "retains a new %s life's language, pending decision, and future after reload",
+    (language) => {
+      const storage = memoryStorage();
+      const life = beginLife(createLife({ seed: 90, language }));
+      expect(life.language).toBe(language);
+      expect(saveGame(storage, { version: 1, active: life, archive: [] })).toBe(
+        true,
+      );
+      const restored = loadGame(storage);
+      expect(restored.error).toBeNull();
+      expect(restored.data.active).toEqual(life);
+      expect(
+        advance(choose(restored.data.active!, "observe"), "decision"),
+      ).toEqual(advance(choose(life, "observe"), "decision"));
+    },
+  );
+
+  it("preserves legacy lives without adding language metadata or rewriting storage", () => {
+    const storage = memoryStorage();
+    const life = beginLife(createLife({ seed: 44 }));
+    delete life.language;
+    const raw = JSON.stringify({ version: 1, active: life, archive: [] });
+    storage.setItem(SAVE_KEY, raw);
+    const restored = loadGame(storage);
+    expect(restored.error).toBeNull();
+    expect(restored.data.active).toEqual(life);
+    expect(Object.hasOwn(restored.data.active!, "language")).toBe(false);
+    expect(storage.getItem(SAVE_KEY)).toBe(raw);
+  });
+
+  it.each(["xx", null, 1, {}, [], "toString", "constructor", "__proto__"])(
+    "preserves the original payload when a life has invalid language %j",
+    (language) => {
+      for (const archived of [false, true]) {
+        const storage = memoryStorage();
+        const life = {
+          ...createLife({ seed: 55 }),
+          language,
+          ...(archived
+            ? {
+                phase: "ended",
+                pending: null,
+                ending: { cause: "Old age.", legacy: "A life well lived." },
+              }
+            : {}),
+        };
+        const raw = JSON.stringify({
+          version: 1,
+          active: archived ? null : life,
+          archive: archived ? [life] : [],
+        });
+        storage.setItem(SAVE_KEY, raw);
+        expect(loadGame(storage).error).toBeTruthy();
+        expect(storage.getItem(SAVE_KEY)).toBe(raw);
+      }
+    },
+  );
+
+  it("round trips English, Thai and legacy lives in the same archive", () => {
+    const storage = memoryStorage();
+    const archive = [
+      createLife({ seed: 1, language: "en" }),
+      createLife({ seed: 2, language: "th" }),
+      createLife({ seed: 3 }),
+    ].map((life) => ({
+      ...life,
+      phase: "ended" as const,
+      pending: null,
+      ending: { cause: "Old age.", legacy: "A life well lived." },
+    }));
+    const save = {
+      version: 1 as const,
+      active: beginLife(createLife({ seed: 4, language: "th" })),
+      archive,
+    };
+    expect(saveGame(storage, save)).toBe(true);
+    expect(loadGame(storage)).toEqual({ data: save, error: null });
+    expect(loadGame(storage).data.archive.map((life) => life.language)).toEqual(
+      ["en", "th", undefined],
+    );
+  });
+
   it("round trips an active pending decision and its future", () => {
     const storage = memoryStorage();
     const life = beginLife(createLife({ seed: 90 }));
