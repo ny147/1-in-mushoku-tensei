@@ -1,6 +1,7 @@
 # Thai language for new lives
 
-Status: proposed design, awaiting user approval. No application implementation yet.
+Status: approved by the user on 2026-10-25 with an explicit request to implement.
+No application implementation yet; the implementation plan follows this design.
 
 ## Intent and confirmed decisions
 
@@ -142,5 +143,5 @@ service, billing change, or automatic merge is authorized by this feature reques
 
 ## Next gate
 
-Review this design for consequential missing decisions, then ask the user to
-approve it. After approval, write the implementation plan before product code.
+The builder review found no consequential missing decisions and the user approved
+this design. Write and review the implementation plan before product code.
