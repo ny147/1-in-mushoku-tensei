@@ -1,8 +1,26 @@
 # Save point — Six-Faced Life
 
-Updated 2026-10-24 (Asia/Bangkok). The original game, progression expansion, UX review and approved UX fixes are implemented and now included in `origin/main`. The active task is CI/CD and Cloudflare deployment on `codex/cloudflare-cicd`; start with its checkpoint below. Earlier task checkpoints are historical.
+Updated 2026-10-25 (Asia/Bangkok). The game, progression expansion, UX fixes, and Cloudflare configuration PR #4 are merged. The user switched to Vercel before configuring hosting. The active task is `codex/vercel-deployment`; start with the current checkpoint below. Earlier task checkpoints are historical.
 
-## Current CI/CD and Cloudflare checkpoint
+## Current Vercel migration checkpoint
+
+The user requested Vercel instead of Cloudflare, asked to update all related setup and create a new PR, and confirmed PR #4 was already merged. No hosting credentials were configured. This supersedes the Cloudflare activation steps below. Use the [new design](docs/superpowers/specs/2026-10-25-vercel-deployment-design.md), [plan/ledger](docs/superpowers/plans/2026-10-25-vercel-deployment.md), and [current deployment guide](docs/deployment.md).
+
+Branch `codex/vercel-deployment` started clean from freshly fetched `origin/main` at `21e6b06` (merge of PR #4). Implemented: Vercel native Git integration configuration in app-root `vercel.json`, Vite/npm settings, SPA rewrite, main-only automatic deployments including disabling slash-containing task branches, and `build:vercel` (`npm test && npm run build`). GitHub CI runs the same command and retains its diagnostic artifact; Vercel independently builds source and runs tests before publishing. No deployment token, project/org ID, enable variable, Vercel CLI, or Actions deployment job is required. Wrangler dependency/config/scripts and the Cloudflare deploy job are removed. Existing ignored Cloudflare state remains protected; `.vercel/` is ignored.
+
+Fresh verification: exact `npm run build:vercel` passes all 51 tests across seven files, TypeScript and Vite. Existing dependency records are unchanged; Wrangler and 60 obsolete lockfile package paths are removed. actionlint 1.7.12, `git diff --check`, and 39 local links across nine documents pass. All seven configured top-level properties pass their corresponding official Vercel schema definitions; unused experimental function definitions were excluded because the upstream schema mixes draft-04 and newer keywords. No full upstream-schema or hosted validation is claimed. Isolated production preview on 5177 served 13 HTML/JS/CSS/favicon/WebP/font responses; browser QA verified a fresh life, decision, pause, memory choice, paused restore after reload, and a direct local fallback path, with no captured warnings/errors or opening-screen overflow. This is Vite preview, not Vercel CDN verification. Port 5173 and its browser saves remain untouched.
+
+Remote/account boundary: GitHub `production` environment still exists, but queried secret/variable lists are empty and the new workflow does not reference it. No Vercel project has been imported or deployed. After manually merging the new PR, the user imports `ny147/1-in-mushoku-tensei` into Vercel with Root Directory `six-faced-life`, Production Branch `main`, Node.js 22.x, Vite preset and output `dist`. The app-local config supplies install/build settings. Do not ask for API tokens or repeat the retired Cloudflare setup. A Vercel integration is available but not confirmed installed/connected; code migration does not depend on it.
+
+Independent read-only review found no Critical/Important/Minor issue. Account/project import, hosted routing/assets and rollback remain external checks; the native independent-build and automatic-branch-control boundaries are intentional and documented. Latest usage observation: 2026-10-25 10:51 Asia/Bangkok (03:51 UTC), five-hour 65% remaining (resets October 25 at 14:52:47), weekly 50% remaining (resets October 31 at 10:39:46). All reset times Asia/Bangkok. No low-capacity trigger.
+
+Delivery: implementation committed as `ec62b42` (`ci: replace Cloudflare deployment with Vercel Git integration`) and pushed with its own upstream on `codex/vercel-deployment`. [New PR #5](https://github.com/ny147/1-in-mushoku-tensei/pull/5) targets `main` and is attached to the chat. [GitHub Linux CI run 40159739528](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/40159739528) passed for that implementation commit. A documentation-only follow-up records final evidence on the same PR. Fetch/prune succeeded and the branch contains current `origin/main` at `21e6b06`.
+
+Next: the user reviews and manually merges PR #5, then imports the Vercel project following [docs/deployment.md](docs/deployment.md). Root Directory `six-faced-life`, Vite preset, Node 22.x, Production Branch `main`, output `dist`, no environment variables required. Confirm the actual first deployment's commit/Ready status, hosted asset types, SPA navigation and save/reload before claiming a live release. If account assistance is requested, use the available Vercel integration only after connection is confirmed. No hosted release is claimed now. Do not merge automatically, enable auto-merge, delete the task branch, configure hosting tokens, or repeat the retired Cloudflare activation. Resume source work with `git status --short --branch`, `git fetch origin --prune` and the new plan ledger; update PR #5 for this task's follow-ups. Port 5177 QA server/tab are stopped/closed; player port 5173 and its saves are intact.
+
+## Previous Cloudflare checkpoint (historical; PR #4 is merged and hosting superseded)
+
+**Do not execute this section's activation steps.** Vercel replaces Cloudflare as described above. The following records the earlier implementation and evidence only.
 
 The user requested a plan followed by implementation and selected a new Worker named `six-faced-life` on `workers.dev`. This supersedes local-only hosting for this Cloudflare task; Sites publishing and paid upgrades remain outside the request. The [design](docs/superpowers/specs/2026-10-24-cloudflare-cicd-design.md), [plan and progress ledger](docs/superpowers/plans/2026-10-24-cloudflare-cicd.md), and [operations guide](docs/deployment.md) describe the implementation.
 
@@ -19,6 +37,8 @@ Delivery: implementation commit `6f002b8` (`ci: validate builds and prepare Clou
 Next: supply the two production secrets directly in GitHub, enable the repository deployment variable, and review PR #4. The user merges manually; do not merge, enable auto-merge, or delete the branch. After merging, inspect the successful main deployment and its actual workers.dev URL, then perform hosted smoke checks before calling the deployment complete. If secrets are configured after merging, manually run **CI and Cloudflare deployment** on branch `main`. Until then preserve the draft and disabled publishing. Resume with `git status --short --branch`, `git fetch origin --prune`, and this task's plan ledger; do not reimplement completed steps.
 
 ## User decisions
+
+- On 2026-10-25, after manually merging PR #4, the user switched hosting to Vercel before configuring Cloudflare and requested a new PR. Native Vercel Git integration replaces token-driven Actions deployment; project import remains pending until the migration PR merges.
 
 - Build a browser life simulator inspired by https://1in8b.life/en/, set in Mushoku Tensei.
 - Original reincarnated protagonist with memories of a previous life.
@@ -116,4 +136,4 @@ The expansion's review found no Important/Critical defects. One misleading affor
 
 ## Next session
 
-Start with the current CI/CD and Cloudflare checkpoint and plan ledger, then inspect Git as required by `AGENTS.md`. Preserve the completed game/UX work; do not repeat earlier reviews. Resume this task on `codex/cloudflare-cicd` and update its existing PR once created. The user merges manually. Cloudflare publication is now requested, but requires credentials, activation and a validated main build. The local player preview remains 5173; Cloudflare QA uses isolated port 8787 and preserves existing saves.
+Start with the current Vercel migration checkpoint and plan ledger, then inspect Git as required by `AGENTS.md`. Resume on `codex/vercel-deployment` and update its new PR after creation; PR #4 is already merged and must not be reused. The user merges manually. Vercel native Git integration needs a project import after migration merge, with no deployment tokens. Ignore retired Cloudflare activation steps. The player origin remains 5173; production-build QA uses isolated port 5177 and preserves existing saves.

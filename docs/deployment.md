@@ -1,70 +1,80 @@
-# Cloudflare deployment
+# Vercel deployment
 
-Six-Faced Life deploys as static files to a Cloudflare Worker named `six-faced-life`, using its `workers.dev` address. There is no Worker server script, database, or application secret. The deployment credential belongs only to CI.
+Six-Faced Life uses Vercel's GitHub integration for static Vite hosting. GitHub Actions checks pull requests; Vercel installs, tests and builds the app before publishing. **No Cloudflare or Vercel API tokens, organization/project IDs, GitHub environment secrets, or deployment enable variable are required.** The earlier Cloudflare setup from merged PR #4 is retired.
 
-## Pipeline
+## One-time setup after this migration PR merges
 
-[The workflow](../.github/workflows/ci.yml) runs on pull requests targeting `main`, pushes to `main`, and manual runs. Its validation job uses Node 22, installs the app lockfile with `npm ci`, runs all tests, builds with TypeScript/Vite, validates Wrangler with a dry run, and retains `six-faced-life/dist/` for seven days. The heavy 100-lifetime simulation test has a 30-second limit; its seeds and assertions remain unchanged.
+1. Review and manually merge the Vercel migration PR into `main` before importing the project. This ensures the first import contains the test-gated build and SPA configuration. Do not import the old Cloudflare version of main.
+2. Sign in to [Vercel](https://vercel.com/new), choose **Add New → Project**, and import `ny147/1-in-mushoku-tensei`. If prompted, authorize Vercel's GitHub integration for this repository. This connection replaces deployment-token setup.
+3. Set these project values before the first deployment:
 
-The production job requires successful validation, branch `main`, a non-PR event, and repository Actions variable `CLOUDFLARE_DEPLOY_ENABLED` equal to `true`. It downloads the tested artifact from that same run and publishes it with the exact locked Wrangler version. It does not rebuild the app. Production deployments are serialized, and a superseded main revision is skipped before publishing. Fork PRs and manual runs from task branches cannot deploy. Repository permissions are read-only; credentials exist only in the steps that need them.
-
-CI runs without Cloudflare credentials. Leaving the enable variable unset or setting it to `false` keeps deployment disabled without failing validation. Once enabled, missing secrets produce an explicit failure. This workflow is the deployment authority: do not also enable Cloudflare Git builds, which would create a separate publishing path.
-
-## One-time account and GitHub setup
-
-1. Sign in to Cloudflare and select the intended account. Find its Account ID. Under **Workers & Pages**, ensure that account has a `workers.dev` subdomain. No custom domain or paid upgrade is needed for this configuration.
-2. Create an API token restricted to that account, with **Account / Workers Scripts / Edit** and **Account / Account Settings / Read**. Avoid a Global API Key. Keep the token private; enter it directly in GitHub secrets rather than chat, repository files, or `VITE_*` variables.
-3. In the GitHub repository, open **Settings → Environments → production**. Create the environment if absent, and restrict deployment branches to the `main` branch. Optional required reviewers can add a manual production approval.
-4. Add these **environment secrets** under `production`:
-
-   | Secret | Value |
+   | Setting | Value |
    | --- | --- |
-   | `CLOUDFLARE_API_TOKEN` | The scoped deployment token |
-   | `CLOUDFLARE_ACCOUNT_ID` | The selected Cloudflare Account ID |
+   | Project name | `six-faced-life`, or an available name you prefer |
+   | Framework Preset | Vite |
+   | Root Directory | `six-faced-life` |
+   | Production Branch | `main` |
+   | Node.js Version | `22.x` |
+   | Install Command | `npm ci` |
+   | Build Command | `npm run build:vercel` |
+   | Output Directory | `dist` |
+   | Environment Variables | None required by this app |
 
-5. Under **Settings → Secrets and variables → Actions → Variables**, add repository variable `CLOUDFLARE_DEPLOY_ENABLED` with value `true`. This must be a repository variable, because the job condition is evaluated before environment variables are available.
-6. Review and manually merge the task PR into `main`. That push runs validation and then the first deployment. If setup happens after merging, use **Actions → CI and Cloudflare deployment → Run workflow**, selecting branch `main`.
+   Command and output paths are relative to the Root Directory. Do not set the output to `six-faced-life/dist`, which would double the app path. The app-local [vercel.json](../six-faced-life/vercel.json) supplies the framework, install/build/output settings and SPA rewrite; verify the dashboard root/branch/Node settings too.
+4. Click **Deploy**. Vercel creates the project and its production release only after the tests and build succeed. Read the build logs and copy the actual production URL from the dashboard. An exact hostname is not reserved by the repository; Vercel may assign a different name if one is taken.
+5. After setup, pushes/merges to `main` trigger production builds automatically. Automatic deployments from other branches, including slash-containing task branches, are disabled by the app's Git rules. Manual deploys remain possible for authorized maintainers; these rules do not replace account/repository access control.
 
-The first successful deploy creates the Worker if it does not exist. Wrangler prints its real URL; expect `https://six-faced-life.<your-account-subdomain>.workers.dev`, where the account subdomain is supplied by Cloudflare, not invented in configuration. Worker names are unique within an account: confirm an existing Worker with this name is the intended target before deploying into an account that already uses it.
+You do not need a Cloudflare Worker, a Cloudflare token, `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, or an Actions deploy job. The unused GitHub `production` environment created for Cloudflare may remain; the new workflow does not reference it. If you created old Cloudflare credentials despite not completing setup, revoke tokens you no longer use and remove only this app's obsolete secrets/enable variable; do not affect credentials used by other projects.
 
-The workflow uses the token for asset uploads and Worker deployment. Anyone able to change trusted `main` workflow code can influence how that token is used; restrict main writes and use environment reviewers as appropriate for your repository. Set the validation job **Test, build, and validate deployment** as a required pull-request check if you want GitHub to block merges on failures. Adding the workflow alone does not configure branch protection.
+Do not use the retired **CI and Cloudflare deployment** workflow's manual dispatch on an older commit. Once this migration is merged, the current workflow is **CI**, with no publishing step.
 
-## Local verification and preview
+## CI and deployment gates
 
-Run inside `six-faced-life/`, after installing dependencies with `npm ci` when needed:
+[GitHub Actions](../.github/workflows/ci.yml) runs on PRs targeting `main`, pushes to `main`, and manual runs. It installs the lockfile with `npm ci`, runs `npm run build:vercel`, checks Vercel JSON syntax, and retains `dist/` for seven days as a diagnostic artifact. The existing check name **Test, build, and validate deployment** is retained for compatibility with any manually configured required check. Configure that check in GitHub branch protection if you want GitHub to block manual merges on failures; the workflow does not change branch protection.
+
+`build:vercel` runs `npm test && npm run build`. Both GitHub and Vercel use this command. The heavy 100-lifetime test retains its 30-second bound and every seed/assertion. A failing Vercel test, TypeScript check or Vite build prevents that release from publishing.
+
+Vercel builds independently from the selected Git revision. It does **not** download GitHub's artifact or wait for the GitHub check to finish. Its own test step provides the publication gate. GitHub's workflow uses read-only repository permissions and no deployment secrets. Production hosting and its account permissions are managed by Vercel's native integration.
+
+The app has no backend or hosted database. Only `dist` is the public build output; research, source checkpoints, local registration metadata, test sources and source save data are not deployed as public static files. Vercel does fetch repository source to perform the Git build. Keep credentials out of source and `VITE_*` variables, which are public browser configuration. No paid upgrade or custom domain is part of this setup.
+
+## Local verification
+
+Run in `six-faced-life/`:
 
 ```sh
-npm test
-npm run build
-npm run cf:check
-npm run cf:dev
+npm ci
+npm run build:vercel
+npm run preview -- --port 5177 --strictPort
 ```
 
-`cf:check` runs `wrangler deploy --dry-run` and does not upload or publish. `cf:dev` serves the existing `dist/` locally at `http://127.0.0.1:8787/`; rebuild after source changes. It uses Cloudflare's local runtime and SPA routing. Stop with Ctrl+C. The normal Vite preview at port 5173 remains separate.
+Install dependencies only when needed. `build:vercel` runs the complete suite and production build without publishing. `preview` serves `dist` on isolated port 5177; rebuild after source changes and stop with Ctrl+C. It is a Vite smoke test, not an emulation of Vercel's CDN. The normal player origin `http://127.0.0.1:5173/` remains untouched. There is no repository `deploy`, `cf:check`, or `cf:dev` script and no hosting CLI dependency.
 
-For an explicitly authorized manual release from a verified, current main checkout, authenticate Wrangler with `npx wrangler login` or provide `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` through your shell's secure environment, then run `npm run deploy`. This command publishes immediately; it does not run tests or build. Prefer the main workflow so the tested artifact and deployment record remain together. Never commit credentials. Wrangler state and `.dev.vars` files are ignored; `.dev.vars` is for local Worker bindings, not CI authentication.
+In Windows PowerShell, use `npm.cmd run preview -- --port 5177 --strictPort` if the npm PowerShell shim strips the argument separator. The Bash command above remains valid in GitHub/Vercel's build environment.
 
-## Check a deployment
+The SPA rewrite uses Vercel's documented `/(.*)` → `/index.html` configuration. Check deep links on the real hosted URL after deployment; local Vite fallback alone does not prove hosted routing.
 
-Confirm both GitHub's validation and deploy jobs succeed and Cloudflare lists a successful deployment. Open the actual URL printed in the deploy log and check:
+## Check the first hosted release
 
-- The opening screen loads with its landscape and self-hosted fonts; JS/CSS requests succeed.
-- A fresh test life can open a birth record, stop at a decision, and save/reload in that isolated hosted origin.
-- A direct navigation to a non-file path serves the SPA rather than a Cloudflare 404.
-- The browser console has no application errors.
+In Vercel, confirm the expected Git commit and **Ready** production deployment, then open the actual production URL and check:
 
-**Browser saves stay with their exact origin and profile.** A `workers.dev` address starts with separate storage; it does not import the life saved at `http://127.0.0.1:5173/`. Changing the Worker hostname, account subdomain, or later custom domain creates another origin. Keep the local player tab and its storage intact. The app has no export/import or cloud-save feature.
+- The opening screen, landscape, fonts, JS and CSS load without application console errors.
+- A fresh test life opens its birth record, pauses for a decision, and restores a chosen outcome after reload.
+- Direct navigation to a non-file path loads the SPA while artwork/fonts still return their real file types.
 
-## Retry, stop, and roll back
+**Saves remain local to the exact browser profile and origin.** A Vercel production hostname does not import the life at `http://127.0.0.1:5173/`. Unique deployment URLs, later custom domains, and hostname changes have separate storage. Use the stable production hostname to continue a hosted life. There is no account sync or save export/import; do not clear the local player's storage.
 
-- **Retry:** run the workflow on `main` after correcting token/account setup. Old runs whose commit is no longer main are skipped; use a fresh manual run for the current commit.
-- **Stop future releases:** set repository variable `CLOUDFLARE_DEPLOY_ENABLED=false`. This does not cancel a job that already started or take down the live site; cancel an active job separately if necessary.
-- **Roll back immediately:** open the `six-faced-life` Worker in Cloudflare, choose a known-good previous deployment under **Deployments**, and roll back to it. A first deployment has no prior release to restore. Disable automatic deployment first so an in-flight/new main build does not replace the rollback.
-- **Keep the rollback:** revert the bad application change through a new task branch and PR to `main`, run checks, and merge manually before re-enabling deployment. Do not reset, force-push, or rewrite main.
+## Retry, pause, and rollback
+
+- **Failed first build:** check Root Directory, Node 22.x, install/build/output settings and the failing test/build log. Correct repository issues through another task PR, or fix account settings and redeploy the latest intended main revision from Vercel. A first release has no earlier deployment to restore.
+- **Pause new automatic deployments:** disconnect the Git repository under the Vercel project's Git settings, or make a reviewed configuration change setting `git.deploymentEnabled=false`. Existing live content remains; cancel an in-flight deployment separately if necessary. Do not change the retired Cloudflare enable variable.
+- **Immediate rollback:** in the project's deployment history, use Vercel's rollback action to restore a known-good production deployment when available for your account. Verify the live version afterward. Pause new automatic deployments first so a new main build does not replace the rollback.
+- **Permanent correction:** revert the bad application change in a new branch/PR, merge manually after checks, then reconnect/re-enable deployment. Do not reset or force-push main. Do not buy a plan upgrade to enable an unavailable operation; report the account limit instead.
 
 ## References
 
-- [Cloudflare static SPA routing](https://developers.cloudflare.com/workers/static-assets/routing/single-page-application/)
-- [Cloudflare GitHub Actions authentication](https://developers.cloudflare.com/workers/ci-cd/external-cicd/github-actions/)
-- [Cloudflare API tokens](https://developers.cloudflare.com/fundamentals/api/get-started/create-token/)
-- [Cloudflare rollback](https://developers.cloudflare.com/workers/configuration/versions-and-deployments/rollbacks/)
+- [Vite and SPA routing on Vercel](https://vercel.com/docs/frameworks/frontend/vite)
+- [GitHub integration](https://vercel.com/docs/git/vercel-for-github)
+- [Root Directory and build configuration](https://vercel.com/docs/builds/configure-a-build)
+- [Git deployment rules](https://vercel.com/docs/project-configuration/git-configuration)
+- [Instant Rollback](https://vercel.com/docs/instant-rollback)

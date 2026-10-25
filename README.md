@@ -25,7 +25,7 @@ Saves belong to the browser profile and exact origin. Keep using `http://127.0.0
 | [AGENTS.md](AGENTS.md) | Required Git/PR workflow, usage checks, save points, and verification |
 | [CONTINUE.md](CONTINUE.md) | Current checkpoint, user decisions, and historical validation |
 | [App README](six-faced-life/README.md) | Playing, setup, scripts, implementation, and save compatibility |
-| [Cloudflare deployment](docs/deployment.md) | CI checks, production credentials, activation, verification, and rollback |
+| [Vercel deployment](docs/deployment.md) | CI checks, token-free Git import, first release, verification, and rollback |
 | [PRODUCT.md](six-faced-life/PRODUCT.md) | Approved behavior, scope, and current expansion |
 | [DESIGN.md](six-faced-life/DESIGN.md) | Implemented visual system, component behavior, and responsive rules |
 | [Design sidecar](six-faced-life/.impeccable/design.json) | Structured design tokens and component previews |
@@ -49,7 +49,7 @@ Vitest and React Testing Library cover simulation, progression, persistence, and
 
 ## CI/CD and hosting
 
-GitHub Actions runs tests, builds, and validates Cloudflare configuration on pull requests to `main` and main pushes. After deployment is enabled, successful main runs publish the tested build to a new Cloudflare Worker named `six-faced-life` on `workers.dev`. Deployment remains disabled until the production secrets and repository variable are configured. See [the deployment guide](docs/deployment.md) for setup, isolated local preview, first release, and rollback. The user requested this Cloudflare setup on 2026-10-24; PRs are still merged manually. Hosted and local browser saves belong to different origins.
+GitHub Actions runs `npm run build:vercel` (tests followed by TypeScript/Vite build) on pull requests to `main` and main pushes. Vercel's GitHub integration runs the same command independently before publishing main; no deployment tokens in GitHub are needed. After this migration PR merges, import the repository into Vercel with Root Directory `six-faced-life`, Vite preset, Node 22.x, Production Branch `main`, and output `dist`. See [the deployment guide](docs/deployment.md) for setup, isolated local preview, first release, and rollback. The user switched from Cloudflare to Vercel on 2026-10-25 before configuring hosting. PRs are still merged manually. Hosted and local browser saves belong to different origins.
 
 ## Work with Git
 
