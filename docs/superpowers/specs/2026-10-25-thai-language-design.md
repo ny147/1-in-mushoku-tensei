@@ -1,8 +1,8 @@
 # Thai language for new lives
 
 Status: approved by the user on 2026-10-25 with an explicit request to implement.
-Implementation follows the approved plan; Task 1 language persistence is verified.
-Translation catalogues and the interface remain pending; see the plan's ledger.
+Implementation and verification are complete, including the final review fixes.
+PR #7 remains draft for the user-owned CONTINUE.md conflict with newer main; see the plan's ledger.
 
 ## Intent and confirmed decisions
 
@@ -144,5 +144,6 @@ service, billing change, or automatic merge is authorized by this feature reques
 
 ## Next gate
 
-The builder review found no consequential missing decisions and the user approved
-this design. Write and review the implementation plan before product code.
+The builder review found no consequential missing decisions; the user approved
+the design, implementation plan and native execution. Tasks 1–6 are complete.
+Integration of newer main remains user-owned; do not merge or deploy automatically.
