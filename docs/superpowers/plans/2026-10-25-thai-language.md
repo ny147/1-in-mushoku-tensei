@@ -47,8 +47,8 @@
 
 Files: `src/game/types.ts`, `src/game/engine.ts`, `src/game/storage.ts`, new `src/i18n/locale.ts`, `src/game/storage.test.ts`, new `src/i18n/locale.test.ts`.
 
-- [ ] Add failing tests: a new Thai life retains `language: "th"` through save/reload; an old life without language remains byte-for-byte unchanged on disk and reads as English; invalid `"xx"`, null and prototype-key language values report recovery without overwriting the raw payload; mixed-language archives round-trip.
-- [ ] Add failing preference tests: invalid/missing/throwing reads return `"en"`; throwing writes return false; only `six-faced-life.language` is read/written, never `SAVE_KEY`.
+- [x] Add failing tests: a new Thai life retains `language: "th"` through save/reload; an old life without language remains byte-for-byte unchanged on disk and reads as English; invalid `"xx"`, null and prototype-key language values report recovery without overwriting the raw payload; mixed-language archives round-trip.
+- [x] Add failing preference tests: invalid/missing/throwing reads return `"en"`; throwing writes return false; only `six-faced-life.language` is read/written, never `SAVE_KEY`.
 
 Core round-trip assertions (inside a test using the existing memory storage helper):
 ```ts
@@ -58,9 +58,9 @@ expect(loadGame(storage).data.active).toEqual(life);
 expect(languageOf(loadGame(storage).data.active)).toBe("th");
 ```
 
-- [ ] Run `npm test -- src/game/storage.test.ts src/i18n/locale.test.ts`; confirm the new assertions fail for missing behavior.
-- [ ] Implement the declared language interfaces. Omitted `createLife` language stays compatible with existing callers; `languageOf` supplies the English default without rewriting legacy lives.
-- [ ] Rerun the same tests, inspect passing output, then commit only these task-owned files.
+- [x] Run `npm test -- src/game/storage.test.ts src/i18n/locale.test.ts`; confirm the new assertions fail for missing behavior.
+- [x] Implement the declared language interfaces. Omitted `createLife` language stays compatible with existing callers; `languageOf` supplies the English default without rewriting legacy lives.
+- [x] Rerun the same tests, inspect passing output, then commit only these task-owned files.
 
 ## Task 2: Complete Translation Catalogues
 
@@ -123,5 +123,11 @@ Files: targeted fixes/tests as needed, this ledger, `CONTINUE.md`; existing PR #
 
 ## Progress Ledger
 
-- 2026-10-25: Design approved; clean task branch resumed, usage checked (five-hour 16% and weekly 43% remaining), fetch/prune succeeded. Plan prepared and self-reviewed against the approved spec. Implementation not started; awaiting plan review/execution-method selection required by the writing-plans skill.
-- Next: review this plan and select native or subagent-driven execution; then run Task 1's failing tests before implementation.
+- 2026-10-25: The user approved both the design and plan, selected native execution, and explicitly reminded the agent to maintain save points. Do not ask for design, plan, or execution-method approval again.
+- Pre-flight: Task 1 produces `Language`, optional `Life.language` and separate preference helpers for Tasks 2/4; no conflicts. Tasks 2/3 produce presentation-only decision/history text consumed by Task 4; narrative types and validation belong together in Task 3. Task 4 document-language ownership supplies Task 5 typography selectors; no conflict.
+- Ruling: Continue on the existing required task branch and use this tracked progress ledger plus CONTINUE.md, rather than creating a worktree or a competing checkpoint — the repository workflow and approved plan already specify these locations.
+- Ruling: Introduce `NarrativeMessage`/`Entry.message` together with validation in Task 3, not as unused/unvalidated fields in Task 1 — keeps each persistence change bounded and testable. No Task 2 implementation has started.
+- Task 1: complete, base `47d25cc`, implementation commit `cc2079f`. RED: targeted run observed 11 failing persistence assertions, nine passing existing/legacy tests, and the expected missing new locale module. GREEN: the same command passed 32 tests across two files. Initial sandbox run failed before tests at esbuild spawn EPERM; authorized reruns executed normally.
+- Verification after formatting: `npm test` passed all 75 tests across eight files; `npm run build` passed TypeScript/Vite; complete six-file Task 1 diff and both new files reviewed; staged `git diff --check` passed. No browser QA yet because there is no new UI, and the translation feature remains incomplete.
+- Save point observed 2026-10-25 11:47:34 Asia/Bangkok (04:47:34 UTC): five-hour 9% remaining, resetting October 25 at 14:52:47; weekly 42% remaining, resetting October 31 at 10:39:46. Save this verified milestone before substantial catalogue work. Keep PR #7 draft.
+- Next: resume the same branch, inspect CONTINUE.md and usage, fetch/prune; start Task 2 by creating `six-faced-life/src/i18n/catalogues.test.ts` and running `npm test -- src/i18n/catalogues.test.ts` from the app. Do not redo Task 1. No further user approval is needed to continue the plan.

@@ -1,7 +1,8 @@
 # Thai language for new lives
 
 Status: approved by the user on 2026-10-25 with an explicit request to implement.
-No application implementation yet; the implementation plan follows this design.
+Implementation follows the approved plan; Task 1 language persistence is verified.
+Translation catalogues and the interface remain pending; see the plan's ledger.
 
 ## Intent and confirmed decisions
 
