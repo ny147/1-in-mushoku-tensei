@@ -4,6 +4,8 @@ A playable reincarnated-life simulator in the world of Mushoku Tensei, inspired 
 
 Your original protagonist remembers another life. Discover a birthplace and family, make childhood discoveries, study magic or swordsmanship, earn a living, form relationships, travel, grow older, and begin again after an ending.
 
+Play online at **[six-faced-life.vercel.app](https://six-faced-life.vercel.app)**. Keep using that stable hostname to continue a hosted life; local development and unique deployment URLs have separate browser saves.
+
 ## Run locally
 
 Use Node.js 22.12+ or a supported Node.js 24 release. From the repository root:
@@ -24,7 +26,7 @@ npm run preview
 
 `npm test` runs Vitest and React Testing Library. `npm run build` checks TypeScript and creates `dist/`; `npm run preview` serves that build on the URL printed by Vite. A preview on another port has separate browser saves. No `lint`, `typecheck`, or `test:e2e` script is configured.
 
-GitHub Actions and Vercel's native GitHub integration both use `npm run build:vercel`, which runs the complete tests before the TypeScript/Vite build. Vercel builds from source independently of GitHub's diagnostic artifact and automatically publishes only main. No deployment API token or GitHub secret is needed. Import the project into Vercel after this migration PR merges, with Root Directory `six-faced-life`, Vite preset, Node 22.x, Production Branch `main`, and output `dist`; the app-local `vercel.json` supplies build settings and SPA routing. The [deployment guide](../docs/deployment.md) covers setup, first release and rollback. `npm run preview -- --port 5177 --strictPort` serves an isolated local production build. Hosted browser saves are separate from local saves.
+GitHub Actions and Vercel's native GitHub integration both use `npm run build:vercel`, which runs the complete tests before the TypeScript/Vite build. Vercel builds from source independently of GitHub's diagnostic artifact and automatically publishes only main. No deployment API token or GitHub secret is needed. The project is already imported and live with Root Directory `six-faced-life`, Vite preset, Node 22.x, Production Branch `main`, and output `dist`; the app-local `vercel.json` supplies build settings and SPA routing. The [deployment guide](../docs/deployment.md) covers the current release and rollback. `npm run preview -- --port 5177 --strictPort` serves an isolated local production build. Hosted browser saves are separate from local saves.
 
 For QA that creates or replaces a life, use a separate origin so the player's save remains intact:
 
@@ -66,7 +68,7 @@ Existing first-release saves remain supported. Migration preserves the life, ran
 
 ## Scope and credits
 
-The user authorized automatic task commits, branch pushes, and PRs targeting `main` on 2026-10-24; follow-up commits update the task's open PR, and the user merges manually. On 2026-10-25 the user switched the hosting request from Cloudflare to Vercel before configuring hosting. First publication requires importing the Vercel project after the migration PR merges, with tests/build passing. Sites publishing, other new remote services, and paid upgrades remain outside this request. Follow the root [AGENTS.md](../AGENTS.md) for Git delivery, usage monitoring, and save points; the [repository README](../README.md) indexes the project documentation.
+The user authorized automatic task commits, branch pushes, and PRs targeting `main` on 2026-10-24; follow-up commits update the task's open PR, and the user merges manually. On 2026-10-25 the user switched from Cloudflare to Vercel, manually merged migration PR #5 and authorized the first deployment. That deployment is live and its tests/build and hosted smoke checks passed. Sites publishing, other new remote services, and paid upgrades remain outside this request. Follow the root [AGENTS.md](../AGENTS.md) for Git delivery, usage monitoring, and save points; the [repository README](../README.md) indexes the project documentation.
 
 This is an unofficial fan creation. Mushoku Tensei and its setting belong to their respective creators. The code, protagonist names, event prose, and landscape artwork in this project are original. Game lifespans, demographics, probabilities, regional weights, and event timing are authored balance; the map is an illustrated schematic. The first release uses a bounded event catalogue and choice-based danger rather than tactical combat.
 
