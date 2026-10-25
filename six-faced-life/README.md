@@ -34,6 +34,8 @@ npm run dev -- --port 5174
 
 ## Playing
 
+- Choose **English** or **ไทย** in the new-life form. The form previews that language before creation; the choice stays with that life through reload and archived retrospectives. Existing lives without a language remain English. Canceling setup preserves the current life, and replacing an unfinished life still requires confirmation.
+- Thai covers story events and choices, chronicle entries, spells/careers/world information, help, accessibility labels and save-recovery messages. Personal names remain as entered or generated. Mixed-language past lives show their language; opening one uses its own language, and returning restores the active language.
 - Begin a new life, optionally supplying a name and birthplace.
 - Open the birth record and make your first memory-driven choice.
 - Play/pause, select a speed, advance one year, or jump to the next decision. Decisions always stop time. Space toggles playback outside form controls.
@@ -51,6 +53,8 @@ If saving fails, keep the tab open and use Retry save to write the latest in-mem
 
 ## Implementation
 
+- `src/i18n/`: English/Thai presentation catalogues and language context, with a separate `six-faced-life.language` preference for the next new-life form. Preference failure does not affect game-save recovery. No translation service is contacted while playing.
+- `src/game/narrative.ts`: bounded presentation references captured with new chronicle entries. Canonical English title/text and stable game identifiers remain in saves; seeded rules do not depend on language. Unknown future references retain their original text, and older English histories need no rewrite.
 - `src/game/engine.ts`: seeded random births, time progression, choices, training, careers, aging, and endings.
 - `src/game/events.ts`: the 25 original events and combined 55-event catalogue.
 - `src/game/expanded-events.ts`: 30 additional stories, including branching research, study choices, profession-specific problems, regional events, and legacy decisions.
@@ -72,4 +76,4 @@ This is an unofficial fan creation. Mushoku Tensei and its setting belong to the
 
 The reference HTML and JavaScript captured during investigation live outside this project and are never included in its build. See the parent `docs/research/reference-findings.md` for evidence and analysis limitations.
 
-Typography: Cormorant Garamond and DM Sans, self-hosted under the SIL Open Font License. License files are in `public/assets/`. See [ASSETS.md](ASSETS.md) for the original illustration's generation record.
+Typography: Cormorant Garamond and DM Sans for English, with Noto Serif Thai and Noto Sans Thai for Thai, all self-hosted under the SIL Open Font License. Original license files and pinned Thai font provenance are recorded in [ASSETS.md](ASSETS.md), alongside the illustration's generation record.

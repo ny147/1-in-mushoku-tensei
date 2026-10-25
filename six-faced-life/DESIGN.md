@@ -107,6 +107,8 @@ components:
 
 **Creative North Star: "The illustrated life chronicle"**
 
+Thai lives preserve this direction with self-hosted Noto Serif Thai for narrative headings and Noto Sans Thai for practical text. English retains Cormorant Garamond and DM Sans. The document language follows the current form/life/retrospective, with Thai-specific line heights, neutral tracking and wrapping controls to keep combining marks and longer labels legible. Language selection is a labeled native select in the new-life form, with a nearby fixed-language explanation; mixed archive entries carry explicit language labels. See [ASSETS.md](ASSETS.md) for pinned font sources and licenses.
+
 Warm parchment, dark green ink, and original painted fantasy countryside make the interface feel like a personal record. Expressive serif titles carry the story; compact sans-serif controls keep the simulation legible. Gold is a restrained accent, never the dominant surface.
 
 This documents the implemented system in `src/styles.css` and the React components. Typography tokens describe base roles; media queries adjust individual components. The approved direction in PRODUCT.md remains the visual authority.

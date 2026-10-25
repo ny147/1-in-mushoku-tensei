@@ -106,10 +106,10 @@ expect(window.localStorage.getItem(SAVE_KEY)).toBe(before);
 
 Files: `src/styles.css`, licensed Thai font files/licenses under `public/assets/`, `ASSETS.md`, `README.md`, `PRODUCT.md`, `DESIGN.md`, `.impeccable/design.json`.
 
-- [ ] Verify font provenance from the font project's primary source and license before adding self-hosted narrative/control coverage. Retain existing assets and licenses; no runtime font CDN.
-- [ ] Scope Thai font/line-height/tracking rules with document `lang`; avoid clipping combining marks or applying English uppercase tracking. Let controls/status/choice text wrap and preserve 44px utility targets.
-- [ ] Update docs to describe only actual implemented behavior, language ownership, legacy compatibility, separate preference storage, and font credits. Update design sidecar consistently.
-- [ ] Run `npm test` and `npm run build`; inspect complete output, then commit task-owned code/assets/docs.
+- [x] Verify font provenance from the font project's primary source and license before adding self-hosted narrative/control coverage. Retain existing assets and licenses; no runtime font CDN.
+- [x] Scope Thai font/line-height/tracking rules with document `lang`; avoid clipping combining marks or applying English uppercase tracking. Let controls/status/choice text wrap and preserve 44px utility targets.
+- [x] Update docs to describe only actual implemented behavior, language ownership, legacy compatibility, separate preference storage, and font credits. Update design sidecar consistently.
+- [x] Run `npm test` and `npm run build`; inspect complete output, then commit task-owned code/assets/docs.
 
 ## Task 6: Whole-Flow Verification, Review and Delivery
 
@@ -139,3 +139,7 @@ Files: targeted fixes/tests as needed, this ledger, `CONTINUE.md`; existing PR #
 - Ruling: UI catalogue keys reuse canonical English messages, while story tables use stable event/choice IDs and domain IDs still select original game data before display translation. This avoids changing rule values; catalogue and rendered-text audits guard coverage. History references snapshot generated choice wording, spell IDs and family/birth/ending parameters rather than reading later state.
 - Ruling: The existing 25-lifetime school/vocation test exceeded its default five-second timeout under the expanded parallel suite (5.33s), while passing in targeted runs. Set only that simulation test to a bounded 30s, matching the existing 100-lifetime test strategy; no seeds or assertions removed. The next full run passed 96/96.
 - Browser QA in progress on isolated port 5178: desktop 1280px, phones 390px/320px; Thai opening/birth, pending reload/pause, choice/outcome/focus, study/reload, full spellbook, world/help, menu Escape, Space playback; no inspected overflow or captured warnings/errors. A Thai test life completed at 72 years; ending/archive and English-active/Thai-retrospective/return-language navigation passed. Browser fault injection remains covered by automated tests rather than browser mutation APIs. Port 5173 browser storage was never opened. An npm flag-parsing issue briefly started a server there; it was stopped immediately before any browser navigation and restarted directly on 5178.
+
+- Milestone commits: Task 2 9f546c8; Task 3 4f6c808; Task 4 c42bc44. Task 5 complete: pinned/unmodified Noto Sans Thai and Noto Serif Thai plus OFL licenses; scoped typography; README/PRODUCT/DESIGN/sidecar/ASSETS documentation updated.
+- Final pre-review verification at 2026-10-25 13:52 Asia/Bangkok: npm test passed 98/98 across eleven files; npm run build passed TypeScript/Vite (JS 499.89 kB / 152.04 kB gzip; CSS 52.29 kB / 11.03 kB gzip). Verified 36 local doc links, structured design JSON and both pinned font hashes.
+- Task 6 browser evidence: Thai 72-year ending with one h1 and zero unwritten timeline labels; archived Thai life opened over English active life and returned to English; English opening and pending decision remained English; canceling Thai preview retained English progress. Both self-hosted Thai fonts reported available; no overflow on inspected 1280/390/320px views and no captured app warnings/errors. QA screenshot saved outside repository. Remaining: fresh whole-branch review, any required fixes, final Git/delivery checkpoint and PR update.
