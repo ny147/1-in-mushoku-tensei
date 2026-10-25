@@ -1,3 +1,5 @@
+import { useI18n } from "../i18n/context";
+import { decisionText, entryText } from "../i18n/story";
 import {
   ArrowDown,
   ArrowRight,
@@ -63,10 +65,13 @@ export const focusIcons: Record<Focus, typeof Heart> = {
 };
 
 export function CharacterStats({ life }: { life: Life }) {
+  const { t } = useI18n();
+
   return (
     <section className="rail-section">
       <h2>
-        Your condition<span>0–100</span>
+        {t("Your condition")}
+        <span>{t("0–100")}</span>
       </h2>
       <div className="stat-list">
         {statMeta.map(({ id, label, icon: Icon, color }) => (
@@ -74,14 +79,14 @@ export function CharacterStats({ life }: { life: Life }) {
             <div>
               <span>
                 <Icon size={15} strokeWidth={1.6} />
-                {label}
+                {t(label)}
               </span>
               <strong>{Math.round(life.stats[id])}</strong>
             </div>
             <div
               className="stat-track"
               role="meter"
-              aria-label={label}
+              aria-label={t(label)}
               aria-valuenow={Math.round(life.stats[id])}
               aria-valuemin={0}
               aria-valuemax={100}
@@ -93,9 +98,9 @@ export function CharacterStats({ life }: { life: Life }) {
       </div>
       <div className="money-row">
         <Wallet size={17} />
-        <span>Your savings</span>
+        <span>{t("Your savings")}</span>
         <strong>
-          {life.coins.toLocaleString()} <small>silver</small>
+          {t(life.coins.toLocaleString())} <small>{t("silver")}</small>
         </strong>
       </div>
     </section>
@@ -110,6 +115,8 @@ export function Training({
   onStudyChange?: (school: MagicSchool) => void;
   onSpellbook?: () => void;
 }) {
+  const { t } = useI18n();
+
   const studies = getProgression(life);
   const tracks = [
     {
@@ -132,7 +139,7 @@ export function Training({
   ];
   return (
     <section className="rail-section training-section">
-      <h2>The skills you carry</h2>
+      <h2>{t("The skills you carry")}</h2>
       {tracks.map(({ label, xp, cap, icon: Icon, className }) => {
         const tier = Math.min(cap, RANK_XP.filter((n) => xp >= n).length - 1);
         const next = RANK_XP[tier + 1];
@@ -146,19 +153,21 @@ export function Training({
             </div>
             <div className="training-info">
               <div>
-                <h3>{label}</h3>
-                <span>{rankFor(xp, cap)}</span>
+                <h3>{t(label)}</h3>
+                <span>{t(rankFor(xp, cap))}</span>
               </div>
               <div className="skill-progress">
                 <span style={{ width: `${progress}%` }} />
               </div>
               <p>
-                {Math.round(xp)} experience
-                {xp >= (next ?? Infinity)
-                  ? " · seek a mentor to progress"
-                  : next
-                    ? ` · ${next} for next rank`
-                    : " · mastery"}
+                {Math.round(xp)} {t(" experience")}
+                {t(
+                  xp >= (next ?? Infinity)
+                    ? " · seek a mentor to progress"
+                    : next
+                      ? ` · ${next} for next rank`
+                      : " · mastery",
+                )}
               </p>
             </div>
           </div>
@@ -172,17 +181,22 @@ export function Training({
       {life.flags.guildMember && (
         <div className="guild-line">
           <Shield size={16} />
-          <span>Adventurers’ Guild</span>
-          <strong>Rank {guildRank(life.training.guildXp)}</strong>
+          <span>{t("Adventurers’ Guild")}</span>
+          <strong>
+            {t("Rank ")}
+            {t(guildRank(life.training.guildXp))}
+          </strong>
         </div>
       )}
     </section>
   );
 }
 export function Family({ life }: { life: Life }) {
+  const { t } = useI18n();
+
   return (
     <section className="rail-section family-section">
-      <h2>The people beside you</h2>
+      <h2>{t("The people beside you")}</h2>
       {life.family.map((p) => (
         <div className="family-person" key={p.id}>
           <span
@@ -191,12 +205,14 @@ export function Family({ life }: { life: Life }) {
             {p.name.charAt(0)}
           </span>
           <div>
-            <strong>{p.name}</strong>
+            <strong>{t(p.name)}</strong>
             <span>
-              {p.role}
-              {life.flags[`farewell-${p.id}`]
-                ? " · Remembered"
-                : ` · ${life.age - p.bornAt} years old`}
+              {t(p.role)}
+              {t(
+                life.flags[`farewell-${p.id}`]
+                  ? " · Remembered"
+                  : ` · ${life.age - p.bornAt} years old`,
+              )}
             </span>
           </div>
           {!life.flags[`farewell-${p.id}`] && (
@@ -214,13 +230,15 @@ export function FocusPicker({
   life: Life;
   onFocus: (focus: Focus) => void;
 }) {
+  const { t } = useI18n();
+
   const [expanded, setExpanded] = useState(false);
   const Icon = focusIcons[life.focus];
   return (
     <section className="focus-panel">
       <div className="section-topline">
-        <h2>This year’s focus</h2>
-        <span>Change anytime</span>
+        <h2>{t("This year’s focus")}</h2>
+        <span>{t("Change anytime")}</span>
       </div>
       <button
         className="focus-current"
@@ -231,8 +249,8 @@ export function FocusPicker({
           <Icon size={22} strokeWidth={1.4} />
         </span>
         <span>
-          <strong>{FOCUSES[life.focus].name}</strong>
-          <small>{FOCUSES[life.focus].description}</small>
+          <strong>{t(FOCUSES[life.focus].name)}</strong>
+          <small>{t(FOCUSES[life.focus].description)}</small>
         </span>
         <ChevronDown size={16} className={expanded ? "rotated" : ""} />
       </button>
@@ -240,7 +258,7 @@ export function FocusPicker({
         <div
           className="focus-options"
           role="group"
-          aria-label="Choose this year's focus"
+          aria-label={t("Choose this year's focus")}
         >
           {Object.entries(FOCUSES)
             .filter(([, f]) => life.age >= f.minAge)
@@ -258,8 +276,8 @@ export function FocusPicker({
                 >
                   <OptionIcon size={17} />
                   <span>
-                    <strong>{focus.name}</strong>
-                    <small>{focus.description}</small>
+                    <strong>{t(focus.name)}</strong>
+                    <small>{t(focus.description)}</small>
                   </span>
                   {id === life.focus && <Check size={16} />}
                 </button>
@@ -268,7 +286,7 @@ export function FocusPicker({
         </div>
       )}
       {life.age < 5 && (
-        <p className="focus-hint">More paths open as you grow.</p>
+        <p className="focus-hint">{t("More paths open as you grow.")}</p>
       )}
     </section>
   );
@@ -286,7 +304,12 @@ export function DecisionPanel({
   outcome?: ChoiceResult | null;
   automatic?: boolean;
 }) {
-  const decision = getDecision(life);
+  const { t } = useI18n();
+
+  const canonicalDecision = getDecision(life);
+  const decision = canonicalDecision
+    ? decisionText(canonicalDecision, life, life.language ?? "en")
+    : null;
   if (!decision && outcome)
     return <ChoiceOutcome result={outcome} onContinue={onAdvance} />;
   if (!decision)
@@ -295,14 +318,16 @@ export function DecisionPanel({
         <Feather size={23} strokeWidth={1.2} />
         <div>
           <h2 id="decision-heading" tabIndex={-1}>
-            A little time to live.
+            {t("A little time to live.")}
           </h2>
           <p>
-            Choose your focus below, then continue to the next decision or press
-            Play.
+            {t(
+              "Choose your focus below, then continue to the next decision or press Play.",
+            )}
           </p>
           <button className="text-button" onClick={onAdvance}>
-            Continue to next decision <ArrowRight size={15} />
+            {t("Continue to next decision ")}
+            <ArrowRight size={15} />
           </button>
         </div>
       </section>
@@ -311,14 +336,15 @@ export function DecisionPanel({
     <section className="decision-panel" aria-labelledby="decision-heading">
       <div className="decision-heading">
         <span>
-          <Sparkles size={17} />A choice awaits
+          <Sparkles size={17} />
+          {t("A choice awaits")}
         </span>
-        <span>{decision.kind}</span>
+        <span>{t(decision.kind)}</span>
       </div>
       <h2 id="decision-heading" tabIndex={-1}>
-        {decision.title}
+        {t(decision.title)}
       </h2>
-      <p className="decision-narrative">{decision.text}</p>
+      <p className="decision-narrative">{t(decision.text)}</p>
       <div className="choices">
         {decision.choices.map((choice) => {
           const cost = choice.cost ?? 0;
@@ -332,12 +358,14 @@ export function DecisionPanel({
             >
               <span className="choice-dot" />
               <span>
-                <strong>{choice.label}</strong>
+                <strong>{t(choice.label)}</strong>
                 <small>
-                  {choice.description}
-                  {cost > life.coins
-                    ? ` · Need ${cost - life.coins} more silver`
-                    : ""}
+                  {t(choice.description)}
+                  {t(
+                    cost > life.coins
+                      ? ` · Need ${cost - life.coins} more silver`
+                      : "",
+                  )}
                 </small>
               </span>
               <ArrowRight size={17} />
@@ -347,9 +375,11 @@ export function DecisionPanel({
       </div>
       <p className="decision-note">
         <span className="tiny-dot" />
-        {automatic
-          ? "Watch mode will choose an affordable option without a danger marker. Pause to decide yourself."
-          : "Time pauses while you decide. There is no need to rush."}
+        {t(
+          automatic
+            ? "Watch mode will choose an affordable option without a danger marker. Pause to decide yourself."
+            : "Time pauses while you decide. There is no need to rush.",
+        )}
       </p>
     </section>
   );
@@ -370,6 +400,8 @@ export function LifeRecord({
   life: Life;
   all?: boolean;
 }) {
+  const { t } = useI18n();
+
   const [count, setCount] = useState(all ? 1000 : 5);
   const [filter, setFilter] = useState("all");
   const entries = [...life.history]
@@ -379,10 +411,11 @@ export function LifeRecord({
     <section className="life-record">
       <div className="section-topline">
         <h2>
-          Your chronicle
+          {t("Your chronicle")}
           <span>
-            {life.history.length}{" "}
-            {life.history.length === 1 ? "moment" : "moments"}
+            {life.history.length}
+            {t(" ")}
+            {t(life.history.length === 1 ? "moment" : "moments")}
           </span>
         </h2>
         <div className="record-filters">
@@ -390,19 +423,20 @@ export function LifeRecord({
             onClick={() => setFilter("all")}
             className={filter === "all" ? "active" : ""}
           >
-            All
+            {t("All")}
           </button>
           <button
             onClick={() => setFilter("memories")}
             className={filter === "memories" ? "active" : ""}
           >
-            Memories
+            {t("Memories")}
           </button>
         </div>
       </div>
       <div className="record-entries">
         {entries.slice(0, count).map((entry, i) => {
           const Icon = entryIcons[entry.kind];
+          const localized = entryText(entry, life.language ?? "en");
           return (
             <article className={`record-entry ${entry.kind}`} key={entry.id}>
               <span className="record-marker">
@@ -410,12 +444,15 @@ export function LifeRecord({
               </span>
               <div className="record-entry-content">
                 <div>
-                  <h3>{entry.title}</h3>
-                  <span>Age {entry.age}</span>
+                  <h3>{localized.title}</h3>
+                  <span>
+                    {t("Age ")}
+                    {entry.age}
+                  </span>
                 </div>
-                <p>{entry.text}</p>
+                <p>{localized.text}</p>
                 {i === 0 && life.phase === "alive" && (
-                  <span className="latest-label">Latest moment</span>
+                  <span className="latest-label">{t("Latest moment")}</span>
                 )}
               </div>
             </article>
@@ -423,7 +460,9 @@ export function LifeRecord({
         })}
         {!entries.length && (
           <p className="empty-copy">
-            Your memories of another life will find their way onto these pages.
+            {t(
+              "Your memories of another life will find their way onto these pages.",
+            )}
           </p>
         )}
       </div>
@@ -432,7 +471,7 @@ export function LifeRecord({
           className="text-button show-earlier"
           onClick={() => setCount((n) => n + 12)}
         >
-          Read earlier moments
+          {t("Read earlier moments")}
           <ArrowDown size={14} />
         </button>
       )}
@@ -440,6 +479,8 @@ export function LifeRecord({
   );
 }
 export function LifeTimeline({ life }: { life: Life }) {
+  const { t } = useI18n();
+
   const ended = life.phase === "ended";
   const max = ended
     ? life.age + 1
@@ -447,18 +488,18 @@ export function LifeTimeline({ life }: { life: Life }) {
   return (
     <section className="life-timeline">
       <div className="section-topline">
-        <h2>{ended ? "A lifetime, remembered" : "A lifetime, unfolding"}</h2>
-        <span>One square, one year</span>
+        <h2>{t(ended ? "A lifetime, remembered" : "A lifetime, unfolding")}</h2>
+        <span>{t("One square, one year")}</span>
       </div>
       <div className="year-grid">
         {Array.from({ length: max }, (_, i) => (
           <span
             key={i}
-            title={
+            title={t(
               i <= life.age
                 ? `Age ${i}${life.history.some((e) => e.age === i && e.kind === "memory") ? " · A memory" : ""}`
-                : `Age ${i} · Unwritten`
-            }
+                : `Age ${i} · Unwritten`,
+            )}
             className={`${i < life.age ? "lived" : ""} ${i === life.age ? "current" : ""} ${life.history.some((e) => e.age === i && e.kind === "memory") ? "remembered" : ""}`}
           />
         ))}
@@ -466,12 +507,12 @@ export function LifeTimeline({ life }: { life: Life }) {
       <div className="timeline-key">
         <span>
           <i />
-          The years you’ve lived
+          {t("The years you’ve lived")}
         </span>
         {!ended && (
           <span>
             <i />
-            The story still ahead
+            {t("The story still ahead")}
           </span>
         )}
       </div>
@@ -497,39 +538,54 @@ export function LifeView({
   automatic?: boolean;
   onSpellbook?: () => void;
 }) {
+  const { t } = useI18n();
+
   return (
     <div
       className={`life-columns page-enter ${life.pending ? "has-decision" : ""}`}
     >
       <div className="story-column">
         <section className="scene">
-          <Landscape alt="An imagined countryside of the Six-Faced World, painted in warm morning light" />
+          <Landscape
+            alt={t(
+              "An imagined countryside of the Six-Faced World, painted in warm morning light",
+            )}
+          />
           <div className="scene-shade" />
           <div className="scene-top">
             <span>
               <MapPin size={13} />
-              {REGIONS[life.region].name}
+              {t(REGIONS[life.region].name)}
             </span>
-            <span>Scenario year {life.age + 1}</span>
+            <span>
+              {t("Scenario year ")}
+              {life.age + 1}
+            </span>
           </div>
           <div className="scene-caption">
-            <span>{lifeStage(life.age, life.race)}</span>
+            <span>{t(lifeStage(life.age, life.race))}</span>
             <h2>
-              {life.age < 3
-                ? "Everything is new. Except you."
-                : life.age < 15
-                  ? "A whole world to grow into."
-                  : life.age < 45
-                    ? "Make this life your own."
-                    : "The things that stay with us."}
+              {t(
+                life.age < 3
+                  ? "Everything is new. Except you."
+                  : life.age < 15
+                    ? "A whole world to grow into."
+                    : life.age < 45
+                      ? "Make this life your own."
+                      : "The things that stay with us.",
+              )}
             </h2>
             <p>
-              {life.age < 3
-                ? "Small hands. Old memories. Endless possibility."
-                : careerTitle(life) + " · " + REGIONS[life.region].short}
+              {t(
+                life.age < 3
+                  ? "Small hands. Old memories. Endless possibility."
+                  : careerTitle(life) + " · " + REGIONS[life.region].short,
+              )}
             </p>
           </div>
-          <span className="scene-art-note">An imagined view of Asura</span>
+          <span className="scene-art-note">
+            {t("An imagined view of Asura")}
+          </span>
         </section>
         <DecisionPanel
           life={life}
@@ -553,23 +609,23 @@ export function LifeView({
         <Family life={life} />
         <section className="rail-section location-section">
           <div className="section-topline">
-            <h2>Your corner of the world</h2>
+            <h2>{t("Your corner of the world")}</h2>
             <Compass size={16} />
           </div>
           <WorldMap selected={life.region} compact />
           <p>
             <MapPin size={13} />
-            {REGIONS[life.region].name}
+            {t(REGIONS[life.region].name)}
           </p>
         </section>
         <div className="rail-quote">
           <Leaf size={20} strokeWidth={1.2} />
           <p>
-            “This time, I’ll live
+            {t("“This time, I’ll live")}
             <br />
-            without regrets.”
+            {t("without regrets.”")}
           </p>
-          <span>A promise to yourself</span>
+          <span>{t("A promise to yourself")}</span>
         </div>
       </aside>
     </div>
@@ -583,6 +639,8 @@ export function CharacterView({
   life: Life;
   onStudyChange: (school: MagicSchool) => void;
 }) {
+  const { t } = useI18n();
+
   return (
     <div className="character-page page-enter">
       <div className="character-passport">
@@ -595,60 +653,65 @@ export function CharacterView({
             {life.name} {life.surname}
           </h2>
           <p>
-            {RACES[life.race].name} · {life.age} years old ·{" "}
-            {lifeStage(life.age, life.race)}
+            {t(RACES[life.race].name)} {t(" · ")}
+            {life.age} {t(" years old ·")}
+            {t(" ")}
+            {t(lifeStage(life.age, life.race))}
           </p>
           <span className="subtle-tag">
-            <Sparkles size={13} />A reincarnated soul
+            <Sparkles size={13} />
+            {t("A reincarnated soul")}
           </span>
         </div>
       </div>
       <div className="character-detail-grid">
         <section>
-          <h2>The life you were given</h2>
+          <h2>{t("The life you were given")}</h2>
           <dl className="detail-list">
             <div>
-              <dt>Born in</dt>
-              <dd>{REGIONS[life.birthRegion].name}</dd>
+              <dt>{t("Born in")}</dt>
+              <dd>{t(REGIONS[life.birthRegion].name)}</dd>
             </div>
             <div>
-              <dt>Home now</dt>
-              <dd>{REGIONS[life.region].name}</dd>
+              <dt>{t("Home now")}</dt>
+              <dd>{t(REGIONS[life.region].name)}</dd>
             </div>
             <div>
-              <dt>Family background</dt>
-              <dd>{life.background}</dd>
+              <dt>{t("Family background")}</dt>
+              <dd>{t(life.background)}</dd>
             </div>
             <div>
-              <dt>Natural aptitude</dt>
-              <dd>{life.aptitude}</dd>
+              <dt>{t("Natural aptitude")}</dt>
+              <dd>{t(life.aptitude)}</dd>
             </div>
             <div>
-              <dt>Temperament</dt>
-              <dd>{life.personality}</dd>
+              <dt>{t("Temperament")}</dt>
+              <dd>{t(life.personality)}</dd>
             </div>
             <div>
-              <dt>Calling</dt>
-              <dd>{careerTitle(life)}</dd>
+              <dt>{t("Calling")}</dt>
+              <dd>{t(careerTitle(life))}</dd>
             </div>
             <div>
-              <dt>Your people</dt>
-              <dd>{RACES[life.race].description}</dd>
+              <dt>{t("Your people")}</dt>
+              <dd>{t(RACES[life.race].description)}</dd>
             </div>
           </dl>
           <div className="memory-summary">
             <Sparkles size={20} />
-            <h3>What you remember</h3>
+            <h3>{t("What you remember")}</h3>
             <p>
-              {life.flags.silentCasting
-                ? "You discovered that intention can shape a spell without an incantation."
-                : "You remember another world, another lifetime. These memories give you a different way of seeing."}
+              {t(
+                life.flags.silentCasting
+                  ? "You discovered that intention can shape a spell without an incantation."
+                  : "You remember another world, another lifetime. These memories give you a different way of seeing.",
+              )}
             </p>
             {life.flags.sharedSecret && (
-              <p>You have trusted someone with your secret.</p>
+              <p>{t("You have trusted someone with your secret.")}</p>
             )}
             {life.flags.earlyMana && (
-              <p>Early practice is helping your mana develop.</p>
+              <p>{t("Early practice is helping your mana develop.")}</p>
             )}
           </div>
           <Spellbook life={life} />

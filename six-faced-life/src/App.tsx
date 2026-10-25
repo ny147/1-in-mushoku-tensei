@@ -1,3 +1,10 @@
+import { LanguageProvider, useI18n } from "./i18n/context";
+import { translate } from "./i18n/messages";
+import {
+  languageOf,
+  readLanguagePreference,
+  writeLanguagePreference,
+} from "./i18n/locale";
 /*
  * DIRECTION: An intimate fantasy chronicle: cream paper, green ink, an original
  * painted landscape, and a continuous life record. Experience mode; the player
@@ -29,6 +36,7 @@ import {
 } from "lucide-react";
 import type {
   Focus,
+  Language,
   Life,
   MagicSchool,
   RegionId,
@@ -72,6 +80,8 @@ function readInitial() {
   }
 }
 function Brand() {
+  const { t } = useI18n();
+
   return (
     <div className="brand">
       <svg viewBox="0 0 40 44" aria-hidden="true">
@@ -79,8 +89,8 @@ function Brand() {
         <path d="m12 8 16 28M28 8 12 36" opacity=".4" />
       </svg>
       <div>
-        <strong>Six-Faced Life</strong>
-        <span>A second chance</span>
+        <strong>{t("Six-Faced Life")}</strong>
+        <span>{t("A second chance")}</span>
       </div>
     </div>
   );
@@ -88,6 +98,14 @@ function Brand() {
 
 export default function App() {
   const [initial] = useState(readInitial);
+  const [preferredLanguage, setPreferredLanguage] = useState<Language>(() => {
+    try {
+      return readLanguagePreference(window.localStorage);
+    } catch {
+      return "en";
+    }
+  });
+  const [draftLanguage, setDraftLanguage] = useState(preferredLanguage);
   const [data, setData] = useState<SaveData>(initial.data);
   const [notice, setNotice] = useState(initial.error);
   const [saved, setSaved] = useState(!initial.error);
@@ -110,6 +128,28 @@ export default function App() {
   const dataRef = useRef(data);
   dataRef.current = data;
   const life = data.active;
+  const language =
+    page === "new"
+      ? draftLanguage
+      : page === "archive" && preview
+        ? languageOf(preview)
+        : life
+          ? languageOf(life)
+          : draftLanguage;
+  const t = useCallback(
+    (
+      key: string | null | undefined,
+      params?: Record<string, string | number>,
+    ) => translate(language, key ?? "", params),
+    [language],
+  );
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.title =
+      language === "th"
+        ? "Six-Faced Life — บันทึกชีวิต"
+        : "Six-Faced Life — A second chance";
+  }, [language]);
 
   function persistLatest() {
     let ok = false;
@@ -143,7 +183,7 @@ export default function App() {
     if (persistLatest()) {
       setLoadFailed(false);
       setNotice(null);
-      setAnnouncement("Your latest progress is saved on this device.");
+      setAnnouncement(t("Your latest progress is saved on this device."));
     }
   }
 
@@ -271,14 +311,26 @@ export default function App() {
   }, [life?.phase, page, menuOpen]);
 
   function navigate(next: Page) {
+    setAnnouncement("");
+    if (next === "new" && life) setDraftLanguage(preferredLanguage);
     setPage(next);
     setMenuOpen(false);
     setPreview(null);
     setFocusTarget("page-title");
     window.scrollTo({ top: 0, behavior: "instant" });
   }
-  function startNew(name: string, region?: RegionId) {
-    updateLife(() => createLife({ name, region }));
+  function startNew(
+    name: string,
+    region?: RegionId,
+    selectedLanguage: Language = draftLanguage,
+  ) {
+    updateLife(() => createLife({ name, region, language: selectedLanguage }));
+    setPreferredLanguage(selectedLanguage);
+    try {
+      writeLanguagePreference(window.localStorage, selectedLanguage);
+    } catch {
+      /* Preference storage is optional. */
+    }
     setAuto(false);
     setPlaying(false);
     setOutcome(null);
@@ -325,394 +377,431 @@ export default function App() {
   const showTime = page === "chronicle" && life?.phase === "alive" && !preview;
 
   return (
-    <div className="app-shell">
-      <a className="skip-link" href="#main-content">
-        Skip to your story
-      </a>
-      <div
-        className="sr-only"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        {announcement}
-      </div>
-      <div className="mobile-top">
-        <Brand />
-        <button
-          className="icon-button"
-          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-          aria-expanded={menuOpen}
-          aria-controls="site-navigation"
-          ref={menuButton}
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-      <aside
-        id="site-navigation"
-        className={`sidebar ${menuOpen ? "menu-open" : ""}`}
-      >
-        <Brand />
-        <div className="sidebar-rule" />
-        <nav className="main-nav" aria-label="Main navigation">
-          {navItems.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              className={
-                page === id || (id === "chronicle" && page === "new")
-                  ? "active"
-                  : ""
-              }
-              onClick={() => navigate(id === "chronicle" && !life ? "new" : id)}
-              aria-current={page === id ? "page" : undefined}
-            >
-              <Icon size={18} strokeWidth={1.6} />
-              {label}
-              {id === "chronicle" && <span className="nav-active-dot" />}
-              {id === "archive" && data.archive.length > 0 && (
-                <span className="nav-count">{data.archive.length}</span>
-              )}
-            </button>
-          ))}
-        </nav>
-        {life && (
-          <div className="sidebar-character">
-            <div className="sidebar-avatar">
-              {life.name.charAt(0)}
-              <Leaf size={14} />
-            </div>
-            <strong>
-              {life.name} {life.surname}
-            </strong>
-            <p>
-              {RACES[life.race].name} · Age {life.age}
-            </p>
-            <span>
-              <MapPinIcon />
-              {REGIONS[life.region].short}
-            </span>
-            <div className="sidebar-soul">
-              <Sparkles size={13} />A reincarnated soul
-            </div>
-          </div>
-        )}
-        <div className="sidebar-bottom">
-          <button onClick={() => navigate("help")}>
-            <CircleHelp size={17} />
-            How to play
-          </button>
-          <div className="sidebar-colophon">
-            <Leaf size={19} strokeWidth={1.2} />
-            <p>
-              In the world of
-              <br />
-              <strong>Mushoku Tensei</strong>
-            </p>
-            <span>An unofficial fan creation</span>
-          </div>
-        </div>
-      </aside>
-      <main id="main-content" className="main-content" tabIndex={-1}>
-        <header className="topbar">
-          <div className="breadcrumb">
-            <span>The Six-Faced World</span>
-            <ChevronRight size={13} />
-            <strong>
-              {page === "new" ||
-              (life?.phase === "birth" && page === "chronicle")
-                ? "A new beginning"
-                : page === "help"
-                  ? "How to play"
-                  : navItems.find((n) => n.id === page)?.label}
-            </strong>
-          </div>
-          <div className="topbar-actions">
-            <span
-              className={`save-indicator ${saved ? "" : "unsaved"}`}
-              title="Lives are stored only in this browser"
-            >
-              {saved ? <Check size={13} /> : <VolumeX size={13} />}
-              {saved ? "Saved on this device" : "Not saved"}
-            </span>
-            {page !== "new" && (
-              <button
-                className="button new-life-button"
-                onClick={() => navigate("new")}
-              >
-                <Plus size={15} />
-                New life
-              </button>
-            )}
-          </div>
-        </header>
-        {notice && !loadFailed && (
-          <div className="notice" role="alert">
-            <p>{notice}</p>
-            <button
-              className="icon-button"
-              aria-label="Dismiss message"
-              onClick={() => setNotice(null)}
-            >
-              <X size={17} />
-            </button>
-          </div>
-        )}
-        {!saved && (
-          <div className="save-recovery" role="alert">
-            <div>
-              <strong>Your progress has not been saved.</strong>
-              <p>
-                {loadFailed && !dirty.current
-                  ? `${notice ?? "Your existing save could not be opened."} Try loading again when browser storage is available.`
-                  : "Your current life is still open here. Keep this tab open and try saving again before you leave."}
-              </p>
-            </div>
-            <button className="button" onClick={retryStorage}>
-              {loadFailed && !dirty.current ? "Retry loading" : "Retry save"}
-            </button>
-          </div>
-        )}
+    <LanguageProvider language={language}>
+      <div className="app-shell">
+        <a className="skip-link" href="#main-content">
+          {t("Skip to your story")}
+        </a>
         <div
-          className={`page-content ${page === "new" ? "new-page-content" : ""}`}
+          className="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
         >
-          {page !== "new" &&
-            !(life?.phase === "birth" && page === "chronicle") && (
-              <header className="page-heading">
-                <div>
-                  <h1 id="page-title" tabIndex={-1}>
-                    {page === "chronicle"
-                      ? life?.phase === "ended"
-                        ? "A life worth remembering."
-                        : life
-                          ? `${life.name} ${life.surname}`
-                          : "Your story begins here."
-                      : titles[page]}
-                  </h1>
-                  <p>
-                    {page === "chronicle" && life
-                      ? `${RACES[life.race].name} · ${lifeStage(life.age, life.race)} · ${REGIONS[life.region].name}`
-                      : page === "character"
-                        ? "The gifts you were given. The choices you’ve made."
-                        : page === "world"
-                          ? "There is always something beyond the next horizon."
-                          : page === "archive"
-                            ? "Every ending is also a story worth keeping."
-                            : "One lifetime, one choice at a time."}
-                  </p>
-                </div>
-                {showTime && (
-                  <div className="age-display">
-                    <span>Age</span>
-                    <strong>{life.age}</strong>
-                    <span>years</span>
-                  </div>
+          {t(announcement)}
+        </div>
+        <div className="mobile-top">
+          <Brand />
+          <button
+            className="icon-button"
+            aria-label={t(menuOpen ? "Close navigation" : "Open navigation")}
+            aria-expanded={menuOpen}
+            aria-controls="site-navigation"
+            ref={menuButton}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+        <aside
+          id="site-navigation"
+          className={`sidebar ${menuOpen ? "menu-open" : ""}`}
+        >
+          <Brand />
+          <div className="sidebar-rule" />
+          <nav className="main-nav" aria-label={t("Main navigation")}>
+            {navItems.map(({ id, label, icon: Icon }) => (
+              <button
+                key={id}
+                className={
+                  page === id || (id === "chronicle" && page === "new")
+                    ? "active"
+                    : ""
+                }
+                onClick={() =>
+                  navigate(id === "chronicle" && !life ? "new" : id)
+                }
+                aria-current={page === id ? "page" : undefined}
+              >
+                <Icon size={18} strokeWidth={1.6} />
+                {t(label)}
+                {id === "chronicle" && <span className="nav-active-dot" />}
+                {id === "archive" && data.archive.length > 0 && (
+                  <span className="nav-count">{data.archive.length}</span>
                 )}
-              </header>
-            )}
-          {showTime && (
-            <section className="time-bar" aria-label="Time controls">
-              <div className="time-guidance" id="time-guidance">
-                <div>
-                  <strong>
-                    {life.pending
-                      ? auto && playing
-                        ? "Watch mode is choosing for you"
-                        : "A choice is waiting for you"
-                      : playing
-                        ? "Time is moving"
-                        : "Time is paused"}
-                  </strong>
-                  <p>
-                    {life.pending
-                      ? auto && playing
-                        ? "An affordable option without a danger marker will be chosen automatically. Pause or turn Watch mode off to decide yourself."
-                        : "Choose an option in your story before time can move on."
-                      : "Continue to the next decision, advance up to one year, or press Play to let time pass."}
-                  </p>
-                </div>
-                {life.pending && (
-                  <button
-                    className="button"
-                    onClick={() => focusContent("decision-heading")}
-                  >
-                    Review choices
-                  </button>
-                )}
+              </button>
+            ))}
+          </nav>
+          {life && (
+            <div className="sidebar-character">
+              <div className="sidebar-avatar">
+                {life.name.charAt(0)}
+                <Leaf size={14} />
               </div>
-              <div className="time-main">
-                <button
-                  className={`play-button ${playing ? "is-playing" : ""}`}
-                  aria-label={playing ? "Pause time" : "Play time"}
-                  aria-describedby="time-guidance"
-                  onClick={() => setPlaying(!playing)}
-                >
-                  {playing ? (
-                    <Pause size={15} fill="currentColor" />
-                  ) : (
-                    <Play size={15} fill="currentColor" />
-                  )}
-                  <span>{playing ? "Pause" : "Play"}</span>
-                </button>
-                <div className="speed-controls" aria-label="Playback speed">
-                  {[1, 2, 4, 8].map((s) => (
-                    <button
-                      key={s}
-                      aria-pressed={speed === s}
-                      className={speed === s ? "active" : ""}
-                      onClick={() => setSpeed(s)}
-                    >
-                      {s}×
-                    </button>
-                  ))}
-                </div>
-                <span className="year-clock">
-                  {Math.round(life.progress * 100)}% of this year
-                </span>
-              </div>
-              <div className="time-forward">
-                <label className="auto-control">
-                  <input
-                    type="checkbox"
-                    aria-describedby="watch-mode-help"
-                    checked={auto}
-                    onChange={(e) => setAuto(e.target.checked)}
-                  />
-                  <span className="switch" />
-                  Watch mode
-                </label>
-                <button
-                  className="time-step"
-                  disabled={!!life.pending}
-                  title="Advance up to one year; stop early if a choice appears"
-                  onClick={() => {
-                    setOutcome(null);
-                    updateLife((current) =>
-                      current ? advance(current, "year") : null,
-                    );
-                  }}
-                >
-                  +1 year
-                </button>
-                <button
-                  className="next-decision"
-                  disabled={!!life.pending}
-                  title="Advance until the next choice, up to twelve years at a time"
-                  onClick={onAdvance}
-                >
-                  Next decision
-                  <SkipForward size={14} />
-                </button>
-              </div>
-              <p className="watch-mode-help" id="watch-mode-help">
-                Watch mode makes choices for you while time plays.
+              <strong>
+                {life.name} {life.surname}
+              </strong>
+              <p>
+                {t(RACES[life.race].name)} {t(" · Age ")}
+                {life.age}
               </p>
-              <div className="year-progress">
-                <span style={{ width: `${life.progress * 100}%` }} />
+              <span>
+                <MapPinIcon />
+                {t(REGIONS[life.region].short)}
+              </span>
+              <div className="sidebar-soul">
+                <Sparkles size={13} />
+                {t("A reincarnated soul")}
               </div>
-            </section>
+            </div>
           )}
-          {page === "new" ? (
-            <NewLife
-              saved={saved}
-              hasActive={!!life && life.phase !== "ended"}
-              onCreate={startNew}
-              onCancel={() => navigate("chronicle")}
-            />
-          ) : page === "world" ? (
-            <WorldView life={life} />
-          ) : page === "help" ? (
-            <Help onPlay={() => navigate(life ? "chronicle" : "new")} />
-          ) : page === "archive" ? (
-            preview ? (
-              <Ending
-                saved={saved}
-                life={preview}
-                onNew={() => navigate("new")}
-                onBack={() => {
-                  setPreview(null);
-                  setFocusTarget("page-title");
-                }}
-              />
-            ) : (
-              <Archive
+          <div className="sidebar-bottom">
+            <button onClick={() => navigate("help")}>
+              <CircleHelp size={17} />
+              {t("How to play")}
+            </button>
+            <div className="sidebar-colophon">
+              <Leaf size={19} strokeWidth={1.2} />
+              <p>
+                {t("In the world of")}
+                <br />
+                <strong>{t("Mushoku Tensei")}</strong>
+              </p>
+              <span>{t("An unofficial fan creation")}</span>
+            </div>
+          </div>
+        </aside>
+        <main id="main-content" className="main-content" tabIndex={-1}>
+          <header className="topbar">
+            <div className="breadcrumb">
+              <span>{t("The Six-Faced World")}</span>
+              <ChevronRight size={13} />
+              <strong>
+                {t(
+                  page === "new" ||
+                    (life?.phase === "birth" && page === "chronicle")
+                    ? "A new beginning"
+                    : page === "help"
+                      ? "How to play"
+                      : navItems.find((n) => n.id === page)?.label,
+                )}
+              </strong>
+            </div>
+            <div className="topbar-actions">
+              <span
+                className={`save-indicator ${saved ? "" : "unsaved"}`}
+                title={t("Lives are stored only in this browser")}
+              >
+                {saved ? <Check size={13} /> : <VolumeX size={13} />}
+                {t(saved ? "Saved on this device" : "Not saved")}
+              </span>
+              {page !== "new" && (
+                <button
+                  className="button new-life-button"
+                  onClick={() => navigate("new")}
+                >
+                  <Plus size={15} />
+                  {t("New life")}
+                </button>
+              )}
+            </div>
+          </header>
+          {notice && !loadFailed && (
+            <div className="notice" role="alert">
+              <p>{t(notice)}</p>
+              <button
+                className="icon-button"
+                aria-label={t("Dismiss message")}
+                onClick={() => setNotice(null)}
+              >
+                <X size={17} />
+              </button>
+            </div>
+          )}
+          {!saved && (
+            <div className="save-recovery" role="alert">
+              <div>
+                <strong>{t("Your progress has not been saved.")}</strong>
+                <p>
+                  {t(
+                    loadFailed && !dirty.current
+                      ? `${notice ?? "Your existing save could not be opened."} Try loading again when browser storage is available.`
+                      : "Your current life is still open here. Keep this tab open and try saving again before you leave.",
+                  )}
+                </p>
+              </div>
+              <button className="button" onClick={retryStorage}>
+                {t(
+                  loadFailed && !dirty.current ? "Retry loading" : "Retry save",
+                )}
+              </button>
+            </div>
+          )}
+          <div
+            className={`page-content ${page === "new" ? "new-page-content" : ""}`}
+          >
+            {page !== "new" &&
+              !(life?.phase === "birth" && page === "chronicle") && (
+                <header className="page-heading">
+                  <div>
+                    <h1 id="page-title" tabIndex={-1}>
+                      {page === "chronicle"
+                        ? life?.phase === "ended"
+                          ? t("A life worth remembering.")
+                          : life
+                            ? `${life.name} ${life.surname}`
+                            : t("Your story begins here.")
+                        : t(titles[page])}
+                    </h1>
+                    <p>
+                      {t(
+                        page === "chronicle" && life
+                          ? `${RACES[life.race].name} · ${lifeStage(life.age, life.race)} · ${REGIONS[life.region].name}`
+                          : page === "character"
+                            ? "The gifts you were given. The choices you’ve made."
+                            : page === "world"
+                              ? "There is always something beyond the next horizon."
+                              : page === "archive"
+                                ? "Every ending is also a story worth keeping."
+                                : "One lifetime, one choice at a time.",
+                      )}
+                    </p>
+                  </div>
+                  {showTime && (
+                    <div className="age-display">
+                      <span>{t("Age")}</span>
+                      <strong>{life.age}</strong>
+                      <span>{t("years")}</span>
+                    </div>
+                  )}
+                </header>
+              )}
+            {showTime && (
+              <section className="time-bar" aria-label={t("Time controls")}>
+                <div className="time-guidance" id="time-guidance">
+                  <div>
+                    <strong>
+                      {t(
+                        life.pending
+                          ? auto && playing
+                            ? "Watch mode is choosing for you"
+                            : "A choice is waiting for you"
+                          : playing
+                            ? "Time is moving"
+                            : "Time is paused",
+                      )}
+                    </strong>
+                    <p>
+                      {t(
+                        life.pending
+                          ? auto && playing
+                            ? "An affordable option without a danger marker will be chosen automatically. Pause or turn Watch mode off to decide yourself."
+                            : "Choose an option in your story before time can move on."
+                          : "Continue to the next decision, advance up to one year, or press Play to let time pass.",
+                      )}
+                    </p>
+                  </div>
+                  {life.pending && (
+                    <button
+                      className="button"
+                      onClick={() => focusContent("decision-heading")}
+                    >
+                      {t("Review choices")}
+                    </button>
+                  )}
+                </div>
+                <div className="time-main">
+                  <button
+                    className={`play-button ${playing ? "is-playing" : ""}`}
+                    aria-label={t(playing ? "Pause time" : "Play time")}
+                    aria-describedby="time-guidance"
+                    onClick={() => setPlaying(!playing)}
+                  >
+                    {playing ? (
+                      <Pause size={15} fill="currentColor" />
+                    ) : (
+                      <Play size={15} fill="currentColor" />
+                    )}
+                    <span>{t(playing ? "Pause" : "Play")}</span>
+                  </button>
+                  <div
+                    className="speed-controls"
+                    aria-label={t("Playback speed")}
+                  >
+                    {[1, 2, 4, 8].map((s) => (
+                      <button
+                        key={s}
+                        aria-pressed={speed === s}
+                        className={speed === s ? "active" : ""}
+                        onClick={() => setSpeed(s)}
+                      >
+                        {s}
+                        {t("×")}
+                      </button>
+                    ))}
+                  </div>
+                  <span className="year-clock">
+                    {Math.round(life.progress * 100)}
+                    {t("% of this year")}
+                  </span>
+                </div>
+                <div className="time-forward">
+                  <label className="auto-control">
+                    <input
+                      type="checkbox"
+                      aria-describedby="watch-mode-help"
+                      checked={auto}
+                      onChange={(e) => setAuto(e.target.checked)}
+                    />
+                    <span className="switch" />
+                    {t("Watch mode")}
+                  </label>
+                  <button
+                    className="time-step"
+                    disabled={!!life.pending}
+                    title={t(
+                      "Advance up to one year; stop early if a choice appears",
+                    )}
+                    onClick={() => {
+                      setOutcome(null);
+                      updateLife((current) =>
+                        current ? advance(current, "year") : null,
+                      );
+                    }}
+                  >
+                    {t("+1 year")}
+                  </button>
+                  <button
+                    className="next-decision"
+                    disabled={!!life.pending}
+                    title={t(
+                      "Advance until the next choice, up to twelve years at a time",
+                    )}
+                    onClick={onAdvance}
+                  >
+                    {t("Next decision")}
+                    <SkipForward size={14} />
+                  </button>
+                </div>
+                <p className="watch-mode-help" id="watch-mode-help">
+                  {t("Watch mode makes choices for you while time plays.")}
+                </p>
+                <div className="year-progress">
+                  <span style={{ width: `${life.progress * 100}%` }} />
+                </div>
+              </section>
+            )}
+            {page === "new" ? (
+              <NewLife
+                language={draftLanguage}
+                onLanguageChange={setDraftLanguage}
                 saved={saved}
                 hasActive={!!life && life.phase !== "ended"}
-                lives={data.archive}
-                onRead={(value) => {
-                  setPreview(value);
-                  setFocusTarget("retrospective-heading");
-                }}
-                onNew={() =>
-                  navigate(life && life.phase !== "ended" ? "chronicle" : "new")
-                }
+                onCreate={startNew}
+                onCancel={() => navigate("chronicle")}
               />
-            )
-          ) : page === "character" ? (
-            life ? (
-              <CharacterView
+            ) : page === "world" ? (
+              <WorldView life={life} />
+            ) : page === "help" ? (
+              <Help onPlay={() => navigate(life ? "chronicle" : "new")} />
+            ) : page === "archive" ? (
+              preview ? (
+                <Ending
+                  saved={saved}
+                  life={preview}
+                  onNew={() => navigate("new")}
+                  onBack={() => {
+                    setPreview(null);
+                    setFocusTarget("page-title");
+                  }}
+                />
+              ) : (
+                <Archive
+                  saved={saved}
+                  hasActive={!!life && life.phase !== "ended"}
+                  lives={data.archive}
+                  onRead={(value) => {
+                    setAnnouncement("");
+                    setPreview(value);
+                    setFocusTarget("retrospective-heading");
+                  }}
+                  onNew={() =>
+                    navigate(
+                      life && life.phase !== "ended" ? "chronicle" : "new",
+                    )
+                  }
+                />
+              )
+            ) : page === "character" ? (
+              life ? (
+                <CharacterView
+                  life={life}
+                  onStudyChange={(school: MagicSchool) =>
+                    updateLife((current) =>
+                      current ? setSpecialization(current, school) : null,
+                    )
+                  }
+                />
+              ) : (
+                <EmptyCharacter onNew={() => navigate("new")} />
+              )
+            ) : life?.phase === "birth" ? (
+              <BirthRecord
                 life={life}
+                onBegin={() => {
+                  updateLife((current) =>
+                    current ? beginLife(current) : null,
+                  );
+                  setPlaying(true);
+                  setFocusTarget("decision-heading");
+                }}
+              />
+            ) : life?.phase === "ended" ? (
+              <Ending life={life} saved={saved} onNew={() => navigate("new")} />
+            ) : life ? (
+              <LifeView
+                life={life}
+                onFocus={(focus: Focus) =>
+                  updateLife((current) =>
+                    current ? setFocus(current, focus) : null,
+                  )
+                }
+                onChoose={selectChoice}
+                onAdvance={onAdvance}
                 onStudyChange={(school: MagicSchool) =>
                   updateLife((current) =>
                     current ? setSpecialization(current, school) : null,
                   )
                 }
+                outcome={outcome?.lifeId === life.id ? outcome : null}
+                automatic={auto && playing}
+                onSpellbook={openSpellbook}
               />
             ) : (
-              <EmptyCharacter onNew={() => navigate("new")} />
-            )
-          ) : life?.phase === "birth" ? (
-            <BirthRecord
-              life={life}
-              onBegin={() => {
-                updateLife((current) => (current ? beginLife(current) : null));
-                setPlaying(true);
-                setFocusTarget("decision-heading");
-              }}
-            />
-          ) : life?.phase === "ended" ? (
-            <Ending life={life} saved={saved} onNew={() => navigate("new")} />
-          ) : life ? (
-            <LifeView
-              life={life}
-              onFocus={(focus: Focus) =>
-                updateLife((current) =>
-                  current ? setFocus(current, focus) : null,
-                )
-              }
-              onChoose={selectChoice}
-              onAdvance={onAdvance}
-              onStudyChange={(school: MagicSchool) =>
-                updateLife((current) =>
-                  current ? setSpecialization(current, school) : null,
-                )
-              }
-              outcome={outcome?.lifeId === life.id ? outcome : null}
-              automatic={auto && playing}
-              onSpellbook={openSpellbook}
-            />
-          ) : (
-            <NewLife
-              saved={saved}
-              hasActive={false}
-              onCreate={startNew}
-              onCancel={() => {}}
-            />
-          )}
-          <footer className="page-footer">
-            <span>
-              <Leaf size={13} />
-              No two lives are quite the same.
-            </span>
-            <span>
-              Six-Faced Life <span className="footer-separator">/</span> An
-              unofficial fan-made simulation
-            </span>
-          </footer>
-        </div>
-      </main>
-    </div>
+              <NewLife
+                language={draftLanguage}
+                onLanguageChange={setDraftLanguage}
+                saved={saved}
+                hasActive={false}
+                onCreate={startNew}
+                onCancel={() => {}}
+              />
+            )}
+            <footer className="page-footer">
+              <span>
+                <Leaf size={13} />
+                {t("No two lives are quite the same.")}
+              </span>
+              <span>
+                {t("Six-Faced Life ")}
+                <span className="footer-separator">{t("/")}</span>{" "}
+                {t(" An unofficial fan-made simulation")}
+              </span>
+            </footer>
+          </div>
+        </main>
+      </div>
+    </LanguageProvider>
   );
 }
 
@@ -733,102 +822,94 @@ function MapPinIcon() {
   );
 }
 function EmptyCharacter({ onNew }: { onNew: () => void }) {
+  const { t } = useI18n();
+
   return (
     <div className="empty-archive">
       <UserRound size={40} strokeWidth={1} />
-      <h2>A name waiting for a story.</h2>
-      <p>Begin a life to discover the person you might become.</p>
+      <h2>{t("A name waiting for a story.")}</h2>
+      <p>{t("Begin a life to discover the person you might become.")}</p>
       <button className="button primary" onClick={onNew}>
-        Begin a new life
+        {t("Begin a new life")}
         <Feather size={16} />
       </button>
     </div>
   );
 }
 function Help({ onPlay }: { onPlay: () => void }) {
+  const { t } = useI18n();
+
   return (
     <article className="help-page page-enter">
-      <h2>You have another chance at a life.</h2>
+      <h2>{t("You have another chance at a life.")}</h2>
       <p>
-        Your protagonist remembers a previous world. Their birthplace, family,
-        race, and gifts shape the opportunities ahead—but your choices help
-        decide what happens next.
+        {t(
+          "Your protagonist remembers a previous world. Their birthplace, family, race, and gifts shape the opportunities ahead—but your choices help decide what happens next.",
+        )}
       </p>
       <section>
-        <h3>Let time move, or turn the page yourself.</h3>
+        <h3>{t("Let time move, or turn the page yourself.")}</h3>
         <p>
-          Press Play to let years pass. Use the speed buttons to move faster, +1
-          year for a smaller step, or Next decision to reach the next choice.
-          Time always stops for decisions. The space bar toggles play when you
-          aren’t using a form or button.
+          {t(
+            "Press Play to let years pass. Use the speed buttons to move faster, +1 year for a smaller step, or Next decision to reach the next choice. Time always stops for decisions. The space bar toggles play when you aren’t using a form or button.",
+          )}
         </p>
       </section>
       <section>
-        <h3>Decide what matters this year.</h3>
+        <h3>{t("Decide what matters this year.")}</h3>
         <p>
-          Change your yearly focus to develop magic, train a sword style, study,
-          earn silver, explore, rest, or spend time with others. More priorities
-          open as you grow. Health, happiness, knowledge, and bonds all matter;
-          becoming powerful is only one way to live well.
+          {t(
+            "Change your yearly focus to develop magic, train a sword style, study, earn silver, explore, rest, or spend time with others. More priorities open as you grow. Health, happiness, knowledge, and bonds all matter; becoming powerful is only one way to live well.",
+          )}
         </p>
       </section>
       <section>
-        <h3>Learn from someone. Learn for yourself.</h3>
+        <h3>{t("Learn from someone. Learn for yourself.")}</h3>
         <p>
-          Practice earns experience. Higher magic and sword ranks also need
-          instruction or dedicated study. Choices show costs and tradeoffs. When
-          a path carries danger, the outcome is uncertain; taking an
-          unaffordable choice is never required.
+          {t(
+            "Practice earns experience. Higher magic and sword ranks also need instruction or dedicated study. Choices show costs and tradeoffs. When a path carries danger, the outcome is uncertain; taking an unaffordable choice is never required.",
+          )}
         </p>
         <p>
-          At eight, choose a magic discipline: water, fire, earth, wind, or
-          healing. You can change your current study in the training panel.
-          Practice develops that discipline, while spells in your other studies
-          stay learned. Your character page keeps the whole spellbook, including
-          the experience and instruction needed for each next spell.
+          {t(
+            "At eight, choose a magic discipline: water, fire, earth, wind, or healing. You can change your current study in the training panel. Practice develops that discipline, while spells in your other studies stay learned. Your character page keeps the whole spellbook, including the experience and instruction needed for each next spell.",
+          )}
         </p>
       </section>
       <section>
-        <h3>Let your work become a calling.</h3>
+        <h3>{t("Let your work become a calling.")}</h3>
         <p>
-          Adventurers, merchants, healers, guards, and teachers gain experience
-          and reputation through their work. Promotion offers need the relevant
-          skills too; your calling panel shows the requirements. Accepting a
-          promotion brings a new title and higher yearly income, with more
-          responsibility. Changing vocation starts a new career track while
-          keeping your savings and learned magic.
+          {t(
+            "Adventurers, merchants, healers, guards, and teachers gain experience and reputation through their work. Promotion offers need the relevant skills too; your calling panel shows the requirements. Accepting a promotion brings a new title and higher yearly income, with more responsibility. Changing vocation starts a new career track while keeping your savings and learned magic.",
+          )}
         </p>
       </section>
       <section>
-        <h3>Sometimes, you can simply watch.</h3>
+        <h3>{t("Sometimes, you can simply watch.")}</h3>
         <p>
-          Watch mode makes affordable, low-risk choices for you while time is
-          playing. Turn it off whenever you want to decide for yourself.
-          Long-lived races move through their later years faster, so a whole
-          life stays manageable.
+          {t(
+            "Watch mode makes affordable, low-risk choices for you while time is playing. Turn it off whenever you want to decide for yourself. Long-lived races move through their later years faster, so a whole life stays manageable.",
+          )}
         </p>
       </section>
       <section>
-        <h3>Your story stays on this device.</h3>
+        <h3>{t("Your story stays on this device.")}</h3>
         <p>
-          The game saves your progress in this browser, including the decision
-          waiting for you. Time rests while the page is closed or hidden. Your
-          last 20 completed lives remain in Past lives. Clearing browser data
-          removes these local records.
+          {t(
+            "The game saves your progress in this browser, including the decision waiting for you. Time rests while the page is closed or hidden. Your last 20 completed lives remain in Past lives. Clearing browser data removes these local records.",
+          )}
         </p>
       </section>
       <section>
-        <h3>A familiar world, an original life.</h3>
+        <h3>{t("A familiar world, an original life.")}</h3>
         <p>
-          This is an unofficial fan creation inspired by Mushoku Tensei and the
-          life-simulation structure of 1 in 8 Billion. The protagonist, stories,
-          art, and game rules are original. Birth weights, lifespans, events,
-          and outcomes are game balance; the illustrated map is a simplified
-          guide.
+          {t(
+            "This is an unofficial fan creation inspired by Mushoku Tensei and the life-simulation structure of 1 in 8 Billion. The protagonist, stories, art, and game rules are original. Birth weights, lifespans, events, and outcomes are game balance; the illustrated map is a simplified guide.",
+          )}
         </p>
       </section>
       <button className="button primary" onClick={onPlay}>
-        Back to your story
+        {t("Back to your story")}
         <ChevronRight size={16} />
       </button>
     </article>

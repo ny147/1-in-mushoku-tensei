@@ -76,18 +76,18 @@ Files: new `src/i18n/messages.ts`, `src/i18n/world.ts`, `src/i18n/story.ts`, `sr
 
 Files: new `src/game/narrative.ts`, `src/game/types.ts`, `src/game/engine.ts`, `src/game/storage.ts`, `src/i18n/story.ts`, new `src/game/narrative.test.ts`, `src/game/storage.test.ts`.
 
-- [ ] Add failing tests for localized birth, all eight annual focuses, infant years, successful/risky choices, spell learning from both sources, family farewells and each ending cause/legacy. Change region/career/study after an entry and assert its Thai rendering retains the original values.
-- [ ] Test unknown reference fallback to the saved title/text; invalid key/params shapes, arrays, excessive lengths/counts and nonfinite numbers must preserve unreadable raw saves through existing recovery. Bounds: key 160 characters, at most 20 scalar parameters, string values at most 500 characters, finite numeric values.
-- [ ] Compare complete same-seed lives across English/Thai actions after removing only `language`; random state, histories, references, progression, pending choices and endings must match. Confirm legacy entries remain English and readable.
-- [ ] Run `npm test -- src/game/narrative.test.ts src/game/storage.test.ts`; confirm red results, then implement pure reference capture and rendering. For learned spell lists capture stable spell IDs as a bounded scalar representation, not later study state.
-- [ ] Rerun targeted tests plus `npm test -- src/game/engine.test.ts src/game/progression.test.ts`; inspect results and commit.
+- [x] Add failing tests for localized birth, all eight annual focuses, infant years, successful/risky choices, spell learning from both sources, family farewells and each ending cause/legacy. Change region/career/study after an entry and assert its Thai rendering retains the original values.
+- [x] Test unknown reference fallback to the saved title/text; invalid key/params shapes, arrays, excessive lengths/counts and nonfinite numbers must preserve unreadable raw saves through existing recovery. Bounds: key 160 characters, at most 20 scalar parameters, string values at most 500 characters, finite numeric values.
+- [x] Compare complete same-seed lives across English/Thai actions after removing only `language`; random state, histories, references, progression, pending choices and endings must match. Confirm legacy entries remain English and readable.
+- [x] Run `npm test -- src/game/narrative.test.ts src/game/storage.test.ts`; confirm red results, then implement pure reference capture and rendering. For learned spell lists capture stable spell IDs as a bounded scalar representation, not later study state.
+- [x] Rerun targeted tests plus `npm test -- src/game/engine.test.ts src/game/progression.test.ts`; inspect results and commit.
 
 ## Task 4: New-Life Selection and Full Interface Integration
 
 Files: `src/App.tsx`, `src/components/NewLife.tsx`, `LifeView.tsx`, `Progression.tsx`, `ChoiceOutcome.tsx`, `Archive.tsx`, `WorldView.tsx`, `WorldMap.tsx`, `Landscape.tsx` as needed; `src/App.test.tsx` and affected component tests.
 
-- [ ] Add failing RTL tests for `Language / ภาษา`, Thai form preview before creation, explanatory fixed-language text, Thai creation and reload, English defaults, preference restoration, explicit replacement confirmation, and canceling without changing the old save.
-- [ ] Add mixed-archive tests: list language labels, open a Thai retrospective over an English active life and return; assert whole-view language/document `lang` restoration. Also test no-active-life navigation.
+- [x] Add failing RTL tests for `Language / ภาษา`, Thai form preview before creation, explanatory fixed-language text, Thai creation and reload, English defaults, preference restoration, explicit replacement confirmation, and canceling without changing the old save.
+- [x] Add mixed-archive tests: list language labels, open a Thai retrospective over an English active life and return; assert whole-view language/document `lang` restoration. Also test no-active-life navigation.
 
 Pin the preview boundary in RTL after opening the form over an English life:
 ```ts
@@ -97,10 +97,10 @@ expect(document.documentElement.lang).toBe("th");
 expect(window.localStorage.getItem(SAVE_KEY)).toBe(before);
 ```
 
-- [ ] Add Thai choice/outcome/focus, help/world, spellbook, pending-decision reload and storage retry assertions. Preference failure must not affect visible game-save recovery. Preserve Space guarding, hidden-tab pause and focus targets.
-- [ ] Run `npm test -- src/App.test.tsx src/components`; verify failures, then integrate translations with context. Extend `NewLife.onCreate` to pass the language; App owns draft, active and preview language precedence. Keep announcements and actual choice deltas localized, including outcome feedback already displayed.
-- [ ] Translate all static/parameterized JSX, accessible names, titles, errors and image alternatives explicitly; retain canonical data in callbacks and save operations. Keep full messages together rather than translating fragments.
-- [ ] Rerun the same tests; inspect results and commit.
+- [x] Add Thai choice/outcome/focus, help/world, spellbook, pending-decision reload and storage retry assertions. Preference failure must not affect visible game-save recovery. Preserve Space guarding, hidden-tab pause and focus targets.
+- [x] Run `npm test -- src/App.test.tsx src/components`; verify failures, then integrate translations with context. Extend `NewLife.onCreate` to pass the language; App owns draft, active and preview language precedence. Keep announcements and actual choice deltas localized, including outcome feedback already displayed.
+- [x] Translate all static/parameterized JSX, accessible names, titles, errors and image alternatives explicitly; retain canonical data in callbacks and save operations. Keep full messages together rather than translating fragments.
+- [x] Rerun the same tests; inspect results and commit.
 
 ## Task 5: Thai Typography and Documentation
 
@@ -133,3 +133,9 @@ Files: targeted fixes/tests as needed, this ledger, `CONTINUE.md`; existing PR #
 - Next: resume the same branch, inspect CONTINUE.md and usage, fetch/prune; start Task 2 by creating `six-faced-life/src/i18n/catalogues.test.ts` and running `npm test -- src/i18n/catalogues.test.ts` from the app. Do not redo Task 1. No further user approval is needed to continue the plan.
 
 - Task 2: complete on resumption; catalogue RED observed missing messages module, then coverage exposed missing event categories; GREEN passed four catalogue tests including all generated branches, domains, 30 spells, childhood/high-risk/instruction thresholds. TypeScript/Vite build passed. Upstream advanced to ae9a2d1; no merge/rebase performed. Next: Task 3 narrative-reference tests.
+
+- Task 3: complete. Nine narrative tests pass, covering birth/annual/choice/risk/spells/farewell/endings, unknown keys, malformed bounded metadata, event-time values, childhood label variants and twelve complete language-paired seeded lives. Existing engine/storage/progression regressions passed; the combined full suite passed 96 tests before the final two UI tests were added.
+- Task 4: complete. Ten UI tests pass, including actual rendered-text/accessibility audit across Thai views, preview/cancel/replacement, fixed language/reload, mixed archives, personal names, preference/save failure separation, study IDs and clearing prior-language live announcements. Existing App/components tests also passed.
+- Ruling: UI catalogue keys reuse canonical English messages, while story tables use stable event/choice IDs and domain IDs still select original game data before display translation. This avoids changing rule values; catalogue and rendered-text audits guard coverage. History references snapshot generated choice wording, spell IDs and family/birth/ending parameters rather than reading later state.
+- Ruling: The existing 25-lifetime school/vocation test exceeded its default five-second timeout under the expanded parallel suite (5.33s), while passing in targeted runs. Set only that simulation test to a bounded 30s, matching the existing 100-lifetime test strategy; no seeds or assertions removed. The next full run passed 96/96.
+- Browser QA in progress on isolated port 5178: desktop 1280px, phones 390px/320px; Thai opening/birth, pending reload/pause, choice/outcome/focus, study/reload, full spellbook, world/help, menu Escape, Space playback; no inspected overflow or captured warnings/errors. A Thai test life completed at 72 years; ending/archive and English-active/Thai-retrospective/return-language navigation passed. Browser fault injection remains covered by automated tests rather than browser mutation APIs. Port 5173 browser storage was never opened. An npm flag-parsing issue briefly started a server there; it was stopped immediately before any browser navigation and restarted directly on 5178.
