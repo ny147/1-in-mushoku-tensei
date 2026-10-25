@@ -2,6 +2,12 @@
 
 Six-Faced Life uses Vercel's GitHub integration for static Vite hosting. GitHub Actions checks pull requests; Vercel installs, tests and builds the app before publishing. **No Cloudflare or Vercel API tokens, organization/project IDs, GitHub environment secrets, or deployment enable variable are required.** The earlier Cloudflare setup from merged PR #4 is retired.
 
+## Current deployment
+
+The project is already imported and live at [six-faced-life.vercel.app](https://six-faced-life.vercel.app), in [ny147s-projects / six-faced-life](https://vercel.com/ny147s-projects/six-faced-life). PR #5 is merged. The verified release uses main commit `01acad7`, Node.js 22.x, the app root/settings below, and [production deployment FRegNWsarqHf5qA7fVifWYgXtd5N](https://vercel.com/ny147s-projects/six-faced-life/FRegNWsarqHf5qA7fVifWYgXtd5N). Vercel ran all 51 tests and the TypeScript/Vite build successfully; public assets, SPA navigation and isolated save/reload smoke checks passed on 2026-10-25. See [CONTINUE.md](../CONTINUE.md) for the evidence and limits.
+
+**Do not create another project or repeat the import for this repository.** The setup section below is retained for reproducibility. Later releases come from reviewed merges to main. The Vercel plugin still returned a workspace-access error after consent; the authenticated browser completed setup. Plugin account authorization is separate from the existing project's Git deployment connection and is not needed to play the game.
+
 ## One-time setup after this migration PR merges
 
 1. Review and manually merge the Vercel migration PR into `main` before importing the project. This ensures the first import contains the test-gated build and SPA configuration. Do not import the old Cloudflare version of main.

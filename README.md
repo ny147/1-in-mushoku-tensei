@@ -4,6 +4,8 @@ A single-player browser life simulator set in Mushoku Tensei. An original reinca
 
 The application lives in **`six-faced-life/`**. Run npm commands there, not at this Git root. Development changes are committed and pushed through task PRs; the playable game remains local unless deployment is explicitly requested.
 
+Play the deployed game at **[six-faced-life.vercel.app](https://six-faced-life.vercel.app)**. Its browser saves are separate from the local development URL.
+
 ## Start locally
 
 Use Node.js 22.12+ or a supported Node.js 24 release.
@@ -49,7 +51,7 @@ Vitest and React Testing Library cover simulation, progression, persistence, and
 
 ## CI/CD and hosting
 
-GitHub Actions runs `npm run build:vercel` (tests followed by TypeScript/Vite build) on pull requests to `main` and main pushes. Vercel's GitHub integration runs the same command independently before publishing main; no deployment tokens in GitHub are needed. After this migration PR merges, import the repository into Vercel with Root Directory `six-faced-life`, Vite preset, Node 22.x, Production Branch `main`, and output `dist`. See [the deployment guide](docs/deployment.md) for setup, isolated local preview, first release, and rollback. The user switched from Cloudflare to Vercel on 2026-10-25 before configuring hosting. PRs are still merged manually. Hosted and local browser saves belong to different origins.
+GitHub Actions runs `npm run build:vercel` (tests followed by TypeScript/Vite build) on pull requests to `main` and main pushes. Vercel's GitHub integration runs the same command independently before publishing main; no deployment tokens in GitHub are needed. The repository is already imported with Root Directory `six-faced-life`, Vite preset, Node 22.x, Production Branch `main`, and output `dist`; the first release is live. See [the deployment guide](docs/deployment.md) for the current deployment, isolated local preview, and rollback. The user switched from Cloudflare to Vercel and manually merged migration PR #5 on 2026-10-25. PRs are still merged manually. Hosted and local browser saves belong to different origins.
 
 ## Work with Git
 
