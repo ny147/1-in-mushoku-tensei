@@ -14,6 +14,9 @@ coverage/
 !.env.example
 !.env.*.example
 *.local
+.vercel/
+
+# Retired Cloudflare tooling: keep any existing local state/secret files private
 .wrangler/
 .dev.vars
 .dev.vars.*

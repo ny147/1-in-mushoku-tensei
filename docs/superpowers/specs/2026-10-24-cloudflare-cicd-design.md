@@ -1,5 +1,7 @@
 # CI/CD and Cloudflare deployment
 
+**Historical / superseded:** PR #4 was merged. On 2026-10-25 the user selected Vercel before configuring Cloudflare. Use the [Vercel migration design](2026-10-25-vercel-deployment-design.md) and [current deployment guide](../../deployment.md). The instructions below record the earlier design and must not be used to activate Cloudflare.
+
 Date: 2026-10-24. The user requested a plan followed by implementation and selected a new Worker named `six-faced-life` on `workers.dev`.
 
 ## Intent and constraints

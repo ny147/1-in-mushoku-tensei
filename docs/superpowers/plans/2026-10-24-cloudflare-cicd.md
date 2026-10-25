@@ -1,5 +1,7 @@
 # Cloudflare CI/CD Implementation Plan
 
+**Historical / superseded:** PR #4 was merged, then the user switched to Vercel on 2026-10-25 without configuring Cloudflare. Do not execute the pending activation steps below. Continue with the [Vercel migration plan](2026-10-25-vercel-deployment.md) and [current deployment guide](../../deployment.md).
+
 > **For agentic workers:** Use superpowers:executing-plans to implement this plan task-by-task. Track verification and decisions in the progress ledger below.
 
 **Goal:** Check pull requests and deploy validated main builds to a new `six-faced-life` Cloudflare Worker.
