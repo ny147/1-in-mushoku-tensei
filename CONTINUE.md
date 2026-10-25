@@ -1,6 +1,16 @@
 # Save point — Six-Faced Life
 
-Updated 2026-10-25 (Asia/Bangkok). The game, progression expansion, UX fixes, and Cloudflare configuration PR #4 are merged. The user switched to Vercel before configuring hosting. The active task is `codex/vercel-deployment`; start with the current checkpoint below. Earlier task checkpoints are historical.
+Updated 2026-10-25 (Asia/Bangkok). The active feature task is `codex/thai-language`; start with its design checkpoint below. Earlier task checkpoints are historical. Separate production-deployment evidence was recorded on `codex/vercel-live-checkpoint` / PR #6, which is not part of this task's fetched base.
+
+## Current Thai-language design checkpoint
+
+The user requested Thai as the next feature, selected **full-game Thai coverage**, then explicitly chose **language selection for new lives only** over instant switching. Existing lives and archives stay English; new lives retain their chosen English or Thai language through reload and retrospective reading. These are confirmed decisions. Details in the [proposed design](docs/superpowers/specs/2026-10-25-thai-language-design.md), including remembered form defaults, archive navigation, language metadata, and typography, are implementation proposals awaiting approval.
+
+Branch `codex/thai-language` started clean from freshly fetched `origin/main` at `01acad7` (merged Vercel migration PR #5). Fetch/prune succeeded again on resumption after retrying with authorized Git write access; there were no user changes. No application code, dependencies, saves, or deployment settings have changed. The design and this checkpoint are the only task-owned files. A fresh read-only builder review found nothing important left unresolved before planning.
+
+Usage observed 2026-10-25 11:38 Asia/Bangkok (04:38 UTC): five-hour 20% remaining (resets October 25 at 14:52:47), weekly 43% remaining (resets October 31 at 10:39:46), all reset times Asia/Bangkok. No low-capacity trigger. Documentation verification: confirmed source paths and current English save/history behavior; `git diff --check` passed before this checkpoint edit. Application tests/build are not required for this design-only step and have not been rerun.
+
+Next: obtain approval of the written design, then invoke `superpowers:writing-plans` and create the implementation plan with a progress ledger before product code. Resume this same branch, recheck usage/status and fetch origin first. Follow-up implementation updates the task's single PR targeting `main`; keep it draft until implementation and required checks pass. The user merges manually. No deployment or browser-storage modification is authorized by this checkpoint.
 
 ## Current Vercel migration checkpoint
 
