@@ -1,5 +1,69 @@
 # Save point — Six-Faced Life
 
+## Current design save point — unequal lives and historical events
+
+Updated 2026-10-25 **21:33 Asia/Bangkok**. Active task: create a specification and
+implementation plan for the user's game-design expansion, using their explicitly
+invoked `grill-me` and `i-have-adhd` skills. ADHD output rules remain active until
+the user disables them. Ask one design question at a time with a recommendation;
+inspect the project before asking questions the code already answers.
+
+Branch **`codex/life-simulation-spec`** was created from clean, freshly fetched
+`origin/main` at **`9d19b9a`** (PR #8 is now merged). The branch initially required
+sandbox escalation to write Git metadata. No user work was discarded or stashed.
+The previous calmer-decision checkpoint below is historical.
+
+Written: [draft specification](docs/superpowers/specs/2026-10-25-life-simulation-expansion-design.md).
+It records every confirmed interview decision, proposed detailed rules and
+balance, compatibility boundaries, verification, sources and five implementation
+phases. A fresh read-only builder review found **"nothing important left"** for
+planning. This does not approve the spec or verify nonexistent implementation.
+
+Confirmed: shared calendar and fixed major outcomes; uniformly random births
+from 20 years before the Mana Calamity through 10 years afterward; original
+regional conflicts; Superd as the only new race; Superd mortality target 90%
+before age 15 under typical conditions, with meaningful mitigation; special-talent
+scholarships; separate status/job/title tracks; Seven Great Powers positions
+5–7 only; optional faction offers; latent inherited Laplace Factor discovered
+during life; inheritance within each life, separate reincarnation next run;
+simultaneous adult marriages where customs permit; independently developing
+descendants; new rules only for new lives; and a separate versioned simulation
+that preserves legacy rules.
+
+**Pending:** user approval of the concrete spec, then the detailed implementation
+plan at `docs/superpowers/plans/2026-10-25-life-simulation-expansion.md`. No plan
+file exists yet. The brainstorming workflow requires spec approval before the
+writing-plans stage. Proposed percentages, limits, chronology mapping and other
+builder calls are explicitly distinguished from confirmed interview choices.
+The user requested planning only: do not implement game code or deploy.
+
+Source boundary: official Seven Seas volume 3/17 descriptions corroborate story
+arcs. Exact K-year anchors and factor manifestations use an identified secondary
+wiki/search-index reference; direct wiki retrieval returned HTTP 402. No complete
+primary-text chronology/genetics audit is claimed. All demographic, mortality,
+genetic and economic numbers are authored game balance or user decisions.
+
+Documentation checks passed: 33 local Markdown links across the three task
+files, no trailing whitespace, referenced npm test/build scripts, complete task
+diff review (including the new spec), and `git diff --check`. A final fetch/prune
+initially hit sandbox FETCH_HEAD permissions, then succeeded with escalation;
+the branch contains current `origin/main` at `9d19b9a`. Remote delivery is pending.
+Application tests/build/browser QA are unnecessary and have not been run for
+this task. Last completed baseline commit: `9d19b9a`; task-owned edits currently
+comprise the spec, this checkpoint and the README index link. GitHub CLI is absent;
+the existing Git credential helper can authenticate GitHub REST under sandbox
+escalation without displaying credentials. No task PR exists yet.
+
+Usage observed **2026-10-25 21:33:00 Asia/Bangkok**: five-hour **57% remaining**,
+resets **October 26 at 00:41:09**; weekly **79% remaining**, resets **November 1 at
+13:17:43**. No below-10% trigger; no billing or reset-credit action.
+
+Exact next step: commit and push
+only these files, create one draft PR targeting `main`, and update this checkpoint
+with its delivery evidence. Ask the user to approve the linked spec. After that
+approval, write/self-review the detailed plan and update the same branch/PR;
+do not repeat the completed interview. The user merges manually.
+
 Updated 2026-10-25 (Asia/Bangkok). Active task: calmer decision pacing on `codex/calmer-decisions`, based on freshly fetched `origin/main` at `cc8322e` (Thai PR #7 is now merged). Earlier checkpoints below are historical; the Thai integration blocker is resolved upstream.
 
 ## Current calmer-decision save point

@@ -34,6 +34,7 @@ Saves belong to the browser profile and exact origin. Keep using `http://127.0.0
 | [ASSETS.md](six-faced-life/ASSETS.md) | Original illustration, fonts, and licenses |
 | [Source](six-faced-life/src/) | React interface, pure simulation, persistence, and colocated tests |
 | [Plans and specs](docs/superpowers/) | Approved design and historical implementation records |
+| [Life simulation expansion draft](docs/superpowers/specs/2026-10-25-life-simulation-expansion-design.md) | Interview decisions, proposed rules, acceptance checks, and phased scope; awaiting spec approval |
 | [Reference findings](docs/research/reference-findings.md) | Observations and analysis limitations |
 
 Captured reference files in `research/` are research data outside the app build. Local `checkpoints/`, screenshots, dependencies, build output, and `.openai/` registration metadata are ignored by Git. Checkpoints and screenshots may be absent from a fresh clone.
