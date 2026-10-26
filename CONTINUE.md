@@ -29,8 +29,11 @@ New clean task branch: `codex/accessible-career-design`, from freshly fetched
 at FETCH_HEAD; the authorized escalated fetch succeeded. Only the design and this
 checkpoint change. A fresh builder reviewer found **nothing important left**;
 remaining internal allocation/schema/refund choices are explicitly delegated.
-Draft design PR targeting `main` is being prepared; use this branch's Git log
-for the forthcoming documentation commit. User merges manually; no deployment.
+Design/checkpoint commit **`ae116d4`** is pushed to the task branch. Draft design
+**PR #12** targets `main`: https://github.com/ny147/1-in-mushoku-tensei/pull/12.
+It is attached to this chat and stays draft while the written design awaits user
+review. The following documentation-only commit records delivery. User merges
+manually; no deployment.
 
 Proposed defaults, **not yet user-approved**: lower ordinary thresholds listed in
 the design; 24 coins/year full-time apprentice pay, 8 coins per equivalent year
@@ -42,14 +45,16 @@ no-course/no-debt migration; frozen legacy lives and completed snapshots stay in
 
 Verification is documentation-only: source paths/values, the full new document,
 and the staged task diff were inspected; `git diff --cached --check` passed after
-removing two Markdown line-break trailing spaces. No application tests,
+removing two Markdown line-break trailing spaces. Final fetch/prune succeeded,
+the branch contains current `origin/main` **`c88743a`**, the working tree was clean,
+and `git diff --check origin/main...HEAD` passed. No application tests,
 build, or browser QA were run or claimed; no player storage was touched.
 Usage observed around **20:56 Asia/Bangkok**: five-hour **24% remaining**, reset
 **Oct 27 00:20:55**; weekly **88% remaining**, reset **Nov 2 19:20:55**. No billing
 or reset-credit action. This is above the below-10% checkpoint trigger.
 
-Exact next step: complete documentation diff checks and Git delivery, then have
-the user review the design/proposed defaults. The brainstorming skill requires
+Exact next step: have the user review the design/proposed defaults. The
+brainstorming skill requires
 design-document approval before invoking writing-plans to create the implementation
 plan. Do not repeat the completed interview, treat proposed numbers as approved,
 or begin product implementation at this checkpoint.
