@@ -1,14 +1,14 @@
 # Unequal Lives and Historical Turning Points
 
-Status: **implementation in progress on 2026-10-26**. The user asked to implement
+Status: **implemented and verified on 2026-10-26; awaiting human PR review**. The user asked to implement
 PR #10 and push to that same PR, approving this specification as the baseline
 and superseding the earlier planning-only restriction. Detailed values originally
 marked as proposals remain identifiable as authored game balance. The concrete
 [implementation plan](../plans/2026-10-25-life-simulation-expansion.md) was approved
 with "let implement it". Core code and bilingual presentation are implemented;
-all eight independent-review findings have been repaired and the full 185-test
-suite/build pass. Affected browser checks and final delivery remain; the PR stays
-draft until those gates complete. The plan/checkpoint record actual evidence.
+all eight independent-review findings have been repaired, the final 186-test
+suite/build pass, and affected isolated browser checks pass. The plan/checkpoint
+record actual evidence. User merges manually; no playable-site deployment.
 Branch: `codex/life-simulation-spec`, based on `origin/main` at `9d19b9a`.
 Deployment remains outside scope.
 

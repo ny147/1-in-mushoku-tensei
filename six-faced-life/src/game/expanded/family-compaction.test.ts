@@ -138,6 +138,39 @@ describe("actual demographic compaction and bounded work", () => {
     expect(count).toBeLessThan(21000);
     expect(draws).toBeLessThan(256);
   });
+  it("discloses the projection bound for named as well as aggregate births", () => {
+    const base = createExpandedLife({ seed: 0 });
+    base.phase = "alive";
+    base.age = 22;
+    const spouse = introducePartner(base)!;
+    spouse.strength = 100;
+    marry(base, spouse.id);
+    addChild(base);
+    base.age = 42;
+    const f = base.expansion.family,
+      child = f.people.find((p) => p.role === "child")!;
+    const mate = {
+      ...structuredClone(spouse),
+      id: "inlaw-limit",
+      role: "inlaw" as const,
+      partner: child.id,
+      born: child.born,
+    };
+    child.partner = mate.id;
+    f.people.push(mate);
+    f.cohorts = [cohort(base.expansion.birthYear + 36, 0, 1_000_000)];
+    f.distantBorn = 1_000_000;
+    f.distantDead = 1_000_000;
+    let limited = 0;
+    for (let seed = 0; seed < 200; seed++) {
+      const l = structuredClone(base);
+      l.expansion.familyRng = seed;
+      applyFamilyYear(l);
+      expect(isLife(l), `seed ${seed}`).toBe(true);
+      if (l.expansion.family.projectionLimited) limited++;
+    }
+    expect(limited).toBeGreaterThan(0);
+  });
   it("preserves valid family ledgers through 800 years and repeated restoration", () => {
     let l = createExpandedLife({ seed: 0 });
     l.phase = "alive";

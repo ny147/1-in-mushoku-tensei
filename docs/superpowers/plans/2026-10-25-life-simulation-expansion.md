@@ -14,7 +14,11 @@
 
 The user requested implementation and pushing to the **same PR #10**, superseding the prior planning-only restriction. Treat the referenced spec's proposed details as the implementation baseline. The numerical choices below are builder-authored balance, subject to cohort calibration, not canon claims or separately confirmed user choices.
 
-The installed writing-plans workflow requires review of this concrete plan before code implementation. This document is awaiting that review and execution-method selection. No application changes or verification are implied by its presence. Recommend native execution: the tasks share state, routing and validation contracts, so sequential implementation avoids concurrent schema changes. Do not create another branch, PR, worktree or checkpoint system.
+The plan was reviewed and approved, then implemented inline on the existing PR
+branch. The progress ledger below records verification, the sole independent
+review and its repair pass. Original checklists describe the execution brief;
+the final ledger records completion evidence. Do not repeat planning approval,
+create another branch/PR/worktree, or deploy the game as part of this delivery.
 
 ## Global constraints
 
@@ -215,9 +219,9 @@ Public engine API remains `createLife(options?): Life`, `beginLife(life): Life`,
 | Plan | Approved for execution | User: "let implement it" on 2026-10-26; native execution |
 | 1 | Legacy extraction verified | 21,168 full-state SHA256 checkpoints captured before edits from 200 EN/TH lives at baseline 238c3e4. Unknown-rules rejection RED→GREEN; full suite 106/106 passed. Routing facade established; expanded dispatch follows Task 2. |
 | 2 | Foundation verified | 10,000 seeded origins and malformed expanded restoration tests pass; 108/108 suite; TypeScript/Vite build passes (existing chunk warning). Expanded creation remains unavailable in production UI. |
-| 3–10 | Implemented; final review pending | Expanded domain modules and RED→GREEN checks; 500 complete seeded lives remain valid with restored decision futures equal. Full-engine 10,000-Superd cohort 89.72% death before 15; protected/adequate-care cohort 73.02%. Hazard-only 91.49%/68.93%; matched other races 14.78% poor vs 4.35% comfortable. |
-| 11 | Implemented; final review pending | English/Thai details, immutable retrospective, manual watch guard, actual pay/requirements and world guide integrated. Desktop 1280 and phones 390/320 inspected; no overflow/captured warnings/errors in inspected flows. |
-| 12 | In progress | Full suite 169/169 passed before default switch. Explicit legacy fixtures unchanged; default-routing and Thai new-life checks 13/13 passed after switch. Final full suite, final browser form, whole-branch review and delivery pending. |
+| 3–10 | Complete | Expanded domain modules and review repairs; 500 complete seeded lives remain valid with restored decision futures equal. Full-engine 10,000-Superd cohort 89.72% death before 15; protected/adequate-care cohort 73.02%. Hazard-only 91.49%/68.93%; matched other races 14.78% poor vs 4.35% comfortable. 800-year family validation/restoration and bounded cohort sampling pass. |
+| 11 | Complete | English/Thai details, immutable retrospective, manual watch guard, actual pay/requirements and world guide integrated. Desktop 1280 and phones 390/320 inspected; no overflow/captured warnings/errors in inspected flows. Family/scholarship/widowhood reload and summary facts checked again after review repairs. |
+| 12 | Complete; delivery below | Expanded default enabled after acceptance checks; legacy fixtures unchanged. One independent review, eight required repairs, no declined findings or deferred minors. Final tests/build and delivery recorded below. |
 
 ### Review/save point — 2026-10-26 19:06 Asia/Bangkok
 
@@ -274,8 +278,14 @@ pending-state recovery, university progress, historical locality/attribution,
 family disaster bookkeeping and social/career snapshots reproduced RED→GREEN.
 `family-compaction.test.ts` and `review-regressions.test.ts`: 14/14; complete
 `npm test`: **185/185 across 32 files**, 67.67 seconds, and production build passed
-on 2026-10-26 at 19:41 Asia/Bangkok. No second review is dispatched. Affected
-isolated browser checks and final delivery remain before readiness.
+on 2026-10-26 at 19:41 Asia/Bangkok. No second review is dispatched.
+Final boundary regression for named-relative births at the disclosed projection
+limit also reproduced RED→GREEN. Fresh complete suite **186/186 across 32 files**,
+62.52 seconds; build passed again. Affected isolated browser checks passed for
+family/scholarship/widowhood reload, remote news and completed social/career
+facts, keyboard focus and 390/320px layouts with no overflow/captured errors.
+Final fetch confirms latest `origin/main` at `9d19b9a` is contained. Deliver on
+the same PR #10 targeting `main`; user merges manually, no deployment.
 
 Ruling: group cohorts by generation/carrier while retaining demographic profiles
 with birth year, ancestry, lifespan and independent RNG; merge only equivalent

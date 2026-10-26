@@ -199,6 +199,10 @@ export function applyFamilyYear(l: ExpandedLife) {
     ) {
       const race = draw(s) < 0.5 ? p.race : mate.race,
         genes = generateGenetics(s, [p.genetics, mate.genetics]);
+      if (f.distantBorn >= 1_000_000) {
+        cohortBirth(l, p.generation + 1, race, genes.carrier);
+        continue;
+      }
       if (f.people.length < 44) {
         const child = person(
           l,

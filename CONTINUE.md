@@ -1,5 +1,40 @@
 # Save point — Six-Faced Life
 
+## Completed implementation — PR #10, 2026-10-26 19:47 Asia/Bangkok
+
+**Implementation and required review repairs are complete.** Continue only for
+new feedback; do not repeat the implementation. Branch
+`codex/life-simulation-spec`, existing PR
+https://github.com/ny147/1-in-mushoku-tensei/pull/10, base `main`.
+Code checkpoint **`c741baf`** is pushed; the following final commit adds the
+named-relative projection-bound regression/fix and these delivery records.
+Use `git log -1` for that commit identifier.
+
+Final fresh checks after that last code change: **186/186 tests across 32 files**
+in 62.52 seconds, **`npm run build` passed**, `git diff --check` passed.
+Full-engine cohort remains 89.72% Superd childhood mortality, 73.02% with care/
+protection; all 21,168 legacy hashes remain unchanged. The sole whole-branch
+review's eight required findings are fixed; no declined findings or deferred
+minors. Existing Vite >500 kB bundle advisory remains nonblocking.
+
+Post-repair isolated browser checks: family and scholarship enrollment restore;
+remote succession news has no military service option; Calamity widowhood closes
+the marriage and restores; completed snapshot displays dismissal and named
+friend/rival/enemy facts. Keyboard focus works, no overflow at 390/320px, no
+captured warning/error logs in these flows. Owned 5180 Vite process stopped,
+owned QA tab closed and viewport reset. Port 5173 browser saves were untouched.
+Screenshot: `C:/Users/Neary/.codex/visualizations/2026/10/26/01a177e4-3d14-7050-9342-aaa2304e4fe6/expanded-reviewed-summary.png`.
+
+Fetch/prune succeeded and HEAD contains latest `origin/main` **`9d19b9a`**;
+no upstream integration was needed. Latest usage observation around **19:45**:
+five-hour **74% remaining**, reset **October 27 00:20:55**; weekly **96% remaining**,
+reset **November 2 19:20:55**. No credits or billing changed.
+
+Delivery: push final commit on this same branch, replace PR #10's planning-only
+title/body with implementation and validation, and mark ready for human review.
+Verify remote head/draft/base afterward. **User merges manually. No deployment.**
+No remaining implementation blocker; future work is human review/feedback.
+
 ## Verified repair checkpoint — PR #10, 2026-10-26 19:42 Asia/Bangkok
 
 Continue **`codex/life-simulation-spec`**, existing PR #10 targeting `main`.

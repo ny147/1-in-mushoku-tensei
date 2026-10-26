@@ -128,4 +128,15 @@ cohort, exact aggregate ledgers, bounded binomial draws and mean/variance checks
 Other regressions cover malformed/impossible saves, capped title history,
 attainable university study, service revalidation after travel, simultaneous
 historical attribution, disaster widowhood and bilingual social/career facts.
-Affected browser checks and final delivery remain. No unrun remote CI pass is claimed.
+After a final boundary regression ensured named relatives also respect the
+disclosed million-person projection bound, the suite was rerun: **186/186 across
+32 files**, 62.52 seconds, with the production build passing again.
+
+Affected post-repair browser checks passed on isolated 5180: family and funded
+university reload; remote succession news excludes military service; Calamity
+widowhood persists; completed summary displays dismissal plus all three named
+social roles. Keyboard focus and 390/320px layouts were checked without overflow
+or captured warning/error logs. Owned tab/server closed, viewport reset. Final
+fetch confirms the task branch contains `origin/main` at `9d19b9a`; same PR #10 is
+the delivery target and the user merges manually. No deployment or unrun remote
+CI pass is claimed.
