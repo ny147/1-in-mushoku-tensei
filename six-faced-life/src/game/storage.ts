@@ -36,6 +36,7 @@ function validMessage(value: unknown): boolean {
 }
 
 export function isLife(v: unknown): v is Life {
+  if (object(v) && v.ruleset !== undefined && v.ruleset !== 'legacy-1') return false;
   if (
     !object(v) ||
     v.version !== 1 ||

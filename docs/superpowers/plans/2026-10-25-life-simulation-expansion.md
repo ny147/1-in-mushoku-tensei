@@ -212,7 +212,12 @@ Public engine API remains `createLife(options?): Life`, `beginLife(life): Life`,
 
 | Task | State | Evidence / next action |
 | --- | --- | --- |
-| Plan | Written; awaiting review | Source/spec inspection and self-review completed 2026-10-26; no app implementation |
-| 1–12 | Not started | After user reviews plan and selects execution, capture pre-change legacy fixtures first |
+| Plan | Approved for execution | User: "let implement it" on 2026-10-26; native execution |
+| 1 | Legacy extraction verified | 21,168 full-state SHA256 checkpoints captured before edits from 200 EN/TH lives at baseline 238c3e4. Unknown-rules rejection RED→GREEN; full suite 106/106 passed. Routing facade established; expanded dispatch follows Task 2. |
+| 2–12 | Pending | Start validated expanded origin/schema tests |
+
+Ruling: use this existing tracked ledger and existing PR branch rather than a second scratch checkpoint/worktree — repository/user instructions explicitly require continuing the same task branch and checkpoint — no parallel checkout isolation.
+Ruling: baseline fixtures use SHA256 of each complete serialized state instead of duplicating every full life JSON — 21,168 checkpoints remain sensitive to all fields/RNG while keeping the committed fixture bounded — hash failures require reproducing the named seed/action to inspect field differences.
+Pre-flight: Tasks 2–10 share ExpandedState and validation; define the complete bounded schema before adding domain effects. Tasks 3/7/8/9 share the persisted queue; factories derive offers from current state and revalidate after choices. Tasks 4/5/6 share resources; only economy applies annual income/expenses. Tasks 9/10 share person/cohort facts; compaction cannot discard live ancestry needed by future simulation. Task 11 consumes presentation-safe selectors and manual-only decisions; it cannot inspect latent genetics.
 
 Self-review: spec requirements map to Tasks 1–12; five review risks each have explicit owning tests; public routing retains current engine signatures; balance and typed per-career/schema boundaries are explicit. Calibration values are initial builder choices, not measured outcomes. Cohort exactness and storage worst-case size are release blockers until proven. The original five phases are represented by foundation (1–3), survival/opportunity (4–6), history/politics (7–8), inherited family/summary (9–10), and presentation/release (11–12); localized presentation data accompanies each earlier domain task.

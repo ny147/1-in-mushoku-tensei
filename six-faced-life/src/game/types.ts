@@ -57,6 +57,7 @@ export interface NarrativeMessage {
   params?: Record<string, string | number>;
 }
 export interface Life {
+  ruleset?: "legacy-1";
   version: 1;
   /** Absent on legacy saves; presentation treats those lives as English. */
   language?: Language;
