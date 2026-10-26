@@ -1,5 +1,59 @@
 # Save point — Six-Faced Life
 
+## Accessible career design — 2026-10-26 21:00 Asia/Bangkok
+
+The user reports being stuck as farmer even when not poor and explicitly asked
+for `grill-me` **before planning anything**. The design interview is complete;
+the requested `i-have-adhd` response style stays active until turned off. Keep
+responses short with one clear next action. **No game implementation or
+implementation plan has been written.**
+
+Confirmed: all ordinary careers get accessible training routes; paid full-time
+apprenticeships take 2–3 years; optional slower part-time training retains the
+current job; entry requirements decrease and existing skills count; ordinary
+qualified applicants and graduates get guaranteed appointments without vacancy
+waiting. Loans are voluntary, interest-free and repaid only from income after
+necessities, with hardship pauses. Loans cover career training **and university**;
+university keeps academic readiness with clearer guidance. Mastery and prestigious
+roles remain harder. See the full confirmed/proposed distinction in
+`docs/superpowers/specs/2026-10-26-accessible-careers-design.md`.
+
+Source investigation found most jobs have only a deterministic **10% vacancy
+chance per world year**, versus always-available farmer/laborer. Swordsman needs
+80 sword XP/cap 2; mage needs 100 discipline XP/cap 2; ordinary focus gives 9
+XP/year and instruction itself requires prior XP and a fee. These are source
+findings, not observations of the player's private save or current hosted build.
+
+New clean task branch: `codex/accessible-career-design`, from freshly fetched
+`origin/main` **`c88743a`** (PR #11 is merged). Ordinary fetch was sandbox-blocked
+at FETCH_HEAD; the authorized escalated fetch succeeded. Only the design and this
+checkpoint change. A fresh builder reviewer found **nothing important left**;
+remaining internal allocation/schema/refund choices are explicitly delegated.
+Draft design PR targeting `main` is being prepared; use this branch's Git log
+for the forthcoming documentation commit. User merges manually; no deployment.
+
+Proposed defaults, **not yet user-approved**: lower ordinary thresholds listed in
+the design; 24 coins/year full-time apprentice pay, 8 coins per equivalent year
+tuition; 4/6-year part-time duration; 10% positive earned-surplus repayment;
+provider-paid loans including university's existing tuition/living reserve;
+retained qualification during injury and manual placement acceptance. Review
+these before implementation planning. Existing expanded lives need validated
+no-course/no-debt migration; frozen legacy lives and completed snapshots stay intact.
+
+Verification is documentation-only: source paths/values, the full new document,
+and the staged task diff were inspected; `git diff --cached --check` passed after
+removing two Markdown line-break trailing spaces. No application tests,
+build, or browser QA were run or claimed; no player storage was touched.
+Usage observed around **20:56 Asia/Bangkok**: five-hour **24% remaining**, reset
+**Oct 27 00:20:55**; weekly **88% remaining**, reset **Nov 2 19:20:55**. No billing
+or reset-credit action. This is above the below-10% checkpoint trigger.
+
+Exact next step: complete documentation diff checks and Git delivery, then have
+the user review the design/proposed defaults. The brainstorming skill requires
+design-document approval before invoking writing-plans to create the implementation
+plan. Do not repeat the completed interview, treat proposed numbers as approved,
+or begin product implementation at this checkpoint.
+
 ## Optional activities follow-up — 2026-10-26 20:15 Asia/Bangkok
 
 User feedback: careers seemed restricted to farmer; user explicitly clarified
