@@ -56,6 +56,7 @@ export function finishExpanded(life: ExpandedLife, cause: string) {
   life.phase = "ended";
   life.pending = null;
   life.expansion.queue = [];
+  life.expansion.optionalActivity = null;
   life.progress = 0;
   life.ending = {
     cause,
@@ -71,6 +72,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   if (!c || c.disabled || (c.cost ?? 0) > life.coins) return life;
   const next = structuredClone(life);
   next.pending = null;
+  next.expansion.optionalActivity = null;
   if (!id.startsWith("expanded.career.job-")) next.coins -= c.cost ?? 0;
   next.coins = clamp(next.coins + (c.coins ?? 0), 0, 1_000_000);
   for (const [k, v] of Object.entries(c.effects ?? {}))
@@ -145,9 +147,9 @@ function year(life: ExpandedLife) {
     finishExpanded(life, cause);
     return;
   }
-  const attending=life.expansion.education.stage==='university';
+  const attending = life.expansion.education.stage === "university";
   applyEducationYear(life);
-  const priorRole=life.expansion.career.role;
+  const priorRole = life.expansion.career.role;
   applyCareerYear(life);
   applyFamilyYear(life);
   applyPoliticalYear(life);
@@ -158,8 +160,14 @@ function year(life: ExpandedLife) {
   )
     life.expansion.genetics.signs = true;
   const due: string[] = applyHistoryYear(life);
-  if(attending&&life.expansion.education.stage!=='university')due.push('expanded.work');
-  if(priorRole!=='child'&&life.expansion.career.role==='child'&&!due.includes('expanded.work'))due.push('expanded.work');
+  if (attending && life.expansion.education.stage !== "university")
+    due.push("expanded.work");
+  if (
+    priorRole !== "child" &&
+    life.expansion.career.role === "child" &&
+    !due.includes("expanded.work")
+  )
+    due.push("expanded.work");
   if (life.stats.health <= 0) {
     finishExpanded(life, "violence");
     return;
@@ -189,7 +197,6 @@ function year(life: ExpandedLife) {
         if (x.education.stage === "graduated") pool.push("research");
         if (x.standing.reputation >= 70) pool.push("grant");
         if (x.genetics.signs && !x.genetics.discovered) pool.push("discovery");
-        if (life.age + x.birthYear > 430) pool.push("challenge");
       }
       if (life.age >= RACES[life.race].lifespan * 0.6) pool.push("retire");
       const event = orsted

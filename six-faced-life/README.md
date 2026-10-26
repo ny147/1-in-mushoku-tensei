@@ -107,6 +107,15 @@ The test suite covers complete lifetimes across 100 seeds and all races, every c
 
 Existing first-release saves remain supported. Migration preserves the life, random state, pending decision, history, savings, and aggregate training. Existing magic experience seeds the named discipline; newly added career experience starts counting with this update. Instruction rank is shared across magic disciplines, while their experience and learned spells are separate. The new events can occur in existing lives once their age, location, and story prerequisites are met; already-passed childhood milestones are not replayed.
 
+Expanded lives: open **Optional activities** below this year's focus to browse
+careers, seek instruction/education, travel, meet someone or review a legendary
+challenge. The menu unlocks activities by age and era. Career choices show missing
+qualifications, yearly vacancies and fees; check another year if no vacancy is
+open. The first livelihood decision also links to other careers. Opening an
+activity pauses time and saves it; Watch mode leaves that choice to you. Finish
+any pending story decision before opening another activity. Seven Great Powers
+challenges are voluntary and retain their mastery/renown requirements.
+
 ## Scope and credits
 
 The user authorized automatic task commits, branch pushes, and PRs targeting `main` on 2026-10-24; follow-up commits update the task's open PR, and the user merges manually. On 2026-10-25 the user switched from Cloudflare to Vercel, manually merged migration PR #5 and authorized the first deployment. That deployment is live and its tests/build and hosted smoke checks passed. Sites publishing, other new remote services, and paid upgrades remain outside this request. Follow the root [AGENTS.md](../AGENTS.md) for Git delivery, usage monitoring, and save points; the [repository README](../README.md) indexes the project documentation.

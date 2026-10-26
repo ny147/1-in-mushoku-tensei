@@ -6,8 +6,37 @@ import { createExpandedLife } from "../game/expanded/origins";
 import { LanguageProvider } from "../i18n/context";
 import { Retrospective } from "./Retrospective";
 import { finishLife } from "../game/engine";
+import { DecisionPanel } from "./LifeView";
+import { appointmentAvailable } from "../game/expanded/events";
 afterEach(cleanup);
 describe("expanded chronicle details", () => {
+  it("discloses affordable career fees before commitment in English and Thai", () => {
+    for (const language of ["en", "th"] as const) {
+      const l = createExpandedLife({ seed: 2, language });
+      l.phase = "alive";
+      l.age = 35;
+      l.coins = 200;
+      l.expansion.economy.peak = 200;
+      l.stats.knowledge = 50;
+      l.pending = "expanded.career";
+      for (let seed = 0; seed < 1000; seed++) {
+        l.expansion.worldSeed = seed;
+        if (appointmentAvailable(l, "merchant")) break;
+      }
+      const view = render(
+        <LanguageProvider language={language}>
+          <DecisionPanel life={l} onChoose={() => {}} onAdvance={() => {}} />
+        </LanguageProvider>,
+      );
+      const merchant = screen.getByRole("button", {
+        name: language === "en" ? /^Merchant / : /^พ่อค้า/,
+      });
+      expect(merchant.textContent).toContain(
+        language === "en" ? "Costs 30 silver" : "ใช้ 30 เหรียญเงิน",
+      );
+      view.unmount();
+    }
+  });
   it("shows the calendar, resources and truthful warnings while hiding latent genetics", () => {
     const l = createExpandedLife({ seed: 1 });
     l.race = "superd";

@@ -50,6 +50,7 @@ import {
   createLife,
   getDecision,
   setFocus,
+  openActivity,
 } from "./game/engine";
 import { archiveLife, loadGame, saveGame } from "./game/storage";
 import { RACES, REGIONS, lifeStage } from "./game/world";
@@ -762,6 +763,14 @@ export default function App() {
             ) : life ? (
               <LifeView
                 life={life}
+                onActivity={(key) => {
+                  setPlaying(false);
+                  setOutcome(null);
+                  updateLife((current) =>
+                    current ? openActivity(current, key) : null,
+                  );
+                  setFocusTarget("decision-heading");
+                }}
                 onFocus={(focus: Focus) =>
                   updateLife((current) =>
                     current ? setFocus(current, focus) : null,

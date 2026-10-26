@@ -40,6 +40,8 @@ import { getProgression, MAGIC_SCHOOLS } from "../game/progression";
 import { CareerProgress, Spellbook, StudyFocus } from "./Progression";
 import { ChoiceOutcome, type ChoiceResult } from "./ChoiceOutcome";
 import { Landscape } from "./Landscape";
+import { OptionalActivities } from "./OptionalActivities";
+import type { Activity } from "../game/expanded/activities";
 
 const statMeta: {
   id: Stat;
@@ -361,6 +363,7 @@ export function DecisionPanel({
                 <strong>{t(choice.label)}</strong>
                 <small>
                   {t(choice.description)}
+                  {cost > 0 && <> · {t(`Costs ${cost} silver`)}</>}
                   {t(
                     cost > life.coins
                       ? ` · Need ${cost - life.coins} more silver`
@@ -528,6 +531,7 @@ export function LifeView({
   outcome,
   automatic,
   onSpellbook,
+  onActivity,
 }: {
   life: Life;
   onFocus: (focus: Focus) => void;
@@ -537,6 +541,7 @@ export function LifeView({
   outcome?: ChoiceResult | null;
   automatic?: boolean;
   onSpellbook?: () => void;
+  onActivity?: (key: Activity) => void;
 }) {
   const { t } = useI18n();
 
@@ -599,6 +604,9 @@ export function LifeView({
           automatic={automatic}
         />
         <FocusPicker life={life} onFocus={onFocus} />
+        {life.ruleset === "expanded-1" && onActivity && (
+          <OptionalActivities life={life} onOpen={onActivity} />
+        )}
         {life.ruleset === "expanded-1" && <ExpandedDetails life={life} />}
         <LifeRecord life={life} />
         <LifeTimeline life={life} />

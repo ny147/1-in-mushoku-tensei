@@ -240,6 +240,17 @@ The current discipline alone receives a pale sage fill (`#edf0e4`), 6px corners,
 
 ## Interaction and state
 
+Expanded chronicles place a native **Optional activities** disclosure directly
+below yearly focus, from age eight. Reuse paper rules and secondary buttons, with
+44px touch targets, wrapping labels and explicit age/era guidance. Career browsing,
+instruction, assessment, university admission, travel, meeting people and legendary
+challenges reuse the main decision panel. Opening one pauses playback, focuses
+the decision heading, persists immediately and remains manual after reload or
+in Watch mode. Pending decisions disable the menu actions with a visible reason.
+Legendary challenges never appear as random interruptions. Career choice rows
+show vacancy status and missing qualifications; every positive choice fee is
+visible before commitment, with any affordability shortfall separately stated.
+
 Time controls sit above the chronicle. Speeds are 1×, 2×, 4×, and 8×, with an explicit pressed state and 44px minimum targets. The button names its action, Play or Pause; separate guidance distinguishes paused, moving, waiting for a manual choice, and Watch mode choosing automatically. Review choices focuses and scrolls to the blocking decision. The manual-step tooltips explain that year advance stops early for a decision and next-decision advance searches up to twelve years per activation. A pending decision blocks both advancement buttons. Watch mode has an adjacent explanation that it makes choices while time plays. Hidden tabs suspend both timed progression and automatic choices; reload starts paused.
 
 A manual choice leaves its actual narrative outcome and actual rounded stat/experience/silver changes in a sage paper section where the choice was. The heading receives focus, a polite live region announces the result, and Continue to next decision provides a direct next action. Capped gains and failed risks use actual before/after state, never the promised reward. This transient feedback does not alter saves; the permanent result remains in the chronicle. Timed playback can continue while the result is visible; a new decision or manual time step supersedes it. Automatic choices do not move focus or announce every tick.

@@ -76,6 +76,22 @@ export function isLife(v: unknown): v is Life {
     )
       return false;
     const x = v.expansion as import("./expanded/types").ExpandedState;
+    if (
+      x.optionalActivity !== undefined &&
+      x.optionalActivity !== null &&
+      (typeof x.optionalActivity !== "string" ||
+        x.optionalActivity !== v.pending ||
+        ![
+          "career",
+          "instruction",
+          "assessment",
+          "university",
+          "travel",
+          "courtship",
+          "challenge",
+        ].some((k) => x.optionalActivity === `expanded.${k}`))
+    )
+      return false;
     const namedDescendants = x.family.people.filter(
       (p) => p.role === "descendant",
     );

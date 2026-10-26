@@ -117,6 +117,7 @@ export interface CompletedSummary {
   narrative: { en: string; th: string };
 }
 export interface ExpandedState {
+  optionalActivity?: string | null;
   version: 1;
   birthYear: number;
   worldSeed: number;

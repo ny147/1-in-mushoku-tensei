@@ -40,8 +40,53 @@ beforeEach(() => {
 });
 
 describe("clear next actions and recovery", () => {
+  it("opens optional careers and keeps the manual browser after reload", () => {
+    const l = createExpandedLife({ seed: 2 });
+    l.phase = "alive";
+    l.age = 35;
+    l.coins = 200;
+    l.expansion.economy.peak = 200;
+    l.stats.knowledge = 50;
+    saveGame(window.localStorage, { version: 1, active: l, archive: [] });
+    const view = render(<App />);
+    fireEvent.click(screen.getByText("Optional activities", { exact: true }));
+    fireEvent.click(screen.getByRole("button", { name: "Browse careers" }));
+    expect(loadGame(window.localStorage).data.active?.pending).toBe(
+      "expanded.career",
+    );
+    expect(document.activeElement?.id).toBe("decision-heading");
+    view.unmount();
+    render(<App />);
+    expect(
+      screen.getByRole("heading", { name: "An available appointment" }),
+    ).toBeTruthy();
+    expect(loadGame(window.localStorage).data.active?.age).toBe(35);
+  });
+  it("keeps a voluntarily opened legendary challenge manual in Watch mode and permits declining it", () => {
+    vi.useFakeTimers();
+    const l = createExpandedLife({ seed: 2 });
+    l.phase = "alive";
+    l.age = 35;
+    saveGame(window.localStorage, { version: 1, active: l, archive: [] });
+    render(<App />);
+    fireEvent.click(screen.getByText("Optional activities", { exact: true }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "Legendary challenges" }),
+    );
+    fireEvent.click(screen.getByRole("checkbox", { name: "Watch mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Play time" }));
+    act(() => vi.advanceTimersByTime(2200));
+    expect(loadGame(window.localStorage).data.active?.pending).toBe(
+      "expanded.challenge",
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: /^Continue without committing/ }),
+    );
+    expect(loadGame(window.localStorage).data.active?.pending).toBeNull();
+    expect(loadGame(window.localStorage).data.active?.age).toBe(35);
+  });
   function startPending() {
-    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 32 }));
+    const life = beginLife(createLife({ ruleset: "legacy-1", seed: 32 }));
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     return life;
   }
@@ -187,7 +232,10 @@ afterEach(() => {
 
 describe("browser playback and saving", () => {
   it("does not start time when Space is used on the spell disclosure", () => {
-    const life = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 32 })), "observe");
+    const life = choose(
+      beginLife(createLife({ ruleset: "legacy-1", seed: 32 })),
+      "observe",
+    );
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     const { container } = render(<App />);
     const summary = container.querySelector(".known-spells summary")!;
@@ -198,7 +246,7 @@ describe("browser playback and saving", () => {
 
   it("keeps a queued watch-mode choice pending when the page becomes hidden", () => {
     vi.useFakeTimers();
-    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 32 }));
+    const life = beginLife(createLife({ ruleset: "legacy-1", seed: 32 }));
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     render(<App />);
     fireEvent.click(screen.getByRole("checkbox", { name: "Watch mode" }));
@@ -215,7 +263,10 @@ describe("browser playback and saving", () => {
 
   it("saves every focus change immediately even when paused and changed quickly", () => {
     vi.useFakeTimers();
-    const life = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 32 })), "observe");
+    const life = choose(
+      beginLife(createLife({ ruleset: "legacy-1", seed: 32 })),
+      "observe",
+    );
     life.age = 6;
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     render(<App />);
@@ -237,7 +288,7 @@ describe("browser playback and saving", () => {
   it("opens the chronicle at the top after leaving the birth record", () => {
     saveGame(window.localStorage, {
       version: 1,
-      active: createLife({ ruleset: 'legacy-1', seed: 32 }),
+      active: createLife({ ruleset: "legacy-1", seed: 32 }),
       archive: [],
     });
     render(<App />);
@@ -250,7 +301,10 @@ describe("browser playback and saving", () => {
   });
   it("saves study selection immediately without discarding an existing life", () => {
     vi.useFakeTimers();
-    const life = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 32 })), "observe");
+    const life = choose(
+      beginLife(createLife({ ruleset: "legacy-1", seed: 32 })),
+      "observe",
+    );
     life.age = 10;
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     render(<App />);
