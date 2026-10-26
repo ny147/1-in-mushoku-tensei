@@ -1,6 +1,8 @@
 import type { Language } from "../game/types";
 
 export const WORLD_TH: Record<string, string> = {
+  Superd: 'เผ่าสเปิร์ด',
+  'A long-lived demon people facing persecution and extreme childhood danger.': 'เผ่าปีศาจอายุยืนที่เผชิญการกดขี่และอันตรายร้ายแรงในวัยเด็ก',
   Human: "มนุษย์",
   Elf: "เอลฟ์",
   Beastfolk: "เผ่าสัตว์",

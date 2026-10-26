@@ -1,24 +1,23 @@
-import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import baseline from './fixtures/legacy-baseline.json';
 import { advance, beginLife, choose, createLife, getDecision } from './engine';
 import { isLife, loadGame } from './storage';
 import type { Language } from './types';
 
-const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
+const hash = async (value: unknown) => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(value))))).map(v=>v.toString(16).padStart(2,'0')).join('');
 describe('frozen legacy compatibility', () => {
-  it('reproduces every action of 200 pre-expansion lives including random state', () => {
+  it('reproduces every action of 200 pre-expansion lives including random state', async () => {
     for (const record of baseline.records) {
       let life = createLife({seed:record.seed, language:record.language as Language, name:'Baseline'});
-      expect(hash(life)).toBe(record.checkpoints[0]);
+      expect(await hash(life)).toBe(record.checkpoints[0]);
       life = beginLife(life);
-      expect(hash(life)).toBe(record.checkpoints[1]);
+      expect(await hash(life)).toBe(record.checkpoints[1]);
       for (const checkpoint of record.checkpoints.slice(2)) {
         const decision = getDecision(life);
         const choice = decision?.choices.find(c => !c.disabled && (c.cost ?? 0) <= life.coins && !c.risk)
           ?? decision?.choices.find(c => !c.disabled && (c.cost ?? 0) <= life.coins);
         life = decision ? choose(life, choice!.id) : advance(life, 'year');
-        expect(hash(life), `seed ${record.seed}, age ${life.age}`).toBe(checkpoint);
+        expect(await hash(life), `seed ${record.seed}, age ${life.age}`).toBe(checkpoint);
       }
       expect(life.phase).toBe('ended');
     }

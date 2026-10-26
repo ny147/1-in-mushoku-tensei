@@ -2,6 +2,8 @@ import { EVENT_MAP } from "./events";
 import { CAREERS, FOCUSES, RACES, REGIONS } from "./world";
 import type { Career, Life, SaveData } from "./types";
 import { isProgression, migrateLife } from "./progression";
+import { validateExpansion } from './expanded/validation';
+import { validEventId } from './expanded/balance';
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -36,7 +38,7 @@ function validMessage(value: unknown): boolean {
 }
 
 export function isLife(v: unknown): v is Life {
-  if (object(v) && v.ruleset !== undefined && v.ruleset !== 'legacy-1') return false;
+  if (object(v) && v.ruleset !== undefined && v.ruleset !== 'legacy-1' && v.ruleset !== 'expanded-1') return false;
   if (
     !object(v) ||
     v.version !== 1 ||
@@ -45,6 +47,9 @@ export function isLife(v: unknown): v is Life {
     !text(v.surname, 100)
   )
     return false;
+  const expanded = v.ruleset === 'expanded-1';
+  const ageMax = expanded ? 1000 : 300;
+  if ((!expanded && v.race === 'superd') || (expanded && !validateExpansion(v.expansion, v.age as number, v.phase, v.coins as number))) return false;
   if (
     Object.hasOwn(v, "language") &&
     v.language !== "en" &&
@@ -64,7 +69,7 @@ export function isLife(v: unknown): v is Life {
   )
     return false;
   if (
-    !number(v.age, 0, 300) ||
+    !number(v.age, 0, ageMax) ||
     !Number.isInteger(v.age) ||
     !number(v.progress, 0, 1) ||
     !number(v.coins)
@@ -73,7 +78,7 @@ export function isLife(v: unknown): v is Life {
   if (
     !number(v.seed, 0, 4294967295) ||
     !number(v.rng, 0, 4294967295) ||
-    !number(v.deathAge, 1, 300)
+    !number(v.deathAge, 1, ageMax)
   )
     return false;
   if (!ownKey(FOCUSES, v.focus) || !ownKey(CAREERS, v.career)) return false;
@@ -113,15 +118,15 @@ export function isLife(v: unknown): v is Life {
     return false;
   if (
     !Array.isArray(v.family) ||
-    v.family.length > 30 ||
+    v.family.length > (expanded ? 64 : 30) ||
     !v.family.every(
       (p) =>
         object(p) &&
         text(p.id, 100) &&
         text(p.name, 100) &&
         text(p.role, 100) &&
-        number(p.bornAt, -300, 300) &&
-        number(p.lifespan, 1, 300),
+        number(p.bornAt, expanded ? -1000 : -300, ageMax) &&
+        number(p.lifespan, 1, ageMax),
     )
   )
     return false;
@@ -133,11 +138,11 @@ export function isLife(v: unknown): v is Life {
   if (
     !object(v.seen) ||
     !Object.entries(v.seen).every(
-      ([key, age]) => EVENT_MAP.has(key) && number(age, 0, 300),
+      ([key, age]) => (expanded ? validEventId(key) : EVENT_MAP.has(key)) && number(age, 0, ageMax),
     )
   )
     return false;
-  if (v.pending !== null && (!text(v.pending) || !EVENT_MAP.has(v.pending)))
+  if (v.pending !== null && (!text(v.pending) || !(expanded ? validEventId(v.pending) : EVENT_MAP.has(v.pending))))
     return false;
   if (v.phase !== "alive" && v.pending !== null) return false;
   if (
@@ -153,7 +158,7 @@ export function isLife(v: unknown): v is Life {
       (e) =>
         object(e) &&
         number(e.id) &&
-        number(e.age, 0, 300) &&
+        number(e.age, 0, ageMax) &&
         text(e.title) &&
         text(e.text) &&
         (!Object.hasOwn(e, "message") || validMessage(e.message)) &&
@@ -195,8 +200,8 @@ export function loadGame(storage: StorageLike): {
     return {
       data: {
         ...save,
-        active: save.active ? migrateLife(save.active) : null,
-        archive: save.archive.map(migrateLife),
+        active: save.active ? (save.active.ruleset === 'expanded-1' ? save.active : migrateLife(save.active)) : null,
+        archive: save.archive.map(l=>l.ruleset === 'expanded-1'?l:migrateLife(l)),
       },
       error: null,
     };

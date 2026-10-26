@@ -214,7 +214,8 @@ Public engine API remains `createLife(options?): Life`, `beginLife(life): Life`,
 | --- | --- | --- |
 | Plan | Approved for execution | User: "let implement it" on 2026-10-26; native execution |
 | 1 | Legacy extraction verified | 21,168 full-state SHA256 checkpoints captured before edits from 200 EN/TH lives at baseline 238c3e4. Unknown-rules rejection RED→GREEN; full suite 106/106 passed. Routing facade established; expanded dispatch follows Task 2. |
-| 2–12 | Pending | Start validated expanded origin/schema tests |
+| 2 | Foundation verified | 10,000 seeded origins and malformed expanded restoration tests pass; 108/108 suite; TypeScript/Vite build passes (existing chunk warning). Expanded creation remains unavailable in production UI. |
+| 3–12 | Pending | Transactional queue tests next |
 
 Ruling: use this existing tracked ledger and existing PR branch rather than a second scratch checkpoint/worktree — repository/user instructions explicitly require continuing the same task branch and checkpoint — no parallel checkout isolation.
 Ruling: baseline fixtures use SHA256 of each complete serialized state instead of duplicating every full life JSON — 21,168 checkpoints remain sensitive to all fields/RNG while keeping the committed fixture bounded — hash failures require reproducing the named seed/action to inspect field differences.

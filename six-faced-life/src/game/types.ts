@@ -1,5 +1,6 @@
 export type Language = "en" | "th";
-export type RaceId = "human" | "elf" | "beastfolk" | "migurd" | "dwarf";
+import type { ExpandedState } from './expanded/types';
+export type RaceId = "human" | "elf" | "beastfolk" | "migurd" | "dwarf" | "superd";
 export type RegionId =
   "asura" | "ranoa" | "millis" | "forest" | "demon" | "begaritt";
 export type Focus =
@@ -56,8 +57,7 @@ export interface NarrativeMessage {
   key: string;
   params?: Record<string, string | number>;
 }
-export interface Life {
-  ruleset?: "legacy-1";
+export interface BaseLife {
   version: 1;
   /** Absent on legacy saves; presentation treats those lives as English. */
   language?: Language;
@@ -99,6 +99,10 @@ export interface Life {
   ending: { cause: string; legacy: string } | null;
   progression?: Progression;
 }
+export interface LegacyLife extends BaseLife { ruleset?: 'legacy-1' }
+export interface ExpandedLife extends BaseLife { ruleset: 'expanded-1'; expansion: ExpandedState }
+export type Life = LegacyLife | ExpandedLife;
+export interface LifeOptions { name?: string; seed?: number; region?: RegionId; language?: Language; ruleset?: 'legacy-1' | 'expanded-1' }
 export interface Choice {
   id: string;
   label: string;
@@ -127,6 +131,7 @@ export interface Choice {
   promoteCareer?: boolean;
 }
 export interface Decision {
+  requiresManual?: boolean;
   id: string;
   title: string;
   text: string;
