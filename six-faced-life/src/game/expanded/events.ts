@@ -1,5 +1,9 @@
 import type { Choice, Decision, ExpandedLife, RegionId } from "../types";
-import { EXPANDED_COPY, expandedLabel } from "../../i18n/expanded";
+import {
+  EXPANDED_COPY,
+  expandedLabel,
+  describeCareerRequirements,
+} from "../../i18n/expanded";
 import { OCCUPATIONS } from "./balance";
 import {
   educationRequirements,
@@ -119,6 +123,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
           disabled: careerRequirements(life, "farmer").some((r) => !r.met),
         }),
         option("laborer"),
+        option("career"),
         option("later"),
       ];
       break;
@@ -181,6 +186,13 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
           disabled:
             careerRequirements(life, role).some((r) => !r.met) ||
             !appointmentAvailable(life, role),
+          requirements: careerRequirements(life, role),
+          vacancy: appointmentAvailable(life, role),
+          description: describeCareerRequirements(
+            careerRequirements(life, role),
+            appointmentAvailable(life, role),
+            "en",
+          ),
         }),
       );
       choices.unshift(option("promote", { disabled: !promotionReady(life) }));
@@ -281,6 +293,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
     choices,
     requiresManual:
       MANUAL.has(key) ||
+      x.optionalActivity === life.pending ||
       (key === "family" && x.family.marriages.some((m) => m.end === null)),
   };
 }
@@ -312,6 +325,10 @@ export function applyExpandedChoice(
       x.queue.unshift(`expanded.${event}`);
   };
   if (key === "opportunity" && action !== "later") queue(action);
+  if (key === "work" && action === "career") {
+    queue("career");
+    x.optionalActivity = "expanded.career";
+  }
   if (key === "reading" && action === "learn") x.education.stage = "basic";
   if (key === "assessment" && action === "take") assessTalent(life);
   if (key === "university" && action === "enroll") enrollUniversity(life);

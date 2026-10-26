@@ -1,5 +1,47 @@
 # Save point — Six-Faced Life
 
+## Optional activities follow-up — 2026-10-26 20:15 Asia/Bangkok
+
+User feedback: careers seemed restricted to farmer; user explicitly clarified
+that players should open optional activities whenever they choose, including
+Seven Great Powers challenges. **Implemented** on
+`codex/career-choice-access`, created cleanly from freshly fetched `origin/main`
+at **`271f718`**. PR #10 was already merged by the user; deliver this follow-up
+as a new PR targeting `main`, not as commits to the closed PR.
+
+Chronicle now has an Optional activities disclosure below yearly focus, from age
+eight: careers, instruction, assessment, university, travel, meeting people and
+legendary challenges. Opening pauses playback/focuses and saves the decision,
+consumes no time/random draws/resources and stays manual in Watch/reload. Pending
+decisions cannot be replaced. First work also links to other careers. Job rows
+show vacancy status, missing qualifications and all positive fees. Qualifications,
+costs and deterministic yearly vacancies remain; legendary challenges no longer
+interrupt ordinary lives randomly. Existing pending challenge saves still load.
+
+Fresh checks after final code edit: **197/197 tests across 33 files**, 64.04 sec;
+**production build passed**, existing >500 kB bundle advisory only; diff check
+passed. Legacy 21,168 hashes and measured childhood cohorts remain unchanged.
+Isolated browser 5180: desktop menu, merchant chosen/charged 30 once and restored
+at 170 coins/age 35, voluntary challenge reload/decline, Thai keyboard disclosure,
+fees/vacancies and 390/320px wrapping without overflow or captured warn/error logs.
+Owned server/tab stopped/closed and viewport reset; player 5173 storage untouched.
+Screenshot outside Git: `C:/Users/Neary/.codex/visualizations/2026/10/26/01a177e4-3d14-7050-9342-aaa2304e4fe6/optional-activities-mobile.png`.
+
+One fresh follow-up review found hidden affordable fees: reproduced RED→GREEN,
+fixed before final suite. Two minor explanatory gaps deferred: instruction lock
+reasons remain generic; university button does not explain its post-graduation
+lock. No required review finding remains. See the existing follow-up plan at
+`docs/superpowers/plans/2026-10-26-optional-activities.md`.
+
+Usage observed **20:13**: five-hour **52% remaining**, reset **Oct 27 00:20:55**;
+weekly **92% remaining**, reset **Nov 2 19:20:55**. No billing/reset credits changed.
+Delivery confirmed: code commit **`20d819a`** is pushed to
+`codex/career-choice-access`; follow-up **PR #11** is ready for review and targets
+`main`: https://github.com/ny147/1-in-mushoku-tensei/pull/11. Remote head matched
+that commit; this final documentation commit records the handoff. No required
+implementation work remains. User reviews/merges manually; do not repeat the
+implementation or planning. No deployment was performed.
+
 ## Completed implementation — PR #10, 2026-10-26 19:47 Asia/Bangkok
 
 **Implementation and required review repairs are complete.** Continue only for

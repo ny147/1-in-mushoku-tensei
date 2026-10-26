@@ -149,6 +149,12 @@ export const EXPANDED_COPY: Record<string, EventCopy> = {
         "You take work suited to your circumstances.",
         "คุณรับงานที่เหมาะกับสภาพร่างกายและชีวิตของตน",
       ],
+      career: [
+        "Browse other careers",
+        "ดูอาชีพอื่น",
+        "You review qualifications and current vacancies before choosing a job.",
+        "คุณตรวจสอบคุณสมบัติและตำแหน่งที่เปิดรับก่อนเลือกงาน",
+      ],
       later,
     },
   ),
@@ -767,6 +773,25 @@ export function expandedRecordLabel(
     return `${i ? "ปฏิเสธ" : "Declined"} ${expandedLabel(key.slice(8), language)}`;
   return names[key]?.[i] ?? expandedLabel(key, language);
 }
+export function describeCareerRequirements(
+  requirements: {
+    id: string;
+    current: number;
+    required: number;
+    met: boolean;
+  }[],
+  vacancy: boolean,
+  language: Language,
+): string {
+  const th = language === "th",
+    missing = requirements
+      .filter((r) => !r.met)
+      .map(
+        (r) =>
+          `${expandedLabel(r.id, language)} ${Math.floor(r.current)}/${r.required}`,
+      );
+  return `${vacancy ? (th ? "มีตำแหน่งว่างปีนี้" : "Vacancy this year") : th ? "ไม่มีตำแหน่งว่างปีนี้ ลองตรวจสอบอีกครั้งปีหน้า" : "No vacancy this year. Check again next year"}. ${missing.length ? (th ? "ยังต้องมี: " : "Still needed: ") + missing.join("; ") : th ? "คุณสมบัติครบ" : "Qualifications met"}.`;
+}
 export function expandedDecisionText(
   d: Decision,
   language: Language,
@@ -797,7 +822,13 @@ export function expandedDecisionText(
       return {
         ...c,
         label: text?.[1] ?? dynamic ?? c.label,
-        description: text?.[3] ?? "พิจารณาค่าใช้จ่ายและเงื่อนไขก่อนตัดสินใจ",
+        description: c.requirements
+          ? describeCareerRequirements(
+              c.requirements,
+              c.vacancy === true,
+              language,
+            )
+          : (text?.[3] ?? "พิจารณาค่าใช้จ่ายและเงื่อนไขก่อนตัดสินใจ"),
         outcome: text?.[3] ?? "การตัดสินใจและผลที่เกิดขึ้นจริงได้รับการบันทึก",
       };
     }),

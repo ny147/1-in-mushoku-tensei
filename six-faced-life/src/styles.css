@@ -3974,6 +3974,11 @@ h2[tabindex="-1"] {
   }
 }
 /* Expanded records extend the illustrated chronicle with quiet factual ledgers. */
+.optional-activities { margin-block: 24px; padding-block: 16px; border-block: 1px solid var(--line); }
+.optional-activities summary { cursor: pointer; font-weight: 600; min-height: 44px; padding-block: 10px; }
+.optional-activities p { color: var(--muted); line-height: 1.6; overflow-wrap: anywhere; }
+.activity-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-block: 16px; }
+.activity-buttons button { min-height: 44px; white-space: normal; }
 .expanded-details,
 .retrospective {
   margin-block: 24px;

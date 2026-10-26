@@ -12,6 +12,8 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
+- Expanded lives have an Optional activities menu below yearly focus from age eight. Players can browse careers and seek education/instruction, plan travel, meet people, or open legendary challenges when age/era permits. Opening an activity pauses time, persists the decision and stays manual in Watch mode. It cannot replace another pending decision. Career qualifications, fees and yearly vacancies remain real; job choices explain vacancies and missing requirements. Seven Great Powers challenges are initiated voluntarily, with a safe decline option, rather than appearing randomly.
+
 - New lives use the separate `expanded-1` ruleset. Existing lives retain legacy rules and seeded futures. Expanded origins include a uniformly sampled K397–K427 birth year, separate wealth/status, locality and Superd Demon Continent starts. Economic needs and cause-specific hazards create real early endings; care and protection improve odds.
 - Expanded education has free talent assessment, readiness/funding requirements, full scholarships for demonstrated exceptional talent, probation, withdrawal and successful graduation. Independent occupation ledgers cover ordinary work and the requested specialized paths; one primary occupation earns pay. Noble standing, faction allegiance and Seven Great Powers positions 5–7 remain separate tracks.
 - Named history has fixed major outcomes and local exposure. Regional conflicts and post-K430 continuation are authored adaptations. Faction recruitment, adult marriage, dangerous service and legendary challenges remain manual in Watch mode. The world guide distinguishes chronology evidence from game balance.
