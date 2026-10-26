@@ -1,5 +1,326 @@
 # Save point — Six-Faced Life
 
+## Completed implementation — PR #10, 2026-10-26 19:47 Asia/Bangkok
+
+**Implementation and required review repairs are complete.** Continue only for
+new feedback; do not repeat the implementation. Branch
+`codex/life-simulation-spec`, existing PR
+https://github.com/ny147/1-in-mushoku-tensei/pull/10, base `main`.
+Repair checkpoint **`c741baf`** and final code/verification commit **`3f0868e`**
+are pushed. The following documentation-only commit confirms delivery;
+use `git log -1` for its identifier.
+
+Final fresh checks after that last code change: **186/186 tests across 32 files**
+in 62.52 seconds, **`npm run build` passed**, `git diff --check` passed.
+Full-engine cohort remains 89.72% Superd childhood mortality, 73.02% with care/
+protection; all 21,168 legacy hashes remain unchanged. The sole whole-branch
+review's eight required findings are fixed; no declined findings or deferred
+minors. Existing Vite >500 kB bundle advisory remains nonblocking.
+
+Post-repair isolated browser checks: family and scholarship enrollment restore;
+remote succession news has no military service option; Calamity widowhood closes
+the marriage and restores; completed snapshot displays dismissal and named
+friend/rival/enemy facts. Keyboard focus works, no overflow at 390/320px, no
+captured warning/error logs in these flows. Owned 5180 Vite process stopped,
+owned QA tab closed and viewport reset. Port 5173 browser saves were untouched.
+Screenshot: `C:/Users/Neary/.codex/visualizations/2026/10/26/01a177e4-3d14-7050-9342-aaa2304e4fe6/expanded-reviewed-summary.png`.
+
+Fetch/prune succeeded and HEAD contains latest `origin/main` **`9d19b9a`**;
+no upstream integration was needed. Latest usage observation around **19:45**:
+five-hour **74% remaining**, reset **October 27 00:20:55**; weekly **96% remaining**,
+reset **November 2 19:20:55**. No credits or billing changed.
+
+Delivery confirmed through GitHub API: PR #10 is **ready for review** (`draft:
+false`), targets **`main`**, and its title/body now describe the implementation
+and measured validation. Remote code head matched **`3f0868e`**. This final
+documentation commit follows on the same branch. **User merges manually. No deployment.**
+No remaining implementation blocker; future work is human review/feedback.
+
+## Verified repair checkpoint — PR #10, 2026-10-26 19:42 Asia/Bangkok
+
+Continue **`codex/life-simulation-spec`**, existing PR #10 targeting `main`.
+All eight findings from the sole independent review have been repaired in the
+one RED→GREEN pass. New regressions cover family compaction/count safety,
+800-year family restoration, title history, impossible decisions, attainable
+university progress, local historical service and attribution, disaster
+widowhood, and bilingual social/career-outcome snapshots.
+
+Fresh checks: **`npm test` 185/185 across 32 files** (67.67 seconds), and
+**`npm run build` passed** TypeScript/Vite; only the existing >500 kB bundle
+advisory remains. Full-engine Superd cohort remains 8,972/10,000 childhood deaths,
+7,302 with protection/care, from 2,207,675 candidate births. Legacy 21,168 hashes
+remain unchanged. Code and these checkpoint changes are saved together in the
+commit immediately following `ea8bbe0`; use `git log -1` for its identifier.
+
+Latest fetch/prune succeeded. Usage observed at **19:38 Asia/Bangkok**:
+five-hour **84% remaining**, reset **October 27 00:20:55**; weekly **97% remaining**,
+reset **November 2 19:20:55**. No billing or reset credits changed.
+
+Next: finish affected isolated browser checks on **port 5180**, then update the
+verification report and this checkpoint, fetch again, inspect the complete task
+diff/status, push the same branch and update PR #10's description/readiness.
+Do not dispatch a second reviewer or redo completed implementation. Owned QA
+Vite process is running on 5180; stop it and close the owned QA tab afterward.
+Player 5173 browser storage remains untouched. User merges manually; no deployment.
+
+Family representation ruling: group demographic profiles by generation/carrier
+while retaining birth year, ancestry, lifespan and RNG per live profile; merge
+equivalent extinct profiles. Binomial sampling uses beta decomposition rather
+than per-person loops. The existing one-million modeled distant-birth safety bound
+is now explicitly disclosed in the UI and final snapshot if reached; it never
+discards an already recorded person or changes living/dead counts.
+
+## Resumed review repairs — PR #10
+
+User explicitly requested continuation and save points. On **2026-10-26 around
+19:21 Asia/Bangkok**, usage recheck reports **100% remaining in both windows**.
+The prior 7% save-point trigger is historical; the agent did not redeem credits
+or change billing. Fetch/prune succeeded; continue `codex/life-simulation-spec`
+and preserve its task-owned documentation changes.
+
+The sole independent review is complete: eight actionable findings, none declined
+to judge. They are recorded in the plan ledger below. Required repair pass:
+genuine family compaction/count validation; bounded title-yield history; invalid
+pending-state recovery; attainable university progress (including capped skills);
+local historical service/record attribution; unified family-death bookkeeping;
+and complete social/career-outcome snapshots. Reproduce each with failing tests,
+fix, then run the complete suite/build and affected isolated browser checks.
+Do not dispatch another reviewer or repeat completed baseline work. Save/push
+bounded verified milestones to the existing draft PR #10, targeting `main`.
+
+## Required save point — capacity trigger, PR #10
+
+**2026-10-26 19:06 Asia/Bangkok:** five-hour **7% remaining**, reset tonight
+**23:06:56**; weekly **85% remaining**, reset **November 2 at 18:06:56**.
+The repository's below-10% rule requires a checkpoint assessment. Do not start
+substantial new repairs without capacity to verify and save them. No credits,
+reset credits or billing were changed.
+
+Task remains **incomplete**. Code through **`f453e6f`** is implemented on
+`codex/life-simulation-spec`; existing PR #10 targets `main` and must stay draft.
+Fresh final `npm test` passed **171/171 across 30 files** with expanded creation
+enabled. TypeScript/Vite build passed after the default switch (nonblocking chunk
+warning). Legacy 21,168 full-state hashes remain unchanged. Additional product,
+design/sidecar/setup and verification-report documentation is saved with this
+checkpoint; its commit follows the code commit.
+
+The sole fresh whole-branch reviewer (`final_review`, reviewing
+`9d19b9a..f453e6f`) identified a required family-capacity repair: named people
+are never compacted; the retained-person gate disables new NPC partnerships at
+44 people, and cohort admission silently refuses births at 256 records. Do not
+claim this is implemented compaction or mark the PR ready on the strength of the
+green suite. The reviewer was asked to finalize all collected findings when the
+7% trigger was observed. Consolidated findings will be appended to the plan's
+existing ledger when available. No repair pass has started.
+
+Exact next step after capacity is available: recheck usage/status, fetch origin,
+read this checkpoint and the plan's review findings, then perform the **one
+RED→GREEN repair pass** required by executing-plans. Start with a failing test
+that fills retained distant relatives and demonstrates that living/direct family
+counts, inheritance and later-family formation survive actual compaction. Fix
+other Important/Critical findings from that same review, run the affected checks
+and complete `npm test`/`npm run build`, repeat only affected isolated QA, update
+the same draft PR and checkpoint. Do not regenerate legacy baseline expectations,
+repeat the completed interview, or request implementation approval again.
+
+QA cleanup completed: owned port-5180 Vite process stopped, owned IAB tab closed,
+temporary viewport reset. Screenshot outside Git:
+`C:/Users/Neary/.codex/visualizations/2026/10/26/01a177e4-3d14-7050-9342-aaa2304e4fe6/expanded-chronicle-mobile.png`.
+Ignored local fixture page remains under `six-faced-life/public/screenshots/`;
+it is QA-only and not staged. Player 5173 and production saves were untouched.
+
+## Active execution — PR #10 (2026-10-26)
+
+**Latest checkpoint around 19:00 Asia/Bangkok:** domain and bilingual UI are now
+implemented; expanded births are enabled by default. Legacy tests explicitly
+request legacy rules, and all 21,168 pre-change state hashes remain identical.
+Full suite **169/169 passed** before the switch; default/Thai/legacy targeted
+checks **13/13 passed** afterward. Final full suite, independent whole-branch
+review and final delivery remain pending. Earlier in-progress details below
+record the work chronologically, not the latest release state.
+
+Full-engine calibrated Superd cohort: 10,000 births from 2,207,675 uniformly
+spaced uint32 seed attempts; 8,972 deaths before 15, protected cohort 7,302.
+Persecution coefficient now 0.155. Hazard-only cohort: 9,149/6,893; matched
+other-race hazards 1,478 poor versus 435 comfortable per 10,000. Long tests now
+yield to avoid Vitest RPC timeout; genetics keeps all 300,000 samples with
+aggregated invariant checks. Initial worker timeout and one shared-CPU 5-second
+genetics timeout were diagnosed, fixed and followed by the clean full run.
+
+New large-save lossless dictionary encoding reduces the 20-full-chronicle fixture
+from 7,644,765 to 1,140,474 stored characters without losing fields/prose or
+evicting archive entries. Unknown/corrupt encoding recovers without writes.
+Default new-life UI, desktop/mobile/Thai flows, faction refusal/watch boundary,
+scholarship and immediate study/reload have browser evidence on isolated 5180.
+Player port 5173 and production were untouched. QA server/session cleanup and
+review remain before handoff. The user approved updating Impeccable; its updater
+reported five skills updated to v4.7.0 outside the repository.
+
+The user approved the concrete plan with **"let implement it"**. Continue native
+execution of the existing plan on `codex/life-simulation-spec`; no further plan
+or spec approval is pending. The older planning gate below is historical.
+
+Verified foundation: baseline `238c3e4` captured before code edits as 21,168
+full-state SHA256 action checkpoints across 200 EN/TH lives. Legacy extraction
+commit `6bb5345`; expanded origin/schema foundation `da70c70`. Existing saves
+remain legacy; unknown rules recover without overwriting storage. The default
+new-life route is still legacy until final release checks pass.
+
+Domain work added after that foundation: independent expanded transaction/queue,
+household economy and cause-specific mortality, talents/education funding,
+per-career experience and access, fixed/local historical exposure and seeded
+conflicts, optional factions and title boundaries, individual family/genetics,
+and bilingual immutable death snapshots. These are **in progress**, not a claim
+of complete spec acceptance. Full suite **138/138 passed** and TypeScript/Vite
+build passed on October 26 around **18:30 Asia/Bangkok**; Vite reports its existing
+nonblocking chunk-size warning. Hazard-only cohorts measured 88.38% Superd death
+before 15 (10,000 births), 63.83% with care/protection; matched other races 14.78%
+poor versus 4.35% comfortable. These are not yet full-engine/policy benchmarks.
+
+Next: integrate actual expanded components/playback and EN/TH entry translation,
+then exercise full engine/restore/bounds, run actual population cohorts and QA,
+review the whole branch, and enable the expanded default only after acceptance.
+Record remaining limits/decisions in the plan's existing ledger. No production
+deployment, user browser save operation or merge is authorized.
+
+Session start was clean at `6930486`; fetch succeeded with escalation. Last
+usage at **18:22 Asia/Bangkok**: five-hour **85%**, weekly **98%** remaining,
+resets October 26 **23:06:56** / November 2 **18:06:56** respectively. No low-usage
+trigger. Same PR #10 remains draft until implementation/verification completes.
+
+## Current implementation request — PR #10
+
+Updated **2026-10-26, Asia/Bangkok**. The user asked to implement
+[PR #10](https://github.com/ny147/1-in-mushoku-tensei/pull/10) and push to the same
+PR. This approves its concrete specification as the implementation baseline and
+supersedes the older planning-only restriction below. Do not repeat the design
+interview or ask for spec approval again.
+
+Existing branch **`codex/life-simulation-spec`** is the open draft PR's head;
+base is `main`. Start-of-session status was clean at `238c3e4`. Fetch/prune
+succeeded with sandbox escalation after the ordinary sandbox denied FETCH_HEAD
+writes. The branch contains current `origin/main` at `9d19b9a`; no upstream
+integration, worktree, new branch, deployment or player-storage operation occurred.
+GitHub CLI is absent; authenticated GitHub REST through the existing credential
+helper confirmed the PR's state/head/base without displaying credentials.
+
+Completed this session: read spec and affected engine/types/storage/progression,
+playback/translation integration and product/design context; wrote and
+self-reviewed the twelve-task
+[implementation plan](docs/superpowers/plans/2026-10-25-life-simulation-expansion.md).
+It pins interfaces, initial balance, seeded cohorts, compatibility fixtures,
+validation/queue boundaries, family compaction, immutable summaries, bilingual UI
+and final release checks. Spec/README now record the implementation request.
+**No application implementation has started.**
+
+**Pending gate:** the installed `superpowers:writing-plans` skill requires review
+of the completed plan and execution-method selection before implementation.
+Recommend native execution because tasks share the schema and routing contracts.
+This gate comes from the skill, not AGENTS.md, Git permissions, or absent approval
+to push. The user already authorizes same-PR commit/push delivery.
+
+Verification for this documentation follow-up: **37 local Markdown links**
+resolve; tracked diff and new plan were reviewed; `git diff --check` passes.
+Application tests/build/browser checks are unnecessary and were not run. Do not
+reuse historical test counts as verification of the unimplemented expansion.
+
+Delivery: plan/spec/checkpoint committed as **`881420d`** and pushed to
+`origin codex/life-simulation-spec` with its own upstream. Existing draft PR #10
+was updated in place and still explicitly targets `main`; its description
+accurately states that code implementation awaits plan review. A documentation
+follow-up records this delivery. Final fetch/freshness is checked before handoff.
+
+Usage observed at session start on **2026-10-26**: five-hour **100% remaining**,
+resets **October 26 at 23:06:56**; weekly **100% remaining**, resets
+**November 2 at 18:06:56**, all Asia/Bangkok. At **18:11** the subsequent reading
+was five-hour **96%**, weekly **99%** remaining with the same resets.
+No low-usage trigger or billing/reset
+action. Account identifiers and reset-credit details are intentionally omitted.
+
+Exact next step: user reviews the linked plan and chooses native or delegated
+execution. Then recheck usage/status, fetch origin, read this plan/spec, and start
+Task 1 by capturing legacy fixtures from baseline `238c3e4` before changing code.
+Continue the same branch/PR; preserve the player's 5173 save. Commit/push bounded
+verified task steps and update this checkpoint/plan ledger. Expanded creation
+stays disabled until all acceptance checks pass. The user merges manually.
+
+## Current design save point — unequal lives and historical events
+
+**Historical:** the implementation request above supersedes this section's
+pending spec approval and planning-only restriction.
+
+Updated 2026-10-25 **21:33 Asia/Bangkok**. Active task: create a specification and
+implementation plan for the user's game-design expansion, using their explicitly
+invoked `grill-me` and `i-have-adhd` skills. ADHD output rules remain active until
+the user disables them. Ask one design question at a time with a recommendation;
+inspect the project before asking questions the code already answers.
+
+Branch **`codex/life-simulation-spec`** was created from clean, freshly fetched
+`origin/main` at **`9d19b9a`** (PR #8 is now merged). The branch initially required
+sandbox escalation to write Git metadata. No user work was discarded or stashed.
+The previous calmer-decision checkpoint below is historical.
+
+Written: [draft specification](docs/superpowers/specs/2026-10-25-life-simulation-expansion-design.md).
+It records every confirmed interview decision, proposed detailed rules and
+balance, compatibility boundaries, verification, sources and five implementation
+phases. A fresh read-only builder review found **"nothing important left"** for
+planning. This does not approve the spec or verify nonexistent implementation.
+
+Confirmed: shared calendar and fixed major outcomes; uniformly random births
+from 20 years before the Mana Calamity through 10 years afterward; original
+regional conflicts; Superd as the only new race; Superd mortality target 90%
+before age 15 under typical conditions, with meaningful mitigation; special-talent
+scholarships; separate status/job/title tracks; Seven Great Powers positions
+5–7 only; optional faction offers; latent inherited Laplace Factor discovered
+during life; inheritance within each life, separate reincarnation next run;
+simultaneous adult marriages where customs permit; independently developing
+descendants; new rules only for new lives; and a separate versioned simulation
+that preserves legacy rules.
+
+**Pending:** user approval of the concrete spec, then the detailed implementation
+plan at `docs/superpowers/plans/2026-10-25-life-simulation-expansion.md`. No plan
+file exists yet. The brainstorming workflow requires spec approval before the
+writing-plans stage. Proposed percentages, limits, chronology mapping and other
+builder calls are explicitly distinguished from confirmed interview choices.
+The user requested planning only: do not implement game code or deploy.
+
+Source boundary: official Seven Seas volume 3/17 descriptions corroborate story
+arcs. Exact K-year anchors and factor manifestations use an identified secondary
+wiki/search-index reference; direct wiki retrieval returned HTTP 402. No complete
+primary-text chronology/genetics audit is claimed. All demographic, mortality,
+genetic and economic numbers are authored game balance or user decisions.
+
+Documentation checks passed: 33 local Markdown links across the three task
+files, no trailing whitespace, referenced npm test/build scripts, complete task
+diff review (including the new spec), and `git diff --check`. A final fetch/prune
+initially hit sandbox FETCH_HEAD permissions, then succeeded with escalation;
+the branch contains current `origin/main` at `9d19b9a`. Final fetch/prune after PR
+creation also succeeded with the same upstream base.
+Application tests/build/browser QA are unnecessary and have not been run for
+this task. Specification/README/checkpoint committed as **`eff5cd3`** and pushed
+with its own upstream. [Draft PR #10](https://github.com/ny147/1-in-mushoku-tensei/pull/10)
+explicitly targets `main` and is attached to this chat. A documentation-only
+follow-up records delivery. The draft is intentional: spec approval and the
+detailed plan remain pending. No remote CI pass is claimed.
+
+GitHub CLI is absent; the existing Git credential helper authenticated GitHub
+REST under sandbox escalation without displaying credentials. The initial PR
+attempt was skipped because PowerShell wrapped an empty API list as one item.
+Read-only inspection confirmed no PR existed; using the direct response fixed
+the delivery script, and GitHub confirmed exactly this draft PR. No app code
+was involved. The spec was requested in the Codex panel; opening was queued.
+
+Usage observed **2026-10-25 21:33:00 Asia/Bangkok**: five-hour **57% remaining**,
+resets **October 26 at 00:41:09**; weekly **79% remaining**, resets **November 1 at
+13:17:43**. No below-10% trigger; no billing or reset-credit action.
+
+Exact next step: **user reviews and approves the linked spec**, starting with
+its four proposed-detail review items. After approval, recheck status/usage and
+fetch, continue this branch, write/self-review the detailed plan, and update
+PR #10. Do not repeat the completed interview or start game implementation.
+The user merges manually; do not merge, enable auto-merge, delete the branch,
+or deploy the game.
+
 Updated 2026-10-25 (Asia/Bangkok). Active task: calmer decision pacing on `codex/calmer-decisions`, based on freshly fetched `origin/main` at `cc8322e` (Thai PR #7 is now merged). Earlier checkpoints below are historical; the Thai integration blocker is resolved upstream.
 
 ## Current calmer-decision save point

@@ -1,6 +1,6 @@
 # Six-Faced Life repository
 
-A single-player browser life simulator set in Mushoku Tensei. An original reincarnated protagonist remembers a previous life, grows up, studies, works, forms relationships, and reaches an ending. The current version includes 55 authored events, five magic disciplines with 30 spells, and five working career ladders.
+A single-player browser life simulator set in Mushoku Tensei. An original reincarnated protagonist remembers a previous life, grows up, studies, works, forms relationships, and reaches an ending. New lives use a versioned simulation with unequal origins, a shared calendar, education, gated occupations, political choices and family retrospectives. Existing lives retain the original 55-event simulation and their seeded futures.
 
 The application lives in **`six-faced-life/`**. Run npm commands there, not at this Git root. Development changes are committed and pushed through task PRs; the playable game remains local unless deployment is explicitly requested.
 
@@ -34,6 +34,9 @@ Saves belong to the browser profile and exact origin. Keep using `http://127.0.0
 | [ASSETS.md](six-faced-life/ASSETS.md) | Original illustration, fonts, and licenses |
 | [Source](six-faced-life/src/) | React interface, pure simulation, persistence, and colocated tests |
 | [Plans and specs](docs/superpowers/) | Approved design and historical implementation records |
+| [Life simulation expansion specification](docs/superpowers/specs/2026-10-25-life-simulation-expansion-design.md) | Implementation requested for PR #10; versioned rules, balance and acceptance criteria |
+| [Life simulation expansion plan](docs/superpowers/plans/2026-10-25-life-simulation-expansion.md) | Implementation tasks, progress, balance decisions and release checks |
+| [Expansion verification](docs/verification/life-simulation-expansion.md) | Seeded compatibility/cohort measurements, storage checks and isolated browser QA |
 | [Reference findings](docs/research/reference-findings.md) | Observations and analysis limitations |
 
 Captured reference files in `research/` are research data outside the app build. Local `checkpoints/`, screenshots, dependencies, build output, and `.openai/` registration metadata are ignored by Git. Checkpoints and screenshots may be absent from a fresh clone.

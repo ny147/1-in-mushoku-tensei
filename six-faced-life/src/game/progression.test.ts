@@ -21,7 +21,7 @@ import { EVENTS, EVENT_MAP } from "./events";
 import type { Life } from "./types";
 
 function adult(career: Life["career"] = "merchant") {
-  const life = choose(beginLife(createLife({ seed: 73 })), "observe");
+  const life = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 73 })), "observe");
   life.age = 26;
   life.career = career;
   life.coins = 300;
@@ -61,7 +61,7 @@ describe("magic studies", () => {
   });
 
   it("rejects unavailable or invalid study changes without mutating the life", () => {
-    const baby = choose(beginLife(createLife({ seed: 5 })), "observe");
+    const baby = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 5 })), "observe");
     expect(setSpecialization(baby, "fire")).toEqual(baby);
     const life = adult();
     expect(setSpecialization(life, "toString" as "fire")).toEqual(life);

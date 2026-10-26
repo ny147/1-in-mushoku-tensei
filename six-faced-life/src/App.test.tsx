@@ -11,6 +11,28 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
 import { beginLife, choose, createLife } from "./game/engine";
 import { loadGame, saveGame, SAVE_KEY } from "./game/storage";
+import { createExpandedLife } from "./game/expanded/origins";
+
+it("keeps expanded allegiance decisions manual even when watch mode finds a free option", () => {
+  vi.useFakeTimers();
+  let life = createExpandedLife({ seed: 0 });
+  for (let seed = 1; life.expansion.birthYear > 407; seed++)
+    life = createExpandedLife({ seed });
+  life.phase = "alive";
+  life.age = 425 - life.expansion.birthYear;
+  life.pending = "expanded.orsted";
+  life.expansion.politics.contact = true;
+  life.training.magicXp = 100;
+  saveGame(window.localStorage, { version: 1, active: life, archive: [] });
+  render(<App />);
+  fireEvent.click(screen.getByRole("checkbox", { name: "Watch mode" }));
+  fireEvent.click(screen.getByRole("button", { name: "Play time" }));
+  act(() => vi.advanceTimersByTime(2200));
+  const stored = loadGame(window.localStorage).data.active;
+  expect(stored?.pending).toBe("expanded.orsted");
+  if (stored?.ruleset !== "expanded-1") throw Error("expanded");
+  expect(stored.expansion.politics.faction).toBeNull();
+});
 
 beforeEach(() => {
   window.localStorage.clear();
@@ -19,7 +41,7 @@ beforeEach(() => {
 
 describe("clear next actions and recovery", () => {
   function startPending() {
-    const life = beginLife(createLife({ seed: 32 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 32 }));
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     return life;
   }
@@ -165,7 +187,7 @@ afterEach(() => {
 
 describe("browser playback and saving", () => {
   it("does not start time when Space is used on the spell disclosure", () => {
-    const life = choose(beginLife(createLife({ seed: 32 })), "observe");
+    const life = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 32 })), "observe");
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     const { container } = render(<App />);
     const summary = container.querySelector(".known-spells summary")!;
@@ -176,7 +198,7 @@ describe("browser playback and saving", () => {
 
   it("keeps a queued watch-mode choice pending when the page becomes hidden", () => {
     vi.useFakeTimers();
-    const life = beginLife(createLife({ seed: 32 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 32 }));
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     render(<App />);
     fireEvent.click(screen.getByRole("checkbox", { name: "Watch mode" }));
@@ -193,7 +215,7 @@ describe("browser playback and saving", () => {
 
   it("saves every focus change immediately even when paused and changed quickly", () => {
     vi.useFakeTimers();
-    const life = choose(beginLife(createLife({ seed: 32 })), "observe");
+    const life = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 32 })), "observe");
     life.age = 6;
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     render(<App />);
@@ -215,7 +237,7 @@ describe("browser playback and saving", () => {
   it("opens the chronicle at the top after leaving the birth record", () => {
     saveGame(window.localStorage, {
       version: 1,
-      active: createLife({ seed: 32 }),
+      active: createLife({ ruleset: 'legacy-1', seed: 32 }),
       archive: [],
     });
     render(<App />);
@@ -228,7 +250,7 @@ describe("browser playback and saving", () => {
   });
   it("saves study selection immediately without discarding an existing life", () => {
     vi.useFakeTimers();
-    const life = choose(beginLife(createLife({ seed: 32 })), "observe");
+    const life = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 32 })), "observe");
     life.age = 10;
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     render(<App />);

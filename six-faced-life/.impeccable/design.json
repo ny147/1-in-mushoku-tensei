@@ -3,6 +3,14 @@
   "generatedAt": "2026-10-24T14:38:29Z",
   "title": "Design System: Six-Faced Life",
   "extensions": {
+    "expandedChronicle": {
+      "updated": "2026-10-26",
+      "ruleset": "expanded-1",
+      "surfaces": ["birth record", "chronicle", "character", "world guide", "retrospective"],
+      "presentation": "Existing parchment and forest-ink system; compact definition lists and native disclosures; one-column facts below 420px.",
+      "language": "Life-fixed English/Thai with existing self-hosted typography.",
+      "interaction": "Manual consequential decisions remain pending in Watch mode; ending and archive render the same stored snapshot."
+    },
     "colorMeta": {
       "paper": {
         "role": "neutral",

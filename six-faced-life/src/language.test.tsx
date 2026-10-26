@@ -25,7 +25,7 @@ afterEach(() => {
 describe("new-life language ownership", () => {
   it("contains no untranslated authored text on Thai chronicle, character, world, archive and help pages", () => {
     const life = beginLife(
-      createLife({ seed: 44, language: "th", name: "TestName" }),
+      createLife({ ruleset: 'legacy-1', seed: 44, language: "th", name: "TestName" }),
     );
     life.age = 30;
     life.pending = null;
@@ -95,18 +95,18 @@ describe("new-life language ownership", () => {
     expect(document.documentElement.lang).toBe("th");
     expect(screen.getByRole("button", { name: "เดินเวลา" })).toBeTruthy();
     fireEvent.click(
-      screen.getByRole("button", { name: /^ฟัง มอง แล้วเรียนรู้/ }),
+      screen.getByRole("button", { name: /^สังเกตบ้านใหม่/ }),
     );
     const result = screen.getByRole("region", { name: "ทางเลือกของคุณ" });
-    expect(within(result).getByText("ความรู้ +8")).toBeTruthy();
+    expect(within(result).getByText("ความรู้ +3")).toBeTruthy();
     expect(document.activeElement).toBe(within(result).getByRole("heading"));
     expect(
       loadGame(window.localStorage).data.active?.history.at(-1)?.message?.key,
-    ).toBe("choice.first-memory.observe");
+    ).toBe("expanded.memory.observe");
     view.unmount();
     render(<App />);
     expect(
-      screen.getAllByText(/คุณเก็บความลับไว้กับตัว/).length,
+      screen.getAllByText(/คุณฟัง เรียนรู้ และค่อย ๆ ผูกพันกับบ้านใหม่/).length,
     ).toBeGreaterThan(0);
     expect(document.documentElement.lang).toBe("th");
     expect(screen.queryByLabelText("Language / ภาษา")).toBeNull();
@@ -115,7 +115,7 @@ describe("new-life language ownership", () => {
   it("cancels a Thai preview without changing an English life or its save", () => {
     saveGame(window.localStorage, {
       version: 1,
-      active: beginLife(createLife({ seed: 24 })),
+      active: beginLife(createLife({ ruleset: 'legacy-1', seed: 24 })),
       archive: [],
     });
     const raw = window.localStorage.getItem(SAVE_KEY);
@@ -139,7 +139,7 @@ describe("new-life language ownership", () => {
   it("requires replacement confirmation and remembers the language only after creation", () => {
     saveGame(window.localStorage, {
       version: 1,
-      active: beginLife(createLife({ seed: 24 })),
+      active: beginLife(createLife({ ruleset: 'legacy-1', seed: 24 })),
       archive: [],
     });
     const raw = window.localStorage.getItem(SAVE_KEY);
@@ -162,7 +162,7 @@ describe("new-life language ownership", () => {
   });
 
   it("uses an archived life's language and restores the active language on return", () => {
-    const archived = createLife({
+    const archived = createLife({ ruleset: 'legacy-1',
       seed: 2,
       language: "th",
       name: "ThaiRecord",
@@ -173,7 +173,7 @@ describe("new-life language ownership", () => {
     );
     saveGame(window.localStorage, {
       version: 1,
-      active: beginLife(createLife({ seed: 24 })),
+      active: beginLife(createLife({ ruleset: 'legacy-1', seed: 24 })),
       archive: [archived],
     });
     render(<App />);
@@ -191,7 +191,7 @@ describe("new-life language ownership", () => {
   });
 
   it("clears a prior-language live announcement when opening another life's retrospective", () => {
-    const archived = createLife({
+    const archived = createLife({ ruleset: 'legacy-1',
       seed: 2,
       language: "th",
       name: "ThaiRecord",
@@ -202,7 +202,7 @@ describe("new-life language ownership", () => {
     );
     saveGame(window.localStorage, {
       version: 1,
-      active: beginLife(createLife({ seed: 24 })),
+      active: beginLife(createLife({ ruleset: 'legacy-1', seed: 24 })),
       archive: [archived],
     });
     render(<App />);
@@ -218,7 +218,7 @@ describe("new-life language ownership", () => {
   });
 
   it("preserves a personal name even when it is also a translatable domain label", () => {
-    const life = createLife({ seed: 24, language: "th", name: "Human" });
+    const life = createLife({ ruleset: 'legacy-1', seed: 24, language: "th", name: "Human" });
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });
     render(<App />);
     expect(
@@ -267,7 +267,7 @@ describe("new-life language ownership", () => {
   });
 
   it("localizes study, world and help without changing persisted study IDs", () => {
-    const life = beginLife(createLife({ seed: 44, language: "th" }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 44, language: "th" }));
     life.age = 10;
     life.pending = null;
     saveGame(window.localStorage, { version: 1, active: life, archive: [] });

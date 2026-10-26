@@ -9,7 +9,7 @@ import {
 
 describe("life language and new-life preference", () => {
   it("reads legacy and missing lives as English without mutation", () => {
-    const life = createLife({ seed: 12 });
+    const life = createLife({ ruleset: 'legacy-1', seed: 12 });
     const before = structuredClone(life);
     expect(languageOf(life)).toBe("en");
     expect(languageOf(null)).toBe("en");
@@ -20,7 +20,7 @@ describe("life language and new-life preference", () => {
 
   it("keeps language separate from seeded simulation outcomes", () => {
     const run = (language: "en" | "th") => {
-      let life = beginLife(createLife({ seed: 22, language }));
+      let life = beginLife(createLife({ ruleset: 'legacy-1', seed: 22, language }));
       life = advance(choose(life, "observe"), "decision");
       const { language: selected, ...simulation } = life;
       expect(selected).toBe(language);

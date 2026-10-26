@@ -3973,3 +3973,99 @@ h2[tabindex="-1"] {
     margin-bottom: 20px;
   }
 }
+/* Expanded records extend the illustrated chronicle with quiet factual ledgers. */
+.expanded-details,
+.retrospective {
+  margin-block: 24px;
+  padding-block: 20px;
+  border-block: 1px solid #dedfd3;
+  overflow-wrap: anywhere;
+}
+.expanded-details h2,
+.retrospective h2 {
+  margin: 0 0 12px;
+}
+.expanded-calendar {
+  color: #365442;
+  font-weight: 600;
+}
+.expanded-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+.expanded-facts dt {
+  color: #697065;
+  font-size: 12px;
+}
+.expanded-facts dd {
+  margin: 3px 0 0;
+  font-weight: 500;
+}
+.expanded-warning {
+  background: #e9ede2;
+  padding: 12px;
+  line-height: 1.7;
+}
+.expanded-note {
+  color: #697065;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.expanded-career details,
+.expanded-family details,
+.retrospective details {
+  margin-block: 16px;
+}
+.expanded-career summary,
+.expanded-family summary,
+.retrospective summary {
+  cursor: pointer;
+  padding-block: 10px;
+  line-height: 1.6;
+}
+.expanded-career h3,
+.career-requirements h3 {
+  margin-block: 16px 8px;
+  font-size: 19px;
+}
+.requirement-list {
+  padding-inline-start: 18px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.requirement-list [data-met="false"] {
+  color: #697065;
+}
+.family-ledger {
+  list-style: none;
+  padding: 0;
+}
+.family-ledger li {
+  padding-block: 10px;
+  border-bottom: 1px solid #dedfd3;
+}
+.family-ledger span {
+  display: block;
+  color: #697065;
+  font-size: 12px;
+}
+.retrospective {
+  max-width: 75ch;
+  margin-inline: auto;
+}
+.retrospective-narrative {
+  line-height: 1.9;
+  margin-block: 16px;
+}
+.retrospective summary h3 {
+  display: inline;
+}
+.character-detail-grid > .expanded-details {
+  grid-column: 1 / -1;
+}
+@media (max-width: 420px) {
+  .expanded-facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

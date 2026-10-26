@@ -4,6 +4,7 @@ export const RACES: Record<
   RaceId,
   { name: string; lifespan: number; maxAge: number; description: string }
 > = {
+  superd: { name: "Superd", lifespan: 600, maxAge: 800, description: "A long-lived demon people facing persecution and extreme childhood danger." },
   human: {
     name: "Human",
     lifespan: 78,

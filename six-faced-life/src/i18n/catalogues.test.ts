@@ -15,7 +15,7 @@ const thai = (text: string) => {
 
 describe("complete Thai catalogues", () => {
   it("covers all events and generated choices across world and progression variants", () => {
-    const base = createLife({ seed: 44 });
+    const base = createLife({ ruleset: 'legacy-1', seed: 44 });
     const checked = new Set<string>();
     expect(EVENTS).toHaveLength(55);
     for (const region of Object.keys(REGIONS) as RegionId[])
@@ -112,7 +112,7 @@ describe("complete Thai catalogues", () => {
     for (const age of [4, 20])
       for (const cap of [1, 2, 3, 4, 5])
         for (const xp of [0, 2000]) {
-          const life = createLife({ seed: 14 });
+          const life = createLife({ ruleset: 'legacy-1', seed: 14 });
           life.age = age;
           life.training.magicCap = cap;
           life.stats.mana = life.stats.sword = xp;

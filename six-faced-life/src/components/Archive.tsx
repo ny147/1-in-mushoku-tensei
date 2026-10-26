@@ -1,4 +1,7 @@
 import { useI18n } from "../i18n/context";
+import { Retrospective } from "./Retrospective";
+import { expandedLabel } from "../i18n/expanded";
+import { careerTitle } from "../game/simulation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -49,8 +52,14 @@ export function Ending({
           {life.age} {t(" years in this world")}
         </p>
         <div className="letter-rule" />
-        <p className="ending-cause">{t(life.ending?.cause)}</p>
-        <blockquote>{t(life.ending?.legacy)}</blockquote>
+        <p className="ending-cause">
+          {life.ruleset === "expanded-1"
+            ? expandedLabel(life.ending?.cause ?? "", life.language ?? "en")
+            : t(life.ending?.cause)}
+        </p>
+        {life.ruleset !== "expanded-1" && (
+          <blockquote>{t(life.ending?.legacy)}</blockquote>
+        )}
         <p className="ending-reflection">
           {t("Not every day was remarkable. Not every choice was easy.")}
           <br />
@@ -80,11 +89,13 @@ export function Ending({
             <Heart size={18} />
             <strong>
               {t(
-                life.flags.parent
-                  ? "A parent"
-                  : life.flags.partnered
-                    ? "A partner"
-                    : CAREERS[life.career].name,
+                life.ruleset === "expanded-1"
+                  ? careerTitle(life)
+                  : life.flags.parent
+                    ? "A parent"
+                    : life.flags.partnered
+                      ? "A partner"
+                      : CAREERS[life.career].name,
               )}
             </strong>
             <span>{t("One part of your story")}</span>
@@ -103,6 +114,15 @@ export function Ending({
           <ArrowRight size={17} />
         </button>
       </section>
+      {life.ruleset === "expanded-1" ? (
+        <Retrospective life={life} />
+      ) : (
+        <p className="expanded-note">
+          {life.language === "th"
+            ? "ชีวิตเก่าไม่ได้บันทึกการสมรสและผู้สืบสกุลครบถ้วน ข้อมูลที่ไม่ทราบจึงไม่ได้แสดงเป็นศูนย์"
+            : "Legacy lives did not record complete marriage or descendant histories. Unrecorded facts are unknown, rather than zero."}
+        </p>
+      )}
       <LifeTimeline life={life} />
       <LifeRecord life={life} all />
     </div>
@@ -172,7 +192,11 @@ export function Archive({
               {life.age} {t(" years")}
             </small>
             <span lang={languageOf(life)}>
-              {translate(languageOf(life), life.ending?.legacy ?? "")}
+              {life.ruleset === "expanded-1"
+                ? (life.expansion.summary?.narrative[languageOf(life)].split(
+                    "\n",
+                  )[0] ?? "")
+                : translate(languageOf(life), life.ending?.legacy ?? "")}
             </span>
             <small className="archive-language" lang={languageOf(life)}>
               {languageOf(life) === "th" ? "ไทย" : "English"}

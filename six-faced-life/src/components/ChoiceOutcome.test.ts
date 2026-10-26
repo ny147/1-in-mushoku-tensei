@@ -4,7 +4,7 @@ import { describeChoice } from "./ChoiceOutcome";
 
 describe("actual choice feedback", () => {
   it("reports capped gains instead of promising the choice's uncapped reward", () => {
-    const life = beginLife(createLife({ seed: 32 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 32 }));
     life.stats.knowledge = 98;
     const result = describeChoice(life, choose(life, "observe"));
     expect(result.changes).toContain("Knowledge +2");
@@ -12,7 +12,7 @@ describe("actual choice feedback", () => {
   });
 
   it("uses the recorded failed-risk outcome rather than the promised reward", () => {
-    const life = beginLife(createLife({ seed: 32 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 32 }));
     life.age = 20;
     life.pending = "guild-quest";
     life.flags.guildMember = true;
