@@ -1,5 +1,64 @@
 # Save point — Six-Faced Life
 
+## Resumed review repairs — PR #10
+
+User explicitly requested continuation and save points. On **2026-10-26 around
+19:10 Asia/Bangkok**, usage recheck reports **100% remaining in both windows**.
+The prior 7% save-point trigger is historical; the agent did not redeem credits
+or change billing. Fetch/prune succeeded; continue `codex/life-simulation-spec`
+and preserve its task-owned documentation changes.
+
+The sole independent review is complete: eight actionable findings, none declined
+to judge. They are recorded in the plan ledger below. Required repair pass:
+genuine family compaction/count validation; bounded title-yield history; invalid
+pending-state recovery; attainable university progress (including capped skills);
+local historical service/record attribution; unified family-death bookkeeping;
+and complete social/career-outcome snapshots. Reproduce each with failing tests,
+fix, then run the complete suite/build and affected isolated browser checks.
+Do not dispatch another reviewer or repeat completed baseline work. Save/push
+bounded verified milestones to the existing draft PR #10, targeting `main`.
+
+## Required save point — capacity trigger, PR #10
+
+**2026-10-26 19:06 Asia/Bangkok:** five-hour **7% remaining**, reset tonight
+**23:06:56**; weekly **85% remaining**, reset **November 2 at 18:06:56**.
+The repository's below-10% rule requires a checkpoint assessment. Do not start
+substantial new repairs without capacity to verify and save them. No credits,
+reset credits or billing were changed.
+
+Task remains **incomplete**. Code through **`f453e6f`** is implemented on
+`codex/life-simulation-spec`; existing PR #10 targets `main` and must stay draft.
+Fresh final `npm test` passed **171/171 across 30 files** with expanded creation
+enabled. TypeScript/Vite build passed after the default switch (nonblocking chunk
+warning). Legacy 21,168 full-state hashes remain unchanged. Additional product,
+design/sidecar/setup and verification-report documentation is saved with this
+checkpoint; its commit follows the code commit.
+
+The sole fresh whole-branch reviewer (`final_review`, reviewing
+`9d19b9a..f453e6f`) identified a required family-capacity repair: named people
+are never compacted; the retained-person gate disables new NPC partnerships at
+44 people, and cohort admission silently refuses births at 256 records. Do not
+claim this is implemented compaction or mark the PR ready on the strength of the
+green suite. The reviewer was asked to finalize all collected findings when the
+7% trigger was observed. Consolidated findings will be appended to the plan's
+existing ledger when available. No repair pass has started.
+
+Exact next step after capacity is available: recheck usage/status, fetch origin,
+read this checkpoint and the plan's review findings, then perform the **one
+RED→GREEN repair pass** required by executing-plans. Start with a failing test
+that fills retained distant relatives and demonstrates that living/direct family
+counts, inheritance and later-family formation survive actual compaction. Fix
+other Important/Critical findings from that same review, run the affected checks
+and complete `npm test`/`npm run build`, repeat only affected isolated QA, update
+the same draft PR and checkpoint. Do not regenerate legacy baseline expectations,
+repeat the completed interview, or request implementation approval again.
+
+QA cleanup completed: owned port-5180 Vite process stopped, owned IAB tab closed,
+temporary viewport reset. Screenshot outside Git:
+`C:/Users/Neary/.codex/visualizations/2026/10/26/01a177e4-3d14-7050-9342-aaa2304e4fe6/expanded-chronicle-mobile.png`.
+Ignored local fixture page remains under `six-faced-life/public/screenshots/`;
+it is QA-only and not staged. Player 5173 and production saves were untouched.
+
 ## Active execution — PR #10 (2026-10-26)
 
 **Latest checkpoint around 19:00 Asia/Bangkok:** domain and bilingual UI are now

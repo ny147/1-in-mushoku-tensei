@@ -47,6 +47,11 @@ typography:
     fontSize: "12px"
     fontWeight: 500
     lineHeight: 1.5
+  occupation-subhead:
+    fontFamily: "LifeSans, Arial, sans-serif"
+    fontSize: "19px"
+    fontWeight: 700
+    lineHeight: normal
 rounded:
   control-small: "4px"
   field: "5px"
@@ -102,6 +107,20 @@ components:
 ---
 
 # Design System: Six-Faced Life
+
+Expanded lives extend this visual system with an age/K-year line and a compact
+two-column definition list for wealth, standing, locality and education (one
+column below 420px). Need/protection guidance uses the existing sage surface and
+plain text, without new modal interruptions. Native disclosures keep education
+and occupation requirements, individual family/marriage records and completed
+summary sections readable without making the main chronicle a dashboard.
+
+The ending and archived retrospective render the same stored bilingual snapshot.
+Legacy archives explicitly distinguish unknown family facts from a verified zero.
+New text inherits self-hosted English/Thai typography and existing focus/reduced
+motion rules; language changes no longer expose compatibility career labels as
+the expanded occupation. Manual-only decisions retain pending focus and correctly
+named time guidance even with Watch enabled.
 
 ## Overview
 

@@ -219,6 +219,59 @@ Public engine API remains `createLife(options?): Life`, `beginLife(life): Life`,
 | 11 | Implemented; final review pending | English/Thai details, immutable retrospective, manual watch guard, actual pay/requirements and world guide integrated. Desktop 1280 and phones 390/320 inspected; no overflow/captured warnings/errors in inspected flows. |
 | 12 | In progress | Full suite 169/169 passed before default switch. Explicit legacy fixtures unchanged; default-routing and Thai new-life checks 13/13 passed after switch. Final full suite, final browser form, whole-branch review and delivery pending. |
 
+### Review/save point — 2026-10-26 19:06 Asia/Bangkok
+
+Final default-enabled full suite passed **171/171 across 30 files**; build passed.
+The sole whole-branch reviewer is reviewing `9d19b9a..f453e6f`. It found a required
+family compaction gap: retained named people are never compacted, NPC partnership
+stops at 44 retained people, and cohort admission silently refuses births at 256.
+This is **unfixed** and blocks readiness despite passing existing tests.
+
+Capacity trigger: five-hour 7% remaining, reset 23:06:56 tonight; weekly 85%, reset
+November 2 18:06:56, all Asia/Bangkok. Save implementation/docs to the same draft
+PR, then resume the single RED→GREEN review-repair pass after rechecking capacity.
+Do not repeat original feature work, regenerate legacy fixtures or dispatch a
+second reviewer. Consolidated findings from the existing reviewer follow below
+when available. No substantive repairs have been attempted yet.
+
+### Consolidated independent review — 2026-10-26
+
+Reviewer: the sole fresh `final_review`, range `9d19b9a..f453e6f`, read-only, with
+bounded in-memory repros. **Declined to judge: none.** Usage was subsequently
+rechecked at 100% remaining in both windows and the user requested continuation.
+Perform one RED→GREEN repair pass; no second reviewer is needed.
+
+1. **P1 family capacity:** `expanded/family.ts` retains every named person, blocks
+   NPC partnerships at 44 and silently discards births at 256 cohorts. A live
+   age-20 cohort of 1,000 with RNG 4321 yields 17 births with room but zero with
+   255 dead cohorts. Implement genuine record compaction preserving exact counts,
+   inheritance, ages and deterministic restoration.
+2. **P1 cohort validation/playback:** `expanded/validation.ts` accepts unsafe or
+   inconsistent aggregate counts, including MAX_SAFE_INTEGER alive with zero
+   births; per-person loops then hang playback. Validate total births/deaths,
+   individually retained descendants and overflow; use bounded aggregate sampling.
+3. **P1 title yielding:** `expanded/events.ts` appends a 65th title-history record
+   on yielding, producing an unloadable save. Share bounded title recording.
+4. **P2 invalid pending state:** `storage.ts` accepts valid IDs whose decisions
+   cannot exist (marriage without candidate, school-year outside attendance),
+   permanently blocking time. Reject into untouched-data recovery.
+5. **P2 education progress:** `expanded/education.ts` requires 12 magic XP while
+   focus gives 9 (factor gives 11.25); study also fails at knowledge cap. Both
+   advertised study routes must have achievable, meaningful progress.
+6. **P2 historical service:** remote Ranoa news can become local succession
+   participation without travel; last-record-in-year attribution can attach aid
+   or service to the wrong simultaneous conflict. Gate/revalidate actual exposure
+   and identify the intended history record explicitly.
+7. **P2 disaster family deaths:** `expanded/history.ts` sets died without closing
+   marriages/updating descendant death totals, and normal processing skips those
+   people forever. Use shared death bookkeeping and relational validation.
+8. **P2 retrospective completeness:** `expanded/summary.ts` omits named social
+   ties and career timeline reasons, losing rivals/enemies and disguising
+   dismissals. Preserve and localize these facts in immutable snapshots/reload.
+
+No repair is yet claimed complete. Existing clean evidence remains 171/171 tests
+and the post-default-switch build; it does not prove these uncovered cases.
+
 Ruling: preserve the base career enum for the shared spellbook/legacy-facing fields and store the expanded primary occupation in its independent ledger — avoids adding new occupations to the legacy event/migration registry — all expanded pay and public occupation labels must use expanded selectors.
 Ruling: record academic family funding in a reserved education budget, not a purse deposit — prevents double wages and minted tuition allowances — validator and recovery tests must retain the reserve.
 Ruling: add optional lossless dictionary encoding for large mixed/expanded envelopes while keeping key/envelope version 1 — the 20-full-chronicle fixture otherwise exceeded the 6,000,000-character loader ceiling — unknown/corrupt encodings enter recovery; small legacy saves retain their exact representation. Measured 7,644,765 characters before encoding, 1,140,474 after, with complete equality after reload.

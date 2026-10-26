@@ -1,11 +1,13 @@
 # Unequal Lives and Historical Turning Points
 
-Status: **implementation requested on 2026-10-26**. The user asked to implement
+Status: **implementation in progress on 2026-10-26**. The user asked to implement
 PR #10 and push to that same PR, approving this specification as the baseline
 and superseding the earlier planning-only restriction. Detailed values originally
 marked as proposals remain identifiable as authored game balance. The concrete
-[implementation plan](../plans/2026-10-25-life-simulation-expansion.md) awaits
-review under the installed planning workflow; no game code is implemented yet.
+[implementation plan](../plans/2026-10-25-life-simulation-expansion.md) was approved
+with "let implement it". Core code and bilingual presentation are implemented;
+the independent review identified family-capacity work still requiring repair.
+The plan/checkpoint record actual checks and remaining work; the PR stays draft.
 Branch: `codex/life-simulation-spec`, based on `origin/main` at `9d19b9a`.
 Deployment remains outside scope.
 
@@ -629,7 +631,8 @@ AGENTS.md. Incomplete/unverified implementation stays draft. The user merges.
 ## Proposed implementation phases
 
 These phases explain dependency order; they are not a substitute for the detailed
-implementation plan. No phase is implemented by this documentation task.
+implementation plan. Its progress ledger records the implementation and remaining
+review repairs, rather than treating this original phase outline as verification.
 
 1. **Versioned foundation:** legacy fixtures and routing, expanded validated
    state, deterministic streams, summary ledger, calendar and coherent origins.
@@ -678,6 +681,6 @@ verification or a primary-source lore audit.
 The concrete plan is now written and self-reviewed at
 `docs/superpowers/plans/2026-10-25-life-simulation-expansion.md`. Its balance
 thresholds are builder choices requiring measured acceptance, not verified
-results. The writing-plans workflow requires review of that plan and an execution
-method before implementation. Do not repeat the completed interview or ask for
-spec approval again; the user's implementation request already supplies it.
+results. The user approved execution of that plan. Do not repeat the completed
+interview or ask for spec/plan approval again. Continue the required review
+repairs and verification on the same branch/PR; no deployment is authorized.

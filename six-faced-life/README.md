@@ -36,6 +36,40 @@ npm run dev -- --port 5174
 
 ## Playing
 
+New lives use **expanded-1**. Birth years range uniformly from K397 to K427;
+age and world year appear together. Family wealth and noble status affect
+resources and access, while occupation, affiliation and exceptional titles remain
+separate. Migurd and Superd protagonists begin on the Demon Continent; migration
+and children born at the family's actual home remain possible. Superd is an
+explicit extreme-survival start: approximately 90% mortality before 15 under the
+documented typical policy, improved by protection and care. These are authored
+game-balance choices, not setting statistics.
+
+Food, shelter, care, dependants, education and travel consume resources. Children
+receive household support rather than adult wages. Warnings identify unmet needs.
+Every adult can pursue ordinary work; specialized occupations need the displayed
+skills, access and actual appointment. Career changes retain per-occupation
+experience. University requires readiness and complete funding; a free assessment
+lets a poor exceptional pupil qualify for a scholarship. Attendance and successful
+graduation are distinct, and failed progress can interrupt study.
+
+Calendar events distinguish Fittoa displacement, other civilian exposure, relief,
+service and distant news. Major historical outcomes remain fixed. Regional
+conflicts and post-K430 continuation are original game material. Faction allegiance,
+marriage, dangerous service and legendary challenges require manual decisions even
+in Watch mode. Only Seven Great Powers positions 5–7 are attainable after K430.
+
+Family details retain adult marriages, separations, widowhood, individual children,
+social ties and later descendants. Traits are generated once and inherited;
+unobserved latent genetics are not revealed by the interface or retrospective.
+Completed lives store a factual English/Thai snapshot. Legacy retrospectives mark
+unrecorded marriages/descendants as unknown rather than inventing a zero.
+
+Existing lives without a discriminator, or with `legacy-1`, keep the original
+birth pools, event registry, progression and random draw order. They are not
+converted into expanded lives. See the [specification](../docs/superpowers/specs/2026-10-25-life-simulation-expansion-design.md)
+and [verification report](../docs/verification/life-simulation-expansion.md).
+
 - Choose **English** or **ไทย** in the new-life form. The form previews that language before creation; the choice stays with that life through reload and archived retrospectives. Existing lives without a language remain English. Canceling setup preserves the current life, and replacing an unfinished life still requires confirmation.
 - Thai covers story events and choices, chronicle entries, spells/careers/world information, help, accessibility labels and save-recovery messages. Personal names remain as entered or generated. Mixed-language past lives show their language; opening one uses its own language, and returning restores the active language.
 - Begin a new life, optionally supplying a name and birthplace.
@@ -57,12 +91,15 @@ If saving fails, keep the tab open and use Retry save to write the latest in-mem
 
 - `src/i18n/`: English/Thai presentation catalogues and language context, with a separate `six-faced-life.language` preference for the next new-life form. Preference failure does not affect game-save recovery. No translation service is contacted while playing.
 - `src/game/narrative.ts`: bounded presentation references captured with new chronicle entries. Canonical English title/text and stable game identifiers remain in saves; seeded rules do not depend on language. Unknown future references retain their original text, and older English histories need no rewrite.
-- `src/game/engine.ts`: seeded random births, time progression, choices, training, careers, aging, and endings.
+- `src/game/engine.ts`: routes creation and actions by ruleset; new lives default to expanded rules.
+- `src/game/legacy/engine.ts`: frozen original births, annual progression, choices and endings for existing lives.
+- `src/game/expanded/`: validated structured origin/calendar, independent RNG streams, economic survival, education, occupations, history, politics, genetics, family and immutable summary modules.
+- `src/game/simulation.ts`: safe shared presentation/study adapters and manual Watch boundaries.
 - `src/game/events.ts`: the 25 original events and combined 55-event catalogue.
 - `src/game/expanded-events.ts`: 30 additional stories, including branching research, study choices, profession-specific problems, regional events, and legacy decisions.
 - `src/game/progression.ts`: five magic disciplines, 30 learnable spells, career experience/reputation, promotion gates, titles/pay, and legacy-save migration.
 - `src/game/world.ts`: six starting regions, five playable races, focus rules, careers, and instruction-gated ranks.
-- `src/game/storage.ts`: versioned save validation and completed-life archive.
+- `src/game/storage.ts`: ruleset-specific save validation, recovery and completed-life archive. `storage-codec.ts` optionally dictionary-encodes repeated prose in large mixed/expanded saves, retaining all facts and the same version-1 envelope/key. Unknown encodings are preserved through recovery, and oversized writes fail visibly rather than creating an unreadable save.
 - `src/App.tsx`: playback, navigation, local persistence, and the responsive game interface.
 - `src/components/`: chronicle, character, world guide, birth record, and retrospectives.
 

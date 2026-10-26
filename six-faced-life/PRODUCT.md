@@ -12,6 +12,15 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
+- New lives use the separate `expanded-1` ruleset. Existing lives retain legacy rules and seeded futures. Expanded origins include a uniformly sampled K397–K427 birth year, separate wealth/status, locality and Superd Demon Continent starts. Economic needs and cause-specific hazards create real early endings; care and protection improve odds.
+- Expanded education has free talent assessment, readiness/funding requirements, full scholarships for demonstrated exceptional talent, probation, withdrawal and successful graduation. Independent occupation ledgers cover ordinary work and the requested specialized paths; one primary occupation earns pay. Noble standing, faction allegiance and Seven Great Powers positions 5–7 remain separate tracks.
+- Named history has fixed major outcomes and local exposure. Regional conflicts and post-K430 continuation are authored adaptations. Faction recruitment, adult marriage, dangerous service and legendary challenges remain manual in Watch mode. The world guide distinguishes chronology evidence from game balance.
+- Expanded family records distinguish individual relatives, adult marriages, separation, widowhood, direct children and later descendant cohorts. Genetics remain latent until observed/discovered. Death stores an immutable factual bilingual retrospective; old archives explicitly leave unrecorded facts unknown.
+- Calendar/resource details and full requirement/family histories extend the existing illustrated chronicle through disclosures. English/Thai remain fixed per life. Large expanded archives use optional lossless repeated-text encoding without deleting history or silently evicting past lives.
+
+The original-rule behavior below continues to apply to legacy lives; shared playback,
+language, accessibility and recovery behavior applies to both rulesets.
+
 - New lives offer full English or Thai. Language is fixed when the life is created, retained after reload and in the completed-life archive; legacy lives remain English. The new-life form previews its selected language without changing existing progress. Mixed archives label each life and use that life's language when reading its retrospective. Thai prose, controls, help, requirements, errors and accessible labels are authored locally; no translation backend is required.
 - Water, fire, earth, wind, and healing each retain their own experience and learned spells. Study selection unlocks at age eight; changing it preserves prior study and grants no experience. Instruction rank is shared across disciplines.
 - Adventurer, merchant, healer, guard, and teacher careers have three earned promotion steps. Experience, reputation, and vocation-specific skills determine eligibility; the player accepts an event offer for a new title and increased base pay. Changing vocation resets its career track while preserving magical study and savings.
