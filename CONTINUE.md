@@ -35,9 +35,12 @@ lock. No required review finding remains. See the existing follow-up plan at
 
 Usage observed **20:13**: five-hour **52% remaining**, reset **Oct 27 00:20:55**;
 weekly **92% remaining**, reset **Nov 2 19:20:55**. No billing/reset credits changed.
-Next delivery step: commit task-owned files, push `codex/career-choice-access`,
-create/attach follow-up PR against `main`, fetch/verify remote head and record PR
-number here. User merges manually. No deployment is authorized or performed.
+Delivery confirmed: code commit **`20d819a`** is pushed to
+`codex/career-choice-access`; follow-up **PR #11** is ready for review and targets
+`main`: https://github.com/ny147/1-in-mushoku-tensei/pull/11. Remote head matched
+that commit; this final documentation commit records the handoff. No required
+implementation work remains. User reviews/merges manually; do not repeat the
+implementation or planning. No deployment was performed.
 
 ## Completed implementation — PR #10, 2026-10-26 19:47 Asia/Bangkok
 
