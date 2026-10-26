@@ -36,6 +36,12 @@ resolve; tracked diff and new plan were reviewed; `git diff --check` passes.
 Application tests/build/browser checks are unnecessary and were not run. Do not
 reuse historical test counts as verification of the unimplemented expansion.
 
+Delivery: plan/spec/checkpoint committed as **`881420d`** and pushed to
+`origin codex/life-simulation-spec` with its own upstream. Existing draft PR #10
+was updated in place and still explicitly targets `main`; its description
+accurately states that code implementation awaits plan review. A documentation
+follow-up records this delivery. Final fetch/freshness is checked before handoff.
+
 Usage observed at session start on **2026-10-26**: five-hour **100% remaining**,
 resets **October 26 at 23:06:56**; weekly **100% remaining**, resets
 **November 2 at 18:06:56**, all Asia/Bangkok. At **18:11** the subsequent reading
