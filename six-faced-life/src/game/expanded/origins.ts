@@ -1,16 +1,11 @@
 import { createLife as legacyBirth } from '../legacy/engine';
 import { REGIONS, RACES } from '../world';
 import type { ExpandedLife, LifeOptions, RegionId, RaceId } from '../types';
-import type { Genetics, WorkRecord, Occupation, Relative } from './types';
+import type { WorkRecord, Occupation, Relative } from './types';
 import { WEALTH, SUPPORT, PURSE, FAMILY_FUNDS, OCCUPATIONS } from './balance';
 import { draw, weighted } from './random';
 
-export function initialGenetics(stream:{rng:number}, parents:readonly Genetics[]=[]): Genetics {
-  const carriers = parents.filter(p=>p.carrier).length;
-  const carrier = draw(stream) < (carriers===2?0.4:carriers===1?0.2:0.001);
-  const manifestation = carrier ? weighted(stream,[['mana',60],['appearance',25],['physical',15]] as const) : 'none';
-  return {carrier, manifestation, auraImpaired: manifestation==='mana' && draw(stream)<0.5, discovered:false, signs:false, magicTalent:draw(stream)<0.01, academicTalent:draw(stream)<0.01};
-}
+import { generateGenetics as initialGenetics } from './genetics';
 export function createExpandedLife(options:LifeOptions={}): ExpandedLife {
   const base = legacyBirth(options);
   const stream = {rng:(base.seed ^ 0xa71c09ef)>>>0};
@@ -29,7 +24,7 @@ export function createExpandedLife(options:LifeOptions={}): ExpandedLife {
   const life:ExpandedLife = {...base,ruleset:'expanded-1',race,rng:stream.rng,coins:PURSE[wealth],deathAge:Math.min(RACES[race].maxAge,Math.floor(RACES[race].lifespan*(.88+draw(stream)*.3))),
     expansion:{version:1,birthYear,worldSeed,familyRng,nextId:1,origin:{wealth,status:noble?'noble':'commoner',locality,birthplace:locality,patron:noble,ancestry:[race]},
       economy:{support:SUPPORT[wealth],familyFunds:FAMILY_FUNDS[wealth],assets:0,unmetFood:0,unmetShelter:0,unmetCare:0,peak:PURSE[wealth],protectionUntil:birthYear-1,aidUntil:birthYear-1,travelUntil:birthYear-1,unsafeWork:false,lastIncome:0,lastExpenses:0,deprivedYears:0},
-      education:{stage:noble?'basic':'none',assessment:0,assessed:false,scholarship:false,probation:false,successfulYears:0,research:0,previousKnowledge:18,previousXp:0},
+      education:{stage:noble?'basic':'none',assessment:0,assessed:false,scholarship:false,probation:false,successfulYears:0,research:0,previousKnowledge:18,previousXp:0,budget:0},
       career:{role:'child',records,timeline:[]},standing:{status:noble?'noble':'commoner',reputation:0,trust:0,service:0,feats:[],title:null,titles:[]},
       politics:{faction:null,trust:0,refused:{},pursuitUntil:birthYear-1,obligations:0,contact:noble,records:[]},genetics,
       family:{people,marriages:[],cohorts:[],directBorn:0,distantBorn:0,distantDead:0,friends:[]},facts:[],queue:[],lastRandom:-3,processedYear:birthYear-1,history:[],summary:null,study:'water'}};

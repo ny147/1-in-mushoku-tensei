@@ -1,5 +1,39 @@
 # Save point — Six-Faced Life
 
+## Active execution — PR #10 (2026-10-26)
+
+The user approved the concrete plan with **"let implement it"**. Continue native
+execution of the existing plan on `codex/life-simulation-spec`; no further plan
+or spec approval is pending. The older planning gate below is historical.
+
+Verified foundation: baseline `238c3e4` captured before code edits as 21,168
+full-state SHA256 action checkpoints across 200 EN/TH lives. Legacy extraction
+commit `6bb5345`; expanded origin/schema foundation `da70c70`. Existing saves
+remain legacy; unknown rules recover without overwriting storage. The default
+new-life route is still legacy until final release checks pass.
+
+Domain work added after that foundation: independent expanded transaction/queue,
+household economy and cause-specific mortality, talents/education funding,
+per-career experience and access, fixed/local historical exposure and seeded
+conflicts, optional factions and title boundaries, individual family/genetics,
+and bilingual immutable death snapshots. These are **in progress**, not a claim
+of complete spec acceptance. Full suite **138/138 passed** and TypeScript/Vite
+build passed on October 26 around **18:30 Asia/Bangkok**; Vite reports its existing
+nonblocking chunk-size warning. Hazard-only cohorts measured 88.38% Superd death
+before 15 (10,000 births), 63.83% with care/protection; matched other races 14.78%
+poor versus 4.35% comfortable. These are not yet full-engine/policy benchmarks.
+
+Next: integrate actual expanded components/playback and EN/TH entry translation,
+then exercise full engine/restore/bounds, run actual population cohorts and QA,
+review the whole branch, and enable the expanded default only after acceptance.
+Record remaining limits/decisions in the plan's existing ledger. No production
+deployment, user browser save operation or merge is authorized.
+
+Session start was clean at `6930486`; fetch succeeded with escalation. Last
+usage at **18:22 Asia/Bangkok**: five-hour **85%**, weekly **98%** remaining,
+resets October 26 **23:06:56** / November 2 **18:06:56** respectively. No low-usage
+trigger. Same PR #10 remains draft until implementation/verification completes.
+
 ## Current implementation request — PR #10
 
 Updated **2026-10-26, Asia/Bangkok**. The user asked to implement

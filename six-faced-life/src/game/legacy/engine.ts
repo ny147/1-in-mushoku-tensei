@@ -6,7 +6,7 @@ import type {
   Focus,
   Language,
   NarrativeMessage,
-  Life,
+  LegacyLife as Life,
   RegionId,
   Stats,
 } from "../types";

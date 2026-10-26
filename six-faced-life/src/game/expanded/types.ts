@@ -5,7 +5,7 @@ export type Faction = 'orsted' | 'hitogami';
 export type Manifestation = 'none' | 'mana' | 'appearance' | 'physical';
 export interface Genetics { carrier: boolean; manifestation: Manifestation; auraImpaired: boolean; discovered: boolean; signs: boolean; magicTalent: boolean; academicTalent: boolean; }
 export interface Relative {
-  id: string; name: string; role: 'parent' | 'spouse' | 'child' | 'descendant'; parents: string[];
+  id: string; name: string; role: 'parent' | 'spouse' | 'child' | 'descendant' | 'inlaw'; parents: string[];
   race: RaceId; ancestry: RaceId[]; born: number; died: number | null; lifespan: number;
   strength: number; genetics: Genetics; partner: string | null; children: number;
   generation: number; home: RegionId; educated: boolean; occupation: 'child' | 'worker' | 'student';
@@ -23,7 +23,7 @@ export interface ExpandedState {
   version: 1; birthYear: number; worldSeed: number; familyRng: number; nextId: number;
   origin: { wealth: Wealth; status: 'commoner' | 'noble'; locality: string; birthplace: string; patron: boolean; ancestry: RaceId[] };
   economy: { support: number; familyFunds: number; assets: number; unmetFood: number; unmetShelter: number; unmetCare: number; peak: number; protectionUntil: number; aidUntil: number; travelUntil: number; unsafeWork: boolean; lastIncome: number; lastExpenses: number; deprivedYears: number };
-  education: { stage: 'none' | 'basic' | 'university' | 'graduated' | 'withdrawn'; assessment: number; assessed: boolean; scholarship: boolean; probation: boolean; successfulYears: number; research: number; previousKnowledge: number; previousXp: number };
+  education: { stage: 'none' | 'basic' | 'university' | 'graduated' | 'withdrawn'; assessment: number; assessed: boolean; scholarship: boolean; probation: boolean; successfulYears: number; research: number; previousKnowledge: number; previousXp: number; budget: number };
   career: { role: Occupation; records: Record<Occupation, WorkRecord>; timeline: { year: number; role: Occupation; level: number; reason: string }[] };
   standing: { status: 'commoner' | 'noble'; reputation: number; trust: number; service: number; feats: string[]; title: 5 | 6 | 7 | null; titles: { year: number; position: 5 | 6 | 7; won: boolean }[] };
   politics: { faction: Faction | null; trust: number; refused: Partial<Record<Faction, number>>; pursuitUntil: number; obligations: number; contact: boolean; records: { year: number; code: string }[] };

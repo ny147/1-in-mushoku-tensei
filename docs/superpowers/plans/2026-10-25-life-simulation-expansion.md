@@ -215,7 +215,12 @@ Public engine API remains `createLife(options?): Life`, `beginLife(life): Life`,
 | Plan | Approved for execution | User: "let implement it" on 2026-10-26; native execution |
 | 1 | Legacy extraction verified | 21,168 full-state SHA256 checkpoints captured before edits from 200 EN/TH lives at baseline 238c3e4. Unknown-rules rejection RED→GREEN; full suite 106/106 passed. Routing facade established; expanded dispatch follows Task 2. |
 | 2 | Foundation verified | 10,000 seeded origins and malformed expanded restoration tests pass; 108/108 suite; TypeScript/Vite build passes (existing chunk warning). Expanded creation remains unavailable in production UI. |
-| 3–12 | Pending | Transactional queue tests next |
+| 3–10 | Domain implementation in progress | Queue, economy, education, careers, history, factions, family/genetics and summary modules added with RED→GREEN tests. Full suite 138/138 and build pass. Hazard-only cohorts: Superd 88.38% death before 15, protected 63.83%; matched other races 14.78% poor vs 4.35% comfortable. Full-engine cohorts, exhaustive bounds and presentation acceptance remain pending; no release claim. |
+| 11 | In progress | Bilingual event catalogue added; actual component/playback integration next |
+| 12 | Pending | Default new-life creation remains legacy |
+
+Ruling: preserve the base career enum for the shared spellbook/legacy-facing fields and store the expanded primary occupation in its independent ledger — avoids adding new occupations to the legacy event/migration registry — all expanded pay and public occupation labels must use expanded selectors.
+Ruling: record academic family funding in a reserved education budget, not a purse deposit — prevents double wages and minted tuition allowances — validator and recovery tests must retain the reserve.
 
 Ruling: use this existing tracked ledger and existing PR branch rather than a second scratch checkpoint/worktree — repository/user instructions explicitly require continuing the same task branch and checkpoint — no parallel checkout isolation.
 Ruling: baseline fixtures use SHA256 of each complete serialized state instead of duplicating every full life JSON — 21,168 checkpoints remain sensitive to all fields/RNG while keeping the committed fixture bounded — hash failures require reproducing the named seed/action to inspect field differences.
