@@ -6,9 +6,9 @@
 new feedback; do not repeat the implementation. Branch
 `codex/life-simulation-spec`, existing PR
 https://github.com/ny147/1-in-mushoku-tensei/pull/10, base `main`.
-Code checkpoint **`c741baf`** is pushed; the following final commit adds the
-named-relative projection-bound regression/fix and these delivery records.
-Use `git log -1` for that commit identifier.
+Repair checkpoint **`c741baf`** and final code/verification commit **`3f0868e`**
+are pushed. The following documentation-only commit confirms delivery;
+use `git log -1` for its identifier.
 
 Final fresh checks after that last code change: **186/186 tests across 32 files**
 in 62.52 seconds, **`npm run build` passed**, `git diff --check` passed.
@@ -30,9 +30,10 @@ no upstream integration was needed. Latest usage observation around **19:45**:
 five-hour **74% remaining**, reset **October 27 00:20:55**; weekly **96% remaining**,
 reset **November 2 19:20:55**. No credits or billing changed.
 
-Delivery: push final commit on this same branch, replace PR #10's planning-only
-title/body with implementation and validation, and mark ready for human review.
-Verify remote head/draft/base afterward. **User merges manually. No deployment.**
+Delivery confirmed through GitHub API: PR #10 is **ready for review** (`draft:
+false`), targets **`main`**, and its title/body now describe the implementation
+and measured validation. Remote code head matched **`3f0868e`**. This final
+documentation commit follows on the same branch. **User merges manually. No deployment.**
 No remaining implementation blocker; future work is human review/feedback.
 
 ## Verified repair checkpoint — PR #10, 2026-10-26 19:42 Asia/Bangkok
