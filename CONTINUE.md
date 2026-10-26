@@ -1,6 +1,59 @@
 # Save point — Six-Faced Life
 
+## Current implementation request — PR #10
+
+Updated **2026-10-26, Asia/Bangkok**. The user asked to implement
+[PR #10](https://github.com/ny147/1-in-mushoku-tensei/pull/10) and push to the same
+PR. This approves its concrete specification as the implementation baseline and
+supersedes the older planning-only restriction below. Do not repeat the design
+interview or ask for spec approval again.
+
+Existing branch **`codex/life-simulation-spec`** is the open draft PR's head;
+base is `main`. Start-of-session status was clean at `238c3e4`. Fetch/prune
+succeeded with sandbox escalation after the ordinary sandbox denied FETCH_HEAD
+writes. The branch contains current `origin/main` at `9d19b9a`; no upstream
+integration, worktree, new branch, deployment or player-storage operation occurred.
+GitHub CLI is absent; authenticated GitHub REST through the existing credential
+helper confirmed the PR's state/head/base without displaying credentials.
+
+Completed this session: read spec and affected engine/types/storage/progression,
+playback/translation integration and product/design context; wrote and
+self-reviewed the twelve-task
+[implementation plan](docs/superpowers/plans/2026-10-25-life-simulation-expansion.md).
+It pins interfaces, initial balance, seeded cohorts, compatibility fixtures,
+validation/queue boundaries, family compaction, immutable summaries, bilingual UI
+and final release checks. Spec/README now record the implementation request.
+**No application implementation has started.**
+
+**Pending gate:** the installed `superpowers:writing-plans` skill requires review
+of the completed plan and execution-method selection before implementation.
+Recommend native execution because tasks share the schema and routing contracts.
+This gate comes from the skill, not AGENTS.md, Git permissions, or absent approval
+to push. The user already authorizes same-PR commit/push delivery.
+
+Verification for this documentation follow-up: **37 local Markdown links**
+resolve; tracked diff and new plan were reviewed; `git diff --check` passes.
+Application tests/build/browser checks are unnecessary and were not run. Do not
+reuse historical test counts as verification of the unimplemented expansion.
+
+Usage observed at session start on **2026-10-26**: five-hour **100% remaining**,
+resets **October 26 at 23:06:56**; weekly **100% remaining**, resets
+**November 2 at 18:06:56**, all Asia/Bangkok. At **18:11** the subsequent reading
+was five-hour **96%**, weekly **99%** remaining with the same resets.
+No low-usage trigger or billing/reset
+action. Account identifiers and reset-credit details are intentionally omitted.
+
+Exact next step: user reviews the linked plan and chooses native or delegated
+execution. Then recheck usage/status, fetch origin, read this plan/spec, and start
+Task 1 by capturing legacy fixtures from baseline `238c3e4` before changing code.
+Continue the same branch/PR; preserve the player's 5173 save. Commit/push bounded
+verified task steps and update this checkpoint/plan ledger. Expanded creation
+stays disabled until all acceptance checks pass. The user merges manually.
+
 ## Current design save point — unequal lives and historical events
+
+**Historical:** the implementation request above supersedes this section's
+pending spec approval and planning-only restriction.
 
 Updated 2026-10-25 **21:33 Asia/Bangkok**. Active task: create a specification and
 implementation plan for the user's game-design expansion, using their explicitly

@@ -1,10 +1,13 @@
 # Unequal Lives and Historical Turning Points
 
-Status: **draft for user review**. The interview decisions below are confirmed;
-the detailed rules marked as design proposals still require approval of this
-document. This task produces a specification and implementation plan, not game
-code or a deployment. Branch: `codex/life-simulation-spec`, based on `origin/main`
-at `9d19b9a` on 2026-10-25 (Asia/Bangkok).
+Status: **implementation requested on 2026-10-26**. The user asked to implement
+PR #10 and push to that same PR, approving this specification as the baseline
+and superseding the earlier planning-only restriction. Detailed values originally
+marked as proposals remain identifiable as authored game balance. The concrete
+[implementation plan](../plans/2026-10-25-life-simulation-expansion.md) awaits
+review under the installed planning workflow; no game code is implemented yet.
+Branch: `codex/life-simulation-spec`, based on `origin/main` at `9d19b9a`.
+Deployment remains outside scope.
 
 ## Review these proposed details first
 
@@ -666,14 +669,15 @@ copy source prose, scrape artwork, or treat captured material as executable code
 
 ## Review status and next gate
 
-The user approved the interview decisions and versioned-engine approach. The
-full specification has not yet been approved. A fresh read-only builder review
+The user approved the interview decisions and versioned-engine approach, then
+requested implementation of this PR on 2026-10-26. A fresh read-only builder review
 on 2026-10-25 reported **"nothing important left"**: no unanswered material
 question prevented planning. This is a specification review, not implementation
 verification or a primary-source lore audit.
 
-After review, resolve any consequential ambiguity with the user, update this
-document, and ask for approval of the concrete spec. Then write and self-review
-`docs/superpowers/plans/2026-10-25-life-simulation-expansion.md` using the
-writing-plans workflow. The user requested planning; do not begin game
-implementation merely because the plan exists.
+The concrete plan is now written and self-reviewed at
+`docs/superpowers/plans/2026-10-25-life-simulation-expansion.md`. Its balance
+thresholds are builder choices requiring measured acceptance, not verified
+results. The writing-plans workflow requires review of that plan and an execution
+method before implementation. Do not repeat the completed interview or ask for
+spec approval again; the user's implementation request already supplies it.
