@@ -1,7 +1,13 @@
 import { describe,expect,it } from 'vitest';
+import { advance, getDecision } from '../engine';
 import { createExpandedLife } from './origins';
 import { assessTalent, enrollUniversity, applyEducationYear, educationRequirements } from './education';
 describe('education access and funded progress',()=>{
+  it('offers an ordinary livelihood immediately when university attendance ends',()=>{
+    const l=createExpandedLife({seed:1});l.phase='alive';l.age=20;l.coins=500;l.expansion.economy.peak=500;l.focus='study';l.career='student';l.expansion.career.role='student';
+    Object.assign(l.expansion.education,{stage:'university',scholarship:true,successfulYears:3,previousKnowledge:18,previousXp:0});
+    const next=advance(l,'year');expect(getDecision(next)?.id).toBe('expanded.work');
+  });
   it('lets a poor talented pupil qualify through free assessment but not poverty alone',()=>{
     const l=createExpandedLife({seed:1});l.age=15;l.coins=0;l.stats.knowledge=50;l.training.magicXp=80;l.expansion.genetics.magicTalent=true;
     assessTalent(l);expect(l.expansion.education.assessment).toBeGreaterThanOrEqual(60);

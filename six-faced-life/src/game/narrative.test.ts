@@ -22,7 +22,7 @@ describe("saved narrative references", () => {
   it.each(incompleteBirthParameters)(
     "falls back safely for incomplete birth parameters %j",
     (extra) => {
-      const entry = createLife({ seed: 14 }).history[0];
+      const entry = createLife({ ruleset: 'legacy-1', seed: 14 }).history[0];
       entry.message = { key: "birth", params: { region: "asura", ...extra } };
       expect(entryText(entry, "th")).toEqual({
         title: entry.title,
@@ -31,7 +31,7 @@ describe("saved narrative references", () => {
     },
   );
   it("captures a birth and keeps old unreferenced English text readable", () => {
-    const life = createLife({ seed: 14, region: "asura", language: "th" });
+    const life = createLife({ ruleset: 'legacy-1', seed: 14, region: "asura", language: "th" });
     expect(life.history[0].message).toBeDefined();
     expect(entryText(life.history[0], "th").text).toContain("อาณาจักรอัสรา");
     expect(entryText(life.history[0], "en").text).toBe(life.history[0].text);
@@ -47,7 +47,7 @@ describe("saved narrative references", () => {
   });
 
   it("captures annual focuses and infant entries independently of later focus", () => {
-    const life = createLife({ seed: 14 });
+    const life = createLife({ ruleset: 'legacy-1', seed: 14 });
     for (const focus of Object.keys(FOCUSES) as Focus[]) {
       life.age = 8;
       life.focus = focus;
@@ -71,7 +71,7 @@ describe("saved narrative references", () => {
       ["study-path", "study-fire"],
       ["career-promotion", "accept-promotion"],
     ]) {
-      const life = beginLife(createLife({ seed: 14 }));
+      const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 14 }));
       Object.assign(life, {
         age: 30,
         region: "asura",
@@ -102,7 +102,7 @@ describe("saved narrative references", () => {
   it("captures failed risky outcomes rather than promising the successful result", () => {
     let found = false;
     for (let seed = 1; seed < 100 && !found; seed++) {
-      const life = beginLife(createLife({ seed }));
+      const life = beginLife(createLife({ ruleset: 'legacy-1', seed }));
       life.age = 30;
       life.pending = "guild-quest";
       life.coins = 500;
@@ -118,7 +118,7 @@ describe("saved narrative references", () => {
   });
 
   it("keeps the childhood version of a changing choice label in history", () => {
-    const life = beginLife(createLife({ seed: 14 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 14 }));
     life.age = 4;
     life.pending = "help-neighbor";
     const after = choose(life, "focus");
@@ -126,7 +126,7 @@ describe("saved narrative references", () => {
   });
 
   it("captures learned spells from choices and yearly practice, plus family farewells", () => {
-    const life = beginLife(createLife({ seed: 14 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 14 }));
     life.pending = "reading";
     life.coins = 500;
     const choice = choose(life, "primer");
@@ -135,7 +135,7 @@ describe("saved narrative references", () => {
     )!;
     expect(learned).toBeDefined();
     expect(entryText(learned, "th").text).toContain("รวบรวมน้ำ");
-    const practice = beginLife(createLife({ seed: 14 }));
+    const practice = beginLife(createLife({ ruleset: 'legacy-1', seed: 14 }));
     practice.pending = null;
     practice.age = 8;
     practice.focus = "magic";
@@ -163,7 +163,7 @@ describe("saved narrative references", () => {
         "sword",
         "ordinary",
       ]) {
-        const life = createLife({ seed: 14 });
+        const life = createLife({ ruleset: 'legacy-1', seed: 14 });
         life.stats.bonds = branch === "bonds" ? 80 : 20;
         life.flags.taughtOthers = branch === "taughtOthers";
         life.training.magicXp = branch === "magic" ? 300 : 0;
@@ -178,7 +178,7 @@ describe("saved narrative references", () => {
 
   it("keeps full seeded futures equal across languages and gives every new entry a reference", () => {
     function run(language: "en" | "th", seed: number) {
-      let life = beginLife(createLife({ seed, language }));
+      let life = beginLife(createLife({ ruleset: 'legacy-1', seed, language }));
       for (let i = 0; i < 1000 && life.phase !== "ended"; i++) {
         const decision = getDecision(life);
         if (decision) {
@@ -221,7 +221,7 @@ describe("saved narrative references", () => {
         ),
       },
     ]) {
-      const life: Life = createLife({ seed: 14 });
+      const life: Life = createLife({ ruleset: 'legacy-1', seed: 14 });
       life.history[0].message = message as never;
       const raw = JSON.stringify({ version: 1, active: life, archive: [] });
       const result = loadGame({

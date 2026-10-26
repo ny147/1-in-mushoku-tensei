@@ -2,6 +2,31 @@
 
 ## Active execution — PR #10 (2026-10-26)
 
+**Latest checkpoint around 19:00 Asia/Bangkok:** domain and bilingual UI are now
+implemented; expanded births are enabled by default. Legacy tests explicitly
+request legacy rules, and all 21,168 pre-change state hashes remain identical.
+Full suite **169/169 passed** before the switch; default/Thai/legacy targeted
+checks **13/13 passed** afterward. Final full suite, independent whole-branch
+review and final delivery remain pending. Earlier in-progress details below
+record the work chronologically, not the latest release state.
+
+Full-engine calibrated Superd cohort: 10,000 births from 2,207,675 uniformly
+spaced uint32 seed attempts; 8,972 deaths before 15, protected cohort 7,302.
+Persecution coefficient now 0.155. Hazard-only cohort: 9,149/6,893; matched
+other-race hazards 1,478 poor versus 435 comfortable per 10,000. Long tests now
+yield to avoid Vitest RPC timeout; genetics keeps all 300,000 samples with
+aggregated invariant checks. Initial worker timeout and one shared-CPU 5-second
+genetics timeout were diagnosed, fixed and followed by the clean full run.
+
+New large-save lossless dictionary encoding reduces the 20-full-chronicle fixture
+from 7,644,765 to 1,140,474 stored characters without losing fields/prose or
+evicting archive entries. Unknown/corrupt encoding recovers without writes.
+Default new-life UI, desktop/mobile/Thai flows, faction refusal/watch boundary,
+scholarship and immediate study/reload have browser evidence on isolated 5180.
+Player port 5173 and production were untouched. QA server/session cleanup and
+review remain before handoff. The user approved updating Impeccable; its updater
+reported five skills updated to v4.7.0 outside the repository.
+
 The user approved the concrete plan with **"let implement it"**. Continue native
 execution of the existing plan on `codex/life-simulation-spec`; no further plan
 or spec approval is pending. The older planning gate below is historical.

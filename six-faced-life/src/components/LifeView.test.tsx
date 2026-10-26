@@ -9,7 +9,7 @@ afterEach(cleanup);
 
 describe("completed life presentation", () => {
   it("ends the timeline at the final year instead of promising a future", () => {
-    const life = beginLife(createLife({ seed: 32 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 32 }));
     life.phase = "ended";
     life.pending = null;
     life.age = 74;
@@ -20,7 +20,7 @@ describe("completed life presentation", () => {
   });
 
   it("does not claim a failed ending save succeeded", () => {
-    const life = beginLife(createLife({ seed: 32 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 32 }));
     life.phase = "ended";
     life.ending = { cause: "Old age", legacy: "A full life" };
     render(<Ending life={life} onNew={() => {}} saved={false} />);

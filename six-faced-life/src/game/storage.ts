@@ -2,8 +2,9 @@ import { EVENT_MAP } from "./events";
 import { CAREERS, FOCUSES, RACES, REGIONS } from "./world";
 import type { Career, Life, SaveData } from "./types";
 import { isProgression, migrateLife } from "./progression";
-import { validateExpansion } from './expanded/validation';
-import { validEventId } from './expanded/balance';
+import { validateExpansion } from "./expanded/validation";
+import { validEventId } from "./expanded/balance";
+import { encodeSave, decodeSave } from "./storage-codec";
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -38,7 +39,13 @@ function validMessage(value: unknown): boolean {
 }
 
 export function isLife(v: unknown): v is Life {
-  if (object(v) && v.ruleset !== undefined && v.ruleset !== 'legacy-1' && v.ruleset !== 'expanded-1') return false;
+  if (
+    object(v) &&
+    v.ruleset !== undefined &&
+    v.ruleset !== "legacy-1" &&
+    v.ruleset !== "expanded-1"
+  )
+    return false;
   if (
     !object(v) ||
     v.version !== 1 ||
@@ -47,9 +54,50 @@ export function isLife(v: unknown): v is Life {
     !text(v.surname, 100)
   )
     return false;
-  const expanded = v.ruleset === 'expanded-1';
+  const expanded = v.ruleset === "expanded-1";
   const ageMax = expanded ? 1000 : 300;
-  if ((!expanded && v.race === 'superd') || (expanded && !validateExpansion(v.expansion, v.age as number, v.phase, v.coins as number))) return false;
+  if (
+    (!expanded && v.race === "superd") ||
+    (expanded &&
+      !validateExpansion(
+        v.expansion,
+        v.age as number,
+        v.phase,
+        v.coins as number,
+      ))
+  )
+    return false;
+  if (expanded) {
+    if (
+      !Number.isInteger(v.rng) ||
+      !Number.isInteger(v.seed) ||
+      (v.phase === "birth" && v.age !== 0)
+    )
+      return false;
+    const x = v.expansion as import("./expanded/types").ExpandedState;
+    if (x.queue.includes(v.pending as string)) return false;
+    const children = x.family.people.filter(
+      (p) => p.role === "child" && p.died === null,
+    ).length;
+    const descendants =
+      children +
+      x.family.people.filter((p) => p.role === "descendant" && p.died === null)
+        .length +
+      x.family.cohorts.reduce((n, c) => n + c.alive, 0);
+    const s = x.summary;
+    if (
+      s &&
+      (s.spouseCount !==
+        new Set(x.family.marriages.map((m) => m.person)).size ||
+        s.childrenBorn !== x.family.directBorn ||
+        s.survivingChildren !== children ||
+        s.survivingDescendants !== descendants ||
+        s.peakWealth !== x.economy.peak ||
+        !object(v.ending) ||
+        v.ending.cause !== s.cause)
+    )
+      return false;
+  }
   if (
     Object.hasOwn(v, "language") &&
     v.language !== "en" &&
@@ -138,11 +186,17 @@ export function isLife(v: unknown): v is Life {
   if (
     !object(v.seen) ||
     !Object.entries(v.seen).every(
-      ([key, age]) => (expanded ? validEventId(key) : EVENT_MAP.has(key)) && number(age, 0, ageMax),
+      ([key, age]) =>
+        (expanded ? validEventId(key) : EVENT_MAP.has(key)) &&
+        number(age, 0, ageMax),
     )
   )
     return false;
-  if (v.pending !== null && (!text(v.pending) || !(expanded ? validEventId(v.pending) : EVENT_MAP.has(v.pending))))
+  if (
+    v.pending !== null &&
+    (!text(v.pending) ||
+      !(expanded ? validEventId(v.pending) : EVENT_MAP.has(v.pending)))
+  )
     return false;
   if (v.phase !== "alive" && v.pending !== null) return false;
   if (
@@ -186,7 +240,7 @@ export function loadGame(storage: StorageLike): {
     const raw = storage.getItem(SAVE_KEY);
     if (!raw) return { data: empty(), error: null };
     if (raw.length > 6_000_000) throw Error("too large");
-    const data: unknown = JSON.parse(raw);
+    const data: unknown = decodeSave(JSON.parse(raw));
     if (
       !object(data) ||
       data.version !== 1 ||
@@ -200,8 +254,14 @@ export function loadGame(storage: StorageLike): {
     return {
       data: {
         ...save,
-        active: save.active ? (save.active.ruleset === 'expanded-1' ? save.active : migrateLife(save.active)) : null,
-        archive: save.archive.map(l=>l.ruleset === 'expanded-1'?l:migrateLife(l)),
+        active: save.active
+          ? save.active.ruleset === "expanded-1"
+            ? save.active
+            : migrateLife(save.active)
+          : null,
+        archive: save.archive.map((l) =>
+          l.ruleset === "expanded-1" ? l : migrateLife(l),
+        ),
       },
       error: null,
     };
@@ -216,7 +276,9 @@ export function loadGame(storage: StorageLike): {
 
 export function saveGame(storage: StorageLike, save: SaveData): boolean {
   try {
-    storage.setItem(SAVE_KEY, JSON.stringify(save));
+    const raw = encodeSave(save);
+    if (raw.length > 6_000_000) return false;
+    storage.setItem(SAVE_KEY, raw);
     return true;
   } catch {
     return false;

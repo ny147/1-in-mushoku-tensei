@@ -1,4 +1,6 @@
 import { useI18n } from "../i18n/context";
+import { ExpandedDetails } from "./ExpandedDetails";
+import { expandedLabel } from "../i18n/expanded";
 import {
   ArrowRight,
   BookOpen,
@@ -200,7 +202,13 @@ export function BirthRecord({
             "You are born in {region}, into {background}. Beyond a small window, a whole world carries on. You have been here before. Just not here.",
             {
               region: t(REGIONS[life.birthRegion].name),
-              background: t(life.background.toLowerCase()),
+              background:
+                life.ruleset === "expanded-1"
+                  ? expandedLabel(
+                      life.expansion.origin.wealth,
+                      life.language ?? "en",
+                    )
+                  : t(life.background.toLowerCase()),
             },
           )}
         </p>
@@ -215,13 +223,27 @@ export function BirthRecord({
           </div>
           <div>
             <dt>{t("Family")}</dt>
-            <dd>{t(life.background.replace("A ", ""))}</dd>
+            <dd>
+              {life.ruleset === "expanded-1"
+                ? expandedLabel(
+                    life.expansion.origin.wealth,
+                    life.language ?? "en",
+                  )
+                : t(life.background.replace("A ", ""))}
+            </dd>
           </div>
           <div>
             <dt>{t("A natural gift")}</dt>
-            <dd>{t(life.aptitude)}</dd>
+            <dd>
+              {life.ruleset === "expanded-1"
+                ? life.language === "th"
+                  ? "ยังไม่ได้ประเมิน"
+                  : "Not assessed"
+                : t(life.aptitude)}
+            </dd>
           </div>
         </dl>
+        {life.ruleset === "expanded-1" && <ExpandedDetails life={life} birth />}
         <div className="memory-seal">
           <Sparkles size={17} />
           <span>{t("You carry memories of a previous life.")}</span>

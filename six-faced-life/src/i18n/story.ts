@@ -4,6 +4,7 @@ import { STORIES_TH } from "./story-th";
 import { YEARS_TH } from "./narrative-th";
 import { REGIONS } from "../game/world";
 import { MAGIC_SCHOOLS } from "../game/progression";
+import { expandedDecisionText, expandedEntryText } from "./expanded";
 
 /** Only the returned presentation copy is localized; engine choices stay canonical. */
 export function decisionText(
@@ -11,6 +12,8 @@ export function decisionText(
   life: Life,
   language: Language,
 ): Decision {
+  if (decision.id.startsWith("expanded."))
+    return expandedDecisionText(decision, language);
   if (language === "en" || !Object.hasOwn(STORIES_TH, decision.id))
     return decision;
   const story = STORIES_TH[decision.id];
@@ -42,6 +45,8 @@ export function entryText(
   entry: Entry,
   language: Language,
 ): { title: string; text: string } {
+  const expanded = expandedEntryText(entry, language);
+  if (expanded) return expanded;
   const fallback = { title: entry.title, text: entry.text };
   const message = entry.message;
   if (language === "en" || !message) return fallback;

@@ -1,4 +1,7 @@
 import { useI18n } from "../i18n/context";
+import { ExpandedDetails, ExpandedFamily } from "./ExpandedDetails";
+import { careerTitle } from "../game/simulation";
+import { expandedLabel } from "../i18n/expanded";
 import { decisionText, entryText } from "../i18n/story";
 import {
   ArrowDown,
@@ -33,11 +36,7 @@ import {
 } from "../game/world";
 import type { Entry, Focus, Life, MagicSchool, Stat } from "../game/types";
 import { WorldMap } from "./WorldMap";
-import {
-  careerTitle,
-  getProgression,
-  MAGIC_SCHOOLS,
-} from "../game/progression";
+import { getProgression, MAGIC_SCHOOLS } from "../game/progression";
 import { CareerProgress, Spellbook, StudyFocus } from "./Progression";
 import { ChoiceOutcome, type ChoiceResult } from "./ChoiceOutcome";
 import { Landscape } from "./Landscape";
@@ -193,6 +192,7 @@ export function Training({
 }
 export function Family({ life }: { life: Life }) {
   const { t } = useI18n();
+  if (life.ruleset === "expanded-1") return <ExpandedFamily life={life} />;
 
   return (
     <section className="rail-section family-section">
@@ -558,8 +558,12 @@ export function LifeView({
               {t(REGIONS[life.region].name)}
             </span>
             <span>
-              {t("Scenario year ")}
-              {life.age + 1}
+              {life.ruleset === "expanded-1"
+                ? `K${life.expansion.birthYear + life.age} · `
+                : t("Scenario year ")}
+              {life.ruleset === "expanded-1"
+                ? `${t("Age")} ${life.age}`
+                : life.age + 1}
             </span>
           </div>
           <div className="scene-caption">
@@ -595,6 +599,7 @@ export function LifeView({
           automatic={automatic}
         />
         <FocusPicker life={life} onFocus={onFocus} />
+        {life.ruleset === "expanded-1" && <ExpandedDetails life={life} />}
         <LifeRecord life={life} />
         <LifeTimeline life={life} />
       </div>
@@ -665,6 +670,7 @@ export function CharacterView({
         </div>
       </div>
       <div className="character-detail-grid">
+        {life.ruleset === "expanded-1" && <ExpandedDetails life={life} />}
         <section>
           <h2>{t("The life you were given")}</h2>
           <dl className="detail-list">
@@ -678,11 +684,24 @@ export function CharacterView({
             </div>
             <div>
               <dt>{t("Family background")}</dt>
-              <dd>{t(life.background)}</dd>
+              <dd>
+                {life.ruleset === "expanded-1"
+                  ? expandedLabel(
+                      life.expansion.origin.wealth,
+                      life.language ?? "en",
+                    )
+                  : t(life.background)}
+              </dd>
             </div>
             <div>
               <dt>{t("Natural aptitude")}</dt>
-              <dd>{t(life.aptitude)}</dd>
+              <dd>
+                {life.ruleset === "expanded-1"
+                  ? life.language === "th"
+                    ? "ดูผลประเมินและการค้นพบในรายละเอียดชีวิต"
+                    : "See recorded assessments and discoveries below"
+                  : t(life.aptitude)}
+              </dd>
             </div>
             <div>
               <dt>{t("Temperament")}</dt>

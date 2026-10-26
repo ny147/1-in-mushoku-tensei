@@ -16,7 +16,7 @@ describe("local persistence", () => {
     "retains a new %s life's language, pending decision, and future after reload",
     (language) => {
       const storage = memoryStorage();
-      const life = beginLife(createLife({ seed: 90, language }));
+      const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 90, language }));
       expect(life.language).toBe(language);
       expect(saveGame(storage, { version: 1, active: life, archive: [] })).toBe(
         true,
@@ -32,7 +32,7 @@ describe("local persistence", () => {
 
   it("preserves legacy lives without adding language metadata or rewriting storage", () => {
     const storage = memoryStorage();
-    const life = beginLife(createLife({ seed: 44 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 44 }));
     delete life.language;
     const raw = JSON.stringify({ version: 1, active: life, archive: [] });
     storage.setItem(SAVE_KEY, raw);
@@ -49,7 +49,7 @@ describe("local persistence", () => {
       for (const archived of [false, true]) {
         const storage = memoryStorage();
         const life = {
-          ...createLife({ seed: 55 }),
+          ...createLife({ ruleset: 'legacy-1', seed: 55 }),
           language,
           ...(archived
             ? {
@@ -74,9 +74,9 @@ describe("local persistence", () => {
   it("round trips English, Thai and legacy lives in the same archive", () => {
     const storage = memoryStorage();
     const archive = [
-      createLife({ seed: 1, language: "en" }),
-      createLife({ seed: 2, language: "th" }),
-      createLife({ seed: 3 }),
+      createLife({ ruleset: 'legacy-1', seed: 1, language: "en" }),
+      createLife({ ruleset: 'legacy-1', seed: 2, language: "th" }),
+      createLife({ ruleset: 'legacy-1', seed: 3 }),
     ].map((life) => ({
       ...life,
       phase: "ended" as const,
@@ -85,7 +85,7 @@ describe("local persistence", () => {
     }));
     const save = {
       version: 1 as const,
-      active: beginLife(createLife({ seed: 4, language: "th" })),
+      active: beginLife(createLife({ ruleset: 'legacy-1', seed: 4, language: "th" })),
       archive,
     };
     expect(saveGame(storage, save)).toBe(true);
@@ -97,7 +97,7 @@ describe("local persistence", () => {
 
   it("round trips an active pending decision and its future", () => {
     const storage = memoryStorage();
-    const life = beginLife(createLife({ seed: 90 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 90 }));
     expect(saveGame(storage, { version: 1, active: life, archive: [] })).toBe(
       true,
     );
@@ -123,7 +123,7 @@ describe("local persistence", () => {
     }
   });
   it("rejects invalid nested stats, event ids, and nonfinite values", () => {
-    const base = createLife({ seed: 9 });
+    const base = createLife({ ruleset: 'legacy-1', seed: 9 });
     for (const life of [
       { ...base, stats: { ...base.stats, health: -100 } },
       { ...base, family: [null] },
@@ -155,7 +155,7 @@ describe("local persistence", () => {
   });
   it("migrates a first-release save without changing its decision, history, or random state", () => {
     const storage = memoryStorage();
-    const life = beginLife(createLife({ seed: 42 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 42 }));
     delete life.progression;
     life.training.magicXp = 120;
     storage.setItem(
@@ -187,7 +187,7 @@ describe("local persistence", () => {
       { magic: { water: { xp: 0, spells: ["invented-spell"] } } },
     ]) {
       const storage = memoryStorage();
-      const life = createLife({ seed: 42 });
+      const life = createLife({ ruleset: 'legacy-1', seed: 42 });
       life.progression = {
         ...life.progression!,
         ...corrupt,
@@ -202,7 +202,7 @@ describe("local persistence", () => {
     for (const key of ["focus", "career", "race", "birthRegion", "region"]) {
       for (const value of ["toString", "constructor", "__proto__"]) {
         const storage = memoryStorage();
-        const life = { ...createLife({ seed: 9 }), [key]: value };
+        const life = { ...createLife({ ruleset: 'legacy-1', seed: 9 }), [key]: value };
         storage.setItem(
           SAVE_KEY,
           JSON.stringify({ version: 1, active: life, archive: [] }),
@@ -212,7 +212,7 @@ describe("local persistence", () => {
     }
   });
   it("archives completed lives once and keeps their ending available", () => {
-    let life = beginLife(createLife({ seed: 1 }));
+    let life = beginLife(createLife({ ruleset: 'legacy-1', seed: 1 }));
     life = {
       ...life,
       phase: "ended",

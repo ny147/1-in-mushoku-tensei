@@ -8,7 +8,7 @@ import { getProgression, syncSpells } from "../game/progression";
 
 afterEach(cleanup);
 function grown() {
-  const life = choose(beginLife(createLife({ seed: 29 })), "observe");
+  const life = choose(beginLife(createLife({ ruleset: 'legacy-1', seed: 29 })), "observe");
   life.age = 26;
   life.career = "merchant";
   life.progression = undefined;

@@ -11,7 +11,7 @@ import { RACES, REGIONS } from "./world";
 import { EVENT_MAP } from "./events";
 
 function ready(seed = 123) {
-  let life = beginLife(createLife({ seed, name: "Aster" }));
+  let life = beginLife(createLife({ ruleset: 'legacy-1', seed, name: "Aster" }));
   const decision = getDecision(life)!;
   life = choose(life, decision.choices[0].id);
   return life;
@@ -19,8 +19,8 @@ function ready(seed = 123) {
 
 describe("birth and memory", () => {
   it("generates deterministic, coherent births and trims player names", () => {
-    const a = createLife({ seed: 42, name: "  Aster  " });
-    const b = createLife({ seed: 42, name: "Aster" });
+    const a = createLife({ ruleset: 'legacy-1', seed: 42, name: "  Aster  " });
+    const b = createLife({ ruleset: 'legacy-1', seed: 42, name: "Aster" });
     expect(a).toEqual(b);
     expect(a.name).toBe("Aster");
     expect(REGIONS[a.birthRegion].races).toContain(a.race);
@@ -30,7 +30,7 @@ describe("birth and memory", () => {
   });
 
   it("opens a memory choice and makes a lasting consequence", () => {
-    const life = beginLife(createLife({ seed: 42 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 42 }));
     expect(getDecision(life)?.id).toBe("first-memory");
     const next = choose(life, "observe");
     expect(next.stats.knowledge).toBeGreaterThan(life.stats.knowledge);
@@ -81,7 +81,7 @@ describe("time and choices", () => {
   });
 
   it("stops every advance mode for a pending decision", () => {
-    const life = beginLife(createLife({ seed: 42 }));
+    const life = beginLife(createLife({ ruleset: 'legacy-1', seed: 42 }));
     expect(advance(life, "year")).toEqual(life);
     expect(advance(life, "decision")).toEqual(life);
     expect(advance(life, "tick", 100)).toEqual(life);

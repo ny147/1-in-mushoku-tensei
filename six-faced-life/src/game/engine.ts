@@ -4,7 +4,7 @@ import { createExpandedLife } from './expanded/origins';
 import { beginExpanded, chooseExpanded, advanceExpanded, setFocusExpanded, finishExpanded } from './expanded/engine';
 import { getExpandedDecision } from './expanded/events';
 import type { Life, LifeOptions, Focus } from './types';
-export function createLife(options:LifeOptions={}):Life{return options.ruleset==='expanded-1'?createExpandedLife(options):legacy.createLife(options);}
+export function createLife(options:LifeOptions={}):Life{return options.ruleset==='legacy-1'?legacy.createLife(options):createExpandedLife(options);}
 export const beginLife=(life:Life):Life=>life.ruleset==='expanded-1'?beginExpanded(life):legacy.beginLife(life);
 export const choose=(life:Life,id:string):Life=>life.ruleset==='expanded-1'?chooseExpanded(life,id):legacy.choose(life,id);
 export const getDecision=(life:Life)=>life.ruleset==='expanded-1'?getExpandedDecision(life):legacy.getDecision(life);

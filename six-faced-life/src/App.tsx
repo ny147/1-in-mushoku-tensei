@@ -42,7 +42,7 @@ import type {
   RegionId,
   SaveData,
 } from "./game/types";
-import { setSpecialization } from "./game/progression";
+import { setSpecialization, canAutoChoose } from "./game/simulation";
 import {
   advance,
   beginLife,
@@ -276,7 +276,8 @@ export default function App() {
     const timer = window.setInterval(
       () =>
         updateLife((current) => {
-          if (!current || document.hidden) return current;
+          if (!current || document.hidden || !canAutoChoose(current))
+            return current;
           const option = getDecision(current)?.choices.find(
             (c) => !c.disabled && (c.cost ?? 0) <= current.coins && !c.risk,
           );
@@ -583,7 +584,7 @@ export default function App() {
                     <strong>
                       {t(
                         life.pending
-                          ? auto && playing
+                          ? auto && playing && canAutoChoose(life)
                             ? "Watch mode is choosing for you"
                             : "A choice is waiting for you"
                           : playing
@@ -594,7 +595,7 @@ export default function App() {
                     <p>
                       {t(
                         life.pending
-                          ? auto && playing
+                          ? auto && playing && canAutoChoose(life)
                             ? "An affordable option without a danger marker will be chosen automatically. Pause or turn Watch mode off to decide yourself."
                             : "Choose an option in your story before time can move on."
                           : "Continue to the next decision, advance up to one year, or press Play to let time pass.",
@@ -774,7 +775,7 @@ export default function App() {
                   )
                 }
                 outcome={outcome?.lifeId === life.id ? outcome : null}
-                automatic={auto && playing}
+                automatic={auto && playing && canAutoChoose(life)}
                 onSpellbook={openSpellbook}
               />
             ) : (

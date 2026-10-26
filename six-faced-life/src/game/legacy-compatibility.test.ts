@@ -8,7 +8,7 @@ const hash = async (value: unknown) => Array.from(new Uint8Array(await crypto.su
 describe('frozen legacy compatibility', () => {
   it('reproduces every action of 200 pre-expansion lives including random state', async () => {
     for (const record of baseline.records) {
-      let life = createLife({seed:record.seed, language:record.language as Language, name:'Baseline'});
+      let life = createLife({ ruleset: 'legacy-1',seed:record.seed, language:record.language as Language, name:'Baseline'});
       expect(await hash(life)).toBe(record.checkpoints[0]);
       life = beginLife(life);
       expect(await hash(life)).toBe(record.checkpoints[1]);
@@ -23,7 +23,7 @@ describe('frozen legacy compatibility', () => {
     }
   }, 60_000);
   it('rejects unknown rules without rewriting the original storage', () => {
-    const life = {...createLife({seed:4}), ruleset:'future-9'};
+    const life = {...createLife({ ruleset: 'legacy-1',seed:4}), ruleset:'future-9'};
     expect(isLife(life)).toBe(false);
     let writes = 0;
     const raw = JSON.stringify({version:1, active:life, archive:[]});
