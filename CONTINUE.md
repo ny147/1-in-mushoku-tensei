@@ -1,9 +1,43 @@
 # Save point — Six-Faced Life
 
+## Verified repair checkpoint — PR #10, 2026-10-26 19:42 Asia/Bangkok
+
+Continue **`codex/life-simulation-spec`**, existing PR #10 targeting `main`.
+All eight findings from the sole independent review have been repaired in the
+one RED→GREEN pass. New regressions cover family compaction/count safety,
+800-year family restoration, title history, impossible decisions, attainable
+university progress, local historical service and attribution, disaster
+widowhood, and bilingual social/career-outcome snapshots.
+
+Fresh checks: **`npm test` 185/185 across 32 files** (67.67 seconds), and
+**`npm run build` passed** TypeScript/Vite; only the existing >500 kB bundle
+advisory remains. Full-engine Superd cohort remains 8,972/10,000 childhood deaths,
+7,302 with protection/care, from 2,207,675 candidate births. Legacy 21,168 hashes
+remain unchanged. Code and these checkpoint changes are saved together in the
+commit immediately following `ea8bbe0`; use `git log -1` for its identifier.
+
+Latest fetch/prune succeeded. Usage observed at **19:38 Asia/Bangkok**:
+five-hour **84% remaining**, reset **October 27 00:20:55**; weekly **97% remaining**,
+reset **November 2 19:20:55**. No billing or reset credits changed.
+
+Next: finish affected isolated browser checks on **port 5180**, then update the
+verification report and this checkpoint, fetch again, inspect the complete task
+diff/status, push the same branch and update PR #10's description/readiness.
+Do not dispatch a second reviewer or redo completed implementation. Owned QA
+Vite process is running on 5180; stop it and close the owned QA tab afterward.
+Player 5173 browser storage remains untouched. User merges manually; no deployment.
+
+Family representation ruling: group demographic profiles by generation/carrier
+while retaining birth year, ancestry, lifespan and RNG per live profile; merge
+equivalent extinct profiles. Binomial sampling uses beta decomposition rather
+than per-person loops. The existing one-million modeled distant-birth safety bound
+is now explicitly disclosed in the UI and final snapshot if reached; it never
+discards an already recorded person or changes living/dead counts.
+
 ## Resumed review repairs — PR #10
 
 User explicitly requested continuation and save points. On **2026-10-26 around
-19:10 Asia/Bangkok**, usage recheck reports **100% remaining in both windows**.
+19:21 Asia/Bangkok**, usage recheck reports **100% remaining in both windows**.
 The prior 7% save-point trigger is historical; the agent did not redeem credits
 or change billing. Fetch/prune succeeded; continue `codex/life-simulation-spec`
 and preserve its task-owned documentation changes.

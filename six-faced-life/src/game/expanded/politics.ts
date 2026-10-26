@@ -69,16 +69,24 @@ export function contestTitle(l: ExpandedLife, position: 5 | 6 | 7): boolean {
       0.6,
     );
   const x = l.expansion;
-  x.standing.titles.push({ year: worldYear(l), position, won });
-  if (x.standing.titles.length > 64) x.standing.titles.shift();
+  recordTitle(l, position, won);
   if (won) x.standing.title = position;
   else {
     if (x.standing.title === position) x.standing.title = null;
     l.stats.health = clamp(l.stats.health - 35);
     if (draw(l) < 0.12) l.stats.health = 0;
   }
-  fact(l, "achievement", won ? "title-won" : "title-lost", String(position));
   return won;
+}
+export function recordTitle(
+  l: ExpandedLife,
+  position: 5 | 6 | 7,
+  won: boolean,
+) {
+  const titles = l.expansion.standing.titles;
+  titles.push({ year: worldYear(l), position, won });
+  if (titles.length > 64) titles.splice(0, titles.length - 64);
+  fact(l, "achievement", won ? "title-won" : "title-lost", String(position));
 }
 export function applyPoliticalYear(l: ExpandedLife) {
   const p = l.expansion.politics;

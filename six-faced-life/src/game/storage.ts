@@ -5,6 +5,7 @@ import { isProgression, migrateLife } from "./progression";
 import { validateExpansion } from "./expanded/validation";
 import { validEventId } from "./expanded/balance";
 import { encodeSave, decodeSave } from "./storage-codec";
+import { getExpandedDecision } from "./expanded/events";
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -75,6 +76,59 @@ export function isLife(v: unknown): v is Life {
     )
       return false;
     const x = v.expansion as import("./expanded/types").ExpandedState;
+    const namedDescendants = x.family.people.filter(
+      (p) => p.role === "descendant",
+    );
+    const totalBorn =
+      namedDescendants.length +
+      x.family.cohorts.reduce((n, c) => n + c.alive + c.dead, 0);
+    const totalDead =
+      namedDescendants.filter((p) => p.died !== null).length +
+      x.family.cohorts.reduce((n, c) => n + c.dead, 0);
+    if (
+      !Number.isSafeInteger(totalBorn) ||
+      !Number.isSafeInteger(totalDead) ||
+      totalBorn !== x.family.distantBorn ||
+      totalDead !== x.family.distantDead ||
+      x.family.directBorn !==
+        x.family.people.filter((p) => p.role === "child").length
+    )
+      return false;
+    if (
+      x.family.projectionLimited !== undefined &&
+      typeof x.family.projectionLimited !== "boolean"
+    )
+      return false;
+    const active = x.family.marriages.filter((m) => m.end === null);
+    if (
+      new Set(active.map((m) => m.person)).size !== active.length ||
+      active.some((m) => {
+        const p = x.family.people.find((p) => p.id === m.person);
+        return !p || p.died !== null || p.partner !== "self";
+      })
+    )
+      return false;
+    if (
+      x.family.marriages.some(
+        (m) =>
+          m.reason === "widowhood" &&
+          x.family.people.find((p) => p.id === m.person)?.died !== m.end,
+      )
+    )
+      return false;
+    if (x.serviceContext !== undefined && x.serviceContext !== null) {
+      const c = x.serviceContext;
+      if (
+        !object(c) ||
+        !Number.isInteger(c.year) ||
+        c.year < x.birthYear ||
+        c.year > x.birthYear + (v.age as number) ||
+        !text(c.code, 100) ||
+        !ownKey(REGIONS, c.region) ||
+        !text(c.locality, 40)
+      )
+        return false;
+    }
     if (x.queue.includes(v.pending as string)) return false;
     const children = x.family.people.filter(
       (p) => p.role === "child" && p.died === null,
@@ -227,6 +281,12 @@ export function isLife(v: unknown): v is Life {
           "ending",
         ].includes(e.kind),
     )
+  )
+    return false;
+  if (
+    expanded &&
+    v.pending !== null &&
+    !getExpandedDecision(v as unknown as import("./types").ExpandedLife)
   )
     return false;
   return true;

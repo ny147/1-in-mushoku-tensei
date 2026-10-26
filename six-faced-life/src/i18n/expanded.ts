@@ -541,7 +541,12 @@ export const EXPANDED_COPY: Record<string, EventCopy> = {
         "A named rival becomes part of your social life.",
         "คู่แข่งคนหนึ่งเข้ามาเป็นส่วนหนึ่งของชีวิตในสังคม",
       ],
-      separate: ['Agree to a separation','ตกลงแยกทาง','You end the current marriage and retain its history.','คุณยุติการสมรสปัจจุบันโดยเก็บประวัติเดิมไว้'],
+      separate: [
+        "Agree to a separation",
+        "ตกลงแยกทาง",
+        "You end the current marriage and retain its history.",
+        "คุณยุติการสมรสปัจจุบันโดยเก็บประวัติเดิมไว้",
+      ],
       care: [
         "Spend time and care",
         "แบ่งเวลาและความเอาใจใส่",
@@ -723,6 +728,10 @@ export function expandedRecordLabel(
 ): string {
   const i = language === "th" ? 1 : 0;
   const names: Record<string, Pair> = {
+    appointment: ["Appointment", "รับตำแหน่ง"],
+    promotion: ["Promotion", "เลื่อนตำแหน่ง"],
+    dismissal: ["Dismissal", "ออกจากงาน"],
+    retirement: ["Retirement", "เกษียณ"],
     calamity: ["Mana Calamity", "ภัยพิบัติมานา"],
     "asura-succession": ["Asura succession", "การสืบราชบัลลังก์อัสรา"],
     "ariel-accession": ["Ariel’s accession", "แอเรียลขึ้นครองบัลลังก์"],

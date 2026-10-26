@@ -269,8 +269,24 @@ Perform one RED→GREEN repair pass; no second reviewer is needed.
    ties and career timeline reasons, losing rivals/enemies and disguising
    dismissals. Preserve and localize these facts in immutable snapshots/reload.
 
-No repair is yet claimed complete. Existing clean evidence remains 171/171 tests
-and the post-default-switch build; it does not prove these uncovered cases.
+Final: fixed findings 1–8 — named/cohort capacity and overflow, title yielding,
+pending-state recovery, university progress, historical locality/attribution,
+family disaster bookkeeping and social/career snapshots reproduced RED→GREEN.
+`family-compaction.test.ts` and `review-regressions.test.ts`: 14/14; complete
+`npm test`: **185/185 across 32 files**, 67.67 seconds, and production build passed
+on 2026-10-26 at 19:41 Asia/Bangkok. No second review is dispatched. Affected
+isolated browser checks and final delivery remain before readiness.
+
+Ruling: group cohorts by generation/carrier while retaining demographic profiles
+with birth year, ancestry, lifespan and independent RNG; merge only equivalent
+extinct profiles — respects the 256-group limit without dropping births or
+inventing deaths — nested profiles add encoding complexity and require exact
+ledger validation. Beta-decomposition binomial sampling avoids population-sized
+loops; deterministic restoration, distribution and 800-year checks pass.
+Ruling: retain the existing one-million modeled distant-birth safety bound and
+disclose it explicitly in UI/snapshots if reached — caps adversarial aggregate
+work without silently claiming unmodeled births — fantastically large families
+stop projecting additional births, while existing people continue to age.
 
 Ruling: preserve the base career enum for the shared spellbook/legacy-facing fields and store the expanded primary occupation in its independent ledger — avoids adding new occupations to the legacy event/migration registry — all expanded pay and public occupation labels must use expanded selectors.
 Ruling: record academic family funding in a reserved education budget, not a purse deposit — prevents double wages and minted tuition allowances — validator and recovery tests must retain the reserve.

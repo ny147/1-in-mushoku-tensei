@@ -6,8 +6,9 @@ and superseding the earlier planning-only restriction. Detailed values originall
 marked as proposals remain identifiable as authored game balance. The concrete
 [implementation plan](../plans/2026-10-25-life-simulation-expansion.md) was approved
 with "let implement it". Core code and bilingual presentation are implemented;
-the independent review identified family-capacity work still requiring repair.
-The plan/checkpoint record actual checks and remaining work; the PR stays draft.
+all eight independent-review findings have been repaired and the full 185-test
+suite/build pass. Affected browser checks and final delivery remain; the PR stays
+draft until those gates complete. The plan/checkpoint record actual evidence.
 Branch: `codex/life-simulation-spec`, based on `origin/main` at `9d19b9a`.
 Deployment remains outside scope.
 

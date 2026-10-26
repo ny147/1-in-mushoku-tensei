@@ -119,10 +119,13 @@ style warnings were not rewritten or suppressed.
 Before the default switch, `npm test` passed 169/169 across 29 files. After the
 switch, the complete suite passed **171/171 across 30 files**; default-routing/Thai-new-life/legacy checks also passed 13/13 and
 `npm run build` passed TypeScript/Vite. Vite reports its nonblocking >500 kB
-bundle warning. A final full run and independent whole-branch review are in
-progress; their outcomes and any review repairs must be recorded before marking
-the PR ready. The fresh review identified an **unfixed family-compaction gap**:
-the retained-person gate and cohort admission limit currently stop later-family
-formation rather than compacting retained distant people. This is a release
-blocker despite the green suite. The 7%-remaining usage trigger requires a save
-point before substantial repairs. No unrun remote CI pass is claimed.
+bundle warning. The sole independent review identified eight required repairs;
+all were reproduced and fixed in one pass. On 2026-10-26 at 19:41 Asia/Bangkok,
+the final complete suite passed **185/185 across 32 files** in 67.67 seconds;
+TypeScript/Vite build passed. The family tests include 800 years with repeated
+restoration, actual named-person compaction, 255 extinct profiles plus a live
+cohort, exact aggregate ledgers, bounded binomial draws and mean/variance checks.
+Other regressions cover malformed/impossible saves, capped title history,
+attainable university study, service revalidation after travel, simultaneous
+historical attribution, disaster widowhood and bilingual social/career facts.
+Affected browser checks and final delivery remain. No unrun remote CI pass is claimed.

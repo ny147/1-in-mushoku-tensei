@@ -1,7 +1,14 @@
+import {
+  cohortBirth,
+  compactCohorts,
+  compactNamedFamily,
+  ensureProfiles,
+  refreshCohort,
+} from "./demographics";
 import type { ExpandedLife, RaceId } from "../types";
 import type { Relative, Genetics } from "./types";
 import { FIRST_NAMES, RACES } from "../world";
-import { draw, clamp } from "./random";
+import { draw, clamp, sampleCount } from "./random";
 import { generateGenetics } from "./genetics";
 import { fact, worldYear } from "./facts";
 const familyStream = (l: ExpandedLife) => ({
@@ -76,7 +83,9 @@ export function marriageAllowed(l: ExpandedLife, id: string): boolean {
     l.age >= 18 &&
     p.strength >= 65 &&
     !active.some((m) => m.person === id) &&
-    (new Set(f.marriages.map((m) => m.person)).size < 6||f.marriages.some(m=>m.person===id)) && f.marriages.length<64 &&
+    (new Set(f.marriages.map((m) => m.person)).size < 6 ||
+      f.marriages.some((m) => m.person === id)) &&
+    f.marriages.length < 64 &&
     (l.region !== "millis" || active.length === 0) &&
     active.every(
       (m) => (f.people.find((p) => p.id === m.person)?.strength ?? 0) >= 65,
@@ -152,42 +161,9 @@ export function addChild(l: ExpandedLife): boolean {
   fact(l, "family", "child-born", child.name);
   return true;
 }
-function cohortBirth(
-  l: ExpandedLife,
-  generation: number,
-  race: RaceId,
-  carrier: boolean,
-  count = 1,
-): boolean {
-  const f = l.expansion.family,
-    y = worldYear(l),
-    lifespan = RACES[race].lifespan;
-  const match = f.cohorts.find(
-    (c) =>
-      c.generation === generation &&
-      c.born === y &&
-      c.race === race &&
-      c.carrier === carrier &&
-      c.lifespan === lifespan,
-  );
-  if (!match && f.cohorts.length >= 256) return false;
-  if (f.distantBorn + count > 1_000_000) return false;
-  if (match) match.alive += count;
-  else
-    f.cohorts.push({
-      generation,
-      born: y,
-      race,
-      carrier,
-      lifespan,
-      alive: count,
-      dead: 0,
-      rng: Math.floor(draw(familyStream(l)) * 4294967296),
-    });
-  f.distantBorn += count;
-  return true;
-}
 export function applyFamilyYear(l: ExpandedLife) {
+  compactCohorts(l);
+  compactNamedFamily(l);
   const f = l.expansion.family,
     y = worldYear(l),
     s = familyStream(l);
@@ -196,14 +172,7 @@ export function applyFamilyYear(l: ExpandedLife) {
     const age = y - p.born;
     p.strength = clamp(p.strength + (l.focus === "bonds" ? 2 : -0.1));
     if (age >= p.lifespan || draw(s) < 0.002) {
-      p.died = y;
-      if(p.role==='descendant')f.distantDead++;
-      fact(l, "family", "bereavement", p.name);
-      for (const m of f.marriages)
-        if (m.person === p.id && m.end === null) {
-          m.end = y;
-          m.reason = "widowhood";
-        }
+      recordFamilyDeath(l, p.id, y);
       continue;
     }
     if (age >= 8 && age < 18) {
@@ -245,35 +214,52 @@ export function applyFamilyYear(l: ExpandedLife) {
         f.distantBorn++;
         p.children++;
         mate.children++;
-      } else if (cohortBirth(l, p.generation + 1, race, genes.carrier)) {
+      } else if (
+        cohortBirth(l, p.generation + 1, race, genes.carrier, 1, [
+          ...new Set([...p.ancestry, ...mate.ancestry]),
+        ])
+      ) {
         p.children++;
         mate.children++;
       }
     }
   }
-  for (const c of [...f.cohorts]) {
-    const stream = { rng: c.rng },
-      age = y - c.born;
-    let deaths = 0;
-    if (age >= c.lifespan) deaths = c.alive;
-    else for (let i = 0; i < c.alive; i++) if (draw(stream) < 0.002) deaths++;
-    c.alive -= deaths;
-    c.dead += deaths;
+  const snapshot = f.cohorts.flatMap((c) =>
+    ensureProfiles(c).map((p) => ({ generation: c.generation, p })),
+  );
+  for (const { generation, p } of snapshot) {
+    const stream = { rng: p.rng },
+      age = y - p.born;
+    const deaths =
+      age >= p.lifespan ? p.alive : sampleCount(stream, p.alive, 0.002);
+    p.alive -= deaths;
+    p.dead += deaths;
     f.distantDead += deaths;
     if (age >= 18 && age <= 45) {
-      let births = 0,
-        carriers = 0;
-      for (let i = 0; i < c.alive; i++)
-        if (draw(stream) < 0.02) {
-          births++;
-          if (draw(stream) < (c.carrier ? 0.2 : 0.001)) carriers++;
-        }
+      const births = sampleCount(stream, p.alive, 0.02),
+        carriers = sampleCount(stream, births, p.carrier ? 0.2 : 0.001);
       if (births > carriers)
-        cohortBirth(l, c.generation + 1, c.race, false, births - carriers);
-      if (carriers) cohortBirth(l, c.generation + 1, c.race, true, carriers);
+        cohortBirth(
+          l,
+          generation + 1,
+          p.race,
+          false,
+          births - carriers,
+          p.ancestry ?? [p.race],
+        );
+      if (carriers)
+        cohortBirth(
+          l,
+          generation + 1,
+          p.race,
+          true,
+          carriers,
+          p.ancestry ?? [p.race],
+        );
     }
-    c.rng = stream.rng;
+    p.rng = stream.rng;
   }
+  for (const group of f.cohorts) refreshCohort(group);
 }
 export function descendantCounts(l: ExpandedLife) {
   const f = l.expansion.family;
@@ -287,6 +273,28 @@ export function descendantCounts(l: ExpandedLife) {
       living.filter((p) => p.role === "descendant").length +
       f.cohorts.reduce((n, c) => n + c.alive, 0),
   };
+}
+export function recordFamilyDeath(
+  l: ExpandedLife,
+  id: string,
+  year = worldYear(l),
+  code = "bereavement",
+): boolean {
+  const f = l.expansion.family,
+    p = f.people.find((p) => p.id === id);
+  if (!p || p.died !== null) return false;
+  p.died = year;
+  if (p.role === "descendant") f.distantDead++;
+  const mate = f.people.find((q) => q.id === p.partner);
+  if (mate?.partner === p.id) mate.partner = null;
+  p.partner = null;
+  for (const m of f.marriages)
+    if (m.person === id && m.end === null) {
+      m.end = year;
+      m.reason = "widowhood";
+    }
+  fact(l, "family", code, p.name);
+  return true;
 }
 export function addSocialTie(
   l: ExpandedLife,

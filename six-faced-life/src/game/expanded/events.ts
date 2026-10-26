@@ -20,6 +20,7 @@ import {
   defect,
   titleEligible,
   contestTitle,
+  recordTitle,
 } from "./politics";
 import {
   introducePartner,
@@ -33,6 +34,7 @@ import { discoverGenetics } from "./genetics";
 import { worldYear, fact } from "./facts";
 import { draw, clamp } from "./random";
 import { REGIONS } from "../world";
+import { historicalRecord, canServeHistory, serviceRecord } from "./history";
 export const MANUAL = new Set([
   "orsted",
   "hitogami",
@@ -73,6 +75,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
     return null;
   if (key === "school-year" && x.education.stage !== "university") return null;
   if (key === "assignment" && !x.politics.faction) return null;
+  if (key === "service" && !serviceRecord(life)) return null;
   if (key === "defect" && !x.politics.faction) return null;
   if (key === "defense" && x.standing.title === null) return null;
   if (
@@ -119,7 +122,15 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
         option("later"),
       ];
       break;
-    case 'family':choices=choices.map(c=>({...c,disabled:c.id.endsWith('.separate')?!x.family.marriages.some(m=>m.end===null):(c.id.endsWith('.friend')||c.id.endsWith('.rival'))&&x.family.friends.length>=32}));break;
+    case "family":
+      choices = choices.map((c) => ({
+        ...c,
+        disabled: c.id.endsWith(".separate")
+          ? !x.family.marriages.some((m) => m.end === null)
+          : (c.id.endsWith(".friend") || c.id.endsWith(".rival")) &&
+            x.family.friends.length >= 32,
+      }));
+      break;
     case "university":
       choices = [
         option("enroll", {
@@ -259,6 +270,8 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
   // No decisions remain actionable after the protagonist's death or invalidation.
   if (life.age < 18)
     choices = choices.filter((c) => !c.id.endsWith(".service"));
+  if (["succession", "conflict"].includes(key) && !canServeHistory(life, key))
+    choices = choices.filter((c) => !c.id.endsWith(".service"));
   if (y < x.birthYear) return null;
   return {
     id: life.pending,
@@ -266,7 +279,9 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
     title: copy.title[0],
     text: copy.text[0],
     choices,
-    requiresManual: MANUAL.has(key)||(key==='family'&&x.family.marriages.some(m=>m.end===null)),
+    requiresManual:
+      MANUAL.has(key) ||
+      (key === "family" && x.family.marriages.some((m) => m.end === null)),
   };
 }
 export function appointmentAvailable(life: ExpandedLife, role: string) {
@@ -329,12 +344,24 @@ export function applyExpandedChoice(
   ) {
     x.standing.reputation = clamp(x.standing.reputation + 5);
     x.standing.trust = clamp(x.standing.trust + 5);
-    const record = [...x.history].reverse().find((h) => h.year === y);
+    const record = historicalRecord(life, key);
     if (record) record.exposure = "support";
     fact(life, "history", "relief", key);
   }
-  if (["succession", "conflict"].includes(key) && action === "service")
+  if (
+    ["succession", "conflict"].includes(key) &&
+    action === "service" &&
+    canServeHistory(life, key)
+  ) {
+    const h = historicalRecord(life, key)!;
+    x.serviceContext = {
+      year: h.year,
+      code: h.code,
+      region: h.region!,
+      locality: h.locality!,
+    };
     queue("service");
+  }
   if (key === "conflict" && action === "neutral")
     x.economy.protectionUntil = y + 1;
   if ((key === "orsted" || key === "hitogami") && action === "accept")
@@ -360,8 +387,9 @@ export function applyExpandedChoice(
     const feat = `${key}-${life.region}`;
     if (!x.standing.feats.includes(feat) && x.standing.feats.length < 64)
       x.standing.feats.push(feat);
-    const h = [...x.history].reverse().find((h) => h.year === y);
+    const h = key === "service" ? serviceRecord(life) : undefined;
     if (h && key === "service") h.exposure = "participant";
+    if (key === "service") x.serviceContext = null;
     fact(life, "achievement", key, feat);
   }
   if (key === "challenge" && action.startsWith("rank-")) {
@@ -373,7 +401,7 @@ export function applyExpandedChoice(
     if (life.stats.health <= 0) return "duel";
   }
   if (key === "defense" && action === "yield" && x.standing.title) {
-    x.standing.titles.push({ year: y, position: x.standing.title, won: false });
+    recordTitle(life, x.standing.title, false);
     x.standing.title = null;
   }
   if (key === "courtship" && action === "meet") {
@@ -384,7 +412,10 @@ export function applyExpandedChoice(
     marry(life, action.slice(6));
   if (key === "child" && action === "accept") addChild(life);
   if (key === "family" && action === "care") life.focus = "bonds";
-  if(key==='family'&&action==='separate'){const m=x.family.marriages.find(m=>m.end===null);if(m)divorce(life,m.person);}
+  if (key === "family" && action === "separate") {
+    const m = x.family.marriages.find((m) => m.end === null);
+    if (m) divorce(life, m.person);
+  }
   if (key === "family" && (action === "friend" || action === "rival"))
     addSocialTie(life, action);
   if (key === "discovery" && action === "assess") discoverGenetics(life);

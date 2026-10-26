@@ -48,6 +48,15 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
           `${p.name}: ${t(p.role)}, K${p.born}${p.died !== null ? `–K${p.died}` : ""}`,
       )
       .join("; ");
+    const social =
+      x.family.friends
+        .map((p) => `${p.name}: ${t(p.role)} (${Math.round(p.strength)})`)
+        .join("; ") +
+      (x.family.projectionLimited
+        ? th
+          ? " การจำลองผู้สืบสกุลรุ่นไกลถึงขีดจำกัดหนึ่งล้านคนแล้ว ยอดรวมแสดงเฉพาะผู้ที่จำลองไว้"
+          : " Distant-family projection reached its one-million-person limit; totals include modeled people only."
+        : "");
     const facts = x.facts
       .filter((f) => ["education", "achievement", "discovery"].includes(f.kind))
       .map(
@@ -60,11 +69,11 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
       th
         ? `วัยเด็กขาดปัจจัยจำเป็น ${x.economy.deprivedYears} ปี การประเมินความสามารถ ${x.education.assessed ? x.education.assessment : "ยังไม่ได้ประเมิน"} การศึกษา: ${t(x.education.stage)} ปีที่เรียนผ่าน ${x.education.successfulYears} สถานะทุน ${x.education.scholarship ? "ยังได้รับทุน" : "ไม่มีทุนปัจจุบัน"} ${facts}`
         : `Years with unmet necessities: ${x.economy.deprivedYears}. Assessment: ${x.education.assessed ? x.education.assessment : "not assessed"}. Education: ${t(x.education.stage)}; ${x.education.successfulYears} successful years. Current scholarship: ${x.education.scholarship ? "yes" : "no"}. ${facts}`,
-      `${work}. ${x.career.timeline.map((r) => `K${r.year} ${t(r.role)} ${r.level}`).join("; ")}`,
+      `${work}. ${x.career.timeline.map((r) => `K${r.year} ${t(r.role)} ${r.level}: ${expandedRecordLabel(r.reason, lang)}`).join("; ")}`,
       `${t(x.standing.status)}; ${th ? "ชื่อเสียง" : "Reputation"} ${Math.round(x.standing.reputation)}; ${x.politics.faction ? t(x.politics.faction) : th ? "ไม่มีฝ่ายปัจจุบัน" : "no current allegiance"}; ${th ? "ตำแหน่งปัจจุบัน" : "current title"} ${x.standing.title ?? (th ? "ไม่มี" : "none")}. ${exposure}. ${x.politics.records.map((r) => `K${r.year} ${expandedRecordLabel(r.code, lang)}`).join("; ")}`,
       th
-        ? `คู่สมรสที่เคยสมรส ${spouseCount} คน บุตรโดยตรง ${counts.born} คน ยังมีชีวิต ${counts.survivingChildren} คน ผู้สืบสกุลที่ยังมีชีวิตทั้งหมด ${counts.survivingDescendants} คน ${marriages}. ${people}`
-        : `Distinct spouses: ${spouseCount}. Direct children born: ${counts.born}; surviving children: ${counts.survivingChildren}; total surviving descendants: ${counts.survivingDescendants}. ${marriages}. ${people}`,
+        ? `คู่สมรสที่เคยสมรส ${spouseCount} คน บุตรโดยตรง ${counts.born} คน ยังมีชีวิต ${counts.survivingChildren} คน ผู้สืบสกุลที่ยังมีชีวิตทั้งหมด ${counts.survivingDescendants} คน ${marriages}. ${people}. ${social}`
+        : `Distinct spouses: ${spouseCount}. Direct children born: ${counts.born}; surviving children: ${counts.survivingChildren}; total surviving descendants: ${counts.survivingDescendants}. ${marriages}. ${people}. ${social}`,
       th
         ? `เงินเมื่อสิ้นชีวิต ${l.coins} เหรียญ เงินสูงสุด ${x.economy.peak} เหรียญ ทรัพย์สิน ${x.economy.assets} ผลงานสำคัญ ${x.standing.feats.length} รายการ ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "ได้รับ" : "สูญเสีย"}`).join("; ")}`
         : `Coins at death: ${l.coins}; peak personal wealth: ${x.economy.peak}; assets: ${x.economy.assets}; distinct major contributions: ${x.standing.feats.length}. ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "won" : "lost"}`).join("; ")}`,

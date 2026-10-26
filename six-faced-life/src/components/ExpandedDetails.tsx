@@ -198,6 +198,13 @@ export function ExpandedFamily({ life }: { life: ExpandedLife }) {
         {th ? "ผู้สืบสกุลที่ยังมีชีวิต" : "Surviving descendants"}{" "}
         {c.survivingDescendants}
       </p>
+      {x.family.projectionLimited && (
+        <p className="expanded-warning">
+          {th
+            ? "ระบบถึงขีดจำกัดผู้สืบสกุลที่จำลองหนึ่งล้านคนแล้ว จึงไม่สร้างการเกิดรุ่นไกลเพิ่ม คนที่บันทึกไว้ยังเติบโตและมีชีวิตตามข้อมูลจริง"
+            : "The one-million modeled-descendant limit was reached. Further distant births are not projected; existing recorded people continue to age with their actual living counts."}
+        </p>
+      )}
       <details>
         <summary>
           {th ? "ครอบครัวและประวัติการสมรส" : "Family and marriage record"}

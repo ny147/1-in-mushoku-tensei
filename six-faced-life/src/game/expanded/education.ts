@@ -94,8 +94,11 @@ export function applyEducationYear(life: ExpandedLife) {
   if (e.stage !== "university") return;
   const successful =
     ["study", "magic"].includes(life.focus) &&
-    (life.training.magicXp - e.previousXp >= 12 ||
-      life.stats.knowledge - e.previousKnowledge >= 3);
+    (life.training.magicXp - e.previousXp >= 9 ||
+      life.stats.knowledge - e.previousKnowledge >= 3 ||
+      (life.focus === "study" &&
+        life.stats.knowledge === 100 &&
+        e.previousKnowledge >= 97));
   e.previousXp = life.training.magicXp;
   e.previousKnowledge = life.stats.knowledge;
   if (successful) {
