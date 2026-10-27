@@ -159,7 +159,7 @@ Annual integration captures attendance at the start of the year so graduation ca
 
 **Interfaces:** Produce `quoteEducation(l: ExpandedLife, cost: EducationCost): EducationQuote`, `reserveEducation(l: ExpandedLife, quote: EducationQuote, borrow: boolean): boolean`, `consumeEducation(l: ExpandedLife, purpose: EducationPurpose, amount: number, annualYear?: number): boolean`, `refundEducation(l: ExpandedLife, purpose: EducationPurpose): void`, `repayEducationYear(l: ExpandedLife, year: EducationYear): void`, `closeEducationDebt(l: ExpandedLife): void`. Mutators follow existing expanded-module conventions; false means no partial mutation. `EducationCost` contains purpose, the five numeric cost components in C, `remainingUnits: number` and `school: MagicSchool | null` (university uses 0/null). Enrollment helpers must validate canonical remaining costs before passing a quote to the ledger. `EducationYear` contains `worldYear`, `earnedIncome`, `necessaryEducationCosts`, `dependantCosts` (numbers), `universityAttendance` and `unmetNeeds` (booleans). Annual consumption requires its world-year argument and guards `lastConsumptionYear`; enrollment/placement consumption has no annual argument and is guarded by its transaction state. `repayEducationYear` independently guards `lastYear`.
 
-- [ ] Write quote/accept/decline assertions: `family + personal + loan === total`, identical repeated quote and unchanged RNG/purse; explicit borrow required for a shortfall; changed funds invalidate the old quote; borrowed acceptance never increases coins. Test exact C refund examples, consumed fees, multiple purposes and repeated zero-reserve refunds.
+- [x] Write quote/accept/decline assertions: `family + personal + loan === total`, identical repeated quote and unchanged RNG/purse; explicit borrow required for a shortfall; changed funds invalidate the old quote; borrowed acceptance never increases coins. Test exact C refund examples, consumed fees, multiple purposes and repeated zero-reserve refunds.
 
   Representative loan-only withdrawal assertions after reserving 24 and consuming 8:
 
@@ -172,10 +172,10 @@ Annual integration captures attendance at the start of the year so graduation ca
   expect(life.coins).toBe(0);
   ```
 
-- [ ] Pin repayment cases as `(income, necessaryCosts, expectedPayment)`: `(18,18,0)`, `(19,18,1)`, `(27,18,1)`, `(38,18,2)`, plus debt 1 caps payment to 1, current coins 0 caps to 0, and full-time university forces 0. Set old savings to 10000 with no income and assert unchanged. Add dependants, reserve-funded tuition, grant/refund income exclusion, two debts sharing one ceiling, outstanding reserved principal excluded, same-year double call and withdrawal after repayment.
-- [ ] Run `npm test -- src/game/expanded/education-finance.test.ts`; inspect intended failures.
-- [ ] Implement C's funding allocation, reserve consumption, cancellation, fixed repayment ordering and closure invariants. On death cancel unused borrowed reserves first, close remaining balance as unpaid, and do not turn unused funding into inheritance. Retain cumulative records for the summary.
-- [ ] Rerun tests; commit `feat: add voluntary education finance ledger`.
+- [x] Pin repayment cases as `(income, necessaryCosts, expectedPayment)`: `(18,18,0)`, `(19,18,1)`, `(27,18,1)`, `(38,18,2)`, plus debt 1 caps payment to 1, current coins 0 caps to 0, and full-time university forces 0. Set old savings to 10000 with no income and assert unchanged. Add dependants, reserve-funded tuition, grant/refund income exclusion, two debts sharing one ceiling, outstanding reserved principal excluded, same-year double call and withdrawal after repayment.
+- [x] Run `npm test -- src/game/expanded/education-finance.test.ts`; inspect intended failures.
+- [x] Implement C's funding allocation, reserve consumption, cancellation, fixed repayment ordering and closure invariants. On death cancel unused borrowed reserves first, close remaining balance as unpaid, and do not turn unused funding into inheritance. Retain cumulative records for the summary.
+- [x] Rerun tests; commit `feat: add voluntary education finance ledger`.
 
 ### Task 4: Paid training lifecycle and annual integration
 
@@ -250,3 +250,5 @@ Ruling: Use the existing checkout/task branch rather than create a worktree — 
 Task 1: complete — new tests observed RED (7 failures), then 28/28 targeted storage/state/validation tests GREEN. Existing active saves migrate without writes; completed archives are not migrated.
 
 Task 2: complete — new entry tests RED (9 missing-rule failures), then 36/36 career/access/activity tests GREEN. Updated the superseded ordinary-vacancy and merchant-fee assertions. Baseline suite passed 197/197 before implementation.
+
+Task 3: complete — finance tests first failed for the absent module; provider ledger now passes 8/8 funding/refund/repayment cases. Repayment protects unspent borrowed reserves; unused loan money cancels principal.
