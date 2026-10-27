@@ -2,21 +2,25 @@
 
 **Date:** 2026-10-26, Asia/Bangkok.
 
-**Status:** Design for user review; not an implementation plan or implemented behavior.
+**Status:** Implementation approved on 2026-10-27 and built on PR #12's branch.
+See the [implementation verification](../../verification/accessible-careers.md)
+for actual checks and limitations. The earlier design interview remains below.
 
 **Planning follow-up — 2026-10-27:** The user requested an implementation plan
 from PR #12 and delivery to the same PR. See
 [the implementation plan](../plans/2026-10-27-accessible-careers.md) for task order,
 interfaces, funding arithmetic, migration and verification requirements. This
 authorizes the planning document; proposed balance values remain labeled for
-review, and no game implementation has started.
+review at that planning checkpoint. The later instruction, "ok, implement it",
+approved executing the linked plan and its baseline on the same PR.
 
 **Branch:** `codex/accessible-career-design`. Base: freshly fetched `origin/main`
-at `c88743a`. No game code changes are part of this design delivery.
+at `c88743a`. The original design-only delivery was followed by implementation.
 
 **Builder check:** A fresh read-only reviewer reported **nothing important left**
 after checking for consequential unanswered planning questions. The proposed
-defaults below still await user review; this is not implementation verification.
+defaults were awaiting review at that original checkpoint. Implementation approval
+and fresh verification are recorded above; the builder check was not a code test.
 
 ## Intent and evidence
 
@@ -84,10 +88,11 @@ both apprenticeships and university. Reuse the existing occupation ledgers,
 language system, and chronological facts. Do not introduce a separate game mode,
 external service, account system, or dependency for this feature.
 
-## Proposed defaults for review
+## Implementation baseline
 
-The following details are **author recommendations**, not numbers the user has
-already approved. They make the agreed behavior concrete and reviewable.
+The following details began as **author recommendations**, distinct from the
+interview decisions. The user approved implementing the plan containing these
+values on 2026-10-27. They are game balance rather than setting statistics.
 
 ### Ordinary and prestigious roles
 
@@ -278,7 +283,6 @@ confirmed experience or silently removing a career route.
 
 The completed builder check found no consequential unanswered questions. The
 2026-10-27 request advances this design to implementation planning on the same
-PR; it does not authorize product implementation or turn proposed numbers into
-confirmed interview decisions. Review the design defaults and linked plan before
-starting implementation. Git delivery uses a PR targeting `main`; the user merges
-manually and publishing remains separately authorized.
+PR. The later implementation instruction approved the plan baseline; it does not
+rewrite the historical interview decisions. Git delivery uses PR #12 targeting
+`main`; the user merges manually and publishing remains separately authorized.

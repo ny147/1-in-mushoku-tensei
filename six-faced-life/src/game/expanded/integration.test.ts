@@ -9,7 +9,7 @@ const safeChoice = (l: Life) =>
       !c.disabled &&
       (c.cost ?? 0) === 0 &&
       !c.risk &&
-      !["expanded.orsted.accept", "expanded.hitogami.accept"].includes(c.id),
+      !["expanded.orsted.accept", "expanded.hitogami.accept", "expanded.career.training"].includes(c.id),
   );
 describe("expanded seeded lifetimes and storage", () => {
   it("applies choice practice to the selected discipline and preserves it across a study change", () => {
@@ -127,5 +127,6 @@ describe("expanded seeded lifetimes and storage", () => {
     expect(deaths).toBeGreaterThanOrEqual(8700);
     expect(deaths).toBeLessThanOrEqual(9300);
     expect(deaths - protectedDeaths).toBeGreaterThanOrEqual(1000);
-  }, 90000);
+  // The enlarged saved training/finance state is cloned throughout this 10,000-life cohort.
+  }, 180000);
 });

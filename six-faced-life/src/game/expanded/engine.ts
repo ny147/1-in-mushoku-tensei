@@ -97,8 +97,12 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     cause ? `The danger ended this life: ${cause}.` : c.outcome,
     "choice",
   );
-  const educationText=decision?.localized?.choices[id];
-  if (educationText) next.history[next.history.length-1].message={key:"expanded.education-choice",params:{title:educationText.label,text:educationText.outcome}};
+  const educationText = decision?.localized?.choices[id];
+  if (educationText)
+    next.history[next.history.length - 1].message = {
+      key: "expanded.education-choice",
+      params: { title: educationText.label, text: educationText.outcome },
+    };
   if (cause)
     next.history[next.history.length - 1].message = {
       key: "expanded.fatal-choice",
@@ -215,9 +219,14 @@ function year(life: ExpandedLife) {
       x.lastRandom = life.age;
     }
   }
-  const completed = Object.entries(life.expansion.training?.records ?? {}).find(([,r])=>r.completedYear===worldYear(life));
-  if(completed && life.expansion.training) {
-    life.expansion.training.selection={role:completed[0] as import("./career-access").OrdinaryRole,mode:life.expansion.training.mode};
+  const completed = Object.entries(life.expansion.training?.records ?? {}).find(
+    ([, r]) => r.completedYear === worldYear(life),
+  );
+  if (completed && life.expansion.training) {
+    life.expansion.training.selection = {
+      role: completed[0] as import("./career-access").OrdinaryRole,
+      mode: life.expansion.training.mode,
+    };
     due.push("expanded.training-placement");
   }
   repayEducationYear(life, annualEconomy);

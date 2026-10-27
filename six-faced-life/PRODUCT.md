@@ -12,7 +12,21 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
-- Expanded lives have an Optional activities menu below yearly focus from age eight. Players can browse careers and seek education/instruction, plan travel, meet people, or open legendary challenges when age/era permits. Opening an activity pauses time, persists the decision and stays manual in Watch mode. It cannot replace another pending decision. Career qualifications, fees and yearly vacancies remain real; job choices explain vacancies and missing requirements. Seven Great Powers challenges are initiated voluntarily, with a safe decline option, rather than appearing randomly.
+- Expanded careers have reliable direct access for qualified ordinary applicants
+  and optional beginner training for all ten ordinary roles. Full-time training
+  pays 24 coins/year instead of job wages and takes 2–3 years; part-time keeps the
+  current job and takes 4–6. Courses retain progress through pauses, withdrawal
+  and switches; completion retains a manual guaranteed placement, including
+  during injury recovery. Advanced mastery, knight and professor remain earned.
+- Voluntary education loans cover quoted unmet course/university costs through
+  provider reserves. They have no interest, affordable income-surplus repayment,
+  hardship/university pauses, source-aware unused-funding refunds, and no inherited
+  obligations. University academic readiness, scholarships, probation and four
+  successful study years remain. New controls are manual in Watch mode and save
+  immediately. Existing active expanded lives migrate with no course/debt; old
+  completed snapshots and frozen legacy lives remain intact.
+
+- Expanded lives have an Optional activities menu below yearly focus from age eight. Players can browse careers and seek education/instruction, plan travel, meet people, or open legendary challenges when age/era permits. Opening an activity pauses time, persists the decision and stays manual in Watch mode. It cannot replace another pending decision. Career qualifications and fees remain real; ordinary entry is guaranteed when qualified, and prestige retains yearly vacancies. Seven Great Powers challenges are initiated voluntarily, with a safe decline option, rather than appearing randomly.
 
 - New lives use the separate `expanded-1` ruleset. Existing lives retain legacy rules and seeded futures. Expanded origins include a uniformly sampled K397–K427 birth year, separate wealth/status, locality and Superd Demon Continent starts. Economic needs and cause-specific hazards create real early endings; care and protection improve odds.
 - Expanded education has free talent assessment, readiness/funding requirements, full scholarships for demonstrated exceptional talent, probation, withdrawal and successful graduation. Independent occupation ledgers cover ordinary work and the requested specialized paths; one primary occupation earns pay. Noble standing, faction allegiance and Seven Great Powers positions 5–7 remain separate tracks.

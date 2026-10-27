@@ -240,6 +240,24 @@ The current discipline alone receives a pale sage fill (`#edf0e4`), 6px corners,
 
 ## Interaction and state
 
+### Career training and education finance
+
+The chronicle rail adds a ruled **Training and education finance** section from
+age 15. Reuse the literary heading, small sans-serif guidance, forest progress
+meter and secondary 44px controls. Show the active role, full-/part-time or paused
+state, units and remaining participating years, plus the income replacement.
+Retained qualifications remain visible after attendance ends. A native disclosure
+holds principal, balance, repayment, paused reason and plain-language policy.
+
+Optional activities and career browsing open training in the existing decision
+panel. The quote identifies the target, duration, income, fee components,
+family/personal contribution, exact optional loan and refund/repayment terms.
+Scholarships are explicitly identified. Manual placement identifies health and
+university blockers; no forced appointment or vacancy waiting follows graduation.
+English and Thai use existing fonts/tokens and wrap naturally at 360px. Quote
+navigation focuses the decision heading; a completed explicit choice is persisted
+even when its next management panel has the same decision identifier.
+
 Expanded chronicles place a native **Optional activities** disclosure directly
 below yearly focus, from age eight. Reuse paper rules and secondary buttons, with
 44px touch targets, wrapping labels and explicit age/era guidance. Career browsing,

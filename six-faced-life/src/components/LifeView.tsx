@@ -620,7 +620,14 @@ export function LifeView({
           onSpellbook={onSpellbook}
         />
         <CareerProgress life={life} />
-        {life.ruleset === "expanded-1" && <EducationProgress life={life} onOpenTraining={onActivity ? () => onActivity("training") : undefined} />}
+        {life.ruleset === "expanded-1" && (
+          <EducationProgress
+            life={life}
+            onOpenTraining={
+              onActivity ? () => onActivity("training") : undefined
+            }
+          />
+        )}
         <Family life={life} />
         <section className="rail-section location-section">
           <div className="section-topline">

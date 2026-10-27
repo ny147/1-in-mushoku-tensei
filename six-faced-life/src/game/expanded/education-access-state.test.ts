@@ -12,9 +12,15 @@ describe("education access save compatibility", () => {
   });
   it("migrates only absent active fields and leaves storage and archived snapshots untouched", () => {
     const l = createExpandedLife({ seed: 1 });
-    delete l.expansion.training; delete l.expansion.finance;
+    delete l.expansion.training;
+    delete l.expansion.finance;
     const raw = JSON.stringify({ version: 1, active: l, archive: [] });
-    const storage = { getItem: () => raw, setItem: () => { throw Error("must not write"); } };
+    const storage = {
+      getItem: () => raw,
+      setItem: () => {
+        throw Error("must not write");
+      },
+    };
     const result = loadGame(storage);
     expect(result.error).toBe(null);
     const active = result.data.active!;
@@ -26,12 +32,26 @@ describe("education access save compatibility", () => {
     expect(active.expansion.finance?.purposes).toEqual({});
     expect(storage.getItem()).toBe(raw);
   });
-  it.each([null, { version: 2 }, { version: 1 }, { version: 1, purposes: { constructor: {} } }])("rejects malformed present finance %j recoverably", (finance) => {
+  it.each([
+    null,
+    { version: 2 },
+    { version: 1 },
+    { version: 1, purposes: { constructor: {} } },
+  ])("rejects malformed present finance %j recoverably", (finance) => {
     const l = createExpandedLife({ seed: 1 });
     Object.assign(l.expansion, { finance });
-    const values = new Map([[SAVE_KEY, JSON.stringify({ version: 1, active: l, archive: [] })]]);
+    const values = new Map([
+      [SAVE_KEY, JSON.stringify({ version: 1, active: l, archive: [] })],
+    ]);
     const before = values.get(SAVE_KEY);
-    expect(loadGame({ getItem: k => values.get(k) ?? null, setItem: (k,v) => { values.set(k,v); } }).error).not.toBe(null);
+    expect(
+      loadGame({
+        getItem: (k) => values.get(k) ?? null,
+        setItem: (k, v) => {
+          values.set(k, v);
+        },
+      }).error,
+    ).not.toBe(null);
     expect(values.get(SAVE_KEY)).toBe(before);
   });
   it("rejects excessive progress, future guards and unbalanced reserves", () => {
@@ -42,7 +62,8 @@ describe("education access save compatibility", () => {
       { finance: { ...base.expansion.finance, lastRepayment: -1 } },
       { finance: { ...base.expansion.finance, lastRepayment: 0.5 } },
     ]) {
-      const l = structuredClone(base); Object.assign(l.expansion, patch);
+      const l = structuredClone(base);
+      Object.assign(l.expansion, patch);
       expect(isLife(l)).toBe(false);
     }
   });

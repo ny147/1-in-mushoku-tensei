@@ -200,7 +200,13 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
         }),
       );
       choices.unshift(option("promote", { disabled: !promotionReady(life) }));
-      choices.push(option("training", {label:"Explore career training", description:"Begin an ordinary career through paid or part-time training."}));
+      choices.push(
+        option("training", {
+          label: "Explore career training",
+          description:
+            "Begin an ordinary career through paid or part-time training.",
+        }),
+      );
       choices.push(option("later"));
       break;
     }

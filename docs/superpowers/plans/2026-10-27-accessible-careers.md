@@ -10,7 +10,7 @@
 
 **Spec:** [Accessible careers, training, and education finance](../specs/2026-10-26-accessible-careers-design.md).
 
-**Status:** Plan for review, requested on 2026-10-27 for [PR #12](https://github.com/ny147/1-in-mushoku-tensei/pull/12). No product implementation is included. The request authorizes planning from the design; its proposed balance values remain proposals, carried below as the implementation baseline for review. Internal allocation/schema choices below are author decisions delegated by the design, not additional user-confirmed requirements.
+**Status:** Implementation approved by the user and executed on 2026-10-27; originally requested on 2026-10-27 for [PR #12](https://github.com/ny147/1-in-mushoku-tensei/pull/12). The subsequent instruction "ok, implement it" approved the plan and balance baseline. See the execution record and verification report for implementation evidence. Internal allocation/schema choices below are author decisions delegated by the design, not additional user-confirmed requirements.
 
 ## Global Constraints
 
@@ -221,12 +221,12 @@ Annual integration captures attendance at the start of the year so graduation ca
 
 **Interfaces:** Existing `buildSummary(l): CompletedSummary` stores actual completed roles, borrowed/repaid/cancelled/unpaid amounts in bilingual sections. Reuse existing section keys unless renderer changes are necessary. Old stored summaries remain byte-for-byte unchanged; no descendant ledger receives a debt.
 
-- [ ] Add assertions for an unfinished course, completed but declined placement, accepted role, debt-free scholarship, partially repaid loan and death closure: summary reports only facts, both EN/TH amounts agree, repeated ending/archive does not recalculate the snapshot. Test large mixed archive codec round-trip and existing size/recovery limits.
-- [ ] Add seeded engine flows for poor and comfortable farmers entering sword/mage work, an already-qualified direct applicant, each course/mode, poor ready university admission with credit, and scarce prestige remaining earned. Compare uninterrupted versus save/restored runs including final-year decisions and RNG; do not remove hazard draws to force full lifetimes to survive. Regression fixtures may control survival for bounded curriculum tests, while actual seeded integration fixtures use surviving seeds and record them.
-- [ ] Run focused summary/integration/release tests; confirm failures, implement factual summary integration and fix only uncovered feature defects, then rerun. Run **`npm test`** and **`npm run build`**, inspect exit codes and results. No configured lint/typecheck/test:e2e script exists.
-- [ ] Start isolated QA with `npm run dev -- --port 5174` (reuse if already running). In browser verify EN/TH, desktop and 360px phone, keyboard focus/disabled reasons/overflow/console, farmer-to-sword/mage, paid/part-time pause/mode changes, quoted borrowing and decline, injured placement recovery, university scholarship/loan/readiness rejection, repayment, reload, Watch and hidden-tab boundaries. Use only isolated saves; never clear 5173 storage. Record exact cases and failures, not a generic pass.
-- [ ] Update product/setup/design/checkpoint documentation to reflect implemented and verified behavior only; preserve existing design-system previews. In the verification report record test/build output, browser evidence, fixtures/seeds, remaining risks and any environmental blockers. Update the progress ledger below and commit `feat: record training and finance life outcomes` with explicit task-owned files.
-- [ ] Fetch `origin --prune` (OpenSSL retry if needed), inspect `git diff --check origin/main...HEAD`, complete task diff and status, and check whether `origin/main` is an ancestor. Do not synchronize automatically. Push explicitly to `codex/accessible-career-design`, update the existing PR #12 description to final scope/evidence, and keep it draft if checks are blocked/failing. User reviews and merges manually; publication remains separately authorized.
+- [x] Add assertions for an unfinished course, completed but declined placement, accepted role, debt-free scholarship, partially repaid loan and death closure: summary reports only facts, both EN/TH amounts agree, repeated ending/archive does not recalculate the snapshot. Test large mixed archive codec round-trip and existing size/recovery limits.
+- [x] Add seeded engine flows for poor and comfortable farmers entering sword/mage work, an already-qualified direct applicant, each course/mode, poor ready university admission with credit, and scarce prestige remaining earned. Compare uninterrupted versus save/restored runs including final-year decisions and RNG; do not remove hazard draws to force full lifetimes to survive. Regression fixtures may control survival for bounded curriculum tests, while actual seeded integration fixtures use surviving seeds and record them.
+- [x] Run focused summary/integration/release tests; confirm failures, implement factual summary integration and fix only uncovered feature defects, then rerun. Run **`npm test`** and **`npm run build`**, inspect exit codes and results. No configured lint/typecheck/test:e2e script exists.
+- [x] Start isolated QA with `npm run dev -- --port 5174` (reuse if already running). In browser verify EN/TH, desktop and 360px phone, keyboard focus/disabled reasons/overflow/console, farmer-to-sword/mage, paid/part-time pause/mode changes, quoted borrowing and decline, injured placement recovery, university scholarship/loan/readiness rejection, repayment, reload, Watch and hidden-tab boundaries. Use only isolated saves; never clear 5173 storage. Record exact cases and failures, not a generic pass.
+- [x] Update product/setup/design/checkpoint documentation to reflect implemented and verified behavior only; preserve existing design-system previews. In the verification report record test/build output, browser evidence, fixtures/seeds, remaining risks and any environmental blockers. Update the progress ledger below and commit `feat: record training and finance life outcomes` with explicit task-owned files.
+- [x] Fetch `origin --prune` (OpenSSL retry if needed), inspect `git diff --check origin/main...HEAD`, complete task diff and status, and check whether `origin/main` is an ancestor. Do not synchronize automatically. Push explicitly to `codex/accessible-career-design`, update the existing PR #12 description to final scope/evidence, and keep it draft if checks are blocked/failing. User reviews and merges manually; publication remains separately authorized.
 
 ## Progress ledger and execution handoff
 
@@ -234,10 +234,11 @@ Annual integration captures attendance at the start of the year so graduation ca
 | --- | --- |
 | Read PR/design and current integration points | Complete for planning at `f1c0ac0`; PR #12 is open/draft, base main, no review comments when inspected |
 | Plan authored and self-reviewed | Documentation delivery only; see CONTINUE.md for commit and checks |
-| Tasks 1–7 | Not started; every implementation checkbox remains unchecked |
-| Product verification | Not run for this documentation-only plan; future requirements are above |
+| Tasks 1–6 | Implemented and committed; task evidence follows |
+| Task 7 | Implemented and verified; saved as a draft PR checkpoint at the user's request |
+| Product verification | See `docs/verification/accessible-careers.md` and execution record |
 
-Recommended execution: task-by-task implementation because storage, reserves and yearly integration share strict invariants. Before implementation, review the proposed balance baseline and this plan and choose native or subagent execution; no execution method is implied by requesting the plan. On resumption inspect Git, fetch, check usage and read this ledger/CONTINUE.md. Preserve completed work and update this ledger after each bounded task. Update the same PR rather than creating a second delivery branch/PR for this task.
+Execution: native task-by-task implementation was used after the user approved implementation. Storage, reserves and yearly integration share strict invariants. On resumption inspect Git, fetch, check usage and read this ledger/CONTINUE.md. Preserve completed work and update this ledger after each bounded task. Update the same PR rather than creating a second delivery branch/PR for this task.
 
 ### Execution record — 2026-10-27
 
@@ -258,3 +259,15 @@ Task 4: complete — missing training module observed RED; 22/22 training/engine
 Task 5: complete — 5 new university cases RED, then 25/25 university/education/economy/training cases GREEN. University fixtures now explicitly represent alive adults; funding requires a live player and cannot enroll a birth record.
 
 Task 6: complete — manual UI tests observed RED before routing/controls; 58/58 activity/storage/i18n/component/App tests GREEN. Added EN/TH Watch/reload coverage. Consecutive same-panel pause/mode persistence regression was observed RED and fixed by immediately saving new choice-history entries. Follow-on choices focus the new decision heading.
+
+Task 7: implementation and browser QA complete; final post-review full-suite/build and remote delivery pending below.
+
+Ruling: Retimed historical test fixtures also retime the new guard fields; the automated safe policy excludes the newly added manual training-browser action — preserves the former test policy and validates actual new calendar invariants — would otherwise reject valid fixtures or spend the simulation budget navigating management controls.
+
+Ruling: Preserve mortality sample/assertions, allow 180 seconds and verify the full suite with two workers on this host — expanded saved state and concurrent workers exceeded prior timing/RPC limits — higher timeout can hide future slowdowns, so actual durations are recorded. The 500-life timeout remains 60 seconds.
+
+Final review: fresh read-only reviewer, no Critical/Important code findings; 2,837 legal transitions across seeds 1–20 remained valid. Its one UX finding (university placement disabled without a reason) was treated as required state guidance and fixed: new EN/TH regression RED→GREEN. No deferred findings.
+
+Final: Ruling: Reviewer deferred final documentation/delivery — implementer completes the docs, final checks and PR update — delivery remains incomplete until those gates pass. Reviewer deferred timeout/test-policy judgment — retain sample/assertions and record actual runtime as above — timing regressions remain visible. Reviewer deferred independent browser assessment — implementer verified EN/TH, 360px/1280px, focus, overflow, console, reload, course completion, university and injury recovery — automated Watch/hidden-tab/write-recovery evidence complements the live scenarios.
+
+Task 7: complete — final full suite `npm test -- --maxWorkers=2`: 252/252 (41 files), 89.21s; `npm run build`: PASS with existing >500KB chunk warning. Review regression passed, all final code included in that full run. EN/TH desktop/phone browser evidence and limitations are in docs/verification/accessible-careers.md. User requested a saved stop checkpoint; keep PR #12 draft and stop after commit/push/documentation. No implementation remains pending; next action is human review/resuming final handoff.

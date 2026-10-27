@@ -351,7 +351,13 @@ export default function App() {
       `${result.title} ${result.text} ${result.changes.join(". ")}`,
     );
     updateLife(() => next);
-    setFocusTarget(next.phase === "ended" ? "page-title" : next.pending ? "decision-heading" : "outcome-heading");
+    setFocusTarget(
+      next.phase === "ended"
+        ? "page-title"
+        : next.pending
+          ? "decision-heading"
+          : "outcome-heading",
+    );
   }
   const onAdvance = () => {
     const current = dataRef.current.active;

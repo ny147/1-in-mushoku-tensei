@@ -19,15 +19,25 @@ export function careerRequirements(
     r.push(requirement(id, current, required));
   if (isOrdinaryRole(role)) {
     const c = ordinaryEntry(role);
-    if (role === "farmer" || role === "adventurer") add("health", l.stats.health, c.health!);
+    if (role === "farmer" || role === "adventurer")
+      add("health", l.stats.health, c.health!);
     if (c.knowledge) add("knowledge", l.stats.knowledge, c.knowledge);
     if (c.starterFee) add("capital", l.coins, c.starterFee);
-    if (["guard", "swordsman"].includes(role)) add("sword", l.training.swordXp, c.sword!);
-    if (role === "adventurer") add("skill", Math.max(l.training.swordXp, l.training.magicXp), 15);
-    if (role === "teacher") add("skill", Math.max(school, l.training.swordXp), 25);
+    if (["guard", "swordsman"].includes(role))
+      add("sword", l.training.swordXp, c.sword!);
+    if (role === "adventurer")
+      add("skill", Math.max(l.training.swordXp, l.training.magicXp), 15);
+    if (role === "teacher")
+      add("skill", Math.max(school, l.training.swordXp), 25);
     if (role === "mage") add("magic", school, c.magic!);
-    if (role === "healer" || role === "cleric") add("healing", l.progression?.magic.healing.xp ?? 0, c.magic!);
-    if (c.cap) add("instruction", c.cap === "magic" ? l.training.magicCap : l.training.swordCap, 1);
+    if (role === "healer" || role === "cleric")
+      add("healing", l.progression?.magic.healing.xp ?? 0, c.magic!);
+    if (c.cap)
+      add(
+        "instruction",
+        c.cap === "magic" ? l.training.magicCap : l.training.swordCap,
+        1,
+      );
     if (c.trust) add("trust", x.standing.trust, c.trust);
     if (c.reputation) add("reputation", x.standing.reputation, c.reputation);
     return r;
@@ -59,13 +69,29 @@ export function careerRequirements(
   }
   return r;
 }
-export interface AppointmentOptions { school?: MagicSchool; funding?: "reserved-training" }
-export function appoint(l: ExpandedLife, role: Occupation, options?: AppointmentOptions): boolean {
-  const record = isOrdinaryRole(role) ? l.expansion.training?.records[role] : undefined;
-  const funded = options?.funding === "reserved-training" && isOrdinaryRole(role) && record?.completedYear != null;
-  if (l.expansion.education.stage === "university" || !OCCUPATIONS.includes(role) ||
+export interface AppointmentOptions {
+  school?: MagicSchool;
+  funding?: "reserved-training";
+}
+export function appoint(
+  l: ExpandedLife,
+  role: Occupation,
+  options?: AppointmentOptions,
+): boolean {
+  const record = isOrdinaryRole(role)
+    ? l.expansion.training?.records[role]
+    : undefined;
+  const funded =
+    options?.funding === "reserved-training" &&
+    isOrdinaryRole(role) &&
+    record?.completedYear != null;
+  if (
+    l.expansion.education.stage === "university" ||
+    !OCCUPATIONS.includes(role) ||
     (options?.funding && !funded) ||
-    (!funded && careerRequirements(l, role, options?.school).some((r) => !r.met)))
+    (!funded &&
+      careerRequirements(l, role, options?.school).some((r) => !r.met))
+  )
     return false;
   const x = l.expansion;
   const cost =
@@ -78,8 +104,18 @@ export function appoint(l: ExpandedLife, role: Occupation, options?: Appointment
           : 0;
   if (funded && isOrdinaryRole(role)) {
     const fee = record!.placementAccepted ? 0 : ordinaryEntry(role).starterFee;
-    if (l.age < 15 || (ordinaryEntry(role).health && l.stats.health < ordinaryEntry(role).health!)) return false;
-    if (fee && (reservedTotal(l.expansion.finance?.purposes[role]) < fee || !consumeEducation(l, role, fee))) return false;
+    if (
+      l.age < 15 ||
+      (ordinaryEntry(role).health &&
+        l.stats.health < ordinaryEntry(role).health!)
+    )
+      return false;
+    if (
+      fee &&
+      (reservedTotal(l.expansion.finance?.purposes[role]) < fee ||
+        !consumeEducation(l, role, fee))
+    )
+      return false;
   }
   const family =
     role === "knight" && x.origin.status === "noble"
@@ -110,8 +146,8 @@ export function appoint(l: ExpandedLife, role: Occupation, options?: Appointment
   return true;
 }
 export function careerIncomeExpanded(l: ExpandedLife): number {
-  const t=l.expansion.training;
-  if(t?.active && !t.paused && t.mode==="full-time") return 24;
+  const t = l.expansion.training;
+  if (t?.active && !t.paused && t.mode === "full-time") return 24;
   const c = l.expansion.career;
   return (
     PAY[c.role] +
@@ -147,11 +183,25 @@ export function promote(l: ExpandedLife): boolean {
 export function applyCareerYear(l: ExpandedLife, attendingFullTime = false) {
   const x = l.expansion,
     c = x.career.records[x.career.role];
-  if(['farmer','guard','adventurer','swordsman','knight'].includes(x.career.role)&&l.stats.health<20){
-    const previous=x.career.role;
-    x.career.timeline.push({year:worldYear(l),role:previous,level:c.level,reason:'dismissal'});
-    if(x.career.timeline.length>128)x.career.timeline.shift();
-    x.career.role='child';l.career='child';l.progression=getProgression(l);fact(l,'career','dismissed',previous);return;
+  if (
+    ["farmer", "guard", "adventurer", "swordsman", "knight"].includes(
+      x.career.role,
+    ) &&
+    l.stats.health < 20
+  ) {
+    const previous = x.career.role;
+    x.career.timeline.push({
+      year: worldYear(l),
+      role: previous,
+      level: c.level,
+      reason: "dismissal",
+    });
+    if (x.career.timeline.length > 128) x.career.timeline.shift();
+    x.career.role = "child";
+    l.career = "child";
+    l.progression = getProgression(l);
+    fact(l, "career", "dismissed", previous);
+    return;
   }
   if (attendingFullTime || PAY[x.career.role] === 0) return;
   c.years++;
