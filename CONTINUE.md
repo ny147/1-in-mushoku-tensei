@@ -1,5 +1,64 @@
 # Save point — Six-Faced Life
 
+## User-requested stop checkpoint — 2026-10-27 19:20 Asia/Bangkok
+
+**Stop requested:** "prepare to stop with saving check point" after implementing
+the approved accessible-careers plan. Preserve this work and stop. Do not start
+new implementation or mark the PR ready as part of this checkpoint.
+
+Branch: **`codex/accessible-career-design`**. Existing draft **PR #12**, base `main`:
+https://github.com/ny147/1-in-mushoku-tensei/pull/12.
+Latest implementation commit: **`cf07048`** (`feat: record training and finance
+life outcomes`). This following documentation-only commit records the stop.
+Task commits before it: `8025c91` state/migration, `6bdf4f2` ordinary access,
+`b7a6f34` finance, `864c4aa` training, `1f40c5c` university, `94032f6` manual UI.
+
+**Implementation complete:** ten ordinary training routes and reliable direct
+entry, paid full-/part-time attendance, retained progress/qualifications/manual
+placement, voluntary provider-funded education loans, refunds/affordable
+repayment/death closure, academic university gates, EN/TH controls and factual
+summaries. The user approved the plan and its baseline with "ok, implement it".
+Existing expanded active saves migrate with no course/debt; legacy lives and
+old completed snapshots remain preserved. No deployment or main integration.
+
+**Verification actually completed:** final `npm test -- --maxWorkers=2` passed
+**252/252 tests in 41 files**, 89.21 seconds. `npm run build` passed; Vite retains
+its >500kB single-chunk warning. Domain/UI regressions were observed failing
+before fixes. Four retimed historical fixtures needed new guard markers;
+automatic lifetime QA excludes navigating the newly manual training browser.
+Default-worker runs hit time/RPC limits. The unchanged 10,000-birth mortality
+sample/assertions now allow 180 seconds; 500-life restoration keeps 60 seconds.
+Full final engine mortality: 8,972/10,000 deaths, 7,302 with protection.
+
+Fresh read-only code review found no Critical/Important defects and checked
+2,837 legal transitions for save validity. Its one missing university-placement
+reason was fixed with an EN/TH regression (RED→GREEN). No deferred code findings.
+Browser QA on isolated **5174** verified EN farmer→swordsman, TH farmer→mage,
+pause/modes/reload, university loan 352, scholarship without debt, academic
+refusal, injury-delayed placement after recovery/story interruption, 360px/1280px,
+keyboard focus, wrapping/overflow and no console errors. Automated App tests
+also cover Watch/manual, hidden-tab and storage-write/recovery behavior.
+See `docs/verification/accessible-careers.md` for precise coverage/limitations.
+
+The plan's existing execution ledger records task evidence and rulings. Code,
+tests, docs and design preview updates are committed; no unfinished source edits
+are intended at this stop. Git diff checks passed after normalizing staged files
+with the repository's existing line-ending filters. No player 5173 storage was
+accessed. The ignored `.sites-workflow/education-qa.html` fixture and local QA
+server on 5174 may remain available; reuse that port instead of starting 5173.
+
+Usage observed **19:20 Asia/Bangkok**: five-hour **15% remaining** (reported reset
+**Oct 27 19:48:55**), weekly **65% remaining** (reset **Nov 2 19:20:55**).
+No credits, reset-credit or billing actions. The final fetch/push and PR update
+are delivery housekeeping for this checkpoint; keep PR #12 draft per this stop.
+
+**Exact resume step:** inspect `git status --short --branch`, fetch origin/prune
+(OpenSSL retry if needed), recheck usage, read this section and the plan execution
+ledger, then review **PR #12** and its checks with the user. Implementation and
+verification are already done; do not repeat the interview or reimplement tasks.
+The remaining action is final review/ready-for-review handoff when continuing.
+The user merges manually; publishing remains separately authorized.
+
 ## Accessible career implementation plan — 2026-10-27 18:37 Asia/Bangkok
 
 The user requested an implementation plan from **PR #12**, pushed to the same
