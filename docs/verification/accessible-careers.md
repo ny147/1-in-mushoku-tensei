@@ -98,6 +98,11 @@ dependency or unrelated bundling redesign was added.
 
 Final post-review full suite: 252/252 passed; production build passed.
 `git diff --check` passed. The delivered checkpoint commit and final fetch are
-recorded in CONTINUE.md and the PR. The user requested stopping at a saved
-checkpoint, so PR #12 remains draft for later review. Git publication updates PR #12 only; the user merges
-manually. No playable-site publication or deployment was performed.
+recorded in CONTINUE.md and the PR. The user initially requested a draft stop
+checkpoint, then resumed final handoff. GitHub's **Test, build, and validate
+deployment** check passed on checkpoint `69bd250`, running the complete suite and
+production build with Node 22:
+[CI evidence](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/40503294826/job/122186139798).
+The resumed handoff changes documentation only; the implementation is unchanged.
+Git publication updates PR #12 only; the user reviews and merges manually.
+No playable-site publication or deployment was performed.

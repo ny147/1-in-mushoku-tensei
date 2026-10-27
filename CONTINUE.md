@@ -1,5 +1,33 @@
 # Save point — Six-Faced Life
 
+## Resumed final handoff — 2026-10-27 19:51 Asia/Bangkok
+
+The user resumed with "continue to implement it", lifting the stop below.
+The accessible-careers implementation is already complete at **`cf07048`**;
+checkpoint **`69bd250`** contains all 252 passing tests/build evidence and resume
+instructions. Do not reimplement completed tasks or reopen the approved design.
+
+Resumption checks: clean `codex/accessible-career-design`, fetch/prune succeeded,
+and current **`origin/main c88743a`** is contained in this branch. GitHub reports
+PR #12 open, mergeable and clean, with no review comments or requested changes.
+Its **Test, build, and validate deployment** check for `69bd250` passed:
+https://github.com/ny147/1-in-mushoku-tensei/actions/runs/40503294826/job/122186139798.
+This CI uses Node 22 and `npm run build:vercel` (complete tests plus production
+build). The earlier default-worker timing failures are resolved by successful
+remote CI; local bounded-worker evidence remains in the verification report.
+
+This resumption changes documentation only, records successful CI and completes
+the ready-for-review handoff on the same PR. No application rerun is needed for
+unchanged code; final documentation checks and the new-head CI are checked before
+marking PR #12 ready. No code implementation remains pending. After handoff the
+next action is **human review and manual merge**. Do not merge, enable auto-merge,
+delete the branch or deploy automatically.
+
+Usage observed around **19:50 Asia/Bangkok**: five-hour **99% remaining**, reset
+**Oct 28 00:50:32**; weekly **63% remaining**, reset **Nov 2 19:20:55**.
+No billing or reset-credit actions. Source/browser verification is recorded in
+`docs/verification/accessible-careers.md`; no player storage was accessed here.
+
 ## User-requested stop checkpoint — 2026-10-27 19:20 Asia/Bangkok
 
 **Stop requested:** "prepare to stop with saving check point" after implementing
