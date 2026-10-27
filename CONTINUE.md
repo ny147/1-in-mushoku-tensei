@@ -16,21 +16,30 @@ saves work immediately, with no schema, simulation, random-state or balance chan
 Verification: four EN/TH regression cases first failed for absent results and
 unassessed labels, then passed. Full **`npm.cmd test -- --maxWorkers=2` passed
 258/258 tests in 41 files**, 85.61 seconds. **`npm run build` passed**, retaining
-the existing >500kB bundle warning. A later test-only review improvement separately
-guards both display locations. Read-only review found no critical/important
+the existing >500kB bundle warning. The later test-only review improvement
+separately guarding both display locations passed **10/10 focused tests**.
+Read-only review found no critical/important
 defects; browser verification was performed by the implementer.
 
 Isolated browser QA reused port **5174**: English ordinary assessment (30/100),
 Thai double-talent assessment (50/100) at a real 360px iframe viewport, character
 navigation, readable wrapping, no visible horizontal overflow inside the mobile
 game, no reported console errors, and restored result after normal app navigation.
-Assessment choices pause time and focus the outcome heading. Player 5173 storage
+Enter-key character navigation also restored the result and focused the page
+heading. Assessment choices pause time and focus the outcome heading. Player 5173 storage
 was untouched. The ignored `.sites-workflow/talent-qa.html` is disposable QA only;
 reload the harness between fixtures so an old iframe cannot save over a new one.
 
-Delivery: commit/push this task branch and create its own PR targeting `main`;
-record its link below after creation. The user reviews and merges manually.
-Do not merge, enable auto-merge, delete the branch, or publish the playable site.
+Implementation commit **`27ac54c`** is pushed with its upstream on this task
+branch. Ready-for-review **[PR #13](https://github.com/ny147/1-in-mushoku-tensei/pull/13)**
+targets `main`. The final fetch succeeded and the branch contains current
+`origin/main 8240b9d`. Local checks passed; remote CI was initially pending.
+No source work remains. Next step: review PR #13 and merge manually.
+Do not merge, enable auto-merge, delete the branch, or publish automatically.
+
+Usage observed around **20:44 Asia/Bangkok**: five-hour **63% remaining**, reset
+**Oct 28 00:50:32**; weekly **58% remaining**, reset **Nov 2 19:20:55**.
+No billing or reset-credit actions were taken.
 
 ## Resumed final handoff — 2026-10-27 19:51 Asia/Bangkok
 
