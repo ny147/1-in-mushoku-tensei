@@ -1,3 +1,4 @@
+import { consumeEducation, reservedTotal } from "./education-finance";
 import type { ExpandedLife, Career, MagicSchool } from "../types";
 import type { Occupation } from "./types";
 import { isOrdinaryRole, ordinaryEntry } from "./career-access";
@@ -60,10 +61,11 @@ export function careerRequirements(
 }
 export interface AppointmentOptions { school?: MagicSchool; funding?: "reserved-training" }
 export function appoint(l: ExpandedLife, role: Occupation, options?: AppointmentOptions): boolean {
-  if (
-    !OCCUPATIONS.includes(role) ||
-    careerRequirements(l, role, options?.school).some((r) => !r.met)
-  )
+  const record = isOrdinaryRole(role) ? l.expansion.training?.records[role] : undefined;
+  const funded = options?.funding === "reserved-training" && isOrdinaryRole(role) && record?.completedYear != null;
+  if (l.expansion.education.stage === "university" || !OCCUPATIONS.includes(role) ||
+    (options?.funding && !funded) ||
+    (!funded && careerRequirements(l, role, options?.school).some((r) => !r.met)))
     return false;
   const x = l.expansion;
   const cost =
@@ -74,12 +76,17 @@ export function appoint(l: ExpandedLife, role: Occupation, options?: Appointment
         : role === "merchant"
           ? ordinaryEntry("merchant").starterFee
           : 0;
+  if (funded && isOrdinaryRole(role)) {
+    const fee = record!.placementAccepted ? 0 : ordinaryEntry(role).starterFee;
+    if (l.age < 15 || (ordinaryEntry(role).health && l.stats.health < ordinaryEntry(role).health!)) return false;
+    if (fee && (reservedTotal(l.expansion.finance?.purposes[role]) < fee || !consumeEducation(l, role, fee))) return false;
+  }
   const family =
     role === "knight" && x.origin.status === "noble"
       ? Math.min(cost, x.economy.familyFunds)
       : 0;
   x.economy.familyFunds -= family;
-  l.coins -= cost - family;
+  if (!funded) l.coins -= cost - family;
   x.career.role = role;
   const mirror: Partial<Record<Occupation, Career>> = {
     laborer: "guard",
@@ -135,7 +142,7 @@ export function promote(l: ExpandedLife): boolean {
   fact(l, "career", "promoted", x.career.role, c.level);
   return true;
 }
-export function applyCareerYear(l: ExpandedLife) {
+export function applyCareerYear(l: ExpandedLife, attendingFullTime = false) {
   const x = l.expansion,
     c = x.career.records[x.career.role];
   if(['farmer','guard','adventurer','swordsman','knight'].includes(x.career.role)&&l.stats.health<20){
@@ -144,7 +151,7 @@ export function applyCareerYear(l: ExpandedLife) {
     if(x.career.timeline.length>128)x.career.timeline.shift();
     x.career.role='child';l.career='child';l.progression=getProgression(l);fact(l,'career','dismissed',previous);return;
   }
-  if (PAY[x.career.role] === 0) return;
+  if (attendingFullTime || PAY[x.career.role] === 0) return;
   c.years++;
   c.xp += l.focus === "work" ? 14 : 8;
   c.reputation = clamp(c.reputation + 1);

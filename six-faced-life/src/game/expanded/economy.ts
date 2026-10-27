@@ -1,3 +1,6 @@
+import { fullTimeTraining } from "./training";
+import { ordinaryEntry } from "./career-access";
+import type { EducationYear } from "./education-finance";
 import type { ExpandedLife } from '../types';
 import { HAZARDS, PAY } from './balance';
 import { worldYear, fact } from './facts';
@@ -5,10 +8,10 @@ import { clamp, draw } from './random';
 import { careerIncomeExpanded } from './careers';
 import { regionalConflict } from './history';
 export interface Risk { cause: string; chance: number }
-export function applyEconomyYear(life:ExpandedLife) {
+export function applyEconomyYear(life:ExpandedLife): EducationYear {
   const x=life.expansion,e=x.economy,year=worldYear(life);
   const role=x.career.role;
-  const income=life.age<15?0:careerIncomeExpanded(life)+(life.focus==='work'&&PAY[role]>0?6:0);
+  const income=life.age<15 || x.education.stage==='university'?0:fullTimeTraining(life)?24:careerIncomeExpanded(life)+(life.focus==='work'&&PAY[role]>0?6:0);
   const children=x.family.people.filter(p=>p.role==='child'&&p.died===null&&year-p.born<18).length;
   const spouses=x.family.marriages.filter(m=>m.end===null).length;
   const tuition=x.education.stage==='university'&&!x.education.scholarship?40:0;
@@ -23,6 +26,9 @@ export function applyEconomyYear(life:ExpandedLife) {
   if(life.age>=15)life.coins=clamp(Math.floor(resources),0,1_000_000);
   e.peak=Math.max(e.peak,life.coins);
   if(e.unmetFood+e.unmetShelter+e.unmetCare>0){e.deprivedYears++;fact(life,'need','deprivation','',e.unmetFood+e.unmetShelter+e.unmetCare);}
+  const t=x.training,course=t?.active?ordinaryEntry(t.active):null;
+  const trainingCost=course && t && !t.paused && course.tuition ? Math.min(course.units-t.records[t.active!].units,t.mode==='full-time'?2:1)*4 : 0;
+  return {worldYear:year,earnedIncome:income,necessaryEducationCosts:tuition+trainingCost,dependantCosts:children*4+spouses*6,universityAttendance:x.education.stage==='university',unmetNeeds:e.unmetFood+e.unmetShelter+e.unmetCare+unmetExtra>0};
 }
 export function survivalRisks(life:ExpandedLife):Risk[] {
   const e=life.expansion.economy,year=worldYear(life);
