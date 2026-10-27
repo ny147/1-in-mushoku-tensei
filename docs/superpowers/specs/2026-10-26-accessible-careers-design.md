@@ -4,6 +4,13 @@
 
 **Status:** Design for user review; not an implementation plan or implemented behavior.
 
+**Planning follow-up — 2026-10-27:** The user requested an implementation plan
+from PR #12 and delivery to the same PR. See
+[the implementation plan](../plans/2026-10-27-accessible-careers.md) for task order,
+interfaces, funding arithmetic, migration and verification requirements. This
+authorizes the planning document; proposed balance values remain labeled for
+review, and no game implementation has started.
+
 **Branch:** `codex/accessible-career-design`. Base: freshly fetched `origin/main`
 at `c88743a`. No game code changes are part of this design delivery.
 
@@ -269,8 +276,9 @@ and refund allocation mechanics within the invariants above. The implementation
 plan must make these choices explicit and testable; none authorizes changing the
 confirmed experience or silently removing a career route.
 
-A fresh builder check reviews this design for unresolved consequential questions.
-After that check, the user reviews the proposed defaults and approves the written
-design before the implementation plan is written. No implementation is authorized
-by this document's existence. Git delivery uses a PR targeting `main`; the user
-merges manually and publishing remains separately authorized.
+The completed builder check found no consequential unanswered questions. The
+2026-10-27 request advances this design to implementation planning on the same
+PR; it does not authorize product implementation or turn proposed numbers into
+confirmed interview decisions. Review the design defaults and linked plan before
+starting implementation. Git delivery uses a PR targeting `main`; the user merges
+manually and publishing remains separately authorized.

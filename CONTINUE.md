@@ -1,5 +1,45 @@
 # Save point — Six-Faced Life
 
+## Accessible career implementation plan — 2026-10-27 18:37 Asia/Bangkok
+
+The user requested an implementation plan from **PR #12**, pushed to the same
+PR. Continue on `codex/accessible-career-design`, whose prior delivered commit
+is **`f1c0ac0`**. The working tree was clean at session start. Fetch/prune
+succeeded with the OpenSSL backend after the default network attempt failed;
+`origin/main` is **`c88743a`** and is contained in this task branch. GitHub API
+confirmed PR #12 is open/draft, targets `main`, and has no comments/reviews.
+
+Created `docs/superpowers/plans/2026-10-27-accessible-careers.md`: seven ordered
+tasks covering validated active-save migration, ordinary direct entry, education
+reserves/refunds/repayment, paid training, university loans, manual EN/TH controls,
+and factual endings/full-flow verification. The plan specifies bounded schemas,
+per-course skill milestones, annual attendance/income order, funding arithmetic,
+withdrawal examples, exact module interfaces and future test/browser coverage.
+The existing design links the plan and records the user's planning request.
+**Product implementation has not started.** Proposed balance values stay proposals;
+the planning request does not silently approve those values or authorize coding.
+
+This is a documentation-only delivery. Source paths/current rules and npm scripts
+were inspected. The plan was self-reviewed against the design for coverage,
+task dependencies, type consistency, failure cases and proportion; an ordering
+issue was corrected by defining the career catalogue before save validation.
+Local document-link, task-sequence, npm-command and quote-arithmetic checks
+passed. The complete staged documentation diff was inspected and
+`git diff --cached --check` passed.
+Application tests, build and browser QA are not needed for these documentation
+changes and were not run. Player saves were not accessed. The delivery commit
+and final remote verification are recorded in the Git history and handoff.
+
+Usage observed at **18:37 Asia/Bangkok**: five-hour **91% remaining**, weekly
+**77% remaining**; reported resets **Oct 27 19:48:55** and **Nov 2 19:20:55**,
+respectively. No billing or reset-credit action was taken.
+
+Exact next step after reviewing this plan: agree the proposed balance baseline
+and choose native or subagent implementation, then execute **Task 1**. On
+resumption inspect status/branch, fetch, check usage and read the plan ledger.
+Do not repeat the design interview or implement tasks during this plan-only
+delivery. Keep PR #12 for follow-ups; the user merges manually. No deployment.
+
 ## Accessible career design — 2026-10-26 21:00 Asia/Bangkok
 
 The user reports being stuck as farmer even when not poor and explicitly asked
