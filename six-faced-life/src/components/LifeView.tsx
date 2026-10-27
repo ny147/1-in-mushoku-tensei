@@ -3,6 +3,7 @@ import { useI18n } from "../i18n/context";
 import { ExpandedDetails, ExpandedFamily } from "./ExpandedDetails";
 import { careerTitle } from "../game/simulation";
 import { expandedLabel } from "../i18n/expanded";
+import { talentAssessmentText } from "../i18n/education";
 import { decisionText, entryText } from "../i18n/story";
 import {
   ArrowDown,
@@ -661,7 +662,7 @@ export function CharacterView({
   life: Life;
   onStudyChange: (school: MagicSchool) => void;
 }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
 
   return (
     <div className="character-page page-enter">
@@ -714,9 +715,7 @@ export function CharacterView({
               <dt>{t("Natural aptitude")}</dt>
               <dd>
                 {life.ruleset === "expanded-1"
-                  ? life.language === "th"
-                    ? "ดูผลประเมินและการค้นพบในรายละเอียดชีวิต"
-                    : "See recorded assessments and discoveries below"
+                  ? talentAssessmentText(life, language)
                   : t(life.aptitude)}
               </dd>
             </div>

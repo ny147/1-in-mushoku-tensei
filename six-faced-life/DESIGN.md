@@ -108,6 +108,11 @@ components:
 
 # Design System: Six-Faced Life
 
+Completed talent assessments display the saved score and identified magical or
+academic talent as plain text in life details and Natural aptitude. Unassessed
+and ordinary results have explicit English/Thai labels; they reuse the existing
+type, spacing and responsive reading order.
+
 Expanded lives extend this visual system with an age/K-year line and a compact
 two-column definition list for wealth, standing, locality and education (one
 column below 420px). Need/protection guidance uses the existing sage surface and
