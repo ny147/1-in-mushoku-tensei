@@ -8,7 +8,6 @@ import {
   advance,
 } from "../engine";
 import { isLife, loadGame } from "../storage";
-import { appointmentAvailable } from "./events";
 import { canAutoChoose } from "../simulation";
 import { expandedDecisionText } from "../../i18n/expanded";
 function adult() {

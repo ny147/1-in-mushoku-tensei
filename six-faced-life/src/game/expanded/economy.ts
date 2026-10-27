@@ -1,3 +1,4 @@
+import { consumeEducation } from "./education-finance";
 import { fullTimeTraining } from "./training";
 import { ordinaryEntry } from "./career-access";
 import type { EducationYear } from "./education-finance";
@@ -19,7 +20,7 @@ export function applyEconomyYear(life:ExpandedLife): EducationYear {
   let resources=life.age<15?e.support+(year<=e.aidUntil?12:0):life.coins+income;
   // Scholarships pay actual necessities, never deposit an allowance in the purse.
   if(x.education.stage==='university'&&x.education.scholarship)resources+=18;
-  if(x.education.stage==='university'&&!x.education.scholarship){const grant=Math.min(58,x.education.budget);resources+=grant;x.education.budget-=grant;}
+  if(x.education.stage==='university'&&!x.education.scholarship){let grant=Math.min(58,x.education.budget);if(x.finance?.purposes.university && !consumeEducation(life,'university',grant,year))grant=0;resources+=grant;x.education.budget-=grant;}
   const use=(cost:number)=>{const paid=Math.min(resources,cost);resources-=paid;return cost-paid;};
   e.unmetFood=use(8);e.unmetShelter=use(6);e.unmetCare=use(4);const unmetExtra=use(extras);
   e.lastIncome=income;e.lastExpenses=18+extras-e.unmetFood-e.unmetShelter-e.unmetCare-unmetExtra;

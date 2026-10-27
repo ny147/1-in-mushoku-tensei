@@ -196,11 +196,11 @@ Annual integration captures attendance at the start of the year so graduation ca
 
 **Interfaces:** Preserve `educationRequirements(l): Requirement[]` including the displayed funding requirement. Add `universityQuote(l: ExpandedLife): EducationQuote`; extend `enrollUniversity(l: ExpandedLife, funding?: { quote: EducationQuote; borrow: boolean }): boolean`. The old no-argument path remains available only when existing funds/scholarship suffice. Funding acceptance may satisfy funding, never age/knowledge/readiness. `applyEducationYear` continues using four successful years and existing probation rules.
 
-- [ ] Write poor ready no-talent cases in ordinary/demon/begaritt regions: quotes total 352/432/402, loan exactly uncovered amount, successful voluntary admission with zero spendable loan cash; decline leaves everything unchanged. Assert age 14, knowledge 39 and absent readiness still refuse with credit available.
-- [ ] Test scholarship admission with zero debt and unchanged actual support, existing enrolled save with budget 174 remains debt-free, explicit course withdrawal before admission, no stipend and university support stacking, and four successful years versus probation consumption/withdrawal. Pin admission/travel nonrefundability and remaining 58-year reserve refunds, with old unfunded-budget behavior preserved after four attendance years.
-- [ ] Run `npm test -- src/game/expanded/education.test.ts src/game/expanded/economy.test.ts`; inspect intended failures.
-- [ ] Implement provider-funded university enrollment and annual consumption through Task 3, maintaining `education.budget` as the remaining university reserve mirror for new financed enrollments. Validate its sum against finance reserves when a new university funding record exists; leave grandfathered budgets independent. Refund unused reserves on withdrawal/graduation; repayment remains paused through the final attended year.
-- [ ] Rerun tests; commit `feat: fund university through optional education loans`.
+- [x] Write poor ready no-talent cases in ordinary/demon/begaritt regions: quotes total 352/432/402, loan exactly uncovered amount, successful voluntary admission with zero spendable loan cash; decline leaves everything unchanged. Assert age 14, knowledge 39 and absent readiness still refuse with credit available.
+- [x] Test scholarship admission with zero debt and unchanged actual support, existing enrolled save with budget 174 remains debt-free, explicit course withdrawal before admission, no stipend and university support stacking, and four successful years versus probation consumption/withdrawal. Pin admission/travel nonrefundability and remaining 58-year reserve refunds, with old unfunded-budget behavior preserved after four attendance years.
+- [x] Run `npm test -- src/game/expanded/education.test.ts src/game/expanded/economy.test.ts`; inspect intended failures.
+- [x] Implement provider-funded university enrollment and annual consumption through Task 3, maintaining `education.budget` as the remaining university reserve mirror for new financed enrollments. Validate its sum against finance reserves when a new university funding record exists; leave grandfathered budgets independent. Refund unused reserves on withdrawal/graduation; repayment remains paused through the final attended year.
+- [x] Rerun tests; commit `feat: fund university through optional education loans`.
 
 ### Task 6: Manual decisions, accessible controls and bilingual recovery
 
@@ -254,3 +254,5 @@ Task 2: complete — new entry tests RED (9 missing-rule failures), then 36/36 c
 Task 3: complete — finance tests first failed for the absent module; provider ledger now passes 8/8 funding/refund/repayment cases. Repayment protects unspent borrowed reserves; unused loan money cancels principal.
 
 Task 4: complete — missing training module observed RED; 22/22 training/engine/economy tests GREEN, including all ten careers in both modes, locked discipline, health-deferred restored placement and nonstacking wages.
+
+Task 5: complete — 5 new university cases RED, then 25/25 university/education/economy/training cases GREEN. University fixtures now explicitly represent alive adults; funding requires a live player and cannot enroll a birth record.

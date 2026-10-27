@@ -1,3 +1,4 @@
+import { quoteEducation, reserveEducation, consumeEducation, refundEducation, type EducationQuote } from "./education-finance";
 import type { ExpandedLife } from "../types";
 import { fact } from "./facts";
 import { clamp } from "./random";
@@ -57,37 +58,23 @@ export function educationRequirements(life: ExpandedLife): Requirement[] {
     ),
   ];
 }
-export function enrollUniversity(life: ExpandedLife): boolean {
-  const x = life.expansion,
-    e = x.education;
-  if (
-    e.stage === "university" ||
-    e.stage === "graduated" ||
-    educationRequirements(life).some((r) => !r.met)
-  )
-    return false;
-  e.scholarship = scholarshipEligible(life);
-  e.budget = 0;
-  if (!e.scholarship) {
-    const cost = 80 + 232 + travelCost(life);
-    const family = Math.min(cost, x.economy.familyFunds);
-    x.economy.familyFunds -= family;
-    life.coins -= cost - family;
-    e.budget = 232;
-  }
-  e.stage = "university";
-  e.successfulYears = 0;
-  e.probation = false;
-  e.previousKnowledge = life.stats.knowledge;
-  e.previousXp = life.training.magicXp;
-  x.economy.travelUntil = x.birthYear + life.age;
-  x.origin.locality = "university";
-  life.region = "ranoa";
-  x.career.role = "student";
-  life.career = "student";
-  life.progression = getProgression(life);
-  fact(life, "education", e.scholarship ? "scholarship" : "enrolled");
-  return true;
+export function universityQuote(life: ExpandedLife): EducationQuote {
+  const scholarship=scholarshipEligible(life);
+  return quoteEducation(life,{purpose:"university",admission:scholarship?0:80,travel:scholarship?0:travelCost(life),tuition:scholarship?0:160,living:scholarship?0:72,starterFee:0,remainingUnits:0,school:null});
+}
+export function enrollUniversity(life: ExpandedLife, funding?: {quote: EducationQuote; borrow: boolean}): boolean {
+  const x=life.expansion,e=x.education;
+  if(life.phase!=="alive" || x.training?.active || ["university","graduated"].includes(e.stage) || educationRequirements(life).some(r=>r.id!=="funding" && !r.met))return false;
+  const quote=universityQuote(life),q=funding?.quote??quote;
+  if(Object.keys(quote).some(k=>quote[k as keyof EducationQuote]!==q[k as keyof EducationQuote]))return false;
+  const scholarship=scholarshipEligible(life);
+  if(!scholarship && !reserveEducation(life,q,funding?.borrow??false))return false;
+  if(!scholarship) consumeEducation(life,"university",quote.admission+quote.travel);
+  e.scholarship=scholarship;e.budget=scholarship?0:232;
+  e.stage="university";e.successfulYears=0;e.probation=false;e.previousKnowledge=life.stats.knowledge;e.previousXp=life.training.magicXp;
+  x.economy.travelUntil=x.birthYear+life.age;x.origin.locality="university";life.region="ranoa";
+  x.career.role="student";life.career="student";life.progression=getProgression(life);
+  fact(life,"education",scholarship?"scholarship":"enrolled");return true;
 }
 export function applyEducationYear(life: ExpandedLife) {
   const e = life.expansion.education;
@@ -107,11 +94,13 @@ export function applyEducationYear(life: ExpandedLife) {
     if (e.successfulYears >= 4) {
       e.stage = "graduated";
       e.scholarship = false;
+      if (life.expansion.finance?.purposes.university) refundEducation(life, "university");
       fact(life, "education", "graduated");
     }
   } else if (e.probation) {
     e.stage = "withdrawn";
     e.scholarship = false;
+    if (life.expansion.finance?.purposes.university) refundEducation(life, "university");
     fact(life, "education", "withdrawn");
   } else {
     e.probation = true;
