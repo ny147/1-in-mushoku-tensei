@@ -6,6 +6,7 @@ import { validateExpansion } from "./expanded/validation";
 import { validEventId } from "./expanded/balance";
 import { encodeSave, decodeSave } from "./storage-codec";
 import { getExpandedDecision } from "./expanded/events";
+import { migrateEducationAccess } from "./expanded/education-access-state";
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -83,6 +84,9 @@ export function isLife(v: unknown): v is Life {
         x.optionalActivity !== v.pending ||
         ![
           "career",
+          "training",
+          "training-quote",
+          "training-placement",
           "instruction",
           "assessment",
           "university",
@@ -332,7 +336,7 @@ export function loadGame(storage: StorageLike): {
         ...save,
         active: save.active
           ? save.active.ruleset === "expanded-1"
-            ? save.active
+            ? migrateEducationAccess(save.active)
             : migrateLife(save.active)
           : null,
         archive: save.archive.map((l) =>

@@ -178,8 +178,8 @@ export function ExpandedCareer({ life }: { life: ExpandedLife }) {
         ))}
         <p>
           {th
-            ? "มีคุณสมบัติครบไม่ได้รับประกันตำแหน่งว่าง งานทั่วไปเปิดรับตามสภาพร่างกาย งานพิเศษต้องรอโอกาสจริง"
-            : "Meeting requirements does not guarantee a vacancy. Ordinary work remains available according to health; specialized jobs require an actual opening."}
+            ? "งานทั่วไปที่คุณสมบัติครบรับเข้าได้ทันที เริ่มฝึกอาชีพได้เมื่ออายุ 15 ปี อัศวินและศาสตราจารย์ยังต้องมีคุณสมบัติและตำแหน่งว่าง"
+            : "Qualified ordinary applicants can enter immediately. Career training is available from age 15; knight and professor appointments retain their requirements and vacancies."}
         </p>
       </details>
     </section>

@@ -32,7 +32,7 @@ describe("expanded chronicle details", () => {
         name: language === "en" ? /^Merchant / : /^พ่อค้า/,
       });
       expect(merchant.textContent).toContain(
-        language === "en" ? "Costs 30 silver" : "ใช้ 30 เหรียญเงิน",
+        language === "en" ? "Costs 10 silver" : "ใช้ 10 เหรียญเงิน",
       );
       view.unmount();
     }

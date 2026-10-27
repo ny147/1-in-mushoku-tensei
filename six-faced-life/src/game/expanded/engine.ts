@@ -1,3 +1,5 @@
+import { applyTrainingYear, fullTimeTraining } from "./training";
+import { repayEducationYear, closeEducationDebt } from "./education-finance";
 import type { ExpandedLife, Focus } from "../types";
 import { FOCUSES } from "../world";
 import { RACES } from "../world";
@@ -53,6 +55,7 @@ export function beginExpanded(life: ExpandedLife): ExpandedLife {
 }
 export function finishExpanded(life: ExpandedLife, cause: string) {
   if (life.phase === "ended") return;
+  closeEducationDebt(life);
   life.phase = "ended";
   life.pending = null;
   life.expansion.queue = [];
@@ -94,6 +97,12 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     cause ? `The danger ended this life: ${cause}.` : c.outcome,
     "choice",
   );
+  const educationText = decision?.localized?.choices[id];
+  if (educationText)
+    next.history[next.history.length - 1].message = {
+      key: "expanded.education-choice",
+      params: { title: educationText.label, text: educationText.outcome },
+    };
   if (cause)
     next.history[next.history.length - 1].message = {
       key: "expanded.fatal-choice",
@@ -137,10 +146,12 @@ function year(life: ExpandedLife) {
   life.training.swordXp +=
     (focus.sword ?? 0) * trainingMultiplier(life, "sword");
   syncLearning(life, (focus.magic ?? 0) * trainingMultiplier(life, "magic"));
-  applyEconomyYear(life);
+  const attendingFullTime = fullTimeTraining(life);
+  const annualEconomy = applyEconomyYear(life);
   life.stats.health = clamp(
     life.stats.health - 0.8 - (life.age > life.deathAge * 0.7 ? 1.2 : 0),
   );
+  applyTrainingYear(life);
   life.expansion.processedYear = worldYear(life);
   const cause = checkSurvival(life);
   if (cause) {
@@ -150,7 +161,7 @@ function year(life: ExpandedLife) {
   const attending = life.expansion.education.stage === "university";
   applyEducationYear(life);
   const priorRole = life.expansion.career.role;
-  applyCareerYear(life);
+  applyCareerYear(life, attendingFullTime);
   applyFamilyYear(life);
   applyPoliticalYear(life);
   if (
@@ -208,6 +219,17 @@ function year(life: ExpandedLife) {
       x.lastRandom = life.age;
     }
   }
+  const completed = Object.entries(life.expansion.training?.records ?? {}).find(
+    ([, r]) => r.completedYear === worldYear(life),
+  );
+  if (completed && life.expansion.training) {
+    life.expansion.training.selection = {
+      role: completed[0] as import("./career-access").OrdinaryRole,
+      mode: life.expansion.training.mode,
+    };
+    due.push("expanded.training-placement");
+  }
+  repayEducationYear(life, annualEconomy);
   life.expansion.queue = due;
   drain(life);
   if (!life.pending)

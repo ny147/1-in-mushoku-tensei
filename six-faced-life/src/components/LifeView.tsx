@@ -1,3 +1,4 @@
+import { EducationProgress } from "./EducationProgress";
 import { useI18n } from "../i18n/context";
 import { ExpandedDetails, ExpandedFamily } from "./ExpandedDetails";
 import { careerTitle } from "../game/simulation";
@@ -619,6 +620,14 @@ export function LifeView({
           onSpellbook={onSpellbook}
         />
         <CareerProgress life={life} />
+        {life.ruleset === "expanded-1" && (
+          <EducationProgress
+            life={life}
+            onOpenTraining={
+              onActivity ? () => onActivity("training") : undefined
+            }
+          />
+        )}
         <Family life={life} />
         <section className="rail-section location-section">
           <div className="section-topline">

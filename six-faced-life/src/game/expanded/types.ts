@@ -117,6 +117,8 @@ export interface CompletedSummary {
   narrative: { en: string; th: string };
 }
 export interface ExpandedState {
+  training?: import("./career-access").TrainingState;
+  finance?: import("./career-access").EducationFinance;
   optionalActivity?: string | null;
   version: 1;
   birthYear: number;

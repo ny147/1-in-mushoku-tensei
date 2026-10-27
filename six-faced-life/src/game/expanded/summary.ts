@@ -29,6 +29,25 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
             `${t(role)}: ${r.years}${th ? " ปี ระดับ " : " years, level "}${r.level}`,
         )
         .join("; ") || t(x.career.role);
+    const training = Object.entries(x.training?.records ?? {})
+      .filter(([, r]) => r.units > 0)
+      .map(
+        ([role, r]) =>
+          `${t(role)}: ${r.units} ${th ? "หน่วย" : "units"}, ${r.completedYear !== null ? (th ? "จบการฝึก" : "completed") : th ? "ยังไม่จบ" : "unfinished"}, ${r.placementAccepted ? (th ? "รับงานแล้ว" : "placement accepted") : th ? "ยังไม่รับงาน" : "placement not accepted"}`,
+      )
+      .join("; ");
+    const finance = Object.values(x.finance?.purposes ?? {}).reduce(
+      (s, r) => ({
+        borrowed: s.borrowed + r.borrowed,
+        repaid: s.repaid + r.repaid,
+        cancelled: s.cancelled + r.cancelled,
+        unpaid: s.unpaid + r.balance + r.closedUnpaid,
+      }),
+      { borrowed: 0, repaid: 0, cancelled: 0, unpaid: 0 },
+    );
+    const financeText = th
+      ? `เงินกู้เพื่อการศึกษา กู้สะสม ${finance.borrowed} ชำระแล้ว ${finance.repaid} คืนเงินที่ยังไม่ใช้ ${finance.cancelled} ค้างเมื่อสิ้นชีวิต ${finance.unpaid} ไม่ส่งต่อหนี้ให้ผู้สืบสกุล`
+      : `Education finance: borrowed ${finance.borrowed}; repaid ${finance.repaid}; unused funding cancelled ${finance.cancelled}; unpaid ${finance.unpaid}. Obligations do not pass to descendants.`;
     const marriages = x.family.marriages
       .map(
         (m) =>
@@ -69,7 +88,7 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
       th
         ? `วัยเด็กขาดปัจจัยจำเป็น ${x.economy.deprivedYears} ปี การประเมินความสามารถ ${x.education.assessed ? x.education.assessment : "ยังไม่ได้ประเมิน"} การศึกษา: ${t(x.education.stage)} ปีที่เรียนผ่าน ${x.education.successfulYears} สถานะทุน ${x.education.scholarship ? "ยังได้รับทุน" : "ไม่มีทุนปัจจุบัน"} ${facts}`
         : `Years with unmet necessities: ${x.economy.deprivedYears}. Assessment: ${x.education.assessed ? x.education.assessment : "not assessed"}. Education: ${t(x.education.stage)}; ${x.education.successfulYears} successful years. Current scholarship: ${x.education.scholarship ? "yes" : "no"}. ${facts}`,
-      `${work}. ${x.career.timeline.map((r) => `K${r.year} ${t(r.role)} ${r.level}: ${expandedRecordLabel(r.reason, lang)}`).join("; ")}`,
+      `${work}. ${th ? "การฝึก" : "Training"}: ${training || (th ? "ไม่มีการฝึกที่บันทึกไว้" : "no recorded attendance")}. ${x.career.timeline.map((r) => `K${r.year} ${t(r.role)} ${r.level}: ${expandedRecordLabel(r.reason, lang)}`).join("; ")}`,
       `${t(x.standing.status)}; ${th ? "ชื่อเสียง" : "Reputation"} ${Math.round(x.standing.reputation)}; ${x.politics.faction ? t(x.politics.faction) : th ? "ไม่มีฝ่ายปัจจุบัน" : "no current allegiance"}; ${th ? "ตำแหน่งปัจจุบัน" : "current title"} ${x.standing.title ?? (th ? "ไม่มี" : "none")}. ${exposure}. ${x.politics.records.map((r) => `K${r.year} ${expandedRecordLabel(r.code, lang)}`).join("; ")}`,
       th
         ? `คู่สมรสที่เคยสมรส ${spouseCount} คน บุตรโดยตรง ${counts.born} คน ยังมีชีวิต ${counts.survivingChildren} คน ผู้สืบสกุลที่ยังมีชีวิตทั้งหมด ${counts.survivingDescendants} คน ${marriages}. ${people}. ${social}`
@@ -77,7 +96,7 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
       th
         ? `เงินเมื่อสิ้นชีวิต ${l.coins} เหรียญ เงินสูงสุด ${x.economy.peak} เหรียญ ทรัพย์สิน ${x.economy.assets} ผลงานสำคัญ ${x.standing.feats.length} รายการ ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "ได้รับ" : "สูญเสีย"}`).join("; ")}`
         : `Coins at death: ${l.coins}; peak personal wealth: ${x.economy.peak}; assets: ${x.economy.assets}; distinct major contributions: ${x.standing.feats.length}. ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "won" : "lost"}`).join("; ")}`,
-    ];
+    ].map((text, i) => (i === 5 ? `${text} ${financeText}` : text));
   };
   const en = sectionsFor("en"),
     th = sectionsFor("th");

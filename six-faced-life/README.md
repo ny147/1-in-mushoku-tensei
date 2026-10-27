@@ -47,11 +47,30 @@ game-balance choices, not setting statistics.
 
 Food, shelter, care, dependants, education and travel consume resources. Children
 receive household support rather than adult wages. Warnings identify unmet needs.
-Every adult can pursue ordinary work; specialized occupations need the displayed
-skills, access and actual appointment. Career changes retain per-occupation
-experience. University requires readiness and complete funding; a free assessment
-lets a poor exceptional pupil qualify for a scholarship. Attendance and successful
-graduation are distinct, and failed progress can interrupt study.
+From age 15, qualified applicants can enter ordinary work immediately; knight and
+professor appointments retain their advanced requirements and scarce vacancies.
+Career changes retain per-occupation experience. **Career training** offers all ten
+ordinary roles without prior skills or rare talent: 2–3 years full-time, paying
+24 coins/year instead of job wages, or 4–6 years part-time alongside the current job.
+Pause, change attendance or withdraw while retaining earned progress. Completion
+keeps a guaranteed manual placement; injury can delay safe acceptance without
+requiring retraining. Farmer/laborer courses are optional and free; other tuition
+is 16/24 coins, with merchant/adventurer starter fees quoted once.
+
+Training and university can use explicitly accepted, interest-free loans for the
+unfunded amount after family/personal contributions. Borrowed money pays the
+provider rather than entering the purse. Repayment takes 10% of positive annual
+earned surplus after necessities (at least 1 coin when affordable), shares one
+ceiling across debts, and pauses during hardship or university. Unused borrowed
+reserves cancel debt on withdrawal; consumed costs are not refundable. Debt closes
+at death and is not inherited. The education finance disclosure shows the balance
+and last repayment.
+
+University retains age, knowledge and demonstrated-readiness requirements; credit
+does not bypass them. Admission 80 plus the tuition/living reserve 232 and regional
+travel 40/90/120 are quoted before commitment. A free assessment still lets an
+exceptional pupil qualify for a full scholarship without borrowing. Attendance
+and graduation remain distinct, and failed progress can interrupt study.
 
 Calendar events distinguish Fittoa displacement, other civilian exposure, relief,
 service and distant news. Major historical outcomes remain fixed. Regional
@@ -110,11 +129,19 @@ Existing first-release saves remain supported. Migration preserves the life, ran
 Expanded lives: open **Optional activities** below this year's focus to browse
 careers, seek instruction/education, travel, meet someone or review a legendary
 challenge. The menu unlocks activities by age and era. Career choices show missing
-qualifications, yearly vacancies and fees; check another year if no vacancy is
-open. The first livelihood decision also links to other careers. Opening an
+qualifications and fees; qualified ordinary applicants can enter immediately.
+Prestigious appointments retain yearly vacancies. The first livelihood decision
+also links to other careers. Opening an
 activity pauses time and saves it; Watch mode leaves that choice to you. Finish
 any pending story decision before opening another activity. Seven Great Powers
 challenges are voluntary and retain their mastery/renown requirements.
+
+Career browsing also links directly to training. Ordinary qualifications and fees
+remain visible; yearly vacancy waiting applies to prestigious appointments only.
+Training, borrowing, attendance changes and placement always remain manual in
+Watch mode. New training/finance state migrates into existing active expanded
+lives without resetting their records; frozen legacy lives and old completed
+snapshots are preserved. See the [verification report](../docs/verification/accessible-careers.md).
 
 ## Scope and credits
 

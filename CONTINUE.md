@@ -1,5 +1,191 @@
 # Save point — Six-Faced Life
 
+## Resumed final handoff — 2026-10-27 19:51 Asia/Bangkok
+
+The user resumed with "continue to implement it", lifting the stop below.
+The accessible-careers implementation is already complete at **`cf07048`**;
+checkpoint **`69bd250`** contains all 252 passing tests/build evidence and resume
+instructions. Do not reimplement completed tasks or reopen the approved design.
+
+Resumption checks: clean `codex/accessible-career-design`, fetch/prune succeeded,
+and current **`origin/main c88743a`** is contained in this branch. GitHub reports
+PR #12 open, mergeable and clean, with no review comments or requested changes.
+Its **Test, build, and validate deployment** check for `69bd250` passed:
+https://github.com/ny147/1-in-mushoku-tensei/actions/runs/40503294826/job/122186139798.
+This CI uses Node 22 and `npm run build:vercel` (complete tests plus production
+build). The earlier default-worker timing failures are resolved by successful
+remote CI; local bounded-worker evidence remains in the verification report.
+
+This resumption changes documentation only, records successful CI and completes
+the ready-for-review handoff on the same PR. No application rerun is needed for
+unchanged code; final documentation checks and the new-head CI are checked before
+marking PR #12 ready. No code implementation remains pending. After handoff the
+next action is **human review and manual merge**. Do not merge, enable auto-merge,
+delete the branch or deploy automatically.
+
+Usage observed around **19:50 Asia/Bangkok**: five-hour **99% remaining**, reset
+**Oct 28 00:50:32**; weekly **63% remaining**, reset **Nov 2 19:20:55**.
+No billing or reset-credit actions. Source/browser verification is recorded in
+`docs/verification/accessible-careers.md`; no player storage was accessed here.
+
+## User-requested stop checkpoint — 2026-10-27 19:20 Asia/Bangkok
+
+**Stop requested:** "prepare to stop with saving check point" after implementing
+the approved accessible-careers plan. Preserve this work and stop. Do not start
+new implementation or mark the PR ready as part of this checkpoint.
+
+Branch: **`codex/accessible-career-design`**. Existing draft **PR #12**, base `main`:
+https://github.com/ny147/1-in-mushoku-tensei/pull/12.
+Latest implementation commit: **`cf07048`** (`feat: record training and finance
+life outcomes`). This following documentation-only commit records the stop.
+Task commits before it: `8025c91` state/migration, `6bdf4f2` ordinary access,
+`b7a6f34` finance, `864c4aa` training, `1f40c5c` university, `94032f6` manual UI.
+
+**Implementation complete:** ten ordinary training routes and reliable direct
+entry, paid full-/part-time attendance, retained progress/qualifications/manual
+placement, voluntary provider-funded education loans, refunds/affordable
+repayment/death closure, academic university gates, EN/TH controls and factual
+summaries. The user approved the plan and its baseline with "ok, implement it".
+Existing expanded active saves migrate with no course/debt; legacy lives and
+old completed snapshots remain preserved. No deployment or main integration.
+
+**Verification actually completed:** final `npm test -- --maxWorkers=2` passed
+**252/252 tests in 41 files**, 89.21 seconds. `npm run build` passed; Vite retains
+its >500kB single-chunk warning. Domain/UI regressions were observed failing
+before fixes. Four retimed historical fixtures needed new guard markers;
+automatic lifetime QA excludes navigating the newly manual training browser.
+Default-worker runs hit time/RPC limits. The unchanged 10,000-birth mortality
+sample/assertions now allow 180 seconds; 500-life restoration keeps 60 seconds.
+Full final engine mortality: 8,972/10,000 deaths, 7,302 with protection.
+
+Fresh read-only code review found no Critical/Important defects and checked
+2,837 legal transitions for save validity. Its one missing university-placement
+reason was fixed with an EN/TH regression (RED→GREEN). No deferred code findings.
+Browser QA on isolated **5174** verified EN farmer→swordsman, TH farmer→mage,
+pause/modes/reload, university loan 352, scholarship without debt, academic
+refusal, injury-delayed placement after recovery/story interruption, 360px/1280px,
+keyboard focus, wrapping/overflow and no console errors. Automated App tests
+also cover Watch/manual, hidden-tab and storage-write/recovery behavior.
+See `docs/verification/accessible-careers.md` for precise coverage/limitations.
+
+The plan's existing execution ledger records task evidence and rulings. Code,
+tests, docs and design preview updates are committed; no unfinished source edits
+are intended at this stop. Git diff checks passed after normalizing staged files
+with the repository's existing line-ending filters. No player 5173 storage was
+accessed. The ignored `.sites-workflow/education-qa.html` fixture and local QA
+server on 5174 may remain available; reuse that port instead of starting 5173.
+
+Usage observed **19:20 Asia/Bangkok**: five-hour **15% remaining** (reported reset
+**Oct 27 19:48:55**), weekly **65% remaining** (reset **Nov 2 19:20:55**).
+No credits, reset-credit or billing actions. The final fetch/push and PR update
+are delivery housekeeping for this checkpoint; keep PR #12 draft per this stop.
+
+**Exact resume step:** inspect `git status --short --branch`, fetch origin/prune
+(OpenSSL retry if needed), recheck usage, read this section and the plan execution
+ledger, then review **PR #12** and its checks with the user. Implementation and
+verification are already done; do not repeat the interview or reimplement tasks.
+The remaining action is final review/ready-for-review handoff when continuing.
+The user merges manually; publishing remains separately authorized.
+
+## Accessible career implementation plan — 2026-10-27 18:37 Asia/Bangkok
+
+The user requested an implementation plan from **PR #12**, pushed to the same
+PR. Continue on `codex/accessible-career-design`, whose prior delivered commit
+is **`f1c0ac0`**. The working tree was clean at session start. Fetch/prune
+succeeded with the OpenSSL backend after the default network attempt failed;
+`origin/main` is **`c88743a`** and is contained in this task branch. GitHub API
+confirmed PR #12 is open/draft, targets `main`, and has no comments/reviews.
+
+Created `docs/superpowers/plans/2026-10-27-accessible-careers.md`: seven ordered
+tasks covering validated active-save migration, ordinary direct entry, education
+reserves/refunds/repayment, paid training, university loans, manual EN/TH controls,
+and factual endings/full-flow verification. The plan specifies bounded schemas,
+per-course skill milestones, annual attendance/income order, funding arithmetic,
+withdrawal examples, exact module interfaces and future test/browser coverage.
+The existing design links the plan and records the user's planning request.
+**Product implementation has not started.** Proposed balance values stay proposals;
+the planning request does not silently approve those values or authorize coding.
+
+This is a documentation-only delivery. Source paths/current rules and npm scripts
+were inspected. The plan was self-reviewed against the design for coverage,
+task dependencies, type consistency, failure cases and proportion; an ordering
+issue was corrected by defining the career catalogue before save validation.
+Local document-link, task-sequence, npm-command and quote-arithmetic checks
+passed. The complete staged documentation diff was inspected and
+`git diff --cached --check` passed.
+Application tests, build and browser QA are not needed for these documentation
+changes and were not run. Player saves were not accessed. The delivery commit
+and final remote verification are recorded in the Git history and handoff.
+
+Usage observed at **18:37 Asia/Bangkok**: five-hour **91% remaining**, weekly
+**77% remaining**; reported resets **Oct 27 19:48:55** and **Nov 2 19:20:55**,
+respectively. No billing or reset-credit action was taken.
+
+Exact next step after reviewing this plan: agree the proposed balance baseline
+and choose native or subagent implementation, then execute **Task 1**. On
+resumption inspect status/branch, fetch, check usage and read the plan ledger.
+Do not repeat the design interview or implement tasks during this plan-only
+delivery. Keep PR #12 for follow-ups; the user merges manually. No deployment.
+
+## Accessible career design — 2026-10-26 21:00 Asia/Bangkok
+
+The user reports being stuck as farmer even when not poor and explicitly asked
+for `grill-me` **before planning anything**. The design interview is complete;
+the requested `i-have-adhd` response style stays active until turned off. Keep
+responses short with one clear next action. **No game implementation or
+implementation plan has been written.**
+
+Confirmed: all ordinary careers get accessible training routes; paid full-time
+apprenticeships take 2–3 years; optional slower part-time training retains the
+current job; entry requirements decrease and existing skills count; ordinary
+qualified applicants and graduates get guaranteed appointments without vacancy
+waiting. Loans are voluntary, interest-free and repaid only from income after
+necessities, with hardship pauses. Loans cover career training **and university**;
+university keeps academic readiness with clearer guidance. Mastery and prestigious
+roles remain harder. See the full confirmed/proposed distinction in
+`docs/superpowers/specs/2026-10-26-accessible-careers-design.md`.
+
+Source investigation found most jobs have only a deterministic **10% vacancy
+chance per world year**, versus always-available farmer/laborer. Swordsman needs
+80 sword XP/cap 2; mage needs 100 discipline XP/cap 2; ordinary focus gives 9
+XP/year and instruction itself requires prior XP and a fee. These are source
+findings, not observations of the player's private save or current hosted build.
+
+New clean task branch: `codex/accessible-career-design`, from freshly fetched
+`origin/main` **`c88743a`** (PR #11 is merged). Ordinary fetch was sandbox-blocked
+at FETCH_HEAD; the authorized escalated fetch succeeded. Only the design and this
+checkpoint change. A fresh builder reviewer found **nothing important left**;
+remaining internal allocation/schema/refund choices are explicitly delegated.
+Design/checkpoint commit **`ae116d4`** is pushed to the task branch. Draft design
+**PR #12** targets `main`: https://github.com/ny147/1-in-mushoku-tensei/pull/12.
+It is attached to this chat and stays draft while the written design awaits user
+review. The following documentation-only commit records delivery. User merges
+manually; no deployment.
+
+Proposed defaults, **not yet user-approved**: lower ordinary thresholds listed in
+the design; 24 coins/year full-time apprentice pay, 8 coins per equivalent year
+tuition; 4/6-year part-time duration; 10% positive earned-surplus repayment;
+provider-paid loans including university's existing tuition/living reserve;
+retained qualification during injury and manual placement acceptance. Review
+these before implementation planning. Existing expanded lives need validated
+no-course/no-debt migration; frozen legacy lives and completed snapshots stay intact.
+
+Verification is documentation-only: source paths/values, the full new document,
+and the staged task diff were inspected; `git diff --cached --check` passed after
+removing two Markdown line-break trailing spaces. Final fetch/prune succeeded,
+the branch contains current `origin/main` **`c88743a`**, the working tree was clean,
+and `git diff --check origin/main...HEAD` passed. No application tests,
+build, or browser QA were run or claimed; no player storage was touched.
+Usage observed around **20:56 Asia/Bangkok**: five-hour **24% remaining**, reset
+**Oct 27 00:20:55**; weekly **88% remaining**, reset **Nov 2 19:20:55**. No billing
+or reset-credit action. This is above the below-10% checkpoint trigger.
+
+Exact next step: have the user review the design/proposed defaults. The
+brainstorming skill requires
+design-document approval before invoking writing-plans to create the implementation
+plan. Do not repeat the completed interview, treat proposed numbers as approved,
+or begin product implementation at this checkpoint.
+
 ## Optional activities follow-up — 2026-10-26 20:15 Asia/Bangkok
 
 User feedback: careers seemed restricted to farmer; user explicitly clarified

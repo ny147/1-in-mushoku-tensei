@@ -150,6 +150,15 @@ export interface Choice {
   promoteCareer?: boolean;
 }
 export interface Decision {
+  /** Authored presentation for dynamic education quotes; never saved as rules. */
+  localized?: {
+    title: string;
+    text: string;
+    choices: Record<
+      string,
+      { label: string; description: string; outcome: string }
+    >;
+  };
   requiresManual?: boolean;
   id: string;
   title: string;

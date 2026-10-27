@@ -11,6 +11,9 @@ export function adult() {
   const shift = 400 - l.expansion.birthYear;
   for (const p of l.expansion.family.people) p.born += shift;
   l.expansion.birthYear = 400;
+  l.expansion.training!.lastYear = 399;
+  l.expansion.finance!.lastYear = 399;
+  l.expansion.finance!.lastConsumptionYear = 399;
   l.age = 31;
   l.expansion.processedYear = 430;
   l.phase = "alive";
