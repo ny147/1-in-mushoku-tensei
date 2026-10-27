@@ -135,11 +135,11 @@ Annual integration captures attendance at the start of the year so graduation ca
 
 **Interfaces:** Produce the types in B and the A catalogue declarations (`ORDINARY_ROLES`, `OrdinaryRole`, `CourseDefinition`, `ordinaryEntry`, `isOrdinaryRole`) needed to validate role keys/units. Produce `emptyTraining(birthYear: number): TrainingState`, `emptyFinance(birthYear: number): EducationFinance`, `migrateEducationAccess(life: ExpandedLife): ExpandedLife`. The catalogue/type dependency must not import the engine or event/i18n modules.
 
-- [ ] Write tests `migrates only absent active expanded fields` and `preserves pending choices and all RNG streams`: assert no debt/course, unchanged coins/age/occupation/history/pending/queue/rng/worldSeed/familyRng, no storage writes on load, and equal future results for equivalent restored states.
-- [ ] Add table-driven malformed-field tests: null, future version, NaN/infinity, negative/fractional money, unknown/prototype role, units beyond 4/6, duplicate/impossible completion, future lastYear, inconsistent debt/reserves, two attendance owners. Assert `loadGame(...).error !== null` and original stored bytes unchanged. Include a pending old university/career save and mixed legacy/expanded archive whose serialized completed objects stay equal.
-- [ ] Run `npm test -- src/game/storage.test.ts src/game/expanded/validation.test.ts src/game/expanded/education-access-state.test.ts`; confirm the new cases fail for the intended missing behavior.
-- [ ] Implement optional-field validation followed by active-only missing-field migration. New origins initialize both fields without drawing RNG. Existing university attendance gets empty finance, retaining its old budget and scholarship state.
-- [ ] Rerun the same command; require all cases pass. Stage only these files and commit `feat: preserve saves with education access state`.
+- [x] Write tests `migrates only absent active expanded fields` and `preserves pending choices and all RNG streams`: assert no debt/course, unchanged coins/age/occupation/history/pending/queue/rng/worldSeed/familyRng, no storage writes on load, and equal future results for equivalent restored states.
+- [x] Add table-driven malformed-field tests: null, future version, NaN/infinity, negative/fractional money, unknown/prototype role, units beyond 4/6, duplicate/impossible completion, future lastYear, inconsistent debt/reserves, two attendance owners. Assert `loadGame(...).error !== null` and original stored bytes unchanged. Include a pending old university/career save and mixed legacy/expanded archive whose serialized completed objects stay equal.
+- [x] Run `npm test -- src/game/storage.test.ts src/game/expanded/validation.test.ts src/game/expanded/education-access-state.test.ts`; confirm the new cases fail for the intended missing behavior.
+- [x] Implement optional-field validation followed by active-only missing-field migration. New origins initialize both fields without drawing RNG. Existing university attendance gets empty finance, retaining its old budget and scholarship state.
+- [x] Rerun the same command; require all cases pass. Stage only these files and commit `feat: preserve saves with education access state`.
 
 ### Task 2: Reliable ordinary direct appointments
 
@@ -238,3 +238,13 @@ Annual integration captures attendance at the start of the year so graduation ca
 | Product verification | Not run for this documentation-only plan; future requirements are above |
 
 Recommended execution: task-by-task implementation because storage, reserves and yearly integration share strict invariants. Before implementation, review the proposed balance baseline and this plan and choose native or subagent execution; no execution method is implied by requesting the plan. On resumption inspect Git, fetch, check usage and read this ledger/CONTINUE.md. Preserve completed work and update this ledger after each bounded task. Update the same PR rather than creating a second delivery branch/PR for this task.
+
+### Execution record — 2026-10-27
+
+User approved implementation of this plan and its baseline. Native execution continues on the existing PR branch as requested.
+
+Pre-flight: Tasks 1→2 share catalogue/types; 1→3 share validated ledger; 2/3→4 share appointments/reserves; 3/4→5 share attendance; 1–5→6 share decision/state contracts; all→7 share summary/verification. Catalogue creation precedes validation, funded appointments wait for Task 4.
+
+Ruling: Use the existing checkout/task branch rather than create a worktree — the user requested the same PR, repository rules require continuing this branch — no branch isolation beyond the dedicated task branch. Use this existing progress ledger instead of a competing scratch checkpoint.
+
+Task 1: complete — new tests observed RED (7 failures), then 28/28 targeted storage/state/validation tests GREEN. Existing active saves migrate without writes; completed archives are not migrated.

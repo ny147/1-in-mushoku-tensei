@@ -1,5 +1,6 @@
 import type { ExpandedState } from "./types";
 import { LIMITS, OCCUPATIONS, validEventId } from "./balance";
+import { validateEducationAccess } from "./education-access-state";
 const obj = (v: unknown): v is Record<string, unknown> =>
   v !== null && typeof v === "object" && !Array.isArray(v);
 const n = (v: unknown, lo = 0, hi = 1_000_000): v is number =>
@@ -97,6 +98,7 @@ export function validateExpansion(
     return false;
   const birthYear = v.birthYear;
   const year = birthYear + age;
+  if (!validateEducationAccess(v, year, phase)) return false;
   if (
     !obj(v.origin) ||
     !one(v.origin.wealth, ["poor", "modest", "comfortable", "extreme"]) ||

@@ -6,6 +6,7 @@ import { WEALTH, SUPPORT, PURSE, FAMILY_FUNDS, OCCUPATIONS } from './balance';
 import { draw, weighted } from './random';
 
 import { generateGenetics as initialGenetics } from './genetics';
+import { ensureEducationAccess } from './education-access-state';
 export function createExpandedLife(options:LifeOptions={}): ExpandedLife {
   const base = legacyBirth(options);
   const stream = {rng:(base.seed ^ 0xa71c09ef)>>>0};
@@ -32,5 +33,6 @@ export function createExpandedLife(options:LifeOptions={}): ExpandedLife {
   life.family = people.map(p=>({id:p.id,name:p.name,role:p.id==='mother'?'Mother':'Father',bornAt:p.born-birthYear,lifespan:p.lifespan}));
   // Birth text is presented from structured origin facts in both languages.
   life.history = [{id:1,age:0,title:'A life in history',text:'A new life begins with memories of another world.',kind:'birth',message:{key:'expanded.birth'}}];
+  ensureEducationAccess(life);
   return life;
 }
