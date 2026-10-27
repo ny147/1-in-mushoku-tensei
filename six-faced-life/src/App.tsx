@@ -210,6 +210,7 @@ export default function App() {
       life?.pending !== previousLife.current?.pending ||
       life?.phase !== previousLife.current?.phase ||
       life?.focus !== previousLife.current?.focus ||
+      life?.history.at(-1)?.id !== previousLife.current?.history.at(-1)?.id ||
       life?.progression?.specialization !==
         previousLife.current?.progression?.specialization;
     if (important || Date.now() - lastSave.current >= 1500) {
@@ -350,7 +351,7 @@ export default function App() {
       `${result.title} ${result.text} ${result.changes.join(". ")}`,
     );
     updateLife(() => next);
-    setFocusTarget(next.phase === "ended" ? "page-title" : "outcome-heading");
+    setFocusTarget(next.phase === "ended" ? "page-title" : next.pending ? "decision-heading" : "outcome-heading");
   }
   const onAdvance = () => {
     const current = dataRef.current.active;

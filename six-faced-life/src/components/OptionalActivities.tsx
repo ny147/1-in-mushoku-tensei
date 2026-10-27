@@ -6,7 +6,8 @@ import {
 } from "../game/expanded/activities";
 import { useI18n } from "../i18n/context";
 const names: Record<Activity, [string, string]> = {
-  career: ["Browse careers", "ดูอาชีพและตำแหน่งว่าง"],
+  career: ["Browse careers", "ดูอาชีพ"],
+  training: ["Career training", "ฝึกอาชีพ"],
   instruction: ["Seek instruction", "หาผู้สอน"],
   assessment: ["Talent assessment", "ประเมินความสามารถ"],
   university: ["University admission", "สมัครมหาวิทยาลัย"],
@@ -50,8 +51,8 @@ export function OptionalActivities({
       </div>
       <p>
         {th
-          ? "การประเมินและหาผู้สอนเริ่มอายุ 8 ปี งานและมหาวิทยาลัยเริ่มอายุ 15 ปี การย้ายถิ่นและทำความรู้จักเริ่มอายุ 18 ปี คุณสมบัติ ค่าใช้จ่าย และตำแหน่งว่างยังมีผล"
-          : "Assessment and instruction open at 8; careers and university at 15; travel and meeting people at 18. Qualifications, costs and current vacancies still apply."}
+          ? "การประเมินและหาผู้สอนเริ่มอายุ 8 ปี งานและมหาวิทยาลัยเริ่มอายุ 15 ปี การย้ายถิ่นและทำความรู้จักเริ่มอายุ 18 ปี คุณสมบัติและค่าใช้จ่ายยังมีผล งานทั่วไปที่คุณสมบัติครบรับเข้าแน่นอน งานเกียรติยศยังต้องรอตำแหน่งว่าง"
+          : "Assessment and instruction open at 8; careers and university at 15; travel and meeting people at 18. Qualifications and costs apply; ordinary qualified applicants get guaranteed entry. Prestige retains vacancies."}
       </p>
       <p>
         {th

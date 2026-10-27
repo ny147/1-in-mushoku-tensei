@@ -111,6 +111,9 @@ export const HAZARDS = {
   travel: 0.004,
 };
 export const EXPANDED_EVENT_IDS = [
+  "training",
+  "training-quote",
+  "training-placement",
   "memory",
   "reading",
   "practice",

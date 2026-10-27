@@ -4074,3 +4074,22 @@ h2[tabindex="-1"] {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+/* Education extends the existing ruled chronicle sections. */
+.education-progress progress {
+  display: block;
+  width: 100%;
+  height: 6px;
+  accent-color: var(--green);
+  margin-block: 10px;
+}
+.education-progress p {
+  overflow-wrap: anywhere;
+}
+.education-progress .button {
+  min-height: 44px;
+  margin-block: 10px;
+  white-space: normal;
+}
+.education-progress details {
+  margin-top: 12px;
+}

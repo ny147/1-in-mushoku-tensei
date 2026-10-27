@@ -1,3 +1,4 @@
+import { trainingDecision, applyTrainingChoice } from "./training-events";
 import { isOrdinaryRole, ordinaryEntry } from "./career-access";
 import type { Choice, Decision, ExpandedLife, RegionId } from "../types";
 import {
@@ -52,6 +53,8 @@ export const MANUAL = new Set([
 ]);
 export function getExpandedDecision(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
+  const education = trainingDecision(life);
+  if (education) return education;
   const key = life.pending.slice(9);
   const copy = EXPANDED_COPY[key];
   if (!copy) return null;
@@ -197,6 +200,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
         }),
       );
       choices.unshift(option("promote", { disabled: !promotionReady(life) }));
+      choices.push(option("training", {label:"Explore career training", description:"Begin an ordinary career through paid or part-time training."}));
       choices.push(option("later"));
       break;
     }
@@ -318,6 +322,7 @@ export function applyExpandedChoice(
   life: ExpandedLife,
   id: string,
 ): string | null {
+  if (applyTrainingChoice(life, id)) return null;
   const [, key, action] = id.split("."),
     x = life.expansion,
     y = worldYear(life);
@@ -336,6 +341,7 @@ export function applyExpandedChoice(
   if (key === "school-year" && action === "study") life.focus = "study";
   if (key === "work" && ["farmer", "laborer"].includes(action))
     appoint(life, action as "farmer" | "laborer");
+  if (key === "career" && action === "training") queue("training");
   if (key === "career" && action === "promote") promote(life);
   if (key === "career" && action.startsWith("job-"))
     appoint(life, action.slice(4) as typeof x.career.role);

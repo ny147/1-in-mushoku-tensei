@@ -110,6 +110,8 @@ export function appoint(l: ExpandedLife, role: Occupation, options?: Appointment
   return true;
 }
 export function careerIncomeExpanded(l: ExpandedLife): number {
+  const t=l.expansion.training;
+  if(t?.active && !t.paused && t.mode==="full-time") return 24;
   const c = l.expansion.career;
   return (
     PAY[c.role] +

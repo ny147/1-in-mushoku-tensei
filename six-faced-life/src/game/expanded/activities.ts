@@ -4,6 +4,7 @@ import { getExpandedDecision } from "./events";
 
 export const ACTIVITIES = [
   "career",
+  "training",
   "instruction",
   "assessment",
   "university",
@@ -16,6 +17,7 @@ export function activityAvailable(l: ExpandedLife, key: Activity): boolean {
   if (l.phase !== "alive" || l.pending || l.expansion.queue.length)
     return false;
   switch (key) {
+    case "training":
     case "career":
       return l.age >= 15;
     case "instruction":

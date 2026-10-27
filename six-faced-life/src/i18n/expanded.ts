@@ -796,6 +796,7 @@ export function expandedDecisionText(
   d: Decision,
   language: Language,
 ): Decision {
+  if (language === "th" && d.localized) return { ...d, title:d.localized.title, text:d.localized.text, choices:d.choices.map(c=>({...c,...d.localized!.choices[c.id]})) };
   const key = d.id.slice(9),
     copy = EXPANDED_COPY[key];
   if (!copy || language === "en") return d;
@@ -840,6 +841,7 @@ export function expandedEntryText(
 ): { title: string; text: string } | null {
   const key = entry.message?.key;
   if (!key?.startsWith("expanded.")) return null;
+  if (key === "expanded.education-choice" && language === "th") return {title:String(entry.message?.params?.title ?? entry.title),text:String(entry.message?.params?.text ?? entry.text)};
   if (key === "expanded.fatal-choice")
     return {
       title:
@@ -880,3 +882,6 @@ export function expandedEntryText(
       "การตัดสินใจและผลที่เกิดขึ้นจริงได้รับการบันทึกไว้ในรายละเอียดชีวิต",
   };
 }
+
+EXPANDED_COPY.career.choices.training = ["Explore career training", "ดูเส้นทางฝึกอาชีพ", "Paid or part-time training leads to ordinary work.", "การฝึกเต็มเวลาหรือนอกเวลาเปิดทางสู่งานทั่วไป"];
+for (const key of ["training", "training-quote", "training-placement"]) EXPANDED_COPY[key] = event(["Career training", "ฝึกอาชีพ"], ["Review your training and funding before committing.", "ตรวจสอบการฝึกและค่าใช้จ่ายก่อนตัดสินใจ"], { later });
