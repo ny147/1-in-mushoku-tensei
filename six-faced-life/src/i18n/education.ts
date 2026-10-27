@@ -1,7 +1,33 @@
-import type { Language } from "../game/types";
+import type { ExpandedLife, Language } from "../game/types";
 import type { EducationQuote } from "../game/expanded/education-finance";
 import type { TrainingQuote } from "../game/expanded/training";
 export type EducationPair = readonly [string, string];
+export function talentAssessmentText(
+  life: ExpandedLife,
+  language: Language,
+): string {
+  const th = language === "th";
+  if (!life.expansion.education.assessed)
+    return th
+      ? "ยังไม่ได้รับการประเมิน เริ่มประเมินได้จากกิจกรรมเสริมเมื่ออายุ 8 ปี"
+      : "Not assessed yet. Seek a talent assessment in Optional activities from age 8.";
+  const talents: string[] = [];
+  if (life.expansion.genetics.magicTalent)
+    talents.push(
+      th ? "พรสวรรค์พิเศษด้านเวทมนตร์" : "Exceptional magical talent",
+    );
+  if (life.expansion.genetics.academicTalent)
+    talents.push(
+      th ? "พรสวรรค์พิเศษด้านวิชาการ" : "Exceptional academic talent",
+    );
+  const result = talents.length
+    ? talents.join(" · ")
+    : th
+      ? "ไม่พบพรสวรรค์พิเศษด้านเวทมนตร์หรือวิชาการ ยังพัฒนาทักษะได้ด้วยการฝึกฝน"
+      : "No exceptional magical or academic talent identified. Practice can still develop your skills.";
+  const score = life.expansion.education.assessment;
+  return `${th ? "คะแนนประเมิน" : "Assessment score"}: ${score} / 100 · ${result}`;
+}
 export const educationWords = {
   title: ["Career training", "ฝึกอาชีพ"],
   intro: [

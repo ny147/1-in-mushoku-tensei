@@ -1,5 +1,37 @@
 # Save point — Six-Faced Life
 
+## Talent assessment display fix — 2026-10-27
+
+User reported talent missing after taking the assessment. New task branch:
+**`codex/talent-assessment-result`**, based on freshly fetched **`origin/main
+8240b9d`** (PR #12 is now merged). Clean working directory confirmed at start.
+
+Root cause: the assessment already persisted its score/assessed flag, but
+ExpandedDetails omitted it and CharacterView showed a placeholder directing
+players to nonexistent results. Both now display the stored score and identified
+exceptional magical/academic talent in EN/TH. Unassessed potential stays hidden;
+ordinary results explicitly retain the possibility of practice. Existing assessed
+saves work immediately, with no schema, simulation, random-state or balance change.
+
+Verification: four EN/TH regression cases first failed for absent results and
+unassessed labels, then passed. Full **`npm.cmd test -- --maxWorkers=2` passed
+258/258 tests in 41 files**, 85.61 seconds. **`npm run build` passed**, retaining
+the existing >500kB bundle warning. A later test-only review improvement separately
+guards both display locations. Read-only review found no critical/important
+defects; browser verification was performed by the implementer.
+
+Isolated browser QA reused port **5174**: English ordinary assessment (30/100),
+Thai double-talent assessment (50/100) at a real 360px iframe viewport, character
+navigation, readable wrapping, no visible horizontal overflow inside the mobile
+game, no reported console errors, and restored result after normal app navigation.
+Assessment choices pause time and focus the outcome heading. Player 5173 storage
+was untouched. The ignored `.sites-workflow/talent-qa.html` is disposable QA only;
+reload the harness between fixtures so an old iframe cannot save over a new one.
+
+Delivery: commit/push this task branch and create its own PR targeting `main`;
+record its link below after creation. The user reviews and merges manually.
+Do not merge, enable auto-merge, delete the branch, or publish the playable site.
+
 ## Resumed final handoff — 2026-10-27 19:51 Asia/Bangkok
 
 The user resumed with "continue to implement it", lifting the stop below.

@@ -1,15 +1,141 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it } from "vitest";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, within } from "@testing-library/react";
 import { ExpandedDetails, ExpandedCareer } from "./ExpandedDetails";
 import { createExpandedLife } from "../game/expanded/origins";
 import { LanguageProvider } from "../i18n/context";
 import { Retrospective } from "./Retrospective";
-import { finishLife } from "../game/engine";
-import { DecisionPanel } from "./LifeView";
+import { choose, finishLife } from "../game/engine";
+import { CharacterView, DecisionPanel } from "./LifeView";
+import { isLife } from "../game/storage";
 import { appointmentAvailable } from "../game/expanded/events";
 afterEach(cleanup);
 describe("expanded chronicle details", () => {
+  it.each(["magic", "academic"] as const)(
+    "only identifies the assessed %s talent",
+    (talent) => {
+      const l = createExpandedLife({ seed: 1 });
+      l.expansion.education.assessed = true;
+      l.expansion.genetics.magicTalent = talent === "magic";
+      l.expansion.genetics.academicTalent = talent === "academic";
+      render(
+        <LanguageProvider language="en">
+          <ExpandedDetails life={l} />
+        </LanguageProvider>,
+      );
+      expect(screen.queryByText(/Exceptional magical talent/) !== null).toBe(
+        talent === "magic",
+      );
+      expect(screen.queryByText(/Exceptional academic talent/) !== null).toBe(
+        talent === "academic",
+      );
+    },
+  );
+  it.each(["en", "th"] as const)(
+    "shows a completed talent assessment after restoring a %s life",
+    (language) => {
+      const l = createExpandedLife({ seed: 1, language });
+      l.phase = "alive";
+      l.age = 8;
+      l.stats.knowledge = 30;
+      l.training.magicXp = 0;
+      l.expansion.genetics.magicTalent = true;
+      l.expansion.genetics.academicTalent = true;
+      l.pending = "expanded.assessment";
+      const assessed = choose(l, "expanded.assessment.take");
+      const restored = JSON.parse(JSON.stringify(assessed));
+      expect(isLife(restored)).toBe(true);
+      render(
+        <LanguageProvider language={language}>
+          <CharacterView life={restored} onStudyChange={() => {}} />
+        </LanguageProvider>,
+      );
+      const score =
+        language === "en"
+          ? "Assessment score: 50 / 100"
+          : "คะแนนประเมิน: 50 / 100";
+      expect(
+        screen.getByText(language === "en" ? "Natural aptitude" : "พรสวรรค์")
+          .nextElementSibling?.textContent,
+      ).toContain(score);
+      expect(
+        within(
+          screen.getByRole("region", {
+            name: language === "en" ? "Era and opportunity" : "ยุคสมัยและโอกาส",
+          }),
+        ).getByText(new RegExp(score.replace("/", "\\/"))),
+      ).toBeTruthy();
+      expect(
+        screen.getAllByText(
+          language === "en"
+            ? /Assessment score: 50 \/ 100/
+            : /คะแนนประเมิน: 50 \/ 100/,
+        ).length,
+      ).toBeGreaterThan(0);
+      expect(
+        screen.getAllByText(
+          language === "en"
+            ? /Exceptional magical talent/
+            : /พรสวรรค์พิเศษด้านเวทมนตร์/,
+        ).length,
+      ).toBeGreaterThan(0);
+      expect(
+        screen.getAllByText(
+          language === "en"
+            ? /Exceptional academic talent/
+            : /พรสวรรค์พิเศษด้านวิชาการ/,
+        ).length,
+      ).toBeGreaterThan(0);
+      expect(screen.queryByText(/See recorded assessments/)).toBeNull();
+      expect(screen.queryByText(/inherited trait|ลักษณะสืบทอด/)).toBeNull();
+    },
+  );
+  it.each(["en", "th"] as const)(
+    "distinguishes unassessed and ordinary results in %s without revealing latent talent",
+    (language) => {
+      const l = createExpandedLife({ seed: 1, language });
+      l.expansion.genetics.magicTalent = true;
+      l.expansion.genetics.academicTalent = true;
+      const view = render(
+        <LanguageProvider language={language}>
+          <ExpandedDetails life={l} />
+        </LanguageProvider>,
+      );
+      expect(
+        screen.getByText(
+          language === "en" ? /Not assessed yet/ : /ยังไม่ได้รับการประเมิน/,
+        ),
+      ).toBeTruthy();
+      expect(
+        screen.queryByText(
+          /Exceptional magical|Exceptional academic|พรสวรรค์พิเศษด้าน/,
+        ),
+      ).toBeNull();
+      l.expansion.education.assessed = true;
+      l.expansion.education.assessment = 0;
+      l.expansion.genetics.magicTalent = false;
+      l.expansion.genetics.academicTalent = false;
+      view.rerender(
+        <LanguageProvider language={language}>
+          <ExpandedDetails life={l} />
+        </LanguageProvider>,
+      );
+      expect(
+        screen.getByText(
+          language === "en"
+            ? /Assessment score: 0 \/ 100/
+            : /คะแนนประเมิน: 0 \/ 100/,
+        ),
+      ).toBeTruthy();
+      expect(
+        screen.getByText(
+          language === "en"
+            ? /No exceptional magical or academic talent identified/
+            : /ไม่พบพรสวรรค์พิเศษด้านเวทมนตร์หรือวิชาการ/,
+        ),
+      ).toBeTruthy();
+    },
+  );
   it("discloses affordable career fees before commitment in English and Thai", () => {
     for (const language of ["en", "th"] as const) {
       const l = createExpandedLife({ seed: 2, language });

@@ -1,6 +1,7 @@
 import type { ExpandedLife } from "../game/types";
 import { useI18n } from "../i18n/context";
 import { expandedLabel } from "../i18n/expanded";
+import { talentAssessmentText } from "../i18n/education";
 import { worldYear } from "../game/expanded/facts";
 import { materialNeeds } from "../game/expanded/economy";
 import {
@@ -65,6 +66,7 @@ export function ExpandedDetails({
           <dd>{label(x.education.stage)}</dd>
         </div>
       </dl>
+      {!birth && <p>{talentAssessmentText(life, language)}</p>}
       {life.race === "superd" && (
         <p className="expanded-warning">
           {th

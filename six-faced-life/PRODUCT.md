@@ -12,6 +12,11 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
+- Completed talent assessments show the saved score and identified exceptional
+  magical/academic talent in chronicle details and the character's Natural
+  aptitude. Unassessed lives keep potential hidden; ordinary results explain
+  that practice can still develop skills. English and Thai are supported.
+
 - Expanded careers have reliable direct access for qualified ordinary applicants
   and optional beginner training for all ten ordinary roles. Full-time training
   pays 24 coins/year instead of job wages and takes 2–3 years; part-time keeps the
