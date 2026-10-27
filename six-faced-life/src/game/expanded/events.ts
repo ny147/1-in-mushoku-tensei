@@ -1,3 +1,4 @@
+import { isOrdinaryRole, ordinaryEntry } from "./career-access";
 import type { Choice, Decision, ExpandedLife, RegionId } from "../types";
 import {
   EXPANDED_COPY,
@@ -175,9 +176,9 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
           label: expandedLabel(role),
           cost:
             role === "merchant"
-              ? 30
+              ? ordinaryEntry("merchant").starterFee
               : role === "adventurer"
-                ? 10
+                ? ordinaryEntry("adventurer").starterFee
                 : role === "knight"
                   ? x.origin.status === "noble"
                     ? Math.max(0, 120 - x.economy.familyFunds)
@@ -298,7 +299,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
   };
 }
 export function appointmentAvailable(life: ExpandedLife, role: string) {
-  if (["farmer", "laborer"].includes(role)) return true;
+  if (isOrdinaryRole(role)) return true;
   const stream = {
     rng:
       (life.expansion.worldSeed ^

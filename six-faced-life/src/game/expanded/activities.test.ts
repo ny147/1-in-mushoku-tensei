@@ -80,14 +80,7 @@ describe("player-initiated optional activities", () => {
   });
   it("allows an eligible non-farmer appointment, charges once, and explains blocked jobs in both languages", () => {
     const l = adult();
-    for (let seed = 0; seed < 1000; seed++) {
-      l.expansion.worldSeed = seed;
-      if (
-        appointmentAvailable(l, "merchant") &&
-        !appointmentAvailable(l, "guard")
-      )
-        break;
-    }
+
     const n = openActivity(l, "career"),
       d = getDecision(n)!;
     expect(
@@ -97,16 +90,16 @@ describe("player-initiated optional activities", () => {
       expandedDecisionText(d, "en").choices.find(
         (c) => c.id === "expanded.career.job-guard",
       )?.description,
-    ).toContain("No vacancy this year");
+    ).toContain("Still needed: Sword experience 0/20");
     expect(
       expandedDecisionText(d, "th").choices.find(
         (c) => c.id === "expanded.career.job-guard",
       )?.description,
-    ).toContain("ไม่มีตำแหน่งว่าง");
+    ).toContain("ยังต้องมี");
     const hired = choose(n, "expanded.career.job-merchant");
     if (hired.ruleset !== "expanded-1") throw Error("expanded");
     expect(hired.expansion.career.role).toBe("merchant");
-    expect(hired.coins).toBe(170);
+    expect(hired.coins).toBe(190);
     expect(isLife(hired)).toBe(true);
   });
   it("does not overwrite pending decisions or let children/legacy/ended lives open activities", () => {

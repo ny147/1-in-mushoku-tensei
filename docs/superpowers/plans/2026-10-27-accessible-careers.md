@@ -147,11 +147,11 @@ Annual integration captures attendance at the start of the year so graduation ca
 
 **Interfaces:** Consume Task 1's catalogue and types. Extend `careerRequirements(l: ExpandedLife, role: Occupation, school?: MagicSchool): Requirement[]` with default current study. Keep `appoint(l, role): boolean` compatible; add an optional third `AppointmentOptions` argument with `school?: MagicSchool` and `funding?: "reserved-training"`. Reserved funding is valid only for a completed matching course with sufficient escrow; ordinary callers cannot waive fees. Implement that funded path in Task 4 after the finance module exists; this task implements direct appointments only.
 
-- [ ] Write boundary tables for every A requirement (one below/exact), age 14/15, all five magic disciplines, healer's healing track, and aura-impaired sword cap 1. Assert exact merchant/adventurer direct coin deltas `-10`/`-5`, once, without erasing prior work records.
-- [ ] Add `ordinary availability does not depend on world year or seed`: iterate seeds 1–100 and adult years, list decisions twice and assert eligible ordinary jobs enabled and unchanged RNG/state. Assert knight/professor retain prior requirements, fees, 10%/2% vacancy algorithms and promotion behavior. Existing current-role menu omission stays deliberate; courses must still be discoverable for other roles.
-- [ ] Run `npm test -- src/game/expanded/careers.test.ts src/game/expanded/activities.test.ts` and inspect expected failures.
-- [ ] Implement the A catalogue, shared starter fees and ordinary availability branch in `appointmentAvailable`. Preserve existing choice IDs, including `expanded.career.job-*`; update cost display and requirement descriptions from the same helpers.
-- [ ] Rerun those tests; commit `feat: guarantee qualified ordinary career entry` with explicit task-owned paths.
+- [x] Write boundary tables for every A requirement (one below/exact), age 14/15, all five magic disciplines, healer's healing track, and aura-impaired sword cap 1. Assert exact merchant/adventurer direct coin deltas `-10`/`-5`, once, without erasing prior work records.
+- [x] Add `ordinary availability does not depend on world year or seed`: iterate seeds 1–100 and adult years, list decisions twice and assert eligible ordinary jobs enabled and unchanged RNG/state. Assert knight/professor retain prior requirements, fees, 10%/2% vacancy algorithms and promotion behavior. Existing current-role menu omission stays deliberate; courses must still be discoverable for other roles.
+- [x] Run `npm test -- src/game/expanded/careers.test.ts src/game/expanded/activities.test.ts` and inspect expected failures.
+- [x] Implement the A catalogue, shared starter fees and ordinary availability branch in `appointmentAvailable`. Preserve existing choice IDs, including `expanded.career.job-*`; update cost display and requirement descriptions from the same helpers.
+- [x] Rerun those tests; commit `feat: guarantee qualified ordinary career entry` with explicit task-owned paths.
 
 ### Task 3: Provider reserves, refunds and affordable debt
 
@@ -248,3 +248,5 @@ Pre-flight: Tasks 1→2 share catalogue/types; 1→3 share validated ledger; 2/3
 Ruling: Use the existing checkout/task branch rather than create a worktree — the user requested the same PR, repository rules require continuing this branch — no branch isolation beyond the dedicated task branch. Use this existing progress ledger instead of a competing scratch checkpoint.
 
 Task 1: complete — new tests observed RED (7 failures), then 28/28 targeted storage/state/validation tests GREEN. Existing active saves migrate without writes; completed archives are not migrated.
+
+Task 2: complete — new entry tests RED (9 missing-rule failures), then 36/36 career/access/activity tests GREEN. Updated the superseded ordinary-vacancy and merchant-fee assertions. Baseline suite passed 197/197 before implementation.

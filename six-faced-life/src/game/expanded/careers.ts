@@ -1,5 +1,6 @@
-import type { ExpandedLife, Career } from "../types";
+import type { ExpandedLife, Career, MagicSchool } from "../types";
 import type { Occupation } from "./types";
+import { isOrdinaryRole, ordinaryEntry } from "./career-access";
 import { PAY, OCCUPATIONS } from "./balance";
 import { requirement, type Requirement } from "./education";
 import { fact, worldYear } from "./facts";
@@ -8,49 +9,32 @@ import { getProgression } from "../progression";
 export function careerRequirements(
   l: ExpandedLife,
   role: Occupation,
+  discipline = l.expansion.study,
 ): Requirement[] {
   const x = l.expansion,
-    school = l.progression?.magic[x.study].xp ?? 0;
+    school = l.progression?.magic[discipline].xp ?? 0;
   const r: Requirement[] = [requirement("age", l.age, 15)];
   const add = (id: string, current: number, required: number) =>
     r.push(requirement(id, current, required));
+  if (isOrdinaryRole(role)) {
+    const c = ordinaryEntry(role);
+    if (role === "farmer" || role === "adventurer") add("health", l.stats.health, c.health!);
+    if (c.knowledge) add("knowledge", l.stats.knowledge, c.knowledge);
+    if (c.starterFee) add("capital", l.coins, c.starterFee);
+    if (["guard", "swordsman"].includes(role)) add("sword", l.training.swordXp, c.sword!);
+    if (role === "adventurer") add("skill", Math.max(l.training.swordXp, l.training.magicXp), 15);
+    if (role === "teacher") add("skill", Math.max(school, l.training.swordXp), 25);
+    if (role === "mage") add("magic", school, c.magic!);
+    if (role === "healer" || role === "cleric") add("healing", l.progression?.magic.healing.xp ?? 0, c.magic!);
+    if (c.cap) add("instruction", c.cap === "magic" ? l.training.magicCap : l.training.swordCap, 1);
+    if (c.trust) add("trust", x.standing.trust, c.trust);
+    if (c.reputation) add("reputation", x.standing.reputation, c.reputation);
+    return r;
+  }
   switch (role) {
     case "child":
     case "student":
       add("appointment", 0, 1);
-      break;
-    case "laborer":
-      break;
-    case "farmer":
-      add("health", l.stats.health, 20);
-      break;
-    case "merchant":
-      add("knowledge", l.stats.knowledge, 20);
-      add("capital", l.coins, 30);
-      break;
-    case "guard":
-      add("sword", l.training.swordXp, 40);
-      break;
-    case "adventurer":
-      add("health", l.stats.health, 45);
-      add("skill", Math.max(l.training.swordXp, l.training.magicXp), 30);
-      add("capital", l.coins, 10);
-      break;
-    case "swordsman":
-      add("sword", l.training.swordXp, 80);
-      add("instruction", l.training.swordCap, 2);
-      break;
-    case "mage":
-      add("magic", school, 100);
-      add("instruction", l.training.magicCap, 2);
-      break;
-    case "healer":
-      add("healing", l.progression?.magic.healing.xp ?? 0, 50);
-      break;
-    case "cleric":
-      add("healing", l.progression?.magic.healing.xp ?? 0, 50);
-      add("knowledge", l.stats.knowledge, 35);
-      add("trust", x.standing.trust, 30);
       break;
     case "knight":
       add("sword", l.training.swordXp, 150);
@@ -61,11 +45,6 @@ export function careerRequirements(
         l.coins + (x.origin.status === "noble" ? x.economy.familyFunds : 0),
         120,
       );
-      break;
-    case "teacher":
-      add("knowledge", l.stats.knowledge, 40);
-      add("skill", Math.max(school, l.training.swordXp), 50);
-      add("reputation", x.standing.reputation, 10);
       break;
     case "professor":
       add("degree", x.education.stage === "graduated" ? 1 : 0, 1);
@@ -79,10 +58,11 @@ export function careerRequirements(
   }
   return r;
 }
-export function appoint(l: ExpandedLife, role: Occupation): boolean {
+export interface AppointmentOptions { school?: MagicSchool; funding?: "reserved-training" }
+export function appoint(l: ExpandedLife, role: Occupation, options?: AppointmentOptions): boolean {
   if (
     !OCCUPATIONS.includes(role) ||
-    careerRequirements(l, role).some((r) => !r.met)
+    careerRequirements(l, role, options?.school).some((r) => !r.met)
   )
     return false;
   const x = l.expansion;
@@ -90,9 +70,9 @@ export function appoint(l: ExpandedLife, role: Occupation): boolean {
     role === "knight"
       ? 120
       : role === "adventurer"
-        ? 10
+        ? ordinaryEntry("adventurer").starterFee
         : role === "merchant"
-          ? 30
+          ? ordinaryEntry("merchant").starterFee
           : 0;
   const family =
     role === "knight" && x.origin.status === "noble"
