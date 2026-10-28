@@ -1,5 +1,35 @@
 # Save point — Six-Faced Life
 
+## PR #14 CI repair — 2026-10-28
+
+User reported CI failure. Continue on **`codex/talent-learning-balance`** and
+the existing **[PR #14](https://github.com/ny147/1-in-mushoku-tensei/pull/14)**;
+do not create a new PR. The checkout was clean, fetch succeeded, and current
+`origin/main` remains `7af7e45`. Production code remains unchanged in this repair.
+
+Failed [CI run 40680245061](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/40680245061)
+at `0233ad1`: **274 passed, one Thai language test failed**. The test created a
+random character through the real new-life form, then always expected a visible
+choice-outcome region and +3 knowledge. The failing CI character had academic
+talent (+3.75 knowledge, displayed +4) and an immediately pending historical
+decision; the decision panel correctly takes priority over the outcome region.
+
+Reproduced deterministically: ordinary seed **0** passes the old assumptions;
+academic seed **17** fails the +3 assertion; K425 historical seed **5** fails
+the outcome-region assertion. Tests now control the birth RNG at its crypto
+boundary and verify real saved seeds/talents, exact fractional knowledge,
+localized gains, outcome-or-pending-decision focus, paused controls and reload.
+All three cases exercise the same real new-life/language flow. No application
+behavior was weakened or bypassed. Focused `language.test.tsx` passed **12/12**.
+
+Exact CI command passed: Node **22.16.0**, `CI=true`, `npm run build:vercel`
+(unmodified default workers), **277/277 tests in 43 files**, 68.89 seconds;
+TypeScript and Vite production build passed with the existing bundle warning.
+Full output is ignored at `six-faced-life/.sites-workflow/ci-local-validation.log`.
+This follow-up commit saves only the test and checkpoint/ledger changes. Push
+this same branch and verify its new-head GitHub Actions run before final handoff;
+the local test failure is fixed, remote success must still be observed.
+
 ## Talent odds and learning update — 2026-10-28
 
 **User approved implementation:** "yes, pls update it" after agreeing to a
