@@ -55,7 +55,7 @@ compounding. Existing occupation XP boundaries retain their existing destination
 - [x] Observe RED, then implement minimal learning-boundary and copy changes.
 - [x] Verify focused tests, then full `npm.cmd test -- --maxWorkers=2` and `npm run build`; inspect output and fix regressions.
 - [x] Check assessed/unassessed/ordinary states, actual learning and reload in isolated port5174 browser; inspect desktop/mobile, keyboard and console.
-- [ ] Update PRODUCT/README and CONTINUE, commit task-owned files, request fresh read-only whole-branch review, resolve findings, fetch/freshness check, push and create PR targeting main.
+- [x] Update PRODUCT/README and CONTINUE, commit task-owned files, request fresh read-only whole-branch review, resolve findings, fetch/freshness check, push and create PR targeting main.
 
 ## Execution ledger
 
@@ -68,4 +68,4 @@ compounding. Existing occupation XP boundaries retain their existing destination
 - Final fresh read-only review: no Critical/Important defects. Declined-to-judge: browser/console and final documentation were left to the implementer; the checks above and final diff inspection cover them. No required code fix pass.
 - Final minor (deferred): dedicated talent-specific paused-training resume test and physical-factor × sword-talent stacking test. Existing pause/completion guards and general factor logic were inspected; no defect found. Current tests cover same-year/completed-course noncompounding and magical-factor stacking.
 - Ruling: existing occupation magic XP destinations remain aggregate-only as before; this change boosts that existing gain without refactoring occupation learning or adding new mastery rewards.
-- Pending: final docs commit, fetch/push, new PR to main and human review.
+- Delivered: Task 1 `a5c8602`, Task 2 `003826f`, pushed to `codex/talent-learning-balance`; [PR #14](https://github.com/ny147/1-in-mushoku-tensei/pull/14) targets main and is attached. Final fetch confirms current main `7af7e45` is contained. No source work remains; human review/manual merge is next. No deployment performed.

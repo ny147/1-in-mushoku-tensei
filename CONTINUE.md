@@ -13,7 +13,8 @@ Branch **`codex/talent-learning-balance`** from clean, freshly fetched
 execution ledger: `docs/superpowers/specs/2026-10-28-talent-learning-design.md`
 and `docs/superpowers/plans/2026-10-28-talent-learning.md`.
 Task 1 commit **`a5c8602`** adds birth odds, sword flag, validation and active-only
-migration. Task 2 learning/display work and this checkpoint are saved next.
+migration. Task 2 commit **`003826f`** adds learning/display, tests and docs.
+Both are pushed on this task branch with its explicit upstream.
 
 **Implemented:** one talent maximum for new expanded births, +25% relevant
 positive gains in focus/choices/course targets/existing job XP, fractional XP,
@@ -42,10 +43,12 @@ wrapping and no reported console errors. Player 5173 storage untouched.
 Ignored fixture `.sites-workflow/talent-learning-qa.html` requires a reload
 between scenarios; it seeds disposable port5174 data only.
 
-Next delivery steps: commit Task 2/docs on this branch, final fetch/freshness,
-push explicit task branch, create its own PR to `main`, and attach the PR.
-The user reviews and merges manually. Do not merge, auto-merge, delete the
-branch or publish the playable game automatically.
+Ready-for-review **[PR #14](https://github.com/ny147/1-in-mushoku-tensei/pull/14)**
+targets `main` and is attached to this chat. Final fetch succeeded; the branch
+contains current `origin/main 7af7e45`. Local checks pass; remote checks had not
+reported at PR creation. No source work remains. Next action: review PR #14
+and merge manually. Do not merge, auto-merge, delete the branch or publish
+the playable game automatically.
 
 Usage observed around **18:27 Asia/Bangkok**: five-hour **50% remaining**, reset
 **Oct 28 18:44:08**; weekly **92% remaining**, reset **Nov 4 13:44:08**.
