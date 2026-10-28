@@ -21,7 +21,10 @@ complete; migration, custody side effects, post-K425 births and noble-versus-
 legendary-title distinctions are explicit builder calls in the proposal. No
 additional user-only question remains beyond approval of the concrete design.
 Next: get design approval, then invoke writing-plans before product implementation.
-No application tests were run for this design-only work. Usage at task start:
+Design commit **`4dcc16f`** is pushed; **[draft PR #16](https://github.com/ny147/1-in-mushoku-tensei/pull/16)**
+targets **`main`** and is attached to the chat. The branch contains current
+`origin/main 545bfad`; documentation diff and whitespace checks pass. No
+application tests were run for this design-only work. Usage at task start:
 five-hour **61% remaining**, weekly **84% remaining**. Use this same branch for
 the eventual implementation/PR; do not merge or publish automatically.
 
