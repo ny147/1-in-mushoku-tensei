@@ -72,45 +72,110 @@ describe("new-life language ownership", () => {
       audit();
     }
   });
-  it("previews Thai, creates a fixed-language life, and restores its pending decision and outcome", () => {
-    let view = render(<App />);
-    expect(screen.getByLabelText("Language / ภาษา")).toBeTruthy();
-    fireEvent.change(screen.getByLabelText("Language / ภาษา"), {
-      target: { value: "th" },
-    });
-    expect(document.documentElement.lang).toBe("th");
-    expect(
-      screen.getByText(
-        "ภาษานี้จะอยู่กับชีวิตใหม่ตลอดไป ชีวิตเดิมยังใช้ภาษาเดิม",
-      ),
-    ).toBeTruthy();
-    expect(window.localStorage.getItem(SAVE_KEY)).toBeNull();
-    expect(window.localStorage.getItem("six-faced-life.language")).toBeNull();
-    fireEvent.click(screen.getByRole("button", { name: "เริ่มชีวิตใหม่" }));
-    expect(loadGame(window.localStorage).data.active?.language).toBe("th");
-    expect(window.localStorage.getItem("six-faced-life.language")).toBe("th");
-    fireEvent.click(screen.getByRole("button", { name: "เปิดบันทึกชีวิต" }));
-    view.unmount();
-    view = render(<App />);
-    expect(document.documentElement.lang).toBe("th");
-    expect(screen.getByRole("button", { name: "เดินเวลา" })).toBeTruthy();
-    fireEvent.click(
-      screen.getByRole("button", { name: /^สังเกตบ้านใหม่/ }),
-    );
-    const result = screen.getByRole("region", { name: "ทางเลือกของคุณ" });
-    expect(within(result).getByText("ความรู้ +3")).toBeTruthy();
-    expect(document.activeElement).toBe(within(result).getByRole("heading"));
-    expect(
-      loadGame(window.localStorage).data.active?.history.at(-1)?.message?.key,
-    ).toBe("expanded.memory.observe");
-    view.unmount();
-    render(<App />);
-    expect(
-      screen.getAllByText(/คุณฟัง เรียนรู้ และค่อย ๆ ผูกพันกับบ้านใหม่/).length,
-    ).toBeGreaterThan(0);
-    expect(document.documentElement.lang).toBe("th");
-    expect(screen.queryByLabelText("Language / ภาษา")).toBeNull();
-  });
+  it.each([
+    {
+      seed: 0,
+      academic: false,
+      knowledge: 21,
+      displayedGain: 3,
+      pending: null,
+    },
+    {
+      seed: 17,
+      academic: true,
+      knowledge: 21.75,
+      displayedGain: 4,
+      pending: null,
+    },
+    {
+      seed: 5,
+      academic: false,
+      knowledge: 21,
+      displayedGain: 3,
+      pending: "expanded.succession",
+    },
+  ])(
+    "previews Thai and restores choices and outcomes for seed $seed",
+    ({ seed, academic, knowledge, displayedGain, pending }) => {
+      vi.spyOn(crypto, "getRandomValues").mockImplementation((array) => {
+        if (array instanceof Uint32Array) array.fill(seed);
+        return array;
+      });
+      let view = render(<App />);
+      expect(screen.getByLabelText("Language / ภาษา")).toBeTruthy();
+      fireEvent.change(screen.getByLabelText("Language / ภาษา"), {
+        target: { value: "th" },
+      });
+      expect(document.documentElement.lang).toBe("th");
+      expect(
+        screen.getByText(
+          "ภาษานี้จะอยู่กับชีวิตใหม่ตลอดไป ชีวิตเดิมยังใช้ภาษาเดิม",
+        ),
+      ).toBeTruthy();
+      expect(window.localStorage.getItem(SAVE_KEY)).toBeNull();
+      expect(window.localStorage.getItem("six-faced-life.language")).toBeNull();
+      fireEvent.click(screen.getByRole("button", { name: "เริ่มชีวิตใหม่" }));
+      const birth = loadGame(window.localStorage).data.active;
+      expect(birth?.language).toBe("th");
+      expect(birth?.seed).toBe(seed);
+      if (birth?.ruleset !== "expanded-1") throw Error("expanded");
+      expect(birth.expansion.genetics.academicTalent).toBe(academic);
+      expect(window.localStorage.getItem("six-faced-life.language")).toBe("th");
+      fireEvent.click(screen.getByRole("button", { name: "เปิดบันทึกชีวิต" }));
+      view.unmount();
+      view = render(<App />);
+      expect(document.documentElement.lang).toBe("th");
+      expect(screen.getByRole("button", { name: "เดินเวลา" })).toBeTruthy();
+      fireEvent.click(screen.getByRole("button", { name: /^สังเกตบ้านใหม่/ }));
+      const stored = loadGame(window.localStorage).data.active;
+      expect(stored?.stats.knowledge).toBe(knowledge);
+      expect(stored?.pending).toBe(pending);
+      expect(screen.getByRole("status").textContent).toContain(
+        `ความรู้ +${displayedGain}`,
+      );
+      if (pending) {
+        expect(
+          screen.queryByRole("region", { name: "ทางเลือกของคุณ" }),
+        ).toBeNull();
+        expect(document.activeElement).toBe(
+          screen.getByRole("heading", {
+            name: "ความขัดแย้งสืบราชบัลลังก์อัสรา",
+          }),
+        );
+        expect(
+          screen
+            .getByRole("button", { name: "+1 ปี" })
+            .hasAttribute("disabled"),
+        ).toBe(true);
+      } else {
+        const result = screen.getByRole("region", { name: "ทางเลือกของคุณ" });
+        expect(
+          within(result).getByText(`ความรู้ +${displayedGain}`),
+        ).toBeTruthy();
+        expect(document.activeElement).toBe(
+          within(result).getByRole("heading"),
+        );
+      }
+      expect(
+        loadGame(window.localStorage).data.active?.history.at(-1)?.message?.key,
+      ).toBe("expanded.memory.observe");
+      view.unmount();
+      render(<App />);
+      expect(loadGame(window.localStorage).data.active?.pending).toBe(pending);
+      if (pending)
+        expect(
+          screen.getByRole("heading", {
+            name: "ความขัดแย้งสืบราชบัลลังก์อัสรา",
+          }),
+        ).toBeTruthy();
+      expect(
+        screen.getAllByText(/คุณฟัง เรียนรู้ และค่อย ๆ ผูกพันกับบ้านใหม่/)
+          .length,
+      ).toBeGreaterThan(0);
+      expect(document.documentElement.lang).toBe("th");
+      expect(screen.queryByLabelText("Language / ภาษา")).toBeNull();
+    },
+  );
 
   it("cancels a Thai preview without changing an English life or its save", () => {
     saveGame(window.localStorage, {

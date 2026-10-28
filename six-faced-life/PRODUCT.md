@@ -12,10 +12,16 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
-- Completed talent assessments show the saved score and identified exceptional
-  magical/academic talent in chronicle details and the character's Natural
-  aptitude. Unassessed lives keep potential hidden; ordinary results explain
-  that practice can still develop skills. English and Thai are supported.
+- New expanded lives roll one talent: 20% magical, 20% academic, 20%
+  swordsmanship, or 40% none. Relevant positive magic/sword experience or
+  knowledge learning gains increase by 25%, including practice, choices,
+  course skill milestones and existing job skill gains. No talent is required
+  for ordinary work. Existing lives retain their original talents without rerolls.
+- Completed talent assessments show the saved score, identified talent and
+  learning bonus in chronicle details and the character's Natural aptitude.
+  Unassessed lives keep potential hidden; ordinary results explain that practice
+  can still develop skills. English and Thai are supported. Sword talent alone
+  does not grant the academic assessment bonus or university scholarship.
 
 - Expanded careers have reliable direct access for qualified ordinary applicants
   and optional beginner training for all ten ordinary roles. Full-time training

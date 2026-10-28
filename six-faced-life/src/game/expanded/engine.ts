@@ -13,7 +13,7 @@ import { MAGIC_SCHOOLS } from "../progression";
 import { applyCareerYear } from "./careers";
 import { applyHistoryYear } from "./history";
 import { applyFamilyYear } from "./family";
-import { trainingMultiplier } from "./genetics";
+import { talentMultiplier, trainingMultiplier } from "./genetics";
 import { applyPoliticalYear, factionEligible } from "./politics";
 import { buildSummary } from "./summary";
 function syncLearning(life: ExpandedLife, magicXp = 0) {
@@ -80,11 +80,19 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   next.coins = clamp(next.coins + (c.coins ?? 0), 0, 1_000_000);
   for (const [k, v] of Object.entries(c.effects ?? {}))
     next.stats[k as keyof typeof next.stats] = clamp(
-      next.stats[k as keyof typeof next.stats] + v,
+      next.stats[k as keyof typeof next.stats] +
+        v *
+          (k === "knowledge" && v > 0 ? talentMultiplier(next, "academic") : 1),
     );
-  next.training.magicXp += c.magicXp ?? 0;
-  next.training.swordXp += c.swordXp ?? 0;
-  syncLearning(next, c.magicXp ?? 0);
+  const magicGain =
+    (c.magicXp ?? 0) *
+    ((c.magicXp ?? 0) > 0 ? talentMultiplier(next, "magic") : 1);
+  const swordGain =
+    (c.swordXp ?? 0) *
+    ((c.swordXp ?? 0) > 0 ? talentMultiplier(next, "sword") : 1);
+  next.training.magicXp += magicGain;
+  next.training.swordXp += swordGain;
+  syncLearning(next, magicGain);
   const cause = applyExpandedChoice(next, id);
   next.expansion.economy.peak = Math.max(
     next.expansion.economy.peak,
@@ -139,7 +147,9 @@ function year(life: ExpandedLife) {
   const focus = FOCUSES[life.focus];
   for (const [k, v] of Object.entries(focus.effects))
     life.stats[k as keyof typeof life.stats] = clamp(
-      life.stats[k as keyof typeof life.stats] + v,
+      life.stats[k as keyof typeof life.stats] +
+        v *
+          (k === "knowledge" && v > 0 ? talentMultiplier(life, "academic") : 1),
     );
   life.training.magicXp +=
     (focus.magic ?? 0) * trainingMultiplier(life, "magic");

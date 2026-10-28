@@ -74,6 +74,7 @@ const genetics = (v: unknown) =>
     "magicTalent",
     "academicTalent",
   ].every((k) => bool(v[k])) &&
+  (v.swordTalent === undefined || bool(v.swordTalent)) &&
   one(v.manifestation, ["none", "mana", "appearance", "physical"]) &&
   (v.carrier ? v.manifestation !== "none" : v.manifestation === "none") &&
   (!v.auraImpaired || v.manifestation === "mana") &&

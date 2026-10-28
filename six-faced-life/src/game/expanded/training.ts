@@ -17,6 +17,7 @@ import {
 import { appoint } from "./careers";
 import { requirement, type Requirement } from "./education";
 import { fact, worldYear } from "./facts";
+import { talentMultiplier } from "./genetics";
 export interface TrainingQuote extends EducationQuote {
   mode: TrainingMode;
   remainingYears: number;
@@ -34,9 +35,24 @@ export function quoteTraining(
   const t = l.expansion.training ?? emptyTraining(l.expansion.birthYear),
     c = ordinaryEntry(role),
     r = t.records[role];
-  const unused = t.active ? l.expansion.finance?.purposes[t.active]?.reserved : undefined;
+  const unused = t.active
+    ? l.expansion.finance?.purposes[t.active]?.reserved
+    : undefined;
   // A quote previews refunds without cloning the chronicle, relatives or RNG state.
-  const preview: ExpandedLife = { ...l, coins: Math.min(1_000_000,l.coins+(unused?.personal??0)), expansion: { ...l.expansion, economy: { ...l.expansion.economy, familyFunds: Math.min(1_000_000,l.expansion.economy.familyFunds+(unused?.family??0)) } } };
+  const preview: ExpandedLife = {
+    ...l,
+    coins: Math.min(1_000_000, l.coins + (unused?.personal ?? 0)),
+    expansion: {
+      ...l.expansion,
+      economy: {
+        ...l.expansion.economy,
+        familyFunds: Math.min(
+          1_000_000,
+          l.expansion.economy.familyFunds + (unused?.family ?? 0),
+        ),
+      },
+    },
+  };
   const remainingUnits = c.units - r.units;
   const school =
     r.school ??
@@ -152,9 +168,18 @@ export function applyTrainingYear(l: ExpandedLife): void {
   if (c.health && l.stats.health > 0)
     l.stats.health = Math.max(l.stats.health, target(c.health));
   if (c.knowledge)
-    l.stats.knowledge = Math.max(l.stats.knowledge, target(c.knowledge));
+    l.stats.knowledge = Math.min(
+      100,
+      Math.max(
+        l.stats.knowledge,
+        target(c.knowledge) * talentMultiplier(l, "academic"),
+      ),
+    );
   if (c.sword)
-    l.training.swordXp = Math.max(l.training.swordXp, target(c.sword));
+    l.training.swordXp = Math.max(
+      l.training.swordXp,
+      target(c.sword) * talentMultiplier(l, "sword"),
+    );
   if (c.trust)
     l.expansion.standing.trust = Math.max(
       l.expansion.standing.trust,
@@ -172,7 +197,10 @@ export function applyTrainingYear(l: ExpandedLife): void {
   if (c.magic && r.school) {
     l.progression = getProgression(l);
     const track = l.progression.magic[r.school],
-      gain = Math.max(0, target(c.magic) - track.xp);
+      gain = Math.max(
+        0,
+        target(c.magic) * talentMultiplier(l, "magic") - track.xp,
+      );
     track.xp += gain;
     l.training.magicXp += gain;
     for (const spell of MAGIC_SCHOOLS[r.school].spells)

@@ -108,8 +108,9 @@ components:
 
 # Design System: Six-Faced Life
 
-Completed talent assessments display the saved score and identified magical or
-academic talent as plain text in life details and Natural aptitude. Unassessed
+Completed talent assessments display the saved score and identified magical,
+academic or swordsmanship talent, including its +25% learning bonus, as plain
+text in life details and Natural aptitude. Unassessed
 and ordinary results have explicit English/Thai labels; they reuse the existing
 type, spacing and responsive reading order.
 

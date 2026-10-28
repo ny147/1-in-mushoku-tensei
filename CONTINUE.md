@@ -1,5 +1,89 @@
 # Save point — Six-Faced Life
 
+## PR #14 CI repair — 2026-10-28
+
+User reported CI failure. Continue on **`codex/talent-learning-balance`** and
+the existing **[PR #14](https://github.com/ny147/1-in-mushoku-tensei/pull/14)**;
+do not create a new PR. The checkout was clean, fetch succeeded, and current
+`origin/main` remains `7af7e45`. Production code remains unchanged in this repair.
+
+Failed [CI run 40680245061](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/40680245061)
+at `0233ad1`: **274 passed, one Thai language test failed**. The test created a
+random character through the real new-life form, then always expected a visible
+choice-outcome region and +3 knowledge. The failing CI character had academic
+talent (+3.75 knowledge, displayed +4) and an immediately pending historical
+decision; the decision panel correctly takes priority over the outcome region.
+
+Reproduced deterministically: ordinary seed **0** passes the old assumptions;
+academic seed **17** fails the +3 assertion; K425 historical seed **5** fails
+the outcome-region assertion. Tests now control the birth RNG at its crypto
+boundary and verify real saved seeds/talents, exact fractional knowledge,
+localized gains, outcome-or-pending-decision focus, paused controls and reload.
+All three cases exercise the same real new-life/language flow. No application
+behavior was weakened or bypassed. Focused `language.test.tsx` passed **12/12**.
+
+Exact CI command passed: Node **22.16.0**, `CI=true`, `npm run build:vercel`
+(unmodified default workers), **277/277 tests in 43 files**, 68.89 seconds;
+TypeScript and Vite production build passed with the existing bundle warning.
+Full output is ignored at `six-faced-life/.sites-workflow/ci-local-validation.log`.
+This follow-up commit saves only the test and checkpoint/ledger changes. Push
+this same branch and verify its new-head GitHub Actions run before final handoff;
+the local test failure is fixed, remote success must still be observed.
+
+## Talent odds and learning update — 2026-10-28
+
+**User approved implementation:** "yes, pls update it" after agreeing to a
+single categorical birth roll (20% magic, 20% academic, 20% swordsmanship,
+40% none) and +25% relevant learning. ADHD response preferences remain active;
+keep updates short and concrete. The earlier career-difficulty discussion is
+not authorization for any additional career rebalance.
+
+Branch **`codex/talent-learning-balance`** from clean, freshly fetched
+**`origin/main 7af7e45`** (talent-display PR #13 is merged). Design and detailed
+execution ledger: `docs/superpowers/specs/2026-10-28-talent-learning-design.md`
+and `docs/superpowers/plans/2026-10-28-talent-learning.md`.
+Task 1 commit **`a5c8602`** adds birth odds, sword flag, validation and active-only
+migration. Task 2 commit **`003826f`** adds learning/display, tests and docs.
+Both are pushed on this task branch with its explicit upstream.
+
+**Implemented:** one talent maximum for new expanded births, +25% relevant
+positive gains in focus/choices/course targets/existing job XP, fractional XP,
+EN/TH labels and bonus disclosure after assessment. Magic/academic assessment
+and scholarship rules remain; sword alone gives neither. No-talent ordinary
+careers, course length/funding and legacy simulation remain unchanged.
+Existing flags (including old dual talents) stay; missing sword=false migration
+consumes no random state. Old archive snapshots stay unchanged. Retained birth
+draw count preserves unrelated RNG alignment; no retrospective XP grants.
+
+**Fresh checks:** 3 birth/save tests failed before implementation, then
+30/30 focused tests passed. 10 learning and 2 sword-display cases failed before
+their implementation, then focused tests passed. Full **275/275 tests in 43
+files passed** via `npm.cmd test -- --maxWorkers=2`, 82.12 seconds.
+**`npm run build` passed** with the existing >500kB bundle warning.
+Fresh read-only reviewer found no blocking defects. Two nonblocking extra-test
+opportunities remain: dedicated talent+pause/resume and physical-factor+sword
+stacking tests; existing guards and multiplier paths were inspected.
+
+**Isolated browser QA (5174):** English magic/academic and Thai sword assessment,
+hidden-before-assessment state, ordinary result, 1280px desktop/360px mobile,
+keyboard assessment/outcome focus, character navigation, saved magic/water XP
+11.25, sword XP 11.25, academic study +5 knowledge, ordinary magic/water XP 9,
+and paused normal-app reload retaining talent and fraction. Readable mobile
+wrapping and no reported console errors. Player 5173 storage untouched.
+Ignored fixture `.sites-workflow/talent-learning-qa.html` requires a reload
+between scenarios; it seeds disposable port5174 data only.
+
+Ready-for-review **[PR #14](https://github.com/ny147/1-in-mushoku-tensei/pull/14)**
+targets `main` and is attached to this chat. Final fetch succeeded; the branch
+contains current `origin/main 7af7e45`. Local checks pass; remote checks had not
+reported at PR creation. No source work remains. Next action: review PR #14
+and merge manually. Do not merge, auto-merge, delete the branch or publish
+the playable game automatically.
+
+Usage observed around **18:27 Asia/Bangkok**: five-hour **50% remaining**, reset
+**Oct 28 18:44:08**; weekly **92% remaining**, reset **Nov 4 13:44:08**.
+No billing or reset-credit actions were taken.
+
 ## Talent assessment display fix — 2026-10-27
 
 User reported talent missing after taking the assessment. New task branch:

@@ -26,6 +26,8 @@ export interface Genetics {
   signs: boolean;
   magicTalent: boolean;
   academicTalent: boolean;
+  /** Missing in older saves; migrates to false without rerolling. */
+  swordTalent?: boolean;
 }
 export interface Relative {
   id: string;
