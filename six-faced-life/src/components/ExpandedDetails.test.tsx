@@ -11,6 +11,47 @@ import { isLife } from "../game/storage";
 import { appointmentAvailable } from "../game/expanded/events";
 afterEach(cleanup);
 describe("expanded chronicle details", () => {
+  it.each(["en", "th"] as const)(
+    "reveals sword talent and its learning bonus only after assessment in %s",
+    (language) => {
+      const l = createExpandedLife({ seed: 1, language });
+      l.phase = "alive";
+      l.age = 8;
+      Object.assign(l.expansion.genetics, {
+        magicTalent: false,
+        academicTalent: false,
+        swordTalent: true,
+      });
+      const view = render(
+        <LanguageProvider language={language}>
+          <ExpandedDetails life={l} />
+        </LanguageProvider>,
+      );
+      expect(
+        screen.queryByText(/Swordsmanship talent|พรสวรรค์ด้านดาบ/),
+      ).toBeNull();
+      expect(screen.queryByText(/25%/)).toBeNull();
+      l.pending = "expanded.assessment";
+      const assessed = choose(l, "expanded.assessment.take");
+      view.rerender(
+        <LanguageProvider language={language}>
+          <ExpandedDetails life={assessed as typeof l} />
+        </LanguageProvider>,
+      );
+      expect(
+        screen.getByText(
+          language === "en"
+            ? /Swordsmanship talent \(\+25% sword experience\)/
+            : /พรสวรรค์ด้านดาบ \(ประสบการณ์ดาบ \+25%\)/,
+        ),
+      ).toBeTruthy();
+      expect(
+        screen.queryByText(
+          /Magical talent|Academic talent|No special talent identified/,
+        ),
+      ).toBeNull();
+    },
+  );
   it.each(["magic", "academic"] as const)(
     "only identifies the assessed %s talent",
     (talent) => {
@@ -18,15 +59,16 @@ describe("expanded chronicle details", () => {
       l.expansion.education.assessed = true;
       l.expansion.genetics.magicTalent = talent === "magic";
       l.expansion.genetics.academicTalent = talent === "academic";
+      l.expansion.genetics.swordTalent = false;
       render(
         <LanguageProvider language="en">
           <ExpandedDetails life={l} />
         </LanguageProvider>,
       );
-      expect(screen.queryByText(/Exceptional magical talent/) !== null).toBe(
+      expect(screen.queryByText(/Magical talent/) !== null).toBe(
         talent === "magic",
       );
-      expect(screen.queryByText(/Exceptional academic talent/) !== null).toBe(
+      expect(screen.queryByText(/Academic talent/) !== null).toBe(
         talent === "academic",
       );
     },
@@ -41,6 +83,7 @@ describe("expanded chronicle details", () => {
       l.training.magicXp = 0;
       l.expansion.genetics.magicTalent = true;
       l.expansion.genetics.academicTalent = true;
+      l.expansion.genetics.swordTalent = false;
       l.pending = "expanded.assessment";
       const assessed = choose(l, "expanded.assessment.take");
       const restored = JSON.parse(JSON.stringify(assessed));
@@ -74,16 +117,12 @@ describe("expanded chronicle details", () => {
       ).toBeGreaterThan(0);
       expect(
         screen.getAllByText(
-          language === "en"
-            ? /Exceptional magical talent/
-            : /พรสวรรค์พิเศษด้านเวทมนตร์/,
+          language === "en" ? /Magical talent/ : /พรสวรรค์ด้านเวทมนตร์/,
         ).length,
       ).toBeGreaterThan(0);
       expect(
         screen.getAllByText(
-          language === "en"
-            ? /Exceptional academic talent/
-            : /พรสวรรค์พิเศษด้านวิชาการ/,
+          language === "en" ? /Academic talent/ : /พรสวรรค์ด้านวิชาการ/,
         ).length,
       ).toBeGreaterThan(0);
       expect(screen.queryByText(/See recorded assessments/)).toBeNull();
@@ -96,6 +135,7 @@ describe("expanded chronicle details", () => {
       const l = createExpandedLife({ seed: 1, language });
       l.expansion.genetics.magicTalent = true;
       l.expansion.genetics.academicTalent = true;
+      l.expansion.genetics.swordTalent = false;
       const view = render(
         <LanguageProvider language={language}>
           <ExpandedDetails life={l} />
@@ -107,9 +147,7 @@ describe("expanded chronicle details", () => {
         ),
       ).toBeTruthy();
       expect(
-        screen.queryByText(
-          /Exceptional magical|Exceptional academic|พรสวรรค์พิเศษด้าน/,
-        ),
+        screen.queryByText(/Magical talent|Academic talent|พรสวรรค์ด้าน/),
       ).toBeNull();
       l.expansion.education.assessed = true;
       l.expansion.education.assessment = 0;
@@ -130,8 +168,8 @@ describe("expanded chronicle details", () => {
       expect(
         screen.getByText(
           language === "en"
-            ? /No exceptional magical or academic talent identified/
-            : /ไม่พบพรสวรรค์พิเศษด้านเวทมนตร์หรือวิชาการ/,
+            ? /No special talent identified/
+            : /ไม่พบพรสวรรค์พิเศษ/,
         ),
       ).toBeTruthy();
     },

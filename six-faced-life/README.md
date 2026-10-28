@@ -45,6 +45,18 @@ explicit extreme-survival start: approximately 90% mortality before 15 under the
 documented typical policy, improved by protection and care. These are authored
 game-balance choices, not setting statistics.
 
+Each new expanded character rolls one talent: **20% magic, 20% academic, 20%
+swordsmanship, 40% none**. Talent grants **25% more relevant positive learning**:
+magic experience, knowledge gains or sword experience, with fractional progress
+preserved. This applies to focus, learning choices, course skill milestones and
+existing job skill gains; course attendance length and costs stay the same.
+Inherited-factor annual-practice bonuses combine multiplicatively with talent.
+Take the free assessment to reveal the talent and bonus in EN/TH. Ordinary
+characters can still train and enter careers. Magic/academic scholarship rules
+remain; sword talent alone does not qualify for a university scholarship.
+Old expanded saves retain their existing flags (including dual talents), missing
+sword flags become false on active-save restoration, and no progress is rerolled.
+
 Food, shelter, care, dependants, education and travel consume resources. Children
 receive household support rather than adult wages. Warnings identify unmet needs.
 From age 15, qualified applicants can enter ordinary work immediately; knight and

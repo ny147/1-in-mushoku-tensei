@@ -7,6 +7,7 @@ import { requirement, type Requirement } from "./education";
 import { fact, worldYear } from "./facts";
 import { clamp } from "./random";
 import { getProgression } from "../progression";
+import { talentMultiplier } from "./genetics";
 export function careerRequirements(
   l: ExpandedLife,
   role: Occupation,
@@ -210,10 +211,10 @@ export function applyCareerYear(l: ExpandedLife, attendingFullTime = false) {
   x.standing.reputation = clamp(x.standing.reputation + 0.7);
   if (["guard", "knight"].includes(x.career.role)) {
     x.standing.service++;
-    l.training.swordXp += 5;
+    l.training.swordXp += 5 * talentMultiplier(l, "sword");
   }
   if (["mage", "healer", "cleric", "professor"].includes(x.career.role))
-    l.training.magicXp += 4;
+    l.training.magicXp += 4 * talentMultiplier(l, "magic");
   if (x.career.role === "cleric")
     x.standing.trust = clamp(x.standing.trust + 2);
 }

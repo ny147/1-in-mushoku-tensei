@@ -33,10 +33,10 @@ Files: `expanded/genetics.ts`, `expanded/types.ts`, `expanded/validation.ts`,
 Interfaces: `talentMultiplier(life: ExpandedLife, kind: "magic" | "sword" | "academic"): number`;
 `migrateTalents(life: ExpandedLife): ExpandedLife`. Optional `Genetics.swordTalent: boolean`.
 
-- [ ] Write failing deterministic birth/distribution tests (10,000 seeds; each talent 18–22%, none 38–42%, never >1), RNG alignment and old-save restoration/malformed flag tests.
-- [ ] Observe failures using `npm.cmd test -- --maxWorkers=2 src/game/expanded/talents.test.ts`.
-- [ ] Implement categorical generation, shared multiplier, validator and active-only nonrandom migration; preserve old flags and archives.
-- [ ] Verify focused tests; commit task files.
+- [x] Write failing deterministic birth/distribution tests (10,000 seeds; each talent 18–22%, none 38–42%, never >1), RNG alignment and old-save restoration/malformed flag tests.
+- [x] Observe failures using `npm.cmd test -- --maxWorkers=2 src/game/expanded/talents.test.ts`.
+- [x] Implement categorical generation, shared multiplier, validator and active-only nonrandom migration; preserve old flags and archives.
+- [x] Verify focused tests; commit task files.
 
 ## Task 2: Learning benefits and assessment
 
@@ -50,11 +50,11 @@ knowledge gains use the academic multiplier; negative effects remain unchanged.
 Training computes boosted targets from baseline milestone targets to avoid
 compounding. Existing occupation XP boundaries retain their existing destinations.
 
-- [ ] Write failing integration tests: annual magic 9→11.25 with selected-school parity, sword 9→11.25, study knowledge 4→5 and cap100, choice XP12→15, unrelated/no-talent behavior, factor stacking, course targets 30→37.5 without repeated credit, work gains4→5/5→6.25, old-save reload equivalence.
-- [ ] Add EN/TH sword assessment/name/+25% output and hidden-before-assessed tests. Keep restored double talent coverage; explicitly clear all three flags in ordinary fixtures.
-- [ ] Observe RED, then implement minimal learning-boundary and copy changes.
-- [ ] Verify focused tests, then full `npm.cmd test -- --maxWorkers=2` and `npm run build`; inspect output and fix regressions.
-- [ ] Check assessed/unassessed/ordinary states, actual learning and reload in isolated port5174 browser; inspect desktop/mobile, keyboard and console.
+- [x] Write failing integration tests: annual magic 9→11.25 with selected-school parity, sword 9→11.25, study knowledge 4→5 and cap100, choice XP12→15, unrelated/no-talent behavior, factor stacking, course targets 30→37.5 without repeated credit, work gains4→5/5→6.25, old-save reload equivalence.
+- [x] Add EN/TH sword assessment/name/+25% output and hidden-before-assessed tests. Keep restored double talent coverage; explicitly clear all three flags in ordinary fixtures.
+- [x] Observe RED, then implement minimal learning-boundary and copy changes.
+- [x] Verify focused tests, then full `npm.cmd test -- --maxWorkers=2` and `npm run build`; inspect output and fix regressions.
+- [x] Check assessed/unassessed/ordinary states, actual learning and reload in isolated port5174 browser; inspect desktop/mobile, keyboard and console.
 - [ ] Update PRODUCT/README and CONTINUE, commit task-owned files, request fresh read-only whole-branch review, resolve findings, fetch/freshness check, push and create PR targeting main.
 
 ## Execution ledger
@@ -63,4 +63,9 @@ compounding. Existing occupation XP boundaries retain their existing destination
 - Ruling: work in the clean checkout on its required task branch, following AGENTS.md, rather than creating a separate worktree.
 - Ruling: a versioned replacement talent enum would invalidate old dual-talent lives; use an optional sword flag with active-only migration.
 - Task 1 complete: birth overlap/migration/validation failed RED, then 30/30 tests passed across talents, family and storage (1.60 seconds). 10,000 seeded protagonist births meet 20/20/20/40 bounds; old dual talents and archive snapshots survive restoration. RNG alignment is preserved.
-- Pending: Task 2 RED.
+- Task 2 complete: 10 learning regressions and 2 EN/TH sword-display cases observed failing, then focused tests passed. Full `npm.cmd test -- --maxWorkers=2` passed 275/275 tests in 43 files, 82.12 seconds; `npm run build` passed with the existing >500kB bundle warning.
+- Browser QA on isolated 5174: hidden before assessment, EN magical/academic bonuses, TH sword at 360px, no-talent baseline, keyboard assessment activation/outcome focus, character navigation, actual saved magic/water 11.25, sword 11.25, study knowledge +5, ordinary magic/water 9, and paused reload with retained result. Desktop/mobile screenshots inspected; no reported console errors or visible overflow inside the mobile game. Player 5173 storage untouched.
+- Final fresh read-only review: no Critical/Important defects. Declined-to-judge: browser/console and final documentation were left to the implementer; the checks above and final diff inspection cover them. No required code fix pass.
+- Final minor (deferred): dedicated talent-specific paused-training resume test and physical-factor × sword-talent stacking test. Existing pause/completion guards and general factor logic were inspected; no defect found. Current tests cover same-year/completed-course noncompounding and magical-factor stacking.
+- Ruling: existing occupation magic XP destinations remain aggregate-only as before; this change boosts that existing gain without refactoring occupation learning or adding new mastery rewards.
+- Pending: final docs commit, fetch/push, new PR to main and human review.

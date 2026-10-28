@@ -72,12 +72,15 @@ export function discoverGenetics(l: ExpandedLife): boolean {
 }
 export function trainingMultiplier(l: ExpandedLife, kind: "magic" | "sword") {
   const g = l.expansion.genetics;
+  const talent = talentMultiplier(l, kind);
   if (
     kind === "magic" &&
     g.manifestation === "mana" &&
     l.training.magicCap >= 1 &&
     l.expansion.economy.unmetFood === 0
   )
-    return 1.25;
-  return kind === "sword" && g.manifestation === "physical" ? 1.15 : 1;
+    return 1.25 * talent;
+  return (
+    (kind === "sword" && g.manifestation === "physical" ? 1.15 : 1) * talent
+  );
 }

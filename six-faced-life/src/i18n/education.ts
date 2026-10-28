@@ -14,17 +14,27 @@ export function talentAssessmentText(
   const talents: string[] = [];
   if (life.expansion.genetics.magicTalent)
     talents.push(
-      th ? "พรสวรรค์พิเศษด้านเวทมนตร์" : "Exceptional magical talent",
+      th
+        ? "พรสวรรค์ด้านเวทมนตร์ (ประสบการณ์เวทมนตร์ +25%)"
+        : "Magical talent (+25% magic experience)",
     );
   if (life.expansion.genetics.academicTalent)
     talents.push(
-      th ? "พรสวรรค์พิเศษด้านวิชาการ" : "Exceptional academic talent",
+      th
+        ? "พรสวรรค์ด้านวิชาการ (ความรู้ที่เรียนรู้เพิ่ม +25%)"
+        : "Academic talent (+25% knowledge gains)",
+    );
+  if (life.expansion.genetics.swordTalent)
+    talents.push(
+      th
+        ? "พรสวรรค์ด้านดาบ (ประสบการณ์ดาบ +25%)"
+        : "Swordsmanship talent (+25% sword experience)",
     );
   const result = talents.length
     ? talents.join(" · ")
     : th
-      ? "ไม่พบพรสวรรค์พิเศษด้านเวทมนตร์หรือวิชาการ ยังพัฒนาทักษะได้ด้วยการฝึกฝน"
-      : "No exceptional magical or academic talent identified. Practice can still develop your skills.";
+      ? "ไม่พบพรสวรรค์พิเศษ ยังพัฒนาทักษะได้ด้วยการฝึกฝน"
+      : "No special talent identified. Practice can still develop your skills.";
   const score = life.expansion.education.assessment;
   return `${th ? "คะแนนประเมิน" : "Assessment score"}: ${score} / 100 · ${result}`;
 }
