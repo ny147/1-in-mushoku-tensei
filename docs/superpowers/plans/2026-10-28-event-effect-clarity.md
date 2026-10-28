@@ -52,7 +52,7 @@ Interface: choiceChanges(before: Life, after: Life): string[].
   old saves, localized outcome rendering and save/reload behavior.
 - [x] Extend existing feedback using actual before/after values only.
 - [x] Run full npm test and npm run build; inspect isolated browser flows.
-- [ ] Review complete diff, fix issues, update checkpoint, fetch, commit/push/PR.
+- [x] Review complete diff, fix issues, update checkpoint, fetch, commit/push/PR.
 
 ## Progress ledger
 
@@ -78,3 +78,7 @@ Interface: choiceChanges(before: Life, after: Life): string[].
   outside the changed rules. New effects use existing ink and inherited type.
 - Fresh origin/main remains 417e272; branch includes it. Usage at 19:21 Bangkok:
   five-hour 67% remaining; weekly 85% remaining. Delivery/checkpoint below.
+- Implementation 9422c9a pushed on codex/event-effect-clarity. PR #15 targets main,
+  is ready for human review and attached to the chat. Local checks pass; remote CI
+  is pending observation. Documentation follow-up records delivery. No remaining
+  source work, no deferred reviewer findings; user merges manually. No deployment.
