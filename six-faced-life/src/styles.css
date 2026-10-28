@@ -653,6 +653,15 @@ button svg {
 .time-step:hover:not(:disabled) {
   color: var(--gold);
 }
+.choice .choice-effects {
+  color: var(--ink);
+  margin-top: 6px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.choice-effects b {
+  font-weight: 600;
+}
 .next-decision {
   display: flex;
   gap: 7px;

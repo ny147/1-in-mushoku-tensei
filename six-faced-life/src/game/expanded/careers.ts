@@ -155,6 +155,16 @@ export function careerIncomeExpanded(l: ExpandedLife): number {
     (PAY[c.role] > 0 ? [0, 8, 18, 32][c.records[c.role].level] : 0)
   );
 }
+/** Annual earnings before necessities, shared by accounting and choice feedback. */
+export function annualIncomeExpanded(l: ExpandedLife): number {
+  if (l.age < 15 || l.expansion.education.stage === "university") return 0;
+  const t = l.expansion.training;
+  if (t?.active && !t.paused && t.mode === "full-time") return 24;
+  return (
+    careerIncomeExpanded(l) +
+    (l.focus === "work" && PAY[l.expansion.career.role] > 0 ? 6 : 0)
+  );
+}
 export function promotionReady(l: ExpandedLife) {
   const c = l.expansion.career.records[l.expansion.career.role],
     level = c.level;

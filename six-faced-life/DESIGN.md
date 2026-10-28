@@ -277,7 +277,16 @@ visible before commitment, with any affordability shortfall separately stated.
 
 Time controls sit above the chronicle. Speeds are 1×, 2×, 4×, and 8×, with an explicit pressed state and 44px minimum targets. The button names its action, Play or Pause; separate guidance distinguishes paused, moving, waiting for a manual choice, and Watch mode choosing automatically. Review choices focuses and scrolls to the blocking decision. The manual-step tooltips explain that year advance stops early for a decision and next-decision advance searches up to twelve years per activation. A pending decision blocks both advancement buttons. Watch mode has an adjacent explanation that it makes choices while time plays. Hidden tabs suspend both timed progression and automatic choices; reload starts paused.
 
-A manual choice leaves its actual narrative outcome and actual rounded stat/experience/silver changes in a sage paper section where the choice was. The heading receives focus, a polite live region announces the result, and Continue to next decision provides a direct next action. Capped gains and failed risks use actual before/after state, never the promised reward. This transient feedback does not alter saves; the permanent result remains in the chronicle. Timed playback can continue while the result is visible; a new decision or manual time step supersedes it. Automatic choices do not move focus or announce every tick.
+A manual choice leaves its actual narrative outcome and actual stat/experience/silver changes in a sage paper section where the choice was. Show fractional gains to at most two decimal places. Also confirm changed protection/aid expiry, focus, education, job/income, reputation/trust, faction obligations, relationships and education debt from the before/after state. When nothing changes immediately, say so explicitly. The heading receives focus, a polite live region announces the result, and Continue to next decision provides a direct next action. Capped gains and failed risks use actual before/after state, never the promised reward. This transient feedback does not alter saves; the permanent result remains in the chronicle. Timed playback can continue while the result is visible; a new decision or manual time step supersedes it. Automatic choices do not move focus or announce every tick.
+
+Choice rows retain their narrative and existing fee/requirement text, with a
+compact **Effects** line underneath in ink (12px inherited choice copy, 1.65 line
+height, 6px top separation, wrapping at narrow widths). English and Thai explicitly
+name immediate gains, duration/expiry, persistent focus switches, yearly family
+costs, job base pay and conditional rewards. Unassessed learning is labeled as
+base gain without exposing latent talent. A challenge's danger marker is never
+presented as a fatal probability: quote its real win odds and loss consequences.
+Navigation and declines explain that no offer has been accepted yet.
 
 Playback, mobile navigation, history filters and study controls have 44px minimum touch height; speed buttons are also at least 44px wide. Mobile choice descriptions and pause reassurance are 12px, and choice titles are 14px. Narrow-phone maps hide tiny overlaid region buttons and retain the existing readable region list. The menu exposes its expanded/controlled state and Escape restores focus to its toggle. Page navigation moves focus to the new h1; completed-life content uses a subordinate heading, and ended timelines stop at their final year without future labels.
 

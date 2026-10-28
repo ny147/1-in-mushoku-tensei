@@ -84,7 +84,7 @@ describe("new-life language ownership", () => {
       seed: 17,
       academic: true,
       knowledge: 21.75,
-      displayedGain: 4,
+      displayedGain: 3.75,
       pending: null,
     },
     {

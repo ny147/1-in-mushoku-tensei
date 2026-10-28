@@ -1,7 +1,8 @@
 import { useI18n } from "../i18n/context";
-import type { Life, Stat } from "../game/types";
+import type { Life } from "../game/types";
 import { entryText } from "../i18n/story";
 import { translate } from "../i18n/messages";
+import { choiceChanges } from "../i18n/choice-changes";
 
 export interface ChoiceResult {
   lifeId: string;
@@ -16,35 +17,13 @@ export function describeChoice(before: Life, after: Life): ChoiceResult {
     .find((item) => item.kind === "choice" || item.kind === "memory");
   const language = after.language ?? "en";
   const localized = entry ? entryText(entry, language) : null;
-  const stats: [Stat, string][] = [
-    ["health", "Health"],
-    ["happiness", "Happiness"],
-    ["knowledge", "Knowledge"],
-    ["bonds", "Bonds"],
-    ["mana", "Mana"],
-    ["sword", "Sword skill"],
-  ];
-  const values: [string, number][] = stats.map(([key, label]) => [
-    label,
-    Math.round(after.stats[key]) - Math.round(before.stats[key]),
-  ]);
-  values.push(
-    ["Silver", after.coins - before.coins],
-    ["Magic experience", after.training.magicXp - before.training.magicXp],
-    ["Sword experience", after.training.swordXp - before.training.swordXp],
-  );
   return {
     lifeId: after.id,
     title: localized?.title ?? translate(language, "Your choice"),
     text:
       localized?.text ??
       translate(language, "Your choice becomes part of your story."),
-    changes: values
-      .filter(([, amount]) => amount !== 0)
-      .map(
-        ([label, amount]) =>
-          `${translate(language, label)} ${amount > 0 ? "+" : "−"}${Math.abs(amount)}`,
-      ),
+    changes: choiceChanges(before, after),
   };
 }
 

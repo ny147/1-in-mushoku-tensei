@@ -1,12 +1,11 @@
 import { consumeEducation } from "./education-finance";
-import { fullTimeTraining } from "./training";
 import { ordinaryEntry } from "./career-access";
 import type { EducationYear } from "./education-finance";
 import type { ExpandedLife } from "../types";
-import { HAZARDS, PAY } from "./balance";
+import { HAZARDS } from "./balance";
 import { worldYear, fact } from "./facts";
 import { clamp, draw } from "./random";
-import { careerIncomeExpanded } from "./careers";
+import { annualIncomeExpanded } from "./careers";
 import { regionalConflict } from "./history";
 export interface Risk {
   cause: string;
@@ -16,14 +15,7 @@ export function applyEconomyYear(life: ExpandedLife): EducationYear {
   const x = life.expansion,
     e = x.economy,
     year = worldYear(life);
-  const role = x.career.role;
-  const income =
-    life.age < 15 || x.education.stage === "university"
-      ? 0
-      : fullTimeTraining(life)
-        ? 24
-        : careerIncomeExpanded(life) +
-          (life.focus === "work" && PAY[role] > 0 ? 6 : 0);
+  const income = annualIncomeExpanded(life);
   const children = x.family.people.filter(
     (p) => p.role === "child" && p.died === null && year - p.born < 18,
   ).length;
@@ -33,9 +25,8 @@ export function applyEconomyYear(life: ExpandedLife): EducationYear {
   const extras =
     children * 4 + spouses * 6 + (life.focus === "explore" ? 4 : 0) + tuition;
   let resources =
-    life.age < 15
-      ? e.support + (year <= e.aidUntil ? 12 : 0)
-      : life.coins + income;
+    (life.age < 15 ? e.support : life.coins + income) +
+    (year <= e.aidUntil ? 12 : 0);
   // Scholarships pay actual necessities, never deposit an allowance in the purse.
   if (x.education.stage === "university" && x.education.scholarship)
     resources += 18;

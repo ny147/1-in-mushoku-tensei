@@ -1,5 +1,57 @@
 # Save point — Six-Faced Life
 
+## Event effect clarity and household aid — 2026-10-28
+
+User approved the audit update: explicit EN/TH consequences before decisions and
+actual changes afterward. Branch **`codex/event-effect-clarity`** from clean,
+freshly fetched **`origin/main 417e272`**. Spec/ledger:
+`docs/superpowers/specs/2026-10-28-event-effect-clarity-design.md` and
+`docs/superpowers/plans/2026-10-28-event-effect-clarity.md`.
+
+Implemented pure, read-only Effects previews for structured legacy/expanded gains
+and expanded domain actions: caps, known talent/fractional learning, protection,
+resources, focus, instruction, careers/pay, family expenses, factions and real
+risk semantics. Unassessed gains are marked base; hidden traits stay hidden.
+Existing story/fees/quotes remain. Actual result feedback now includes domain
+changes and precise fractions rather than rounding e.g. 3.75 to 4. IDs, RNG,
+schema, playback, archive and existing lives are preserved.
+
+Household-aid bug fixed: the +12 allowance is now included once after the
+child/adult resource split, instead of only in child support. The 8-coin purchase,
+existing inclusive expiry and child purse behavior remain. Shared annual-income
+and challenge-odds helpers avoid presentation/accounting drift without changing
+their rules. Review's stipend/promotion/work-focus-income issue was reproduced
+RED then fixed GREEN. No remaining important review findings.
+
+Final checks: **302/302 tests in 45 files passed** using
+`npm.cmd test -- --maxWorkers=2` (68.35s); **`npm run build` passed**, existing
+>500kB advisory only. Aid tests cover real purchase, adults/children, age 15,
+expiry and save restore. Preview/outcome tests cover caps, fractional/hidden talent,
+Thai, danger vs fatal odds, declines, menus, old optional state and training debt.
+Impeccable detector reported pre-existing stylesheet/font/token drift; this task
+does not refresh those design records or upgrade the skill.
+
+Isolated browser QA **5174**, 1280px desktop / 360px mobile: EN community protection,
+TH child choice, readable effect wrapping, no horizontal overflow, native keyboard
+selection and outcome focus; paused reload retains chosen focus. Adult aid after
+purchase/reload consumes 8 coins, then leaves **986** after the next year's
+necessities (992 + 12 − 18), with no wages. No application console errors observed;
+one invalid disposable setup fixture was corrected before these checks. Existing
+player **5173 storage untouched**. Ignored fixture:
+`six-faced-life/.sites-workflow/event-effects-qa.html`. Screenshot:
+`C:/Users/Neary/.codex/visualizations/2026/10/28/01a1825c-dba6-7f30-ad58-5e4d28d76c87/event-effects-mobile.jpg`.
+
+Fresh fetch succeeded; branch contains **`origin/main 417e272`**. Usage at
+**19:21 Asia/Bangkok**: five-hour **67% remaining**, weekly **85% remaining**.
+No billing/reset actions. Implementation commit **`9422c9a`** is pushed with its
+explicit task upstream. Ready-for-review **[PR #15](https://github.com/ny147/1-in-mushoku-tensei/pull/15)**
+targets **`main`** and is attached to this chat. Local checks pass. Remote CI is
+pending observation; the app diagnostic connector is unavailable, so inspect the
+configured GitHub repository's Actions/checks if needed. This documentation-only
+follow-up records delivery on the same PR. Next step: review PR #15 and merge
+manually. Use this same task branch and PR for follow-ups; do not merge, auto-merge,
+delete branch or deploy automatically.
+
 ## PR #14 CI repair — 2026-10-28
 
 User reported CI failure. Continue on **`codex/talent-learning-balance`** and
