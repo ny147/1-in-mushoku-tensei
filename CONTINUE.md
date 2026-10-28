@@ -1,5 +1,39 @@
 # Save point — Six-Faced Life
 
+## Natural event timing — 2026-10-28
+
+User explicitly requested no **Continue to next decision** button: let events
+arrive as time moves. Task **`codex/natural-choice-timing`** from a clean, freshly
+fetched **`origin/main 585cf32`** (PR #16's design was merged; its gameplay is still
+unimplemented). This task removes the two existing story-panel shortcuts and
+records the same confirmed constraint in the Asura design; it does not implement
+or change the proposed Asura reward/punishment numbers.
+
+Removed continuation controls from actual-choice results and quiet-time panels,
+plus their unused callback props. EN/TH guidance points to Play above when paused.
+Existing toolbar controls remain. Playing still resumes naturally after a choice;
+paused play stays paused. No engine, RNG, save-schema or persistence changes.
+
+Three regressions failed first for the existing buttons, then passed: outcome
+waits while paused and reaches the next event through timed playback; EN/TH quiet
+panels have no shortcut. Final **304/304 tests in 45 files passed** using
+`npm.cmd test -- --maxWorkers=2` (73.97s). **`npm run build` passed**, existing
+>500kB advisory only. Read-only review found no blocking issues; Impeccable detector
+reported no findings for the changed UI components.
+
+Isolated **5174** QA: 1280px desktop / 360px mobile; EN protection result and TH
+instruction result have no continuation button; heading focus, guidance and no
+overflow verified. At 8×, ordinary Play progressed from age 25 to the age-29
+research event and waited there. Choosing while playing kept Play active; paused
+reload retained the choice and showed Thai quiet-time guidance with no shortcut.
+Screenshot: `C:/Users/Neary/.codex/visualizations/2026/10/28/01a1825c-dba6-7f30-ad58-5e4d28d76c87/natural-choice-timing-mobile.jpg`. Player 5173
+storage untouched. Application console had no warnings/errors. Usage at start:
+five-hour **51% remaining**, weekly **83% remaining**.
+
+Source work verified; commit/push/new PR targeting main is next. Preserve the
+Asura branching design as a separate pending implementation. User merges manually;
+do not deploy, auto-merge or delete branches.
+
 ## Asura succession paths — proposed design, 2026-10-28
 
 New task **`codex/asura-succession-paths`**, created from clean freshly fetched

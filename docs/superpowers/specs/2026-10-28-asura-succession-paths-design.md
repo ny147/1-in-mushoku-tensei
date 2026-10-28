@@ -11,6 +11,9 @@ Status: **proposed design, awaiting approval**. No gameplay implementation yet.
 - A winning supporter receives **a noble title and a one-time cash reward**,
   rather than an income-producing estate.
 - A losing supporter risks **imprisonment or death**.
+- **Additional user constraint:** no "Continue to next decision" button in event
+  results or quiet panels. Let the next event arrive through normal time movement.
+  Preserve the player's current Play/Pause state and explain Play when paused.
 
 ## Approaches
 

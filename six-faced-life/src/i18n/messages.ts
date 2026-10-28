@@ -191,6 +191,10 @@ export const UI_TH: Record<string, string> = {
   "Continue to next decision": "ไปยังทางเลือกถัดไป",
   "Your choice is recorded in the chronicle below.":
     "บันทึกทางเลือกของคุณไว้ในเรื่องราวด้านล่างแล้ว",
+  "The next event appears as time passes. If paused, press Play above.":
+    "เหตุการณ์ถัดไปจะปรากฏเมื่อเวลาผ่านไป หากหยุดเวลาอยู่ ให้กดเล่นด้านบน",
+  "Choose your focus below. New choices appear as time passes. If paused, press Play above.":
+    "เลือกเป้าหมายด้านล่าง ทางเลือกใหม่จะปรากฏเมื่อเวลาผ่านไป หากหยุดเวลาอยู่ ให้กดเล่นด้านบน",
   "Your condition": "สภาพของคุณ",
   "Your savings": "เงินออม",
   "The skills you carry": "ทักษะที่ติดตัว",

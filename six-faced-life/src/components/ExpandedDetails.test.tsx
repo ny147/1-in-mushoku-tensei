@@ -189,7 +189,7 @@ describe("expanded chronicle details", () => {
       }
       const view = render(
         <LanguageProvider language={language}>
-          <DecisionPanel life={l} onChoose={() => {}} onAdvance={() => {}} />
+          <DecisionPanel life={l} onChoose={() => {}} />
         </LanguageProvider>,
       );
       const merchant = screen.getByRole("button", {

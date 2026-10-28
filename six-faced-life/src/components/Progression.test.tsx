@@ -52,7 +52,7 @@ describe("visible progression", () => {
     life.coins = 300;
     life.pending = "magic-assessment";
     render(
-      <DecisionPanel life={life} onChoose={() => {}} onAdvance={() => {}} />,
+      <DecisionPanel life={life} onChoose={() => {}} />,
     );
     expect(
       (
