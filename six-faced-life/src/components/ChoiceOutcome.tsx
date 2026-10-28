@@ -27,13 +27,7 @@ export function describeChoice(before: Life, after: Life): ChoiceResult {
   };
 }
 
-export function ChoiceOutcome({
-  result,
-  onContinue,
-}: {
-  result: ChoiceResult;
-  onContinue: () => void;
-}) {
+export function ChoiceOutcome({ result }: { result: ChoiceResult }) {
   const { t } = useI18n();
 
   return (
@@ -49,11 +43,8 @@ export function ChoiceOutcome({
           ))}
         </ul>
       )}
-      <button className="button primary" onClick={onContinue}>
-        {t("Continue to next decision")}
-      </button>
       <p className="outcome-note">
-        {t("Your choice is recorded in the chronicle below.")}
+        {t("The next event appears as time passes. If paused, press Play above.")}
       </p>
     </section>
   );

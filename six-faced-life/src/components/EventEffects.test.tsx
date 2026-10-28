@@ -11,7 +11,7 @@ afterEach(cleanup);
 function show(l: Life) {
   render(
     <LanguageProvider language={l.language ?? "en"}>
-      <DecisionPanel life={l} onChoose={() => {}} onAdvance={() => {}} />
+      <DecisionPanel life={l} onChoose={() => {}} />
     </LanguageProvider>,
   );
 }

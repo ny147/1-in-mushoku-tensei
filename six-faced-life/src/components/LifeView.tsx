@@ -299,12 +299,10 @@ export function FocusPicker({
 export function DecisionPanel({
   life,
   onChoose,
-  onAdvance,
   outcome,
   automatic = false,
 }: {
   life: Life;
-  onAdvance: () => void;
   onChoose: (id: string) => void;
   outcome?: ChoiceResult | null;
   automatic?: boolean;
@@ -316,7 +314,7 @@ export function DecisionPanel({
     ? decisionText(canonicalDecision, life, life.language ?? "en")
     : null;
   if (!decision && outcome)
-    return <ChoiceOutcome result={outcome} onContinue={onAdvance} />;
+    return <ChoiceOutcome result={outcome} />;
   if (!decision)
     return (
       <section className="quiet-moment">
@@ -327,13 +325,9 @@ export function DecisionPanel({
           </h2>
           <p>
             {t(
-              "Choose your focus below, then continue to the next decision or press Play.",
+              "Choose your focus below. New choices appear as time passes. If paused, press Play above.",
             )}
           </p>
-          <button className="text-button" onClick={onAdvance}>
-            {t("Continue to next decision ")}
-            <ArrowRight size={15} />
-          </button>
         </div>
       </section>
     );
@@ -536,7 +530,6 @@ export function LifeView({
   life,
   onFocus,
   onChoose,
-  onAdvance,
   onStudyChange,
   outcome,
   automatic,
@@ -546,7 +539,6 @@ export function LifeView({
   life: Life;
   onFocus: (focus: Focus) => void;
   onChoose: (id: string) => void;
-  onAdvance: () => void;
   onStudyChange: (school: MagicSchool) => void;
   outcome?: ChoiceResult | null;
   automatic?: boolean;
@@ -609,7 +601,6 @@ export function LifeView({
         <DecisionPanel
           life={life}
           onChoose={onChoose}
-          onAdvance={onAdvance}
           outcome={outcome}
           automatic={automatic}
         />

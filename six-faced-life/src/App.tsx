@@ -784,7 +784,6 @@ export default function App() {
                   )
                 }
                 onChoose={selectChoice}
-                onAdvance={onAdvance}
                 onStudyChange={(school: MagicSchool) =>
                   updateLife((current) =>
                     current ? setSpecialization(current, school) : null,

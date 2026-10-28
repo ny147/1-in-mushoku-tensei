@@ -106,7 +106,8 @@ describe("clear next actions and recovery", () => {
     );
   });
 
-  it("shows the actual choice outcome in place with a focused next step", () => {
+  it("shows the actual outcome without a continuation button and waits for playback", () => {
+    vi.useFakeTimers();
     startPending();
     render(<App />);
     fireEvent.click(
@@ -116,13 +117,48 @@ describe("clear next actions and recovery", () => {
     expect(within(result).getByText(/You keep your secret/)).toBeTruthy();
     expect(within(result).getByText("Knowledge +8")).toBeTruthy();
     expect(document.activeElement).toBe(within(result).getByRole("heading"));
-    fireEvent.click(
-      within(result).getByRole("button", { name: "Continue to next decision" }),
-    );
+    expect(within(result).queryByRole("button")).toBeNull();
+    expect(
+      screen.getByText(
+        "The next event appears as time passes. If paused, press Play above.",
+      ),
+    ).toBeTruthy();
+    act(() => vi.advanceTimersByTime(1000));
+    expect(loadGame(window.localStorage).data.active?.age).toBe(0);
+    expect(loadGame(window.localStorage).data.active?.pending).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Play time" }));
+    act(() => vi.advanceTimersByTime(120000));
     expect(loadGame(window.localStorage).data.active?.pending).not.toBeNull();
     expect(screen.queryByRole("region", { name: "Your choice" })).toBeNull();
-    expect(document.activeElement?.id).toBe("decision-heading");
+    expect(
+      screen.getByRole("heading", { name: "Letters from another world" }),
+    ).toBeTruthy();
+    expect(loadGame(window.localStorage).data.active?.age).toBe(3);
   });
+
+  it.each(["en", "th"] as const)(
+    "quiet time has no continuation shortcut in %s",
+    (language) => {
+      const life = choose(
+        beginLife(createLife({ ruleset: "legacy-1", seed: 32, language })),
+        "observe",
+      );
+      saveGame(window.localStorage, { version: 1, active: life, archive: [] });
+      render(<App />);
+      expect(
+        screen.queryByRole("button", {
+          name: /Continue to next decision|ไปยังทางเลือกถัดไป/,
+        }),
+      ).toBeNull();
+      expect(
+        screen.getByText(
+          language === "th"
+            ? "เลือกเป้าหมายด้านล่าง ทางเลือกใหม่จะปรากฏเมื่อเวลาผ่านไป หากหยุดเวลาอยู่ ให้กดเล่นด้านบน"
+            : "Choose your focus below. New choices appear as time passes. If paused, press Play above.",
+        ),
+      ).toBeTruthy();
+    },
+  );
 
   it("focuses new page content after navigation", () => {
     startPending();
