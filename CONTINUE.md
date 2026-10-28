@@ -30,9 +30,12 @@ Screenshot: `C:/Users/Neary/.codex/visualizations/2026/10/28/01a1825c-dba6-7f30-
 storage untouched. Application console had no warnings/errors. Usage at start:
 five-hour **51% remaining**, weekly **83% remaining**.
 
-Source work verified; commit/push/new PR targeting main is next. Preserve the
-Asura branching design as a separate pending implementation. User merges manually;
-do not deploy, auto-merge or delete branches.
+Implementation **`e2a916a`** is pushed on its explicit task upstream. Ready-for-review
+**[PR #17](https://github.com/ny147/1-in-mushoku-tensei/pull/17)** targets `main` and
+is attached to this chat. Local checks pass; remote CI awaits observation. This
+documentation follow-up records delivery. Next: review and merge PR #17 manually.
+Preserve the Asura branching design as a separate pending implementation; use this
+same branch/PR for timing follow-ups. Do not deploy, auto-merge or delete branches.
 
 ## Asura succession paths — proposed design, 2026-10-28
 
