@@ -1,5 +1,33 @@
 # Save point — Six-Faced Life
 
+## Asura succession paths — proposed design, 2026-10-28
+
+New task **`codex/asura-succession-paths`**, created from clean freshly fetched
+**`origin/main 545bfad`** (PR #15 merged). **No gameplay changes yet.** Design:
+`docs/superpowers/specs/2026-10-28-asura-succession-paths-design.md`.
+
+User confirmed: join Ariel or oppose her; Ariel wins 80%/loses 20%; reward is noble
+title plus **one-time cash**, no estate income; losers risk **imprisonment or death**.
+Recommended approach and exact balances remain proposals: K424 pledge/K425 result,
+adult Asura participants, remote/child news without blocking decisions; 500 silver
+and noble standing for winner; loser conditional 20% execution / 50% three-year
+prison / 30% escape. Leaving before the climax withdraws the commitment. Prison
+has real income/study/action restrictions with retained progress and release.
+
+Current implementation interrupts every life at both K424 and K425 and fixes
+Ariel's accession. New route must preserve already-recorded old outcomes, pending
+choice IDs, legacy futures and completed archives. Independent design review is
+complete; migration, custody side effects, post-K425 births and noble-versus-
+legendary-title distinctions are explicit builder calls in the proposal. No
+additional user-only question remains beyond approval of the concrete design.
+Next: get design approval, then invoke writing-plans before product implementation.
+Design commit **`4dcc16f`** is pushed; **[draft PR #16](https://github.com/ny147/1-in-mushoku-tensei/pull/16)**
+targets **`main`** and is attached to the chat. The branch contains current
+`origin/main 545bfad`; documentation diff and whitespace checks pass. No
+application tests were run for this design-only work. Usage at task start:
+five-hour **61% remaining**, weekly **84% remaining**. Use this same branch for
+the eventual implementation/PR; do not merge or publish automatically.
+
 ## Event effect clarity and household aid — 2026-10-28
 
 User approved the audit update: explicit EN/TH consequences before decisions and
