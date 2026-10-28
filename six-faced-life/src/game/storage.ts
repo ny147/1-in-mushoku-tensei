@@ -7,6 +7,7 @@ import { validEventId } from "./expanded/balance";
 import { encodeSave, decodeSave } from "./storage-codec";
 import { getExpandedDecision } from "./expanded/events";
 import { migrateEducationAccess } from "./expanded/education-access-state";
+import { migrateTalents } from "./expanded/genetics";
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -336,7 +337,7 @@ export function loadGame(storage: StorageLike): {
         ...save,
         active: save.active
           ? save.active.ruleset === "expanded-1"
-            ? migrateEducationAccess(save.active)
+            ? migrateTalents(migrateEducationAccess(save.active))
             : migrateLife(save.active)
           : null,
         archive: save.archive.map((l) =>
