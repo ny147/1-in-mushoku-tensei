@@ -61,13 +61,7 @@ export function titleEligible(l: ExpandedLife, position: number): boolean {
 }
 export function contestTitle(l: ExpandedLife, position: 5 | 6 | 7): boolean {
   if (!titleEligible(l, position)) return false;
-  const won =
-    draw(l) <
-    clamp(
-      0.15 + (Math.max(l.training.magicXp, l.training.swordXp) - 2000) / 10000,
-      0.15,
-      0.6,
-    );
+  const won = draw(l) < titleWinChance(l);
   const x = l.expansion;
   recordTitle(l, position, won);
   if (won) x.standing.title = position;
@@ -77,6 +71,13 @@ export function contestTitle(l: ExpandedLife, position: 5 | 6 | 7): boolean {
     if (draw(l) < 0.12) l.stats.health = 0;
   }
   return won;
+}
+export function titleWinChance(l: ExpandedLife): number {
+  return clamp(
+    0.15 + (Math.max(l.training.magicXp, l.training.swordXp) - 2000) / 10000,
+    0.15,
+    0.6,
+  );
 }
 export function recordTitle(
   l: ExpandedLife,

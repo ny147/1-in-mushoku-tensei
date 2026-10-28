@@ -5,6 +5,7 @@ import { careerTitle } from "../game/simulation";
 import { expandedLabel } from "../i18n/expanded";
 import { talentAssessmentText } from "../i18n/education";
 import { decisionText, entryText } from "../i18n/story";
+import { choiceEffects } from "../i18n/choice-effects";
 import {
   ArrowDown,
   ArrowRight,
@@ -353,6 +354,7 @@ export function DecisionPanel({
         {decision.choices.map((choice) => {
           const cost = choice.cost ?? 0;
           const disabled = choice.disabled || cost > life.coins;
+          const effects = choiceEffects(life, choice, life.language ?? "en");
           return (
             <button
               className="choice"
@@ -372,6 +374,12 @@ export function DecisionPanel({
                       : "",
                   )}
                 </small>
+                {effects.length > 0 && (
+                  <small className="choice-effects">
+                    <b>{life.language === "th" ? "ผลที่ได้รับ: " : "Effects: "}</b>
+                    {effects.join(" · ")}
+                  </small>
+                )}
               </span>
               <ArrowRight size={17} />
             </button>

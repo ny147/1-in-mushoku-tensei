@@ -12,6 +12,15 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
+- Event choices show bilingual Effects text for immediate learning/stat gains,
+  ongoing protection/resources, focus changes, job pay, family costs and risks.
+  Unassessed learning is labeled as base gains; assessed previews include talent.
+  Menus and declines explain whether they change the character immediately.
+  Choice feedback confirms actual domain changes and fractional gains, including
+  reputation, trust, aid expiry, education/debt and relationships. Household aid
+  supplies its +12 yearly resources to adults as well as children, through the
+  existing two-year expiry; purchasing it still costs 8 coins.
+
 - New expanded lives roll one talent: 20% magical, 20% academic, 20%
   swordsmanship, or 40% none. Relevant positive magic/sword experience or
   knowledge learning gains increase by 25%, including practice, choices,

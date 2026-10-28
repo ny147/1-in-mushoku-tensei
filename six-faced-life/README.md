@@ -59,6 +59,12 @@ sword flags become false on active-save restoration, and no progress is rerolled
 
 Food, shelter, care, dependants, education and travel consume resources. Children
 receive household support rather than adult wages. Warnings identify unmet needs.
+Event choices display explicit Effects in English/Thai, distinguishing immediate
+gains, ongoing costs/duration, focus changes and danger. Learning previews use base
+values until assessment, then include known talent. Results confirm actual changes
+including fractional gains, protection expiry, reputation, job income and debt.
+Household aid costs 8 coins and adds 12 resources per year for children and adults
+through its two-year expiry; it reduces unmet needs without guaranteeing survival.
 From age 15, qualified applicants can enter ordinary work immediately; knight and
 professor appointments retain their advanced requirements and scarce vacancies.
 Career changes retain per-occupation experience. **Career training** offers all ten
