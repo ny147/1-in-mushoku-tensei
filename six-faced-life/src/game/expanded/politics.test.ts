@@ -1,4 +1,5 @@
 import { describe,expect,it } from 'vitest';
+import { allocateSwordStyle, syncSwordCompatibility } from './sword-state';
 import { createExpandedLife } from './origins';
 import { factionEligible, acceptFaction, refuseFaction, defect, titleEligible, contestTitle } from './politics';
 describe('optional allegiances and exceptional titles',()=>{
@@ -11,6 +12,7 @@ describe('optional allegiances and exceptional titles',()=>{
   });
   it('excludes positions 1–4 even with maximum power and preserves title history',()=>{
     const l=createExpandedLife({seed:1});l.expansion.birthYear=400;l.age=31;l.training.swordXp=4000;l.training.swordCap=6;l.expansion.standing.reputation=100;l.expansion.standing.feats=['rescue','service','research'];
+    allocateSwordStyle(l,'sword-god'); l.expansion.swords!.tracks['sword-god']={xp:4000,cap:6}; syncSwordCompatibility(l);
     expect(titleEligible(l,5)).toBe(true);for(const p of [1,2,3,4])expect(titleEligible(l,p)).toBe(false);
     contestTitle(l,5);expect(l.expansion.standing.titles).toHaveLength(1);
     l.age=30;expect(titleEligible(l,5)).toBe(false);

@@ -2,6 +2,7 @@ import type { ExpandedLife } from "../types";
 import type { Faction } from "./types";
 import { fact, worldYear } from "./facts";
 import { draw, clamp } from "./random";
+import { maxSwordXp, selectedSwordTrack, swordMeets } from './sword-state';
 export function factionEligible(l: ExpandedLife, faction: Faction) {
   const x = l.expansion,
     y = worldYear(l);
@@ -13,7 +14,7 @@ export function factionEligible(l: ExpandedLife, faction: Faction) {
     x.politics.contact &&
     Math.max(
       l.training.magicXp,
-      l.training.swordXp,
+      maxSwordXp(l),
       x.standing.reputation * 5,
     ) >= 100 &&
     y - (x.politics.refused[faction] ?? -100) >= 5 &&
@@ -53,8 +54,7 @@ export function titleEligible(l: ExpandedLife, position: number): boolean {
     [5, 6, 7].includes(position) &&
     worldYear(l) > 430 &&
     l.age >= 18 &&
-    Math.max(l.training.magicXp, l.training.swordXp) >= 2000 &&
-    Math.max(l.training.magicCap, l.training.swordCap) >= 5 &&
+    ((l.training.magicXp >= 2000 && l.training.magicCap >= 5) || swordMeets(l,2000,5,'event')) &&
     x.standing.reputation >= 90 &&
     new Set(x.standing.feats).size >= 3
   );
@@ -74,7 +74,7 @@ export function contestTitle(l: ExpandedLife, position: 5 | 6 | 7): boolean {
 }
 export function titleWinChance(l: ExpandedLife): number {
   return clamp(
-    0.15 + (Math.max(l.training.magicXp, l.training.swordXp) - 2000) / 10000,
+    0.15 + (Math.max(l.training.magicXp, selectedSwordTrack(l)?.xp??0) - 2000) / 10000,
     0.15,
     0.6,
   );

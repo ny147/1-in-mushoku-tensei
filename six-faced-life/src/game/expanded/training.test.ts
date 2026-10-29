@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { allocateSwordStyle } from './sword-state';
 import { createExpandedLife } from "./origins";
 import { ORDINARY_ROLES, ordinaryEntry } from "./career-access";
 import {
@@ -29,6 +30,7 @@ const adult = () => {
   l.training.magicCap = 0;
   l.training.swordCap = 0;
   for (const t of Object.values(l.progression!.magic)) t.xp = 0;
+  allocateSwordStyle(l,'sword-god');
   return l;
 };
 describe("ordinary career training", () => {

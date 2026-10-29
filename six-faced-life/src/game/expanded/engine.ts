@@ -16,6 +16,7 @@ import { applyFamilyYear } from "./family";
 import { talentMultiplier, trainingMultiplier } from "./genetics";
 import { applyPoliticalYear, factionEligible } from "./politics";
 import { buildSummary } from "./summary";
+import { grantSwordXp, maxSwordXp } from './sword-state';
 function syncLearning(life: ExpandedLife, magicXp = 0) {
   life.progression = getProgression(life);
   const track = life.progression.magic[life.progression.specialization];
@@ -31,7 +32,7 @@ function syncLearning(life: ExpandedLife, magicXp = 0) {
     Math.max(life.stats.mana, 14 + Math.sqrt(life.training.magicXp) * 3),
   );
   life.stats.sword = clamp(
-    Math.max(life.stats.sword, 5 + Math.sqrt(life.training.swordXp) * 3),
+    Math.max(life.stats.sword, 5 + Math.sqrt(maxSwordXp(life)) * 3),
   );
 }
 
@@ -91,7 +92,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     (c.swordXp ?? 0) *
     ((c.swordXp ?? 0) > 0 ? talentMultiplier(next, "sword") : 1);
   next.training.magicXp += magicGain;
-  next.training.swordXp += swordGain;
+  grantSwordXp(next,swordGain);
   syncLearning(next, magicGain);
   const cause = applyExpandedChoice(next, id);
   next.expansion.economy.peak = Math.max(
@@ -153,8 +154,7 @@ function year(life: ExpandedLife) {
     );
   life.training.magicXp +=
     (focus.magic ?? 0) * trainingMultiplier(life, "magic");
-  life.training.swordXp +=
-    (focus.sword ?? 0) * trainingMultiplier(life, "sword");
+  grantSwordXp(life,(focus.sword ?? 0) * trainingMultiplier(life, "sword"));
   syncLearning(life, (focus.magic ?? 0) * trainingMultiplier(life, "magic"));
   const attendingFullTime = fullTimeTraining(life);
   const annualEconomy = applyEconomyYear(life);
@@ -177,7 +177,7 @@ function year(life: ExpandedLife) {
   if (
     life.expansion.genetics.carrier &&
     life.age >= 8 &&
-    (life.training.magicXp >= 60 || life.training.swordXp >= 60)
+    (life.training.magicXp >= 60 || maxSwordXp(life) >= 60)
   )
     life.expansion.genetics.signs = true;
   const due: string[] = applyHistoryYear(life);

@@ -2,6 +2,7 @@ import type { Genetics } from "./types";
 import type { ExpandedLife } from "../types";
 import { draw, weighted } from "./random";
 import { fact } from "./facts";
+import { maxSwordXp } from './sword-state';
 export function generateGenetics(
   stream: { rng: number },
   parents: readonly Genetics[] = [],
@@ -63,7 +64,7 @@ export function discoverGenetics(l: ExpandedLife): boolean {
   if (
     !g.carrier ||
     l.age < 8 ||
-    (!g.signs && l.training.magicXp < 80 && l.training.swordXp < 80)
+    (!g.signs && l.training.magicXp < 80 && maxSwordXp(l) < 80)
   )
     return false;
   g.discovered = true;
