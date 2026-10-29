@@ -8,6 +8,8 @@ import { encodeSave, decodeSave } from "./storage-codec";
 import { getExpandedDecision } from "./expanded/events";
 import { migrateEducationAccess } from "./expanded/education-access-state";
 import { migrateTalents } from "./expanded/genetics";
+import { migrateSwordState } from './expanded/sword-migration';
+import { validateSwordState } from './expanded/sword-validation';
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -71,6 +73,7 @@ export function isLife(v: unknown): v is Life {
   )
     return false;
   if (expanded) {
+    if (!validateSwordState((v.expansion as import('./expanded/types').ExpandedState).swords, v as unknown as import('./types').ExpandedLife)) return false;
     if (
       !Number.isInteger(v.rng) ||
       !Number.isInteger(v.seed) ||
@@ -337,7 +340,7 @@ export function loadGame(storage: StorageLike): {
         ...save,
         active: save.active
           ? save.active.ruleset === "expanded-1"
-            ? migrateTalents(migrateEducationAccess(save.active))
+            ? save.active.phase === 'ended' ? save.active : migrateSwordState(migrateTalents(migrateEducationAccess(save.active)),getExpandedDecision(save.active))
             : migrateLife(save.active)
           : null,
         archive: save.archive.map((l) =>

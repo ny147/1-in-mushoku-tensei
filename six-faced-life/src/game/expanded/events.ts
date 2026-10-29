@@ -53,6 +53,8 @@ export const MANUAL = new Set([
 ]);
 export function getExpandedDecision(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
+  const saved=life.expansion.swords?.compatibilityDecision;
+  if(saved?.id===life.pending) return saved;
   const education = trainingDecision(life);
   if (education) return education;
   const key = life.pending.slice(9);

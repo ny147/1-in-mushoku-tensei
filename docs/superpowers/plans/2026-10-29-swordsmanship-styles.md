@@ -486,6 +486,25 @@ test whole transactions, not private helper implementations.
 
 ## Progress ledger and execution handoff
 
+- **Execution 2026-10-29:** User requested implementation of PR #18; proceeding
+  inline on its clean existing branch. Fetch succeeded; zero behind origin/main.
+  Usage: 79% five-hour / 58% weekly remaining. Existing task branch is the
+  authorized workspace; no worktree or new execution-choice approval needed.
+- **Pre-flight:** Tasks 1→2 share ledger/selection/snapshot types; 1/2→3 share
+  grants/course entitlement; 1→4 shares cap/rank; 2/4→5 shares saved offers,
+  mentorship and queue; 3/5→6 shares selected eligibility; 1–6→7/8 shares facade,
+  localization and persistence. Contracts agree; review focus retained.
+- **Task 1 complete:** 0b6c8db. Missing-module RED, then 8/8 ledger, origins
+  (10,000 seeds), frozen legacy (200 lives) tests passed. Test startup needs
+  sandbox escalation for esbuild spawn EPERM; escalation succeeded.
+- **Task 2:** Migration/strict snapshot validation implemented; 28/28 migration,
+  storage, codec and validation tests pass after missing-module RED. Captured
+  sword-instruction transaction is integrated in Task 5 with choice routing.
+- **Ruling:** Use canonical old decision comparison to validate saved snapshots
+  rather than maintaining a second choice schema — rejects injected effects and
+  preserves complete old offers; cost if wrong: valid old offers could be refused
+  if the absent-ledger generator changes, which must remain frozen.
+
 - **2026-10-29:** User approved the design, including its proposed fees,
   teacher regions and event balance. This plan is a documentation deliverable;
   all implementation checkboxes above are deliberately unchecked.
