@@ -49,8 +49,9 @@ Design commit **`9f63bcb`** is pushed on its explicit task upstream. **[Draft PR
 #18](https://github.com/ny147/1-in-mushoku-tensei/pull/18)** targets **`main`** and
 is attached to this chat. Final fetch succeeded; the branch contains latest
 **`origin/main bdc32a0`** (zero commits behind), without merging/rebasing upstream.
-The previous checkpoint commit is **`9ae2ffe`**. This follow-up records design
-approval and adds the implementation plan to the same task branch/PR. Next: the
+The previous checkpoint commit is **`9ae2ffe`**. Approved design and reviewed
+implementation plan are committed/pushed as **`7f36240`**; PR #18's title/body
+now record approval and the plan handoff, while remaining draft. Next: the
 user reviews that plan and chooses **native** (recommended) or **subagent-driven**
 execution as required by writing-plans. Preserve the approved design; do not
 restart the interview or ask for design approval again. After that choice, use
