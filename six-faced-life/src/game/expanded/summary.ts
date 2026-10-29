@@ -5,6 +5,8 @@ import { worldYear } from "./facts";
 import { expandedLabel, expandedRecordLabel } from "../../i18n/expanded";
 import { domainText } from "../../i18n/world";
 import { RACES, REGIONS } from "../world";
+import { SWORD_STYLES, swordRank } from './sword-state';
+import { swordStyleName, swordRankName } from '../../i18n/sword';
 export function legacySummary(l: LegacyLife) {
   return {
     age: l.age,
@@ -96,7 +98,14 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
       th
         ? `เงินเมื่อสิ้นชีวิต ${l.coins} เหรียญ เงินสูงสุด ${x.economy.peak} เหรียญ ทรัพย์สิน ${x.economy.assets} ผลงานสำคัญ ${x.standing.feats.length} รายการ ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "ได้รับ" : "สูญเสีย"}`).join("; ")}`
         : `Coins at death: ${l.coins}; peak personal wealth: ${x.economy.peak}; assets: ${x.economy.assets}; distinct major contributions: ${x.standing.feats.length}. ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "won" : "lost"}`).join("; ")}`,
-    ].map((text, i) => (i === 5 ? `${text} ${financeText}` : text));
+    ].map((text, i) => {
+      if(i===5)return `${text} ${financeText}`;
+      if(i!==2||!x.swords)return text;
+      const s=x.swords;
+      const styles=SWORD_STYLES.map(k=>`${swordStyleName(k,lang)}: ${swordRankName(swordRank(s.tracks[k]),lang)} (${s.tracks[k].xp} XP)`).join('; ');
+      const completed=SWORD_STYLES.flatMap(k=>Object.entries(s.completed[k]).map(([r,y])=>`${swordStyleName(k,lang)} ${swordRankName(Number(r),lang)} K${y}`)).join('; ');
+      return `${styles}. ${th?'เลือกฝึกครั้งสุดท้าย':'Last selected'}: ${s.selected?swordStyleName(s.selected,lang):(th?'ยังไม่เลือก':'unselected')}. ${th?'การฝึกกับอาจารย์ที่สำเร็จ':'Completed mentorships'}: ${completed||(th?'ไม่มีที่บันทึก':'none recorded')}. ${text}`;
+    });
   };
   const en = sectionsFor("en"),
     th = sectionsFor("th");

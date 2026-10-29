@@ -5,6 +5,12 @@ import { buildSummary, legacySummary } from './summary';
 import { isLife, loadGame } from '../storage';
 import { createLife } from '../legacy/engine';
 describe('factual immutable retrospectives',()=>{
+  it('records actual style ranks, last selection and completion years only when present',()=>{
+    const l=createExpandedLife({seed:1});l.age=40;const s=l.expansion.swords!;s.selected='water-god';s.tracks['sword-god']={xp:560,cap:4};s.completed['sword-god'][4]=l.expansion.birthYear+39;finishLife(l,'aging');
+    const work=l.expansion.summary!.sections.find(s=>s.key==='work')!;
+    expect(work.en).toContain('Sword God: King');expect(work.en).toContain('Last selected: Water God');expect(work.en).toContain(`K${l.expansion.birthYear+39}`);expect(work.th).toContain('เทพดาบ');
+    const old=createExpandedLife({seed:2});delete old.expansion.swords;finishLife(old,'illness');expect(old.expansion.summary!.sections.find(s=>s.key==='work')!.en).not.toContain('Last selected');
+  });
   it('captures early deaths without inventing marriage, degree or hidden diagnoses',()=>{
     const l=createExpandedLife({seed:1});l.age=3;l.expansion.genetics.carrier=true;l.expansion.genetics.manifestation='mana';
     finishLife(l,'illness');expect(l.expansion.summary).toEqual(buildSummary(l));expect(l.expansion.summary!.spouseCount).toBe(0);

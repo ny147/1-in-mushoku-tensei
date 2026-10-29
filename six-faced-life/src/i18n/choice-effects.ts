@@ -5,6 +5,7 @@ import { talentMultiplier } from "../game/expanded/genetics";
 import { expandedChoiceEffects } from "./expanded-choice-effects";
 import { effectDelta, effectNumber, effectText } from "./effect-text";
 import { translate } from "./messages";
+import { maxSwordXp, selectedSwordTrack } from "../game/expanded/sword-state";
 
 export const statLabels: Record<Stat, string> = {
   health: "Health",
@@ -53,12 +54,21 @@ export function choiceEffects(
     if (expanded) {
       const stat = kind === "magic" ? "mana" : "sword";
       const floor = kind === "magic" ? 14 : 5;
+      const xp =
+        kind === "sword" &&
+        life.ruleset === "expanded-1" &&
+        life.expansion.swords
+          ? Math.max(
+              maxSwordXp(life),
+              (selectedSwordTrack(life)?.xp ??
+                life.expansion.swords.legacy?.xp ??
+                0) +
+                value * bonus,
+            )
+          : life.training[key] + value * bonus;
       const developed = Math.min(
         100,
-        Math.max(
-          life.stats[stat],
-          floor + Math.sqrt(life.training[key] + value * bonus) * 3,
-        ),
+        Math.max(life.stats[stat], floor + Math.sqrt(xp) * 3),
       );
       if (developed > life.stats[stat])
         gains.push(

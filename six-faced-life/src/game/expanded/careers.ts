@@ -8,6 +8,7 @@ import { fact, worldYear } from "./facts";
 import { clamp } from "./random";
 import { getProgression } from "../progression";
 import { talentMultiplier } from "./genetics";
+import { grantSwordXp, maxSwordXp, swordMeets } from "./sword-state";
 export function careerRequirements(
   l: ExpandedLife,
   role: Occupation,
@@ -25,18 +26,21 @@ export function careerRequirements(
     if (c.knowledge) add("knowledge", l.stats.knowledge, c.knowledge);
     if (c.starterFee) add("capital", l.coins, c.starterFee);
     if (["guard", "swordsman"].includes(role))
-      add("sword", l.training.swordXp, c.sword!);
+      add("sword", maxSwordXp(l), c.sword!);
     if (role === "adventurer")
-      add("skill", Math.max(l.training.swordXp, l.training.magicXp), 15);
-    if (role === "teacher")
-      add("skill", Math.max(school, l.training.swordXp), 25);
+      add("skill", Math.max(maxSwordXp(l), l.training.magicXp), 15);
+    if (role === "teacher") add("skill", Math.max(school, maxSwordXp(l)), 25);
     if (role === "mage") add("magic", school, c.magic!);
     if (role === "healer" || role === "cleric")
       add("healing", l.progression?.magic.healing.xp ?? 0, c.magic!);
     if (c.cap)
       add(
         "instruction",
-        c.cap === "magic" ? l.training.magicCap : l.training.swordCap,
+        c.cap === "magic"
+          ? l.training.magicCap
+          : swordMeets(l, c.sword ?? 0, 1, "career")
+            ? 1
+            : 0,
         1,
       );
     if (c.trust) add("trust", x.standing.trust, c.trust);
@@ -49,7 +53,7 @@ export function careerRequirements(
       add("appointment", 0, 1);
       break;
     case "knight":
-      add("sword", l.training.swordXp, 150);
+      add("sword", maxSwordXp(l), 150);
       add("service", x.standing.service, 3);
       add("patron", x.origin.patron || x.standing.reputation >= 30 ? 1 : 0, 1);
       add(
@@ -221,7 +225,7 @@ export function applyCareerYear(l: ExpandedLife, attendingFullTime = false) {
   x.standing.reputation = clamp(x.standing.reputation + 0.7);
   if (["guard", "knight"].includes(x.career.role)) {
     x.standing.service++;
-    l.training.swordXp += 5 * talentMultiplier(l, "sword");
+    grantSwordXp(l, 5 * talentMultiplier(l, "sword"));
   }
   if (["mage", "healer", "cleric", "professor"].includes(x.career.role))
     l.training.magicXp += 4 * talentMultiplier(l, "magic");

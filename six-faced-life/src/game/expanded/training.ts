@@ -18,6 +18,7 @@ import { appoint } from "./careers";
 import { requirement, type Requirement } from "./education";
 import { fact, worldYear } from "./facts";
 import { talentMultiplier } from "./genetics";
+import { creditSwordCourse } from "./sword-state";
 export interface TrainingQuote extends EducationQuote {
   mode: TrainingMode;
   remainingYears: number;
@@ -87,7 +88,11 @@ export function enrollTraining(
     l.age < 15 ||
     l.expansion.education.stage === "university" ||
     !isOrdinaryRole(q.purpose) ||
-    !["full-time", "part-time"].includes(q.mode)
+    !["full-time", "part-time"].includes(q.mode) ||
+    (!!l.expansion.swords &&
+      !!ordinaryEntry(q.purpose as OrdinaryRole)?.sword &&
+      !l.expansion.swords.selected &&
+      !l.expansion.swords.legacy)
   )
     return false;
   const role = q.purpose,
@@ -176,10 +181,7 @@ export function applyTrainingYear(l: ExpandedLife): void {
       ),
     );
   if (c.sword)
-    l.training.swordXp = Math.max(
-      l.training.swordXp,
-      target(c.sword) * talentMultiplier(l, "sword"),
-    );
+    creditSwordCourse(l, role, target(c.sword) * talentMultiplier(l, "sword"));
   if (c.trust)
     l.expansion.standing.trust = Math.max(
       l.expansion.standing.trust,
@@ -190,7 +192,11 @@ export function applyTrainingYear(l: ExpandedLife): void {
       l.expansion.standing.reputation,
       target(c.reputation),
     );
-  if (c.cap && r.units === c.units) {
+  if (
+    c.cap &&
+    r.units === c.units &&
+    (c.cap !== "sword" || !l.expansion.swords)
+  ) {
     const key = c.cap === "magic" ? "magicCap" : "swordCap";
     l.training[key] = Math.max(1, l.training[key]);
   }

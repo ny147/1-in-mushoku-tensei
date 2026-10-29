@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { allocateSwordStyle, syncSwordCompatibility } from './sword-state';
 import { createExpandedLife } from "./origins";
 import {
   careerRequirements,
@@ -40,6 +41,7 @@ describe("independent careers and access", () => {
       l.training.swordXp = 500;
       l.training.magicCap = 3;
       l.training.swordCap = 3;
+      allocateSwordStyle(l,'sword-god'); l.expansion.swords!.tracks['sword-god']={xp:500,cap:3}; syncSwordCompatibility(l);
       for (const school of Object.values(l.progression!.magic)) school.xp = 600;
       const x = l.expansion;
       x.standing.trust = 50;
@@ -73,6 +75,7 @@ describe("independent careers and access", () => {
     expect(appoint(l, "knight")).toBe(false);
     expect(appoint(l, "professor")).toBe(false);
     l.training.swordXp = 150;
+    allocateSwordStyle(l,'sword-god'); l.expansion.swords!.tracks['sword-god'].xp=150; syncSwordCompatibility(l);
     l.expansion.standing.service = 3;
     expect(careerRequirements(l, "knight").every((r) => r.met)).toBe(true);
     expect(appoint(l, "knight")).toBe(true);

@@ -12,6 +12,23 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
+- Expanded lives keep separate Sword God, Water God and North God XP and ranks.
+  Select one to practice from age five; switch freely between decisions. Jobs
+  use a single qualified learned style; events use the selected style. Courses
+  credit each milestone once across switches. Self-practice reaches Advanced.
+- Saint/King/Emperor/God require consecutive local mentorships costing
+  16/32/64/128 silver, one eligible elapsed training year with sword focus, then
+  a guaranteed manual chronicle trial. Employment continues; changing region,
+  style or focus, university and active career courses pause mentor progress.
+  Sword God teachers are in Asura, Water God in Millis, North God on the Demon
+  Continent. Teachers and prices are original game balance; aura impairment
+  retains its Advanced ceiling. Ready trials persist and can be deferred.
+- Advanced selected styles add distinct service/assignment approaches: offensive
+  rewards, defensive risk reduction, or limited safe scouting. Effects disclose
+  their actual scope. New English/Thai records show all styles and real completed
+  mentorship years. Old lives allocate unassigned XP once; old pending offers
+  and completed archives retain their original facts and rules.
+
 - Event choices show bilingual Effects text for immediate learning/stat gains,
   ongoing protection/resources, focus changes, job pay, family costs and risks.
   Unassessed learning is labeled as base gains; assessed previews include talent.

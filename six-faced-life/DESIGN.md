@@ -329,3 +329,7 @@ For UI changes, inspect desktop and narrow phone layouts, keyboard operation, ex
 - **Don't** add heavy shadows to every character section or decision row.
 - **Don't** replace the self-hosted font pair or introduce a competing display face.
 - **Don't** communicate condition or interaction state through color alone.
+
+## Sword practice and mentorship
+
+The chronicle rail and character view use the same compact Sword styles section: three factual rank/XP rows, a labeled native Practice style select, and explicit decision-lock text. Paid mentorship shows the paid fee, eligible-year progress, paused reason and manual trial readiness. Teacher quotes and bilingual trials reuse the existing decision/outcome panels and keyboard outcome focus. Completed records show factual per-style ranks and actual mentorship years. Existing paper/ink tokens, fonts, mobile order and reduced-motion rules remain.

@@ -1,5 +1,111 @@
 # Save point — Six-Faced Life
 
+## Swordsmanship styles — implemented, 2026-10-29
+
+User requested implementation of **PR #18**. Continued clean existing
+**`codex/swordsmanship-styles`**, with fresh fetch and sufficient usage.
+Implementation **`19b2d57`** is pushed, following ledger `0b6c8db`, migration
+`1f29fd1`, learning `671d51c`, and mentor rules `79479d9`. Existing PR:
+https://github.com/ny147/1-in-mushoku-tensei/pull/18 — base **main**.
+
+Implemented three independent retained styles, manual initial selection and
+pending/queued switching locks, single-track career qualifications, selected-style
+events/challenges, talent/factor learning, and nonduplicated course milestones.
+Mentors in Asura/Millis/Demon Continent charge 16/32/64/128 silver for consecutive
+promotions: an actual eligible elapsed training year, paid pauses and a durable,
+deferable manual guaranteed trial. Aura ceiling remains. Original bilingual scenes,
+service/assignment approaches, native controls and factual completed records work.
+Old saves allocate unassigned XP once without RNG; pending instruction/title/career
+offers retain their original context. Changing study while pending preserves the
+save and offered career qualification. Ended/archived lives remain unchanged.
+
+**Verification:** full `npm.cmd test -- --maxWorkers=2`: **345/345 tests in 53
+files**, 76.10s. Fresh **`npm.cmd run build` passed**, existing >500kB advisory.
+Last Thai instruction wording additionally passed 6/6 focused tests and build.
+Independent review found three Important issues plus save-validation hardening;
+all reproduced RED then fixed GREEN. No deferred review findings. Public
+old-offer→allocation→mentorship→pause/reload→deferred trial→promotion→assignment
+→immutable archive flow passes. Sandbox esbuild spawn EPERM required successful
+escalated test execution. No dependencies or deployment configuration changed.
+
+**Isolated browser 5174:** EN 1280 desktop / 360 mobile, switching/reload, pending
+locks, one-time 16-silver fee, retained farmer employment, ordinary practice queued
+before ready trial, Watch/manual readiness after reload, Enter completion and
+`outcome-heading` focus. Thai ready-trial scene/mobile inspected; no horizontal
+overflow. Player **5173 storage untouched**. Disposable fixture:
+`six-faced-life/.sites-workflow/sword-qa.html`; logs also ignored there. Corrected
+a disposable fixture peak-wealth value and restarted Vite after its formatter
+watcher temporarily cached an empty module; no unresolved application defect.
+
+Plan/spec and execution ledger: `docs/superpowers/plans/2026-10-29-swordsmanship-styles.md`
+and matching approved spec. Product/readme/design and sidecar describe the built
+feature. Historical planning handoff below is superseded. Usage around **19:48
+Asia/Bangkok**: five-hour **28% remaining**, weekly **50% remaining**, resets
+**Oct 29 23:39** / **Nov 4 13:44**. No billing/reset actions. Fresh final fetch
+succeeded; branch contains **origin/main bdc32a0**, without merging/rebasing.
+
+**Next:** review updated PR #18 and merge manually after CI. No gameplay work
+remains; PR metadata records remote readiness/checks. Do not auto-merge, delete
+the branch, or publish the game automatically.
+
+## Swordsmanship styles — approved design and implementation plan, 2026-10-29
+
+Task **`codex/swordsmanship-styles`** started from a clean working tree and freshly
+fetched **`origin/main bdc32a0`** (PR #17 merged). Design:
+`docs/superpowers/specs/2026-10-29-swordsmanship-styles-design.md`.
+The user explicitly approved the concrete design on 2026-10-29 ("approve it").
+Implementation plan: `docs/superpowers/plans/2026-10-29-swordsmanship-styles.md`.
+**Planning only; no gameplay or save migration has been implemented.**
+
+User confirmed: all three styles available with initial sword practice; learn
+multiple but practice one at a time; events use the selected style, switching
+free only between events; jobs use the strongest learned style. Self-practice
+reaches Advanced. Saint+ requires a directly sought mentor, increasing upfront
+fee, one training year alongside employment with sword focus, and a guaranteed
+manual chronicle trial. Existing recognized schools retain progress; otherwise
+the player allocates old sword XP/rank to one school once, without duplication.
+
+The design distinguishes builder-origin proposals: per-style ledger and compatibility
+queries, existing XP thresholds, regional original teachers, fees 16/32/64/128,
+elapsed-time mentorship with pausing, explicit migration/pending-offer exceptions,
+and style-specific service/assignment choices. The user's design approval accepts
+these details; they were not separate interview answers. Frozen legacy
+rules, old ended archives, magic instruction and unrelated Asura work retain
+their scope. The user's i-have-adhd skill remains active: concise prompts, visible
+state, one decision at a time; grill-me also requests one question at a time.
+
+A fresh read-only design builder review reported **"nothing important left"**. Reviewed
+the new design against relevant engine/events, careers/courses, XP/rank/talent,
+activities, economy/history, validation/storage, product and checkpoint context.
+The implementation plan has eight dependency-ordered tasks, exact file/interface
+contracts, failing-test examples and commands, a shared state shape, five Review
+Focus cases, verification/delivery steps and an unchecked progress ledger. Native
+execution is recommended because storage, events and the new ledger are tightly
+connected; no execution method has been selected by the user. Self-review checked
+spec coverage, task/interface consistency and proportion; no extra plan subagent
+was dispatched. Grandfathered ceilings must not be sold again; course milestone
+credit cannot be duplicated by switching; elapsed time is not a birthday count.
+
+Plan structure, source references (including intentionally new files), spec link,
+unchecked implementation tasks, whitespace and documentation changes were checked.
+No application tests, build or browser QA were run for this documentation-only
+work. Usage observed **2026-10-29 19:17 Asia/Bangkok**: five-hour **82% remaining**, weekly **59%
+remaining**. Resets: five-hour **2026-10-29 23:39**, weekly **2026-11-04 13:44**,
+both Asia/Bangkok; account/reset-credit identifiers omitted.
+
+Design commit **`9f63bcb`** is pushed on its explicit task upstream. **[Draft PR
+#18](https://github.com/ny147/1-in-mushoku-tensei/pull/18)** targets **`main`** and
+is attached to this chat. Final fetch succeeded; the branch contains latest
+**`origin/main bdc32a0`** (zero commits behind), without merging/rebasing upstream.
+The previous checkpoint commit is **`9ae2ffe`**. Approved design and reviewed
+implementation plan are committed/pushed as **`7f36240`**; PR #18's title/body
+now record approval and the plan handoff, while remaining draft. Next: the
+user reviews that plan and chooses **native** (recommended) or **subagent-driven**
+execution as required by writing-plans. Preserve the approved design; do not
+restart the interview or ask for design approval again. After that choice, use
+the selected execution skill and begin Task 1 on this branch. The user merges
+manually. Do not implement before the execution handoff, or publish automatically.
+
 ## Natural event timing — 2026-10-28
 
 User explicitly requested no **Continue to next decision** button: let events

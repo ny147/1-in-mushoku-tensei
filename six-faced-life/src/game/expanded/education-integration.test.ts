@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import {allocateSwordStyle} from './sword-state';
 import { createExpandedLife } from "./origins";
 import { enrollTraining, quoteTraining } from "./training";
 import { advance, choose, getDecision, finishLife } from "../engine";
@@ -29,6 +30,7 @@ describe("education full flows and endings", () => {
         l.stats.health = 100;
         l.focus = "bonds";
         l.training.swordXp = 0;
+        allocateSwordStyle(l,'sword-god');
         l.training.magicXp = 0;
         l.progression!.magic.water.xp = 0;
         l.expansion.economy.familyFunds = 0;

@@ -4102,3 +4102,15 @@ h2[tabindex="-1"] {
 .education-progress details {
   margin-top: 12px;
 }
+.sword-progress select {
+  width: 100%;
+  min-height: 44px;
+  margin-block: 6px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+.sword-progress .detail-list div { flex-wrap: wrap; gap: 4px 12px; }
+.sword-progress p { overflow-wrap: anywhere; }

@@ -5,6 +5,8 @@ import { titleEligible, titleWinChance } from "../game/expanded/politics";
 import { worldYear } from "../game/expanded/facts";
 import { expandedLabel } from "./expanded";
 import { effectDelta, effectNumber, effectText } from "./effect-text";
+import { swordApproach } from "../game/expanded/sword-events";
+import { isSwordStyle } from "../game/expanded/sword-state";
 
 export function expandedChoiceEffects(
   l: ExpandedLife,
@@ -15,6 +17,41 @@ export function expandedChoiceEffects(
   const x = l.expansion,
     y = worldYear(l);
   const text = (en: string, th: string) => effectText(language, en, th);
+  if ((key === "service" || key === "assignment") && isSwordStyle(action)) {
+    const a = swordApproach(l, key);
+    if (!a) return [];
+    return [
+      text(
+        `Selected style Advanced+; immediate fatal risk ${a.risk * 100}%; success: ${a.reward} silver, reputation +${a.reputation}, service +${a.serviceCredit}, obligations −${a.obligations}, faction trust +${a.trust}`,
+        `รูปแบบดาบที่เลือกต้องขั้นสูงขึ้นไป เสี่ยงเสียชีวิตทันที ${a.risk * 100}% เมื่อสำเร็จ: เงิน ${a.reward} เหรียญ ชื่อเสียง +${a.reputation} งานรับใช้ +${a.serviceCredit} ภาระหน้าที่ −${a.obligations} ความไว้ใจของฝ่าย +${a.trust}`,
+      ),
+    ];
+  }
+  if (
+    key === "sword-mentor" ||
+    key === "sword-trial" ||
+    key === "sword-abandon" ||
+    key === "sword-select"
+  )
+    return [
+      language === "th"
+        ? c.description === c.outcome
+          ? c.description
+          : c.outcome
+        : c.description,
+    ];
+  if (
+    key === "instruction" &&
+    action === "sword" &&
+    x.swords &&
+    !x.swords.compatibilityDecision
+  )
+    return [
+      text(
+        "Opens sword mentor requirements; no payment or rank granted yet",
+        "เปิดเงื่อนไขอาจารย์ดาบ ยังไม่จ่ายเงินหรือเพิ่มระดับ",
+      ),
+    ];
   const delta = (en: string, th: string, current: number, gain: number) =>
     text(
       effectDelta(

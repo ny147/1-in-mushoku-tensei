@@ -1,4 +1,15 @@
 import { trainingDecision, applyTrainingChoice } from "./training-events";
+import {
+  swordDecision,
+  applySwordChoice,
+  swordApproach,
+  applySwordApproach,
+} from "./sword-events";
+import {
+  selectedSwordTrack,
+  syncSwordCompatibility,
+  isSwordStyle,
+} from "./sword-state";
 import { isOrdinaryRole, ordinaryEntry } from "./career-access";
 import type { Choice, Decision, ExpandedLife, RegionId } from "../types";
 import {
@@ -53,6 +64,10 @@ export const MANUAL = new Set([
 ]);
 export function getExpandedDecision(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
+  const saved = life.expansion.swords?.compatibilityDecision;
+  if (saved?.id === life.pending) return saved;
+  const sword = swordDecision(life);
+  if (sword) return sword;
   const education = trainingDecision(life);
   if (education) return education;
   const key = life.pending.slice(9);
@@ -157,11 +172,20 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
             life.training.magicCap >= 6,
         }),
         option("sword", {
-          cost: 8,
+          ...(x.swords
+            ? {
+                label: "Review sword mentorship",
+                description:
+                  "Review regional teachers, requirements and one-time fees.",
+                outcome: "You review a sword mentor offer without paying yet.",
+              }
+            : {}),
+          cost: x.swords ? 0 : 8,
           disabled:
-            life.training.swordXp < 60 * life.training.swordCap ||
-            life.training.swordCap >= 6 ||
-            (x.genetics.auraImpaired && life.training.swordCap >= 2),
+            !x.swords &&
+            (life.training.swordXp < 60 * life.training.swordCap ||
+              life.training.swordCap >= 6 ||
+              (x.genetics.auraImpaired && life.training.swordCap >= 2)),
         }),
         option("later"),
       ];
@@ -291,13 +315,50 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
       break;
   }
   // No decisions remain actionable after the protagonist's death or invalidation.
+  if (key === "service" || key === "assignment") {
+    const a = swordApproach(life, key);
+    if (a)
+      choices.push(
+        option(a.style, {
+          label: a.en,
+          description: `${a.en}. Advanced ${a.style}; ${a.reward} silver on success; ${a.risk * 100}% immediate fatal risk.`,
+          outcome: "The actual outcome of your chosen approach is recorded.",
+          risk: a.risk,
+        }),
+      );
+  }
   if (life.age < 18)
     choices = choices.filter((c) => !c.id.endsWith(".service"));
   if (["succession", "conflict"].includes(key) && !canServeHistory(life, key))
     choices = choices.filter((c) => !c.id.endsWith(".service"));
   if (y < x.birthYear) return null;
+  const approach =
+    key === "service" || key === "assignment" ? swordApproach(life, key) : null;
+  const localized = approach
+    ? {
+        title: copy.title[1],
+        text: copy.text[1],
+        choices: Object.fromEntries(
+          choices.map((c) => {
+            const action = c.id.split(".")[2],
+              old = copy.choices[action];
+            return [
+              c.id,
+              old
+                ? { label: old[1], description: old[3], outcome: old[3] }
+                : {
+                    label: approach.th,
+                    description: `${approach.th} ต้องใช้รูปแบบดาบที่เลือกขั้นสูงขึ้นไป ได้ ${approach.reward} เหรียญเมื่อสำเร็จ เสี่ยงเสียชีวิตทันที ${approach.risk * 100}%`,
+                    outcome: "บันทึกผลจริงของวิธีที่คุณเลือกแล้ว",
+                  },
+            ];
+          }),
+        ),
+      }
+    : undefined;
   return {
     id: life.pending,
+    localized,
     kind: "Life",
     title: copy.title[0],
     text: copy.text[0],
@@ -328,10 +389,13 @@ export function applyExpandedChoice(
   life: ExpandedLife,
   id: string,
 ): string | null {
+  if (applySwordChoice(life, id)) return null;
   if (applyTrainingChoice(life, id)) return null;
   const [, key, action] = id.split("."),
     x = life.expansion,
     y = worldYear(life);
+  if ((key === "service" || key === "assignment") && isSwordStyle(action))
+    return applySwordApproach(life, key, action);
   const queue = (event: string) => {
     if (!x.queue.includes(`expanded.${event}`))
       x.queue.unshift(`expanded.${event}`);
@@ -350,9 +414,27 @@ export function applyExpandedChoice(
   if (key === "career" && action === "training") queue("training");
   if (key === "career" && action === "promote") promote(life);
   if (key === "career" && action.startsWith("job-"))
-    appoint(life, action.slice(4) as typeof x.career.role);
+    appoint(
+      life,
+      action.slice(4) as typeof x.career.role,
+      x.swords?.compatibilityDecision?.id === "expanded.career" &&
+        x.swords.compatibilityStudy
+        ? { school: x.swords.compatibilityStudy }
+        : undefined,
+    );
   if (key === "instruction" && action === "magic") life.training.magicCap++;
-  if (key === "instruction" && action === "sword") life.training.swordCap++;
+  if (key === "instruction" && action === "sword") {
+    if (!x.swords) life.training.swordCap++;
+    else if (x.swords.compatibilityDecision?.id === "expanded.instruction") {
+      const t = selectedSwordTrack(life) ?? x.swords.legacy;
+      if (t)
+        t.cap = Math.max(
+          t.cap,
+          Math.min(6, life.training.swordCap + 1),
+        ) as import("./sword-state").SwordRank;
+      syncSwordCompatibility(life);
+    } else queue("sword-mentor");
+  }
   if (key === "protection" && action === "accept") {
     x.economy.protectionUntil = Math.max(x.economy.protectionUntil, y + 3);
     life.focus = "bonds";

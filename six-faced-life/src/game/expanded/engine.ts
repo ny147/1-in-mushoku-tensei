@@ -16,6 +16,14 @@ import { applyFamilyYear } from "./family";
 import { talentMultiplier, trainingMultiplier } from "./genetics";
 import { applyPoliticalYear, factionEligible } from "./politics";
 import { buildSummary } from "./summary";
+import {
+  grantSwordXp,
+  maxSwordXp,
+  allocateSwordStyle,
+  isSwordStyle,
+} from "./sword-state";
+import { creditSwordMentorship } from "./sword-mentors";
+import { queueReadySwordTrial } from "./sword-events";
 function syncLearning(life: ExpandedLife, magicXp = 0) {
   life.progression = getProgression(life);
   const track = life.progression.magic[life.progression.specialization];
@@ -31,7 +39,7 @@ function syncLearning(life: ExpandedLife, magicXp = 0) {
     Math.max(life.stats.mana, 14 + Math.sqrt(life.training.magicXp) * 3),
   );
   life.stats.sword = clamp(
-    Math.max(life.stats.sword, 5 + Math.sqrt(life.training.swordXp) * 3),
+    Math.max(life.stats.sword, 5 + Math.sqrt(maxSwordXp(life)) * 3),
   );
 }
 
@@ -60,6 +68,11 @@ export function finishExpanded(life: ExpandedLife, cause: string) {
   life.pending = null;
   life.expansion.queue = [];
   life.expansion.optionalActivity = null;
+  if (life.expansion.swords) {
+    life.expansion.swords.mentorship = null;
+    life.expansion.swords.compatibilityDecision = null;
+    life.expansion.swords.compatibilityStudy = null;
+  }
   life.progress = 0;
   life.ending = {
     cause,
@@ -76,7 +89,11 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   const next = structuredClone(life);
   next.pending = null;
   next.expansion.optionalActivity = null;
-  if (!id.startsWith("expanded.career.job-")) next.coins -= c.cost ?? 0;
+  if (
+    !id.startsWith("expanded.career.job-") &&
+    id !== "expanded.sword-mentor.enroll"
+  )
+    next.coins -= c.cost ?? 0;
   next.coins = clamp(next.coins + (c.coins ?? 0), 0, 1_000_000);
   for (const [k, v] of Object.entries(c.effects ?? {}))
     next.stats[k as keyof typeof next.stats] = clamp(
@@ -91,9 +108,22 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     (c.swordXp ?? 0) *
     ((c.swordXp ?? 0) > 0 ? talentMultiplier(next, "sword") : 1);
   next.training.magicXp += magicGain;
-  next.training.swordXp += swordGain;
+  const action = id.split(".")[2];
+  if (
+    id.startsWith("expanded.practice.") &&
+    isSwordStyle(action) &&
+    next.expansion.swords &&
+    !next.expansion.swords.selected &&
+    !next.expansion.swords.legacy
+  )
+    allocateSwordStyle(next, action);
+  grantSwordXp(next, swordGain);
   syncLearning(next, magicGain);
   const cause = applyExpandedChoice(next, id);
+  if (next.expansion.swords) {
+    next.expansion.swords.compatibilityDecision = null;
+    next.expansion.swords.compatibilityStudy = null;
+  }
   next.expansion.economy.peak = Math.max(
     next.expansion.economy.peak,
     next.coins,
@@ -126,6 +156,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     finishExpanded(next, "violence");
     return next;
   }
+  queueReadySwordTrial(next);
   drain(next);
   return next;
 }
@@ -139,6 +170,17 @@ export function setFocusExpanded(
     life.age < FOCUSES[focus].minAge
   )
     return life;
+  if (
+    focus === "sword" &&
+    life.expansion.swords &&
+    !life.expansion.swords.selected
+  ) {
+    if (life.pending || life.expansion.queue.length) return life;
+    const n = structuredClone(life);
+    n.pending = "expanded.sword-select";
+    n.expansion.optionalActivity = n.pending;
+    return n;
+  }
   return { ...life, focus };
 }
 function year(life: ExpandedLife) {
@@ -153,8 +195,7 @@ function year(life: ExpandedLife) {
     );
   life.training.magicXp +=
     (focus.magic ?? 0) * trainingMultiplier(life, "magic");
-  life.training.swordXp +=
-    (focus.sword ?? 0) * trainingMultiplier(life, "sword");
+  grantSwordXp(life, (focus.sword ?? 0) * trainingMultiplier(life, "sword"));
   syncLearning(life, (focus.magic ?? 0) * trainingMultiplier(life, "magic"));
   const attendingFullTime = fullTimeTraining(life);
   const annualEconomy = applyEconomyYear(life);
@@ -177,7 +218,7 @@ function year(life: ExpandedLife) {
   if (
     life.expansion.genetics.carrier &&
     life.age >= 8 &&
-    (life.training.magicXp >= 60 || life.training.swordXp >= 60)
+    (life.training.magicXp >= 60 || maxSwordXp(life) >= 60)
   )
     life.expansion.genetics.signs = true;
   const due: string[] = applyHistoryYear(life);
@@ -241,6 +282,7 @@ function year(life: ExpandedLife) {
   }
   repayEducationYear(life, annualEconomy);
   life.expansion.queue = due;
+  queueReadySwordTrial(life);
   drain(life);
   if (!life.pending)
     entry(
@@ -259,10 +301,16 @@ export function advanceExpanded(
   if (mode === "tick" && (!Number.isFinite(delta) || delta <= 0)) return life;
   const next = structuredClone(life);
   if (mode === "tick") {
+    creditSwordMentorship(next, Math.min(0.25, delta, 1 - next.progress));
     next.progress += Math.min(0.25, delta);
     if (next.progress >= 1 - 1e-9) year(next);
+    else {
+      queueReadySwordTrial(next);
+      if (next.expansion.queue.length) drain(next);
+    }
   } else
     for (let i = 0; i < (mode === "year" ? 1 : 12); i++) {
+      creditSwordMentorship(next, 1 - next.progress);
       year(next);
       if (next.pending || next.phase !== "alive") break;
     }

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import {allocateSwordStyle,syncSwordCompatibility} from './sword-state';
 import { createExpandedLife } from "./origins";
 import { ORDINARY_ROLES } from "./career-access";
 import { appoint, careerRequirements } from "./careers";
@@ -18,6 +19,7 @@ describe("reliable ordinary direct entry", () => {
         l.training.swordXp = 30;
         l.training.magicCap = 1;
         l.training.swordCap = 1;
+        allocateSwordStyle(l,'sword-god');l.expansion.swords!.tracks['sword-god'].xp=30;syncSwordCompatibility(l);
         l.training.magicXp = 30;
         l.progression!.magic.water.xp = 30;
         l.progression!.magic.healing.xp = 25;
@@ -44,8 +46,10 @@ describe("reliable ordinary direct entry", () => {
     l.coins = 10000;
     l.training.swordXp = 29;
     l.training.swordCap = 1;
+    allocateSwordStyle(l,'sword-god');l.expansion.swords!.tracks['sword-god'].xp=29;syncSwordCompatibility(l);
     expect(appoint(l, "swordsman")).toBe(false);
     l.training.swordXp = 30;
+    l.expansion.swords!.tracks['sword-god'].xp=30;syncSwordCompatibility(l);
     expect(appoint(l, "swordsman")).toBe(true);
     l.age = 14;
     expect(appoint(l, "laborer")).toBe(false);

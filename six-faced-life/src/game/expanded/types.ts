@@ -119,6 +119,7 @@ export interface CompletedSummary {
   narrative: { en: string; th: string };
 }
 export interface ExpandedState {
+  swords?: import('./sword-state').SwordState;
   training?: import("./career-access").TrainingState;
   finance?: import("./career-access").EducationFinance;
   optionalActivity?: string | null;

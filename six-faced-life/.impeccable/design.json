@@ -270,6 +270,18 @@
       "recovery": "Persistent Retry save uses current memory; untouched failed loads offer Retry loading. Storage promises are conditional.",
       "mobile": "Keep Help visible. Hide scene for pending decisions and tiny map overlays; region-list selection remains accessible.",
       "illustrations": "Existing previews illustrate base roles; final responsive overrides and interaction behavior are documented in DESIGN.md."
+    },
+    "swordStyles": {
+      "updated": "2026-10-29",
+      "surfaces": [
+        "chronicle rail",
+        "character",
+        "mentor quote",
+        "manual trial",
+        "retrospective"
+      ],
+      "controls": "Native labeled style select, locked during pending/queued decisions; bilingual paid/progress/paused/readiness copy.",
+      "presentation": "Existing paper/forest-ink system, compact definition lists; no new theme or motion."
     }
   },
   "components": [

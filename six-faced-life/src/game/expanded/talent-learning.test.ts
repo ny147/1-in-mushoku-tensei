@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { allocateSwordStyle, syncSwordCompatibility } from './sword-state';
 import type { ExpandedLife } from "../types";
 import { advance, choose } from "../engine";
 import { isLife, loadGame } from "../storage";
@@ -30,6 +31,7 @@ function ready(talent: "magic" | "sword" | "academic" | "none" = "none") {
     academicTalent: talent === "academic",
     swordTalent: talent === "sword",
   });
+  allocateSwordStyle(l,'sword-god');
   return l;
 }
 function expanded(life: ReturnType<typeof advance>): ExpandedLife {
@@ -143,6 +145,7 @@ describe("talent learning benefits", () => {
         l.training.swordXp =
         l.progression!.magic.water.xp =
           30;
+      l.expansion.swords!.tracks['sword-god'].xp=30; syncSwordCompatibility(l);
       expect(appoint(l, role)).toBe(true);
       const previous =
         role === "mage" ? l.training.magicXp : l.training.swordXp;
