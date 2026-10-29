@@ -1,5 +1,53 @@
 # Save point — Six-Faced Life
 
+## Swordsmanship styles — implemented, 2026-10-29
+
+User requested implementation of **PR #18**. Continued clean existing
+**`codex/swordsmanship-styles`**, with fresh fetch and sufficient usage.
+Implementation **`19b2d57`** is pushed, following ledger `0b6c8db`, migration
+`1f29fd1`, learning `671d51c`, and mentor rules `79479d9`. Existing PR:
+https://github.com/ny147/1-in-mushoku-tensei/pull/18 — base **main**.
+
+Implemented three independent retained styles, manual initial selection and
+pending/queued switching locks, single-track career qualifications, selected-style
+events/challenges, talent/factor learning, and nonduplicated course milestones.
+Mentors in Asura/Millis/Demon Continent charge 16/32/64/128 silver for consecutive
+promotions: an actual eligible elapsed training year, paid pauses and a durable,
+deferable manual guaranteed trial. Aura ceiling remains. Original bilingual scenes,
+service/assignment approaches, native controls and factual completed records work.
+Old saves allocate unassigned XP once without RNG; pending instruction/title/career
+offers retain their original context. Changing study while pending preserves the
+save and offered career qualification. Ended/archived lives remain unchanged.
+
+**Verification:** full `npm.cmd test -- --maxWorkers=2`: **345/345 tests in 53
+files**, 76.10s. Fresh **`npm.cmd run build` passed**, existing >500kB advisory.
+Last Thai instruction wording additionally passed 6/6 focused tests and build.
+Independent review found three Important issues plus save-validation hardening;
+all reproduced RED then fixed GREEN. No deferred review findings. Public
+old-offer→allocation→mentorship→pause/reload→deferred trial→promotion→assignment
+→immutable archive flow passes. Sandbox esbuild spawn EPERM required successful
+escalated test execution. No dependencies or deployment configuration changed.
+
+**Isolated browser 5174:** EN 1280 desktop / 360 mobile, switching/reload, pending
+locks, one-time 16-silver fee, retained farmer employment, ordinary practice queued
+before ready trial, Watch/manual readiness after reload, Enter completion and
+`outcome-heading` focus. Thai ready-trial scene/mobile inspected; no horizontal
+overflow. Player **5173 storage untouched**. Disposable fixture:
+`six-faced-life/.sites-workflow/sword-qa.html`; logs also ignored there. Corrected
+a disposable fixture peak-wealth value and restarted Vite after its formatter
+watcher temporarily cached an empty module; no unresolved application defect.
+
+Plan/spec and execution ledger: `docs/superpowers/plans/2026-10-29-swordsmanship-styles.md`
+and matching approved spec. Product/readme/design and sidecar describe the built
+feature. Historical planning handoff below is superseded. Usage around **19:48
+Asia/Bangkok**: five-hour **28% remaining**, weekly **50% remaining**, resets
+**Oct 29 23:39** / **Nov 4 13:44**. No billing/reset actions. Fresh final fetch
+succeeded; branch contains **origin/main bdc32a0**, without merging/rebasing.
+
+**Next:** review updated PR #18 and merge manually after CI. No gameplay work
+remains; PR metadata records remote readiness/checks. Do not auto-merge, delete
+the branch, or publish the game automatically.
+
 ## Swordsmanship styles — approved design and implementation plan, 2026-10-29
 
 Task **`codex/swordsmanship-styles`** started from a clean working tree and freshly
