@@ -1,5 +1,43 @@
 # Save point — Six-Faced Life
 
+## Swordsmanship styles — proposed design, 2026-10-29
+
+Task **`codex/swordsmanship-styles`** started from a clean working tree and freshly
+fetched **`origin/main bdc32a0`** (PR #17 merged). Design:
+`docs/superpowers/specs/2026-10-29-swordsmanship-styles-design.md`.
+**Planning only; no gameplay or save migration has been implemented.**
+
+User confirmed: all three styles available with initial sword practice; learn
+multiple but practice one at a time; events use the selected style, switching
+free only between events; jobs use the strongest learned style. Self-practice
+reaches Advanced. Saint+ requires a directly sought mentor, increasing upfront
+fee, one training year alongside employment with sword focus, and a guaranteed
+manual chronicle trial. Existing recognized schools retain progress; otherwise
+the player allocates old sword XP/rank to one school once, without duplication.
+
+The draft labels builder proposals separately: per-style ledger and compatibility
+queries, existing XP thresholds, regional original teachers, fees 16/32/64/128,
+elapsed-time mentorship with pausing, explicit migration/pending-offer exceptions,
+and style-specific service/assignment choices. These details await design
+approval; they are not additional confirmed interview answers. Frozen legacy
+rules, old ended archives, magic instruction and unrelated Asura work retain
+their scope. The user's i-have-adhd skill remains active: concise prompts, visible
+state, one decision at a time; grill-me also requests one question at a time.
+
+A fresh read-only builder review reported **"nothing important left"**. Reviewed
+the new design against relevant engine/events, careers/courses, XP/rank/talent,
+activities, economy/history, validation/storage, product and checkpoint context.
+Documentation checks and remote delivery are in progress. No application tests,
+build or browser QA were run for this documentation-only proposal. Usage observed
+**2026-10-29 18:59 Asia/Bangkok**: five-hour **95% remaining**, weekly **61%
+remaining**. Resets: five-hour **2026-10-29 23:39**, weekly **2026-11-04 13:44**,
+both Asia/Bangkok; account/reset-credit identifiers omitted.
+
+Next: finish documentation diff checks, commit/push this task branch and open its
+draft PR targeting `main`. Then obtain approval of the concrete design before
+invoking writing-plans to create the implementation plan. Do not implement,
+merge, or publish automatically.
+
 ## Natural event timing — 2026-10-28
 
 User explicitly requested no **Continue to next decision** button: let events
