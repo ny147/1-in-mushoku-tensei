@@ -27,16 +27,21 @@ state, one decision at a time; grill-me also requests one question at a time.
 A fresh read-only builder review reported **"nothing important left"**. Reviewed
 the new design against relevant engine/events, careers/courses, XP/rank/talent,
 activities, economy/history, validation/storage, product and checkpoint context.
-Documentation checks and remote delivery are in progress. No application tests,
-build or browser QA were run for this documentation-only proposal. Usage observed
+Complete task diff, new-file contents, whitespace, referenced code and npm
+commands were checked. No application tests, build or browser QA were run for
+this documentation-only proposal. Usage observed
 **2026-10-29 18:59 Asia/Bangkok**: five-hour **95% remaining**, weekly **61%
 remaining**. Resets: five-hour **2026-10-29 23:39**, weekly **2026-11-04 13:44**,
 both Asia/Bangkok; account/reset-credit identifiers omitted.
 
-Next: finish documentation diff checks, commit/push this task branch and open its
-draft PR targeting `main`. Then obtain approval of the concrete design before
-invoking writing-plans to create the implementation plan. Do not implement,
-merge, or publish automatically.
+Design commit **`9f63bcb`** is pushed on its explicit task upstream. **[Draft PR
+#18](https://github.com/ny147/1-in-mushoku-tensei/pull/18)** targets **`main`** and
+is attached to this chat. Final fetch succeeded; the branch contains latest
+**`origin/main bdc32a0`** (zero commits behind), without merging/rebasing upstream.
+This documentation follow-up records delivery. Next: obtain approval of the
+concrete design, then invoke writing-plans to create the implementation plan on
+this same task branch/PR. The user merges manually. Do not implement or publish
+automatically.
 
 ## Natural event timing — 2026-10-28
 
