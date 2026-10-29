@@ -1,4 +1,5 @@
 // Public simulation boundary. Existing saves keep the frozen legacy engine.
+export { selectSwordStyle } from './expanded/sword-state';
 import * as legacy from "./legacy/engine";
 import { createExpandedLife } from "./expanded/origins";
 import {

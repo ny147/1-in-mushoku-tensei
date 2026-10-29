@@ -7,6 +7,7 @@ import { draw, weighted } from "./random";
 
 import { generateGenetics as initialGenetics } from "./genetics";
 import { ensureEducationAccess } from "./education-access-state";
+import { emptySwordState, syncSwordCompatibility } from './sword-state';
 export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
   const base = legacyBirth(options);
   const stream = { rng: (base.seed ^ 0xa71c09ef) >>> 0 };
@@ -84,6 +85,7 @@ export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
       Math.floor(RACES[race].lifespan * (0.88 + draw(stream) * 0.3)),
     ),
     expansion: {
+      swords: emptySwordState(),
       version: 1,
       birthYear,
       worldSeed,
@@ -183,5 +185,6 @@ export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
     },
   ];
   ensureEducationAccess(life);
+  syncSwordCompatibility(life);
   return life;
 }
