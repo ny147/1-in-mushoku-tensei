@@ -2,7 +2,7 @@ import type { Genetics } from "./types";
 import type { ExpandedLife } from "../types";
 import { draw, weighted } from "./random";
 import { fact } from "./facts";
-import { maxSwordXp } from './sword-state';
+import { maxSwordXp } from "./sword-state";
 export function generateGenetics(
   stream: { rng: number },
   parents: readonly Genetics[] = [],

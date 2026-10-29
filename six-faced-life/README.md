@@ -36,6 +36,18 @@ npm run dev -- --port 5174
 
 ## Playing
 
+Expanded sword practice has three retained styles: Sword God, Water God and North
+God. A native **Practice style** selector shows each track and locks during pending
+or queued choices. Practice opens at five; **Seek a sword mentor** opens at eight.
+Self-practice reaches Advanced. Each subsequent rank costs 16/32/64/128 silver
+and one full eligible simulated year, then a manual guaranteed trial. Sword God
+mentors are in Asura, Water God in Millis, North God on the Demon Continent.
+Changing focus/style/region or attending formal education pauses paid progress;
+ordinary jobs continue. Trial deferral keeps completed training and paid access.
+These teachers and fees are authored game balance, not canon appointments.
+Old active saves retain pending offers and allocate unassigned sword XP to one
+style once. Completed snapshots stay unchanged. No storage-key change is needed.
+
 New lives use **expanded-1**. Birth years range uniformly from K397 to K427;
 age and world year appear together. Family wealth and noble status affect
 resources and access, while occupation, affiliation and exceptional titles remain

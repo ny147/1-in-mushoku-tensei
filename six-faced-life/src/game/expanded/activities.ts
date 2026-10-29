@@ -6,6 +6,7 @@ export const ACTIVITIES = [
   "career",
   "training",
   "instruction",
+  "sword-mentor",
   "assessment",
   "university",
   "travel",
@@ -21,6 +22,7 @@ export function activityAvailable(l: ExpandedLife, key: Activity): boolean {
     case "career":
       return l.age >= 15;
     case "instruction":
+    case "sword-mentor":
     case "assessment":
       return l.age >= 8;
     case "university":

@@ -28,6 +28,8 @@ describe("manual education choices", () => {
     expect(n.pending).toBe("expanded.training");
     expect(canAutoChoose(n)).toBe(false);
     n = choose(n, "expanded.training.course-swordsman");
+    expect(getDecision(n)!.requiresManual).toBe(true);
+    n = choose(n,'expanded.training-quote.sword-god');
     expect(n.pending).toBe("expanded.training-quote");
     expect(isLife(n)).toBe(true);
     const d = getDecision(n)!;

@@ -16,6 +16,7 @@ import type { Life } from "../game/types";
 import { languageOf } from "../i18n/locale";
 import { translate } from "../i18n/messages";
 import { CAREERS, RACES, REGIONS, rankFor } from "../game/world";
+import { SwordProgress } from "./SwordProgress";
 import { LifeRecord, LifeTimeline } from "./LifeView";
 
 export function Ending({
@@ -66,6 +67,9 @@ export function Ending({
           {t("But this life was yours, and it mattered.")}
         </p>
         <div className="legacy-grid">
+          {life.ruleset === "expanded-1" && life.expansion.swords && (
+            <SwordProgress life={life} />
+          )}
           <div>
             <MapPin size={18} />
             <strong>{t(REGIONS[life.region].short)}</strong>

@@ -34,6 +34,7 @@ it("enrolls through the visible quote and immediately saves the manual choice", 
     ).getByRole("button", { name: "Career training" }),
   );
   fireEvent.click(screen.getByRole("button", { name: /^Train as Swordsman/ }));
+  fireEvent.click(screen.getByRole('button',{name:/^Sword God Practice one style/}));
   expect(document.activeElement?.id).toBe("decision-heading");
   expect(screen.getByText(/Loan 24/)).toBeTruthy();
   fireEvent.click(

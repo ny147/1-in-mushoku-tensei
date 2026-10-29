@@ -1,4 +1,8 @@
 import { EducationProgress } from "./EducationProgress";
+import { SwordProgress } from "./SwordProgress";
+import type { SwordStyle } from "../game/expanded/sword-state";
+import { selectedSwordTrack } from "../game/expanded/sword-state";
+import { swordStyleName } from "../i18n/sword";
 import { useI18n } from "../i18n/context";
 import { ExpandedDetails, ExpandedFamily } from "./ExpandedDetails";
 import { careerTitle } from "../game/simulation";
@@ -122,6 +126,8 @@ export function Training({
   const { t } = useI18n();
 
   const studies = getProgression(life);
+  const selectedSword =
+    life.ruleset === "expanded-1" ? selectedSwordTrack(life) : null;
   const tracks = [
     {
       label: MAGIC_SCHOOLS[studies.specialization].name,
@@ -132,11 +138,26 @@ export function Training({
     },
     {
       label:
-        life.training.school === "Not yet chosen"
-          ? "Swordsmanship"
-          : `${life.training.school} style`,
-      xp: life.training.swordXp,
-      cap: life.training.swordCap,
+        life.ruleset === "expanded-1" && life.expansion.swords
+          ? life.expansion.swords.selected
+            ? swordStyleName(
+                life.expansion.swords.selected,
+                life.language ?? "en",
+              )
+            : t("Swordsmanship")
+          : life.training.school === "Not yet chosen"
+            ? "Swordsmanship"
+            : `${life.training.school} style`,
+      xp:
+        selectedSword?.xp ??
+        (life.ruleset === "expanded-1" && life.expansion.swords
+          ? (life.expansion.swords.legacy?.xp ?? 0)
+          : life.training.swordXp),
+      cap:
+        selectedSword?.cap ??
+        (life.ruleset === "expanded-1" && life.expansion.swords
+          ? (life.expansion.swords.legacy?.cap ?? 2)
+          : life.training.swordCap),
       icon: Swords,
       className: "sword",
     },
@@ -313,8 +334,7 @@ export function DecisionPanel({
   const decision = canonicalDecision
     ? decisionText(canonicalDecision, life, life.language ?? "en")
     : null;
-  if (!decision && outcome)
-    return <ChoiceOutcome result={outcome} />;
+  if (!decision && outcome) return <ChoiceOutcome result={outcome} />;
   if (!decision)
     return (
       <section className="quiet-moment">
@@ -370,7 +390,9 @@ export function DecisionPanel({
                 </small>
                 {effects.length > 0 && (
                   <small className="choice-effects">
-                    <b>{life.language === "th" ? "ผลที่ได้รับ: " : "Effects: "}</b>
+                    <b>
+                      {life.language === "th" ? "ผลที่ได้รับ: " : "Effects: "}
+                    </b>
                     {effects.join(" · ")}
                   </small>
                 )}
@@ -535,6 +557,7 @@ export function LifeView({
   automatic,
   onSpellbook,
   onActivity,
+  onSwordStyle,
 }: {
   life: Life;
   onFocus: (focus: Focus) => void;
@@ -544,6 +567,7 @@ export function LifeView({
   automatic?: boolean;
   onSpellbook?: () => void;
   onActivity?: (key: Activity) => void;
+  onSwordStyle?: (style: SwordStyle) => void;
 }) {
   const { t } = useI18n();
 
@@ -621,6 +645,9 @@ export function LifeView({
         />
         <CareerProgress life={life} />
         {life.ruleset === "expanded-1" && (
+          <SwordProgress life={life} onSelect={onSwordStyle} />
+        )}
+        {life.ruleset === "expanded-1" && (
           <EducationProgress
             life={life}
             onOpenTraining={
@@ -657,9 +684,11 @@ export function LifeView({
 export function CharacterView({
   life,
   onStudyChange,
+  onSwordStyle,
 }: {
   life: Life;
   onStudyChange: (school: MagicSchool) => void;
+  onSwordStyle?: (style: SwordStyle) => void;
 }) {
   const { t, language } = useI18n();
 
@@ -687,6 +716,9 @@ export function CharacterView({
         </div>
       </div>
       <div className="character-detail-grid">
+        {life.ruleset === "expanded-1" && (
+          <SwordProgress life={life} onSelect={onSwordStyle} />
+        )}
         {life.ruleset === "expanded-1" && <ExpandedDetails life={life} />}
         <section>
           <h2>{t("The life you were given")}</h2>

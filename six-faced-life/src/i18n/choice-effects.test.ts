@@ -5,8 +5,13 @@ import { choiceEffects } from "./choice-effects";
 import { choiceChanges } from "./choice-changes";
 import type { ExpandedLife } from "../game/types";
 import { EXPANDED_COPY } from "./expanded";
+import {allocateSwordStyle} from '../game/expanded/sword-state';
 
 describe("effect presentation boundaries", () => {
+  it('previews weaker-style learning without inventing a strongest-style stat gain',()=>{
+    const l=createExpandedLife({seed:1});l.phase='alive';l.age=30;l.pending='expanded.practice';allocateSwordStyle(l,'sword-god');l.expansion.swords!.tracks['sword-god'].xp=110;allocateSwordStyle(l,'water-god');l.stats.sword=5+Math.sqrt(110)*3;l.expansion.education.assessed=true;l.expansion.genetics.swordTalent=false;
+    const c=getDecision(l)!.choices.find(c=>c.id.endsWith('.sword'))!;expect(choiceEffects(l,c,'en').join(' ')).not.toContain('Sword skill +');expect(choose(l,c.id).stats.sword).toBe(l.stats.sword);
+  });
   it("also previews the mana developed by a real magic-practice choice", () => {
     const l = createExpandedLife({ seed: 1 });
     l.phase = "alive";
@@ -119,7 +124,8 @@ describe("effect presentation boundaries", () => {
     l.pending = "expanded.training";
     l.coins = 0;
     l.expansion.economy.familyFunds = 0;
-    const quote = choose(l, "expanded.training.course-guard") as ExpandedLife;
+    const selection = choose(l, "expanded.training.course-guard") as ExpandedLife;
+    const quote = choose(selection,'expanded.training-quote.sword-god') as ExpandedLife;
     const restored = JSON.parse(JSON.stringify(quote)) as ExpandedLife;
     const offer = getDecision(restored)!;
     const enroll = offer.choices.find((c) => c.id.endsWith("enroll-loan"))!;

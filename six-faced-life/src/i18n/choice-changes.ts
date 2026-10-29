@@ -11,6 +11,8 @@ import { expandedLabel } from "./expanded";
 import { talentAssessmentText } from "./education";
 import { effectDelta, effectNumber, effectText } from "./effect-text";
 import { translate } from "./messages";
+import { SWORD_STYLES, swordRank } from "../game/expanded/sword-state";
+import { swordStyleName, swordRankName } from "./sword";
 
 /** Actual differences only; a failed/no-op action must never announce promised gains. */
 export function choiceChanges(before: Life, after: Life): string[] {
@@ -35,12 +37,18 @@ export function choiceChanges(before: Life, after: Life): string[] {
     before.training.magicXp,
     after.training.magicXp,
   );
-  delta(
-    "Sword experience",
-    "ประสบการณ์ดาบ",
-    before.training.swordXp,
-    after.training.swordXp,
-  );
+  if (!(
+    before.ruleset === "expanded-1" &&
+    after.ruleset === "expanded-1" &&
+    before.expansion.swords &&
+    after.expansion.swords
+  ))
+    delta(
+      "Sword experience",
+      "ประสบการณ์ดาบ",
+      before.training.swordXp,
+      after.training.swordXp,
+    );
   delta(
     "Guild experience",
     "ประสบการณ์กิลด์",
@@ -51,7 +59,14 @@ export function choiceChanges(before: Life, after: Life): string[] {
     ["magicCap", "Magic instruction cap", "เพดานการเรียนเวทมนตร์"],
     ["swordCap", "Sword instruction cap", "เพดานการเรียนดาบ"],
   ] as const)
-    if (before.training[key] !== after.training[key])
+    if (
+      !(
+        key === "swordCap" &&
+        after.ruleset === "expanded-1" &&
+        after.expansion.swords
+      ) &&
+      before.training[key] !== after.training[key]
+    )
       changes.push(
         text(
           `${en} → ${after.training[key]}`,
@@ -94,6 +109,34 @@ export function choiceChanges(before: Life, after: Life): string[] {
       ),
     );
   if (before.ruleset === "expanded-1" && after.ruleset === "expanded-1") {
+    const a = before.expansion.swords,
+      b = after.expansion.swords;
+    if (a && b) {
+      for (const s of SWORD_STYLES) {
+        delta(
+          `${swordStyleName(s, "en")} experience`,
+          `${swordStyleName(s, "th")} ประสบการณ์`,
+          a.tracks[s].xp,
+          b.tracks[s].xp,
+        );
+        if (swordRank(a.tracks[s]) !== swordRank(b.tracks[s]))
+          changes.push(
+            `${swordStyleName(s, language)} → ${swordRankName(swordRank(b.tracks[s]), language)}`,
+          );
+      }
+      if (a.selected !== b.selected && b.selected)
+        changes.push(
+          text("Practice style → ", "รูปแบบวิชาดาบที่ฝึก → ") +
+            swordStyleName(b.selected, language),
+        );
+      if (!a.mentorship && b.mentorship)
+        changes.push(
+          text(
+            "Mentorship paid; training year starts at 0%",
+            "จ่ายค่าฝึกแล้ว เริ่มปีฝึกที่ 0%",
+          ),
+        );
+    }
     changes.push(...expandedChanges(before, after, language));
   } else {
     if (before.career !== after.career)

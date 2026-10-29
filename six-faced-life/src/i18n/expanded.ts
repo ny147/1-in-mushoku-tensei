@@ -19,6 +19,10 @@ const later = [
   "คุณเก็บโอกาสนี้ไว้พิจารณาในวันหน้า",
 ] as const;
 export const EXPANDED_COPY: Record<string, EventCopy> = {
+  'sword-select': event(['Choose your sword style','เลือกรูปแบบวิชาดาบ'],['Each style retains its own experience.','แต่ละรูปแบบเก็บประสบการณ์แยกกัน'],{later}),
+  'sword-mentor': event(['Sword mentorship','ฝึกดาบกับอาจารย์'],['Review regional teachers, requirements and one-time fees.','ตรวจสอบอาจารย์ประจำภูมิภาค เงื่อนไขและค่าฝึกครั้งเดียว'],{later}),
+  'sword-trial': event(['A manual sword trial','การทดสอบดาบด้วยตนเอง'],['Complete one promotion after a full eligible training year.','เลื่อนระดับหนึ่งขั้นหลังฝึกครบหนึ่งปีที่เข้าเงื่อนไข'],{later}),
+  'sword-abandon': event(['Abandon sword mentorship','ยกเลิกการฝึกดาบ'],['Forfeit the unfinished training time and fee, keeping earned ranks.','เสียเวลาฝึกที่ยังไม่สำเร็จและค่าฝึก เก็บระดับที่ได้มาไว้'],{later}),
   memory: event(
     ["A memory from another life", "ความทรงจำจากอีกชีวิต"],
     [
@@ -799,6 +803,7 @@ export function expandedDecisionText(
   if (language === "th" && d.localized)
     return {
       ...d,
+      kind: 'ชีวิต',
       title: d.localized.title,
       text: d.localized.text,
       choices: d.choices.map((c) => ({ ...c, ...d.localized!.choices[c.id] })),
@@ -826,6 +831,7 @@ export function expandedDecisionText(
             : action?.startsWith("marry-")
               ? c.label
               : null;
+      const mentorMenu=d.id==='expanded.instruction'&&action==='sword'&&c.cost===0;
       return {
         ...c,
         label: text?.[1] ?? dynamic ?? c.label,
@@ -837,6 +843,7 @@ export function expandedDecisionText(
             )
           : (text?.[3] ?? "พิจารณาค่าใช้จ่ายและเงื่อนไขก่อนตัดสินใจ"),
         outcome: text?.[3] ?? "การตัดสินใจและผลที่เกิดขึ้นจริงได้รับการบันทึก",
+        ...(mentorMenu?{label:'ดูการฝึกดาบกับอาจารย์',description:'ตรวจสอบอาจารย์ประจำภูมิภาค เงื่อนไขและค่าฝึกครั้งเดียว ยังไม่จ่ายเงิน',outcome:'คุณเปิดดูข้อเสนอฝึกดาบกับอาจารย์'}:{}),
       };
     }),
   };

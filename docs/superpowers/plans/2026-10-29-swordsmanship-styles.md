@@ -87,6 +87,7 @@ interface SwordState {
   tracks: Record<SwordStyle, SwordTrack>;
   legacy: SwordTrack | null;
   compatibilityDecision: Decision | null;
+  compatibilityStudy: MagicSchool | null; // captured context for old pending offers
   courseCredit: Record<OrdinaryRole, number>;
   mentorship: SwordMentorship | null;
   completed: Record<SwordStyle, Partial<Record<AdvancedSwordRank, number>>>;
@@ -485,6 +486,58 @@ test whole transactions, not private helper implementations.
   this chat, report limitations and user-manual merge; do not deploy or merge.
 
 ## Progress ledger and execution handoff
+
+- **Execution complete, 2026-10-29:** Tasks 1–8 implemented inline on the existing
+  branch/PR. The original per-step checkboxes retain the planning checklist;
+  the evidence below is the execution record, superseding the historical handoff.
+- **Tasks 3/4:** Learning RED→GREEN; 48/48 learning/talent/training/career/politics
+  tests passed. Mentor missing-module RED→GREEN, 7/7 quote/payment/pause/promotion
+  tests passed. Commits 671d51c and 79479d9 follow ledger/migration commits.
+- **Tasks 5/6:** Real consumed segments, durable queued/deferred trials, manual
+  first selection and course quote selection, old instruction exception and new
+  mentorship routing implemented. Style approach RED→GREEN; original accept/
+  decline IDs retained. Safe scouting consumes no RNG; full service preserves
+  existing historical exposure and feats. Remaining sword mirror writes are
+  compatibility/absent-ledger paths; active learning uses the selected ledger.
+- **Task 7:** EN/TH native selector, all-style progress, paid/paused/ready status,
+  original trial scenes and actual completed-year summaries. RTL tests cover
+  locks, bilingual labels, immediate save/reload and failed-save retry. Existing
+  skill panel mismatch and missing summaries were reproduced RED→GREEN.
+- **Task 8 verification:** `npm.cmd test -- --maxWorkers=2` passed **345/345 in
+  53 files**, 76.10s. `npm.cmd run build` passed (existing >500kB advisory).
+  Last Thai instruction copy adjustment additionally passed 6/6 focused tests
+  and a fresh production build. Full logs are ignored under `.sites-workflow/`.
+  The public old-offer→allocation→mentorship→pause/reload→deferred trial→promotion
+  →style assignment→immutable archive integration passed on its first run;
+  the low old-cap regression then failed before its fix and passed afterward.
+- **Independent final review:** three Important findings, no Critical. Each
+  reproduced RED→GREEN: pending-offer validation after public study change;
+  weaker selected-style sword-stat preview; historical cross-path title offers.
+  The offer test also reproduces/resolves its original mage appointment after
+  changing study. Regraded impossible saved enrollment as required save-validation
+  work, reproduced RED→GREEN, and rejected missing selection/target XP. No deferred
+  review findings remain. React quality pass checked hooks, native labels,
+  immutable event updates, stable keys and read-only rendering; no dependencies.
+- **Ruling (refines snapshot ruling below):** keep a bounded captured
+  `compatibilityStudy` alongside the old offer, validate against that original
+  context and use it when resolving its career appointment. Preserve old title
+  eligibility/chance only for absent ledgers and the captured offer. New offers
+  use paired selected-style paths. This preserves legitimate pending-study changes
+  without weakening snapshot validation; cost if wrong: rejecting or changing an
+  old offer, covered by the new public-flow regressions.
+- **Browser QA:** isolated 5174 only; 1280 desktop and 360 mobile, native keyboard,
+  EN switching persisted on reload; selector locked during mentor quote/trial;
+  enrollment charged 16 once; farmer remained employed; consumed year placed an
+  ordinary practice event before its ready trial; Watch/manual trial survives
+  reload; Enter completes trial and focuses `outcome-heading`. No horizontal
+  overflow in either layout. Thai ready trial and its original scene inspected.
+  Earlier disposable fixture had an invalid peak-wealth value and was corrected;
+  Vite briefly cached an empty module during formatter writes, fixed by restarting
+  isolated server. Neither was an application defect. Player 5173 untouched.
+- **Delivery:** update existing PR #18 targeting main; user merges manually.
+  No publishing, auto-merge, branch deletion, or upstream integration.
+
+### Historical planning and early execution notes
 
 - **Execution 2026-10-29:** User requested implementation of PR #18; proceeding
   inline on its clean existing branch. Fetch succeeded; zero behind origin/main.

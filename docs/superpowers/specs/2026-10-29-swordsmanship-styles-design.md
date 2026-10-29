@@ -3,7 +3,8 @@
 Status: **approved by the user on 2026-10-29** ("approve it"), including the
 proposed fees, original teacher locations, and event balance below. Implementation
 plan: [swordsmanship-styles](../plans/2026-10-29-swordsmanship-styles.md).
-No application code, save migration, or gameplay has been implemented.
+Implementation is present on `codex/swordsmanship-styles` in PR #18; verification
+and delivery evidence is recorded in the plan progress ledger and CONTINUE.md.
 
 ## Intent and confirmed decisions
 

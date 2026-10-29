@@ -56,6 +56,7 @@ import { archiveLife, loadGame, saveGame } from "./game/storage";
 import { RACES, REGIONS, lifeStage } from "./game/world";
 import { BirthRecord, NewLife } from "./components/NewLife";
 import { CharacterView, LifeView } from "./components/LifeView";
+import { selectSwordStyle } from "./game/engine";
 import { Archive, Ending } from "./components/Archive";
 import { WorldView } from "./components/WorldView";
 import { describeChoice, type ChoiceResult } from "./components/ChoiceOutcome";
@@ -745,6 +746,11 @@ export default function App() {
               life ? (
                 <CharacterView
                   life={life}
+                  onSwordStyle={(style) =>
+                    updateLife((current) =>
+                      current ? selectSwordStyle(current, style) : null,
+                    )
+                  }
                   onStudyChange={(school: MagicSchool) =>
                     updateLife((current) =>
                       current ? setSpecialization(current, school) : null,
@@ -770,6 +776,11 @@ export default function App() {
             ) : life ? (
               <LifeView
                 life={life}
+                onSwordStyle={(style) =>
+                  updateLife((current) =>
+                    current ? selectSwordStyle(current, style) : null,
+                  )
+                }
                 onActivity={(key) => {
                   setPlaying(false);
                   setOutcome(null);

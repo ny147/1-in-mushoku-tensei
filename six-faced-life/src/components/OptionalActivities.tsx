@@ -9,6 +9,7 @@ const names: Record<Activity, [string, string]> = {
   career: ["Browse careers", "ดูอาชีพ"],
   training: ["Career training", "ฝึกอาชีพ"],
   instruction: ["Seek instruction", "หาผู้สอน"],
+  "sword-mentor": ["Seek a sword mentor", "หาอาจารย์ดาบ"],
   assessment: ["Talent assessment", "ประเมินความสามารถ"],
   university: ["University admission", "สมัครมหาวิทยาลัย"],
   travel: ["Plan a move", "วางแผนย้ายถิ่น"],
