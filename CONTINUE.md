@@ -1,10 +1,12 @@
 # Save point — Six-Faced Life
 
-## Swordsmanship styles — proposed design, 2026-10-29
+## Swordsmanship styles — approved design and implementation plan, 2026-10-29
 
 Task **`codex/swordsmanship-styles`** started from a clean working tree and freshly
 fetched **`origin/main bdc32a0`** (PR #17 merged). Design:
 `docs/superpowers/specs/2026-10-29-swordsmanship-styles-design.md`.
+The user explicitly approved the concrete design on 2026-10-29 ("approve it").
+Implementation plan: `docs/superpowers/plans/2026-10-29-swordsmanship-styles.md`.
 **Planning only; no gameplay or save migration has been implemented.**
 
 User confirmed: all three styles available with initial sword practice; learn
@@ -15,22 +17,31 @@ fee, one training year alongside employment with sword focus, and a guaranteed
 manual chronicle trial. Existing recognized schools retain progress; otherwise
 the player allocates old sword XP/rank to one school once, without duplication.
 
-The draft labels builder proposals separately: per-style ledger and compatibility
+The design distinguishes builder-origin proposals: per-style ledger and compatibility
 queries, existing XP thresholds, regional original teachers, fees 16/32/64/128,
 elapsed-time mentorship with pausing, explicit migration/pending-offer exceptions,
-and style-specific service/assignment choices. These details await design
-approval; they are not additional confirmed interview answers. Frozen legacy
+and style-specific service/assignment choices. The user's design approval accepts
+these details; they were not separate interview answers. Frozen legacy
 rules, old ended archives, magic instruction and unrelated Asura work retain
 their scope. The user's i-have-adhd skill remains active: concise prompts, visible
 state, one decision at a time; grill-me also requests one question at a time.
 
-A fresh read-only builder review reported **"nothing important left"**. Reviewed
+A fresh read-only design builder review reported **"nothing important left"**. Reviewed
 the new design against relevant engine/events, careers/courses, XP/rank/talent,
 activities, economy/history, validation/storage, product and checkpoint context.
-Complete task diff, new-file contents, whitespace, referenced code and npm
-commands were checked. No application tests, build or browser QA were run for
-this documentation-only proposal. Usage observed
-**2026-10-29 18:59 Asia/Bangkok**: five-hour **95% remaining**, weekly **61%
+The implementation plan has eight dependency-ordered tasks, exact file/interface
+contracts, failing-test examples and commands, a shared state shape, five Review
+Focus cases, verification/delivery steps and an unchecked progress ledger. Native
+execution is recommended because storage, events and the new ledger are tightly
+connected; no execution method has been selected by the user. Self-review checked
+spec coverage, task/interface consistency and proportion; no extra plan subagent
+was dispatched. Grandfathered ceilings must not be sold again; course milestone
+credit cannot be duplicated by switching; elapsed time is not a birthday count.
+
+Plan structure, source references (including intentionally new files), spec link,
+unchecked implementation tasks, whitespace and documentation changes were checked.
+No application tests, build or browser QA were run for this documentation-only
+work. Usage observed **2026-10-29 19:17 Asia/Bangkok**: five-hour **82% remaining**, weekly **59%
 remaining**. Resets: five-hour **2026-10-29 23:39**, weekly **2026-11-04 13:44**,
 both Asia/Bangkok; account/reset-credit identifiers omitted.
 
@@ -38,10 +49,13 @@ Design commit **`9f63bcb`** is pushed on its explicit task upstream. **[Draft PR
 #18](https://github.com/ny147/1-in-mushoku-tensei/pull/18)** targets **`main`** and
 is attached to this chat. Final fetch succeeded; the branch contains latest
 **`origin/main bdc32a0`** (zero commits behind), without merging/rebasing upstream.
-This documentation follow-up records delivery. Next: obtain approval of the
-concrete design, then invoke writing-plans to create the implementation plan on
-this same task branch/PR. The user merges manually. Do not implement or publish
-automatically.
+The previous checkpoint commit is **`9ae2ffe`**. This follow-up records design
+approval and adds the implementation plan to the same task branch/PR. Next: the
+user reviews that plan and chooses **native** (recommended) or **subagent-driven**
+execution as required by writing-plans. Preserve the approved design; do not
+restart the interview or ask for design approval again. After that choice, use
+the selected execution skill and begin Task 1 on this branch. The user merges
+manually. Do not implement before the execution handoff, or publish automatically.
 
 ## Natural event timing — 2026-10-28
 

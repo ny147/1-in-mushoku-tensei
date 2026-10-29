@@ -1,7 +1,9 @@
 # Swordsmanship styles and advanced mentorship
 
-Status: **proposed design, awaiting approval**. This task plans development;
-no application code, save migration, or gameplay has been implemented.
+Status: **approved by the user on 2026-10-29** ("approve it"), including the
+proposed fees, original teacher locations, and event balance below. Implementation
+plan: [swordsmanship-styles](../plans/2026-10-29-swordsmanship-styles.md).
+No application code, save migration, or gameplay has been implemented.
 
 ## Intent and confirmed decisions
 
@@ -32,9 +34,10 @@ The user confirmed these decisions through a one-question-at-a-time interview:
   assigns their existing sword experience and rank to **one style once**. The
   other two begin at Beginner; old experience is not copied into all three.
 
-Everything below that specifies numbers, locations, integration details, or edge
-case policies is a **proposed builder decision**, not an additional answer from
-the user. Approval of this document would accept those proposals.
+Numbers, locations, integration details, and edge-case policies below originated
+as **builder proposals**, rather than additional interview answers. The user's
+subsequent approval of this document accepts those proposals; keep that distinction
+from the directly confirmed interview decisions above.
 
 ## Existing behavior and implementation approach
 
