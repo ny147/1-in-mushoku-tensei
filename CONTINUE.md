@@ -1,5 +1,42 @@
 # Save point — Six-Faced Life
 
+## Pixel life scene — design awaiting approval, 2026-11-02
+
+New task **`codex/pixel-life-scene`**, created from freshly fetched
+**`origin/main 53f8fb7`**, starting with a clean tree. User requested a
+one-question-at-a-time grill before the spec and enabled ADHD-friendly output.
+Design: [pixel life scene](docs/superpowers/specs/2026-11-02-pixel-life-scene-design.md).
+**No implementation or implementation plan yet.**
+
+Confirmed: replace only the chronicle painting with detailed fantasy pixel art
+(mockup B); actual region/focus, race and lifespan-based five-stage aging; career
+outfits except rank-based training gear for magic/sword focus; use the selected
+discipline; activity becomes idle while paused/pending, ambient motion continues;
+constant animation speed even at 8x; brief nonblocking major-event reactions;
+visual only; layered sprite approach 1. The static comparison board is retained
+as original design-reference artwork in `docs/superpowers/specs/assets/` and
+linked from the spec. It is not production art or a browser screenshot.
+
+The spec explicitly labels builder defaults, including motion toggle/reduced
+motion, no audio, regional representatives, compatibility handling, reaction
+priority/coalescing, budgets and existing pending-decision mobile scene hiding.
+These defaults await approval with the complete design. Production art has not
+been created and existing PRODUCT/DESIGN remain documentation of built behavior.
+
+Usage observed around **20:05 Asia/Bangkok, Nov 2**: five-hour **100% remaining**,
+weekly **97% remaining**; resets **Nov 3 01:03** / **Nov 9 09:20** Asia/Bangkok.
+No billing/reset actions. Git metadata needed sandbox escalation to create the
+task branch; branch creation succeeded. GitHub CLI is absent; use the existing
+Git credential helper and authenticated REST without displaying credentials.
+
+Builder review found one gap (the missing visual reference); the linked concept
+art resolves it, and the reviewer confirmed **nothing important left**. Pending:
+final documentation checks, commit/push and draft PR targeting `main`. Application
+tests were not run for these documentation/art-reference-only changes.
+Next: finish Git delivery, then ask the user to approve the concrete spec. After
+approval, use the writing-plans skill; do not start product code first. Preserve
+the player's 5173 browser save. Human merges manually; no game publishing.
+
 ## Swordsmanship styles — implemented, 2026-10-29
 
 User requested implementation of **PR #18**. Continued clean existing
