@@ -1,5 +1,34 @@
 # Asset record
 
+## Pixel scene — checkpoint, 2026-11-02
+
+Implementation is paused at the user's request before final acceptance and
+provenance review. Runtime files are under `public/assets/pixel-life/`, indexed
+by `src/components/life-scene/assets.json`: 179 PNGs, 42,999,612 bytes total.
+They include six regions, six ambient atlases, 30 race/stage bodies, 73 wardrobe
+atlases, 56 rank overlays and eight selected-discipline effects.
+
+The original source artwork was generated with the built-in imagegen tool in
+this chat, using the selected lower panel B of the design comparison as direction.
+It contains original characters, outfits and representative regional scenery;
+no franchise sprites were downloaded. The user explicitly authorized Pillow
+mechanical resizing, transparent trimming and sheet slicing. The optional
+authoring scripts `scripts/prepare-pixel-backgrounds.py`,
+`scripts/prepare-pixel-wardrobe.py` and `scripts/prepare-pixel-details.py` perform
+those operations with Pillow (11.3.0 used). They are not application/build
+dependencies and require retained source PNGs.
+
+Retain local originals in ignored `.sites-workflow/pixel-life/sources/` and the
+Codex generated-image cache. The scripts document expected input filenames;
+final exact prompt cataloguing and complete frame/fit review remain pending.
+The actual generation prompts are preserved in this chat. Do not call the
+artwork or animation release fully verified from this checkpoint.
+
+The 16-row pose source maps to the 17 runtime clips by sharing greeting/social;
+children and teens use size variants, elders separately generated aged features.
+The manifest tests check actual PNG dimensions, alpha format and compressed bytes.
+See CONTINUE.md and the active implementation plan for completed and pending QA.
+
 ## Original landscape
 
 File: `public/assets/asura-countryside.png`.

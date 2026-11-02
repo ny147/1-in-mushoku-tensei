@@ -29,6 +29,8 @@ export type ClipId =
   | "ending"
   | "prepare";
 export interface SceneFacts {
+  readonly careerTitle: string;
+  readonly calendarYear: number | null;
   readonly lifeId: string;
   readonly phase: Life["phase"];
   readonly age: number;
@@ -46,6 +48,9 @@ export interface SceneFacts {
   readonly directBorn: number | null;
 }
 export interface SceneModel {
+  age: number;
+  careerTitle: string;
+  calendarYear: number | null;
   lifeId: string;
   phase: Life["phase"];
   region: RegionId;
@@ -68,6 +73,7 @@ export interface ReactionState {
   expiresAt: number | null;
 }
 export interface ScenePresentation {
+  reducedMotion?: boolean;
   model: SceneModel;
   clip: ClipId;
   characterMotion: boolean;

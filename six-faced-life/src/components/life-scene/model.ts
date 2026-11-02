@@ -1,4 +1,5 @@
 import type { Life, Focus, MagicSchool } from "../../game/types";
+import { careerTitle } from "../../game/simulation";
 import { getProgression, SCHOOL_IDS } from "../../game/progression";
 import { FOCUSES, RANKS, rankFor, lifeStage } from "../../game/world";
 import { OCCUPATIONS } from "../../game/expanded/balance";
@@ -51,6 +52,8 @@ export function sampleSceneFacts(life: Life): SceneFacts {
   if (!expanded && style && legacySwordRank !== null)
     swordRanks[style] = legacySwordRank;
   return {
+    careerTitle: careerTitle(life),
+    calendarYear: expanded ? expanded.birthYear + life.age : null,
     lifeId: life.id,
     phase: life.phase,
     age: life.age,
@@ -91,6 +94,9 @@ const ACTIVITIES: Record<Focus, ClipId> = {
 export function resolveScene(f: SceneFacts): SceneModel {
   const stage = STAGES[lifeStage(f.age, f.race)];
   const base: SceneModel = {
+    age: f.age,
+    careerTitle: f.careerTitle,
+    calendarYear: f.calendarYear,
     lifeId: f.lifeId,
     phase: f.phase,
     region: f.region,

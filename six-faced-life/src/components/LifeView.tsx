@@ -30,7 +30,7 @@ import {
   Wallet,
   Wind,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { getDecision } from "../game/engine";
 import {
   FOCUSES,
@@ -558,6 +558,7 @@ export function LifeView({
   onSpellbook,
   onActivity,
   onSwordStyle,
+  scene,
 }: {
   life: Life;
   onFocus: (focus: Focus) => void;
@@ -568,6 +569,7 @@ export function LifeView({
   onSpellbook?: () => void;
   onActivity?: (key: Activity) => void;
   onSwordStyle?: (style: SwordStyle) => void;
+  scene?:ReactNode;
 }) {
   const { t } = useI18n();
 
@@ -576,7 +578,7 @@ export function LifeView({
       className={`life-columns page-enter ${life.pending ? "has-decision" : ""}`}
     >
       <div className="story-column">
-        <section className="scene">
+        {scene ?? <section className="scene">
           <Landscape
             alt={t(
               "An imagined countryside of the Six-Faced World, painted in warm morning light",
@@ -621,7 +623,7 @@ export function LifeView({
           <span className="scene-art-note">
             {t("An imagined view of Asura")}
           </span>
-        </section>
+        </section>}
         <DecisionPanel
           life={life}
           onChoose={onChoose}

@@ -1,7 +1,8 @@
 # Pixel life scene
 
 Status: **approved for planning on 2026-11-02**, through the user's request
-"create implement plan from this". Implementation has not started. Task branch:
+"create implement plan from this". Native implementation is in progress, paused
+at the user's request on 2026-11-02. Verification and review remain. Task branch:
 `codex/pixel-life-scene`, targeting `main`.
 
 ## Intent
@@ -242,6 +243,8 @@ draw, ability, item ownership or gameplay effect is introduced.
 ## Current delivery boundary
 
 The design and [implementation plan](../plans/2026-11-02-pixel-life-scene.md)
-are written. No app code, production assets, browser-save operations or deployment
-has been made. Next: user reviews the plan and chooses an execution method
-before building.
+are written, and the user chose Native execution. Scene code, original art and
+App integration exist on the task branch. The user requested a checkpoint before
+final acceptance QA, full current verification, built documentation and independent
+review were complete. See CONTINUE.md and the plan ledger before resuming.
+The task is not ready to merge; no deployment has been performed.

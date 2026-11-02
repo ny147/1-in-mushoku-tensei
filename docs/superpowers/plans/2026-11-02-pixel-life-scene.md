@@ -204,7 +204,44 @@ Concept art generation must preserve these frame/anchor invariants. Inspect gene
 
 - [x] Interview, chosen art B, chosen layered-sprite architecture and design approval for planning.
 - [x] Source inspection and implementation plan authored; self-review of spec coverage, contracts, failure-mode tests and proportionality complete.
-- [ ] User reviews plan and chooses execution method. **No product code or production sprite assets implemented.**
-- [ ] Tasks 1–8: all unchecked; task-specific commands above are planned checks, not results.
+- [x] User selected Native execution ("1"). Implementation proceeds on the existing task branch.
+- [x] Task 1: read-only model, nine tests including race/age gates, capped selected tracks, frozen saves and legacy handling. Infant ending precedence reproduced RED then corrected GREEN.
+- [x] Task 2: pure reaction detection/reduction, three tests covering initial loads, selection changes, priority, burst bounds, choice deferral and deadlines.
+- [x] Tasks 3–5 implementation: 179 exported PNGs and runtime selector; real-file metadata and enum/rank matrix checks pass. Full-pose visual acceptance and provenance documentation still need final QA.
+- [ ] Task 6 acceptance incomplete: renderer, lifecycle hook and EN/TH descriptions exist and six initial tests pass; expand reduced-motion/hidden-tab/cleanup coverage.
+- [ ] Task 7 acceptance incomplete: App/chronicle/active-ending slots exist; focused App/language/scene checks pass 50/50. Complete pending-phone, ending/archive and keyboard/browser checks.
+- [ ] Task 8 not complete: current full suite, complete browser acceptance, built docs/provenance, fresh whole-branch review and ready-for-review delivery remain.
 
-Planning baseline: clean `codex/pixel-life-scene` at `419e9d6`, fresh `origin/main 53f8fb7`, existing draft PR #19. Start-session usage: **94% five-hour / 96% weekly remaining**. After planning delivery, resume by reading CONTINUE and this ledger, checking status/usage and fetching; implement **Task 1** only after plan review/execution choice. Recommended method: **Native**, because model/reaction/asset contracts are tightly shared and much of the work is iterative visual asset registration; avoid paying for repeated context reconstruction across the artwork matrix. Independent review should still cover the complete final branch.
+**Paused at user request, 2026-11-02 22:29 Asia/Bangkok.** Resume from CONTINUE.md.
+Last prior task commits: model `3e22968`, reactions `438fe7f`. The checkpoint
+commit preserves subsequent art/UI work. Latest full suite 358/358 predates UI
+integration; latest focused integration 50/50 and current build pass. Never
+represent that older full suite as current verification. Browser QA is partial.
+
+Ruling: file-based PNG tests live in `six-faced-life/tests/pixel-assets.test.ts`
+outside browser TypeScript scope — no Node typings/application dependency added.
+Use that path instead of the earlier planned scene-directory asset test commands.
+
+Ruling: model/facts carry age, calendar year and existing career-title text for
+caption continuity — read-only existing helpers provide these values — no save
+fields are added; a wrong adapter would mislabel the scene, covered in final QA.
+
+Ruling: inspected 16-row source atlases map to 17 clips by sharing greeting/social
+poses; child/teen bodies use mechanical size variants and elders use separately
+generated aged sources — preserve source pixels and shared registration — verify
+fits/recognizability in final art review rather than claiming bespoke poses.
+
+Execution checks: focused scene tests **13/13**; full suite **358/358 in 56 files**, 75.38s. Initial build passed; rerun after subsequent edits. Sandbox esbuild spawn EPERM required authorized escalated test execution. Player 5173 storage untouched.
+
+Ruling: continue in the clean existing task branch in place — the repository's continuation workflow and user's Native selection take priority over creating another worktree — existing checkout receives task-only changes.
+
+User authorization: **Allow mechanical asset processing** was explicitly selected after the generated source was 2172×724 instead of 768×256. Pillow may resize, trim transparency and slice sheets; imagegen still authors the art. This supersedes the plan's earlier all-image-edits-through-imagegen restriction for those mechanical steps.
+
+Pre-flight shared interfaces: Task 1 facts/model → Tasks 2/3/6 match; Task 2 reducer → Task 6 matches; Task 3 layers → Tasks 4/5/6 match; Task 6 presentation/visibility callback → Task 7 slots match. Art source row count differs from the requested grid, so source drafts require explicit inspected row mapping before production export; do not mark wardrobe coverage complete from generated source count.
+
+Planning baseline was `419e9d6` / `origin/main 53f8fb7`; existing draft PR #19.
+Current checkpoint usage: **57% five-hour / 90% weekly remaining**, Nov 2 22:29
+Asia/Bangkok; resets Nov 3 01:03 / Nov 9 09:20. Native execution is selected.
+Do not repeat Tasks 1/2 or regenerate retained artwork. Recheck status/usage/fetch,
+then resume the acceptance-hardening command and remaining work in CONTINUE.md.
+Independent review must still cover the complete final branch.

@@ -1,59 +1,93 @@
 # Save point — Six-Faced Life
 
-## Pixel life scene — implementation plan awaiting review, 2026-11-02
+## Pixel life scene — paused at user's request, 2026-11-02 22:29 Asia/Bangkok
 
-New task **`codex/pixel-life-scene`**, created from freshly fetched
-**`origin/main 53f8fb7`**, starting with a clean tree. User requested a
-one-question-at-a-time grill before the spec and enabled ADHD-friendly output.
-Design: [pixel life scene](docs/superpowers/specs/2026-11-02-pixel-life-scene-design.md).
-User requested **"create implement plan from this"**, approving the supplied
-design for planning. [Implementation plan](docs/superpowers/plans/2026-11-02-pixel-life-scene.md)
-now defines eight tasks, exact presentation contracts, an asset coverage matrix,
-test-first steps, isolated browser QA and same-PR delivery.
-**No product code or production sprite assets implemented.**
+User said **"prepare to stop on check point"**. Stop implementation after saving
+this checkpoint. Continue **`codex/pixel-life-scene`**, existing draft
+**[PR #19](https://github.com/ny147/1-in-mushoku-tensei/pull/19)**, base **main**.
+Do not create another task branch or PR, merge, auto-merge, delete the branch or
+publish. Last completed implementation commits before this checkpoint:
+**`3e22968`** (read-only scene model), **`438fe7f`** (bounded reactions).
+This checkpoint saves the subsequent artwork, renderer and integration work.
 
-Confirmed: replace only the chronicle painting with detailed fantasy pixel art
-(mockup B); actual region/focus, race and lifespan-based five-stage aging; career
-outfits except rank-based training gear for magic/sword focus; use the selected
-discipline; activity becomes idle while paused/pending, ambient motion continues;
-constant animation speed even at 8x; brief nonblocking major-event reactions;
-visual only; layered sprite approach 1. The static comparison board is retained
-as original design-reference artwork in `docs/superpowers/specs/assets/` and
-linked from the spec. It is not production art or a browser screenshot.
+Spec: [pixel life scene](docs/superpowers/specs/2026-11-02-pixel-life-scene-design.md).
+Plan/ledger: [implementation plan](docs/superpowers/plans/2026-11-02-pixel-life-scene.md).
+User approved the design for planning, reviewed the plan and selected **Native**
+execution ("1"). ADHD-friendly output stays enabled. Do not restart discovery.
 
-The spec explicitly labels builder defaults, including motion toggle/reduced
-motion, no audio, regional representatives, compatibility handling, reaction
-priority/coalescing, budgets and existing pending-decision mobile scene hiding.
-The supplied design is approved for planning. Production art has not been
-created and existing PRODUCT/DESIGN remain documentation of built behavior.
+**Implemented, incomplete release:** read-only scene model and transient reaction
+reducer; original pixel artwork and manifest; current-layer selection; React/CSS
+renderer, loading/fallback guards, motion/visibility hook and EN/TH descriptions;
+App session motion preference, chronicle scene replacement and active-ending slot.
+No simulation/save-schema change. New-life/other screens retain original painting.
+No browser saves at player **127.0.0.1:5173** were touched.
 
-Usage observed around **20:05 Asia/Bangkok, Nov 2**: five-hour **100% remaining**,
-weekly **97% remaining**; resets **Nov 3 01:03** / **Nov 9 09:20** Asia/Bangkok.
-No billing/reset actions. Git metadata needed sandbox escalation to create the
-task branch; branch creation succeeded. GitHub CLI is absent; use the existing
-Git credential helper and authenticated REST without displaying credentials.
+**Art on disk:** 179 runtime PNGs (42,999,612 bytes total) under
+`six-faced-life/public/assets/pixel-life/`: six regions, six ambient atlases,
+30 race/stage bodies, 73 wardrobe atlases, 56 rank overlays and eight effects.
+All generated with built-in imagegen, then mechanically processed by the three
+`six-faced-life/scripts/prepare-pixel-*.py` scripts (Pillow 11.3.0 available).
+The user explicitly authorized **mechanical resizing, transparent trimming and
+sheet slicing**. Keep original sources in ignored
+`six-faced-life/.sites-workflow/pixel-life/sources/` and Codex generated-images
+cache; they are needed to revise art. Do not delete these local files. Source
+sheets are 16 rows; the export maps them to the 17 runtime clips, reusing greeting
+for social. Children/teens scale the youthful adult source; elders have separately
+generated aged features. Additional full-pose visual inspection remains.
 
-Builder review found one gap (the missing visual reference); the linked concept
-art resolves it, and the reviewer confirmed **nothing important left**. Design
-commit **`cab04d5`** is pushed. Draft PR **[#19](https://github.com/ny147/1-in-mushoku-tensei/pull/19)**
-targets **main** and remains this task's PR for later implementation.
-Complete staged diff and source/reference paths were inspected; whitespace
-check passed. Application tests/build were not run for these documentation and
-concept-reference-only changes. Final fetch succeeded with sandbox escalation
-after FETCH_HEAD write denial; the branch contains `origin/main 53f8fb7`.
-Planning resumed with clean status at **`419e9d6`** and successful fresh fetch.
-Usage around **20:15 Asia/Bangkok Nov 2**: five-hour **94%**, weekly **96%**
-remaining; same reset times above. Source inspection checked actual App lifecycle,
-occupation mirrors, selected-rank helpers, family records, image/i18n boundaries
-and current test scripts. Plan self-review covered spec requirements, interface
-consistency and failure-mode tests; no subagent was dispatched for planning.
-Documentation diff, relative links and all eight task/40 step markers checked;
-whitespace check passed. This planning update is delivered through the same
-draft PR #19. App tests/build are intentionally not run for planning-only changes.
-Next: user reviews the plan and selects **Native** (recommended) or subagent-driven
-execution, as required by writing-plans. Then resume with Task 1, fresh
-status/usage/fetch and the selected execution skill. Preserve the player's 5173
-save. Human merges manually; no game publishing.
+**Verification actually run:**
+- Full suite **358/358 tests, 56 files**, 75.38s, before renderer/App integration.
+  This is historical within this task, NOT a current full-suite result.
+- Latest focused App/language/lifecycle/renderer/model/reaction run: **50/50** in
+  eight files. Asset/model/reaction run separately: **16/16** in three files,
+  including real PNG dimensions/bytes/alpha format and matrix/size checks.
+- Latest `npm.cmd run build` passed after App integration and image-loader cleanup;
+  existing >500kB JS advisory remains (current bundle about 740kB).
+- Vitest/esbuild needed authorized sandbox escalation for spawn EPERM. A transient
+  Node fs type error was fixed by moving the file-based asset test outside browser
+  TS scope to `six-faced-life/tests/pixel-assets.test.ts`; no dependency added.
+- Infant ending precedence was reproduced RED then fixed GREEN. New renderer and
+  integration tests were observed failing before implementation.
+
+**Isolated browser QA (5174):** generated a disposable life, then used ignored
+`.sites-workflow/pixel-life/qa.html` fixture controls (UI buttons write QA saves)
+for adult elf/fire/King and elder Superd/North God/God in Thai. Desktop 1280 and
+360px mobile inspected; scene ready=true, no horizontal overflow and no console
+errors observed. 8x retained 1s sprite timing; Pause yielded idle; motion off gave
+animation-name none on all layers. Reload preserved life/pending decision and
+started paused, with session motion preference reset on. A tablet screenshot was
+visibly cropped despite DOM overflow=false: repeat and confirm viewport geometry
+before claiming tablet passes. Do not claim all browser acceptance flows passed.
+
+**Paused environment:** isolated Vite server was started on **5174**, exec session
+**17799**; reuse if still running. QA browser tab id **1**, browser **2 (IAB)**,
+URL http://127.0.0.1:5174/ is marked for handoff. Playback paused (clip idle,
+ready true); viewport override reset. Use cua_repl documentation refresh on resume.
+Ignored logs/contact sheets and source art remain under `.sites-workflow/pixel-life/`.
+
+**Remaining, exact next work:**
+1. Recheck status, usage and `git fetch origin --prune`; read this checkpoint and
+   ledger. Resume Task 6/7 acceptance hardening, not Task 1. Run
+   `npm.cmd test -- tests/pixel-assets.test.ts src/components/life-scene src/i18n/life-scene.test.ts src/App.test.tsx --maxWorkers=2`
+   from `six-faced-life/` before changes.
+2. Add/verify reduced-motion media changes, hidden-tab listener/timer cleanup,
+   pending-phone hiding, live ending versus archive, reaction bursts and keyboard
+   Space/focus. Complete desktop 1700/tablet 850/mobile EN+TH QA, failure/slow load
+   checks and real per-scene asset/element measurements. Inspect every pose/gear fit.
+3. Finish exact artwork prompt/provenance records in ASSETS, then PRODUCT/DESIGN,
+   sidecar and README for actual built behavior. These remain unfinished; retain
+   existing previews/licenses. Source generators currently require retained local
+   source PNGs; final docs must explain their authoring-only role.
+4. Run current full `npm.cmd test -- --maxWorkers=2` and `npm.cmd run build`, inspect
+   results, then perform the Native workflow's required fresh whole-branch review.
+   No final code review has happened. Fix significant findings with regression
+   tests; keep PR draft until all required checks/art coverage pass.
+
+Usage observed **22:29 Asia/Bangkok Nov 2**: five-hour **57% remaining**, weekly
+**90% remaining**; resets **Nov 3 01:03** / **Nov 9 09:20** Asia/Bangkok.
+No credits/billing actions. Final fetch/commit/push status is in the checkpoint
+handoff/PR metadata; if remote delivery fails, preserve all local work and report
+it. User merges manually. Do not publish the game.
 
 ## Swordsmanship styles — implemented, 2026-10-29
 
