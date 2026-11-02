@@ -1,12 +1,16 @@
 # Save point — Six-Faced Life
 
-## Pixel life scene — design awaiting approval, 2026-11-02
+## Pixel life scene — implementation plan awaiting review, 2026-11-02
 
 New task **`codex/pixel-life-scene`**, created from freshly fetched
 **`origin/main 53f8fb7`**, starting with a clean tree. User requested a
 one-question-at-a-time grill before the spec and enabled ADHD-friendly output.
 Design: [pixel life scene](docs/superpowers/specs/2026-11-02-pixel-life-scene-design.md).
-**No implementation or implementation plan yet.**
+User requested **"create implement plan from this"**, approving the supplied
+design for planning. [Implementation plan](docs/superpowers/plans/2026-11-02-pixel-life-scene.md)
+now defines eight tasks, exact presentation contracts, an asset coverage matrix,
+test-first steps, isolated browser QA and same-PR delivery.
+**No product code or production sprite assets implemented.**
 
 Confirmed: replace only the chronicle painting with detailed fantasy pixel art
 (mockup B); actual region/focus, race and lifespan-based five-stage aging; career
@@ -20,8 +24,8 @@ linked from the spec. It is not production art or a browser screenshot.
 The spec explicitly labels builder defaults, including motion toggle/reduced
 motion, no audio, regional representatives, compatibility handling, reaction
 priority/coalescing, budgets and existing pending-decision mobile scene hiding.
-These defaults await approval with the complete design. Production art has not
-been created and existing PRODUCT/DESIGN remain documentation of built behavior.
+The supplied design is approved for planning. Production art has not been
+created and existing PRODUCT/DESIGN remain documentation of built behavior.
 
 Usage observed around **20:05 Asia/Bangkok, Nov 2**: five-hour **100% remaining**,
 weekly **97% remaining**; resets **Nov 3 01:03** / **Nov 9 09:20** Asia/Bangkok.
@@ -37,9 +41,19 @@ Complete staged diff and source/reference paths were inspected; whitespace
 check passed. Application tests/build were not run for these documentation and
 concept-reference-only changes. Final fetch succeeded with sandbox escalation
 after FETCH_HEAD write denial; the branch contains `origin/main 53f8fb7`.
-Next: user reviews and approves the concrete spec. After
-approval, use the writing-plans skill; do not start product code first. Preserve
-the player's 5173 browser save. Human merges manually; no game publishing.
+Planning resumed with clean status at **`419e9d6`** and successful fresh fetch.
+Usage around **20:15 Asia/Bangkok Nov 2**: five-hour **94%**, weekly **96%**
+remaining; same reset times above. Source inspection checked actual App lifecycle,
+occupation mirrors, selected-rank helpers, family records, image/i18n boundaries
+and current test scripts. Plan self-review covered spec requirements, interface
+consistency and failure-mode tests; no subagent was dispatched for planning.
+Documentation diff, relative links and all eight task/40 step markers checked;
+whitespace check passed. This planning update is delivered through the same
+draft PR #19. App tests/build are intentionally not run for planning-only changes.
+Next: user reviews the plan and selects **Native** (recommended) or subagent-driven
+execution, as required by writing-plans. Then resume with Task 1, fresh
+status/usage/fetch and the selected execution skill. Preserve the player's 5173
+save. Human merges manually; no game publishing.
 
 ## Swordsmanship styles — implemented, 2026-10-29
 

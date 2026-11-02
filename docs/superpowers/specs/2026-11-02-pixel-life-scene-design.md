@@ -1,7 +1,7 @@
 # Pixel life scene
 
-Status: **proposed design, awaiting user approval**. Interview decisions below
-are confirmed; implementation has not started. Task branch:
+Status: **approved for planning on 2026-11-02**, through the user's request
+"create implement plan from this". Implementation has not started. Task branch:
 `codex/pixel-life-scene`, targeting `main`.
 
 ## Intent
@@ -71,7 +71,7 @@ Preserve the existing English/Thai text system and accessible interaction order.
 ## Presentation policy — proposed builder decisions
 
 The following are concrete proposed defaults, not additional user confirmations.
-They are included for approval with this document.
+They were included in the design supplied for the user's planning request.
 
 ### Scene selection
 
@@ -241,7 +241,7 @@ draw, ability, item ownership or gameplay effect is introduced.
 
 ## Current delivery boundary
 
-This change delivers the proposed spec and checkpoint only. No app code,
-production assets, browser-save operations, implementation plan or deployment
-has been made. Next: user reviews this spec and its explicitly proposed defaults;
-after approval, create the implementation plan before building.
+The design and [implementation plan](../plans/2026-11-02-pixel-life-scene.md)
+are written. No app code, production assets, browser-save operations or deployment
+has been made. Next: user reviews the plan and chooses an execution method
+before building.
