@@ -30,10 +30,14 @@ task branch; branch creation succeeded. GitHub CLI is absent; use the existing
 Git credential helper and authenticated REST without displaying credentials.
 
 Builder review found one gap (the missing visual reference); the linked concept
-art resolves it, and the reviewer confirmed **nothing important left**. Pending:
-final documentation checks, commit/push and draft PR targeting `main`. Application
-tests were not run for these documentation/art-reference-only changes.
-Next: finish Git delivery, then ask the user to approve the concrete spec. After
+art resolves it, and the reviewer confirmed **nothing important left**. Design
+commit **`cab04d5`** is pushed. Draft PR **[#19](https://github.com/ny147/1-in-mushoku-tensei/pull/19)**
+targets **main** and remains this task's PR for later implementation.
+Complete staged diff and source/reference paths were inspected; whitespace
+check passed. Application tests/build were not run for these documentation and
+concept-reference-only changes. Final fetch succeeded with sandbox escalation
+after FETCH_HEAD write denial; the branch contains `origin/main 53f8fb7`.
+Next: user reviews and approves the concrete spec. After
 approval, use the writing-plans skill; do not start product code first. Preserve
 the player's 5173 browser save. Human merges manually; no game publishing.
 
