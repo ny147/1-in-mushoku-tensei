@@ -88,3 +88,20 @@ language, accessibility and recovery behavior applies to both rulesets.
 ## Documentation and delivery
 
 [DESIGN.md](DESIGN.md) and the [structured design sidecar](.impeccable/design.json) describe the built interface. [README.md](README.md) describes setup and implementation. The root [CONTINUE.md](../CONTINUE.md) distinguishes current repository state from historical verification and ignored source backups. Follow [AGENTS.md](../AGENTS.md) for task PRs, usage checks, save points, and manual integration. Git delivery does not authorize publishing the playable game.
+
+## Pixel life scene
+
+The active chronicle uses original layered pixel artwork for the current region,
+race and life stage. Everyday clothes follow the primary occupation. Magic or
+sword focus uses training clothes and the selected discipline's earned capped
+rank. The scene is visual only and never changes gameplay or saved progress.
+
+Play shows the current activity; Pause and pending choices show gentle idle
+motion. Sprite speed stays constant at every playback speed. **Scene motion**
+turns all scene movement off for the current app session; reload restores the
+preference to on. Device reduced-motion preferences take priority and show a
+still frame. Hidden tabs, offscreen scenes and completed lives also stay still.
+Short reactions never block decisions or replay saved history. A pending phone
+decision hides the scene to keep the story visible. Failed or still-loading art
+uses the original painted landscape as a complete fallback. New-life and other
+painted screens retain their original artwork; archive previews have no live scene.

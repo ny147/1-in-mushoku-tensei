@@ -2,7 +2,8 @@
 
 Status: **approved for planning on 2026-11-02**, through the user's request
 "create implement plan from this". Native implementation is in progress, paused
-at the user's request on 2026-11-02. Verification and review remain. Task branch:
+again at the user's request on 2026-11-03. Code review and tests passed; final
+artwork alignment/acceptance remains. See CONTINUE.md. Task branch:
 `codex/pixel-life-scene`, targeting `main`.
 
 ## Intent

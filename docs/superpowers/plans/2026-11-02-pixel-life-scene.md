@@ -245,3 +245,38 @@ Asia/Bangkok; resets Nov 3 01:03 / Nov 9 09:20. Native execution is selected.
 Do not repeat Tasks 1/2 or regenerate retained artwork. Recheck status/usage/fetch,
 then resume the acceptance-hardening command and remaining work in CONTINUE.md.
 Independent review must still cover the complete final branch.
+
+
+### Resumed acceptance checkpoint — 2026-11-03 17:23 Bangkok
+
+User requested stop; save and stop after delivery. Continue existing branch/PR19.
+- Lifecycle acceptance strengthened: media changes/cleanup, hidden timers,
+  queued stale loads and observer disposal; live-ending and archive App coverage.
+- Full integrated suite **372/372**, 59 files, 91.46s; build passed (pre-art).
+  Post-art focused **43/43**, six files; Pillow **2/2**, RED→GREEN on both defects.
+- Exact ImageGen prompts/templates and source SHA-256 inventory now retained;
+  built product/design/readme/sidecar docs updated. 179 runtime PNGs total
+  **41,874,507 bytes**; conservative scene upper bound **1,720,121 bytes**, 7 layers.
+- Browser sampled EN850/1280/1700, TH360/850/1700, live ending/archive, pending
+  phone hiding, toggle Space/focus, all four speeds, offscreen suspension/reload.
+  No console errors observed. Reduced-media/hidden subscriptions and stale/fail
+  delivery covered by automated tests, not browser OS/network emulation.
+- **Art acceptance remains open:** Migurd source-specific slicing removed row
+  leakage, but some youthful body/garment frames are now visibly misregistered.
+  Inspect ignored `fits-migurd.png`; fix aligned per-race garments/anchors before
+  marking Tasks3–5/8 fully accepted. Recheck rank gear after tall-pose scaling.
+- Independent final code review: no Critical/Important code findings. Parent
+  retains responsibility for artwork and unfinished acceptance/docs accuracy.
+- Final: minor (deferred): carried expanded legacy sword XP allocation causes a
+  false promotion reaction; cosmetic only, future regression through selectSwordStyle.
+- Final: minor (deferred): no-IntersectionObserver fallback fails to resample CSS
+  pending hiding until viewport event; stale motion state on that fallback.
+- Final: Ruling: reviewer set aside art/remaining browser/docs as parent's active
+  work — keep these acceptance gates open and PR draft — cost if wrong: visually
+  misregistered sprites could be treated as ready despite passing code tests.
+- Source-specific Migurd registration and a shared tall-pose scale are saved as
+  an incomplete art fix, not a new approved fit contract. Two mechanical tests
+  establish removed leakage/clipping only, not clothing correctness.
+- Usage: 15% five-hour /76% weekly remaining; resets Nov3 21:58:50 / Nov9 09:20:55
+  Bangkok. Exact resume actions and environment are in CONTINUE.md. Do not
+  regenerate retained art or repeat completed Tasks1/2. Do not publish or merge.

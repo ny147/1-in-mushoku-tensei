@@ -174,112 +174,112 @@
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 357028
+      "bytes": 355031
     },
     "outfits/teen-adventurer": {
       "url": "/assets/pixel-life/outfits/teen-adventurer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 495366
+      "bytes": 491441
     },
     "outfits/teen-cleric": {
       "url": "/assets/pixel-life/outfits/teen-cleric.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 445810
+      "bytes": 442684
     },
     "outfits/teen-farmer": {
       "url": "/assets/pixel-life/outfits/teen-farmer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 399459
+      "bytes": 398122
     },
     "outfits/teen-healer": {
       "url": "/assets/pixel-life/outfits/teen-healer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 460279
+      "bytes": 458641
     },
     "outfits/teen-knight": {
       "url": "/assets/pixel-life/outfits/teen-knight.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 416888
+      "bytes": 415564
     },
     "outfits/teen-laborer": {
       "url": "/assets/pixel-life/outfits/teen-laborer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 421677
+      "bytes": 419385
     },
     "outfits/teen-mage": {
       "url": "/assets/pixel-life/outfits/teen-mage.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 424887
+      "bytes": 422284
     },
     "outfits/teen-magic-training": {
       "url": "/assets/pixel-life/outfits/teen-magic-training.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 441077
+      "bytes": 437860
     },
     "outfits/teen-merchant": {
       "url": "/assets/pixel-life/outfits/teen-merchant.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 408861
+      "bytes": 406712
     },
     "outfits/teen-professor": {
       "url": "/assets/pixel-life/outfits/teen-professor.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 414079
+      "bytes": 410974
     },
     "outfits/teen-retired": {
       "url": "/assets/pixel-life/outfits/teen-retired.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 480073
+      "bytes": 477024
     },
     "outfits/teen-student": {
       "url": "/assets/pixel-life/outfits/teen-student.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 450333
+      "bytes": 446987
     },
     "outfits/teen-sword-training": {
       "url": "/assets/pixel-life/outfits/teen-sword-training.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 346947
+      "bytes": 344033
     },
     "outfits/teen-swordsman": {
       "url": "/assets/pixel-life/outfits/teen-swordsman.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 405305
+      "bytes": 402426
     },
     "outfits/teen-teacher": {
       "url": "/assets/pixel-life/outfits/teen-teacher.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 426816
+      "bytes": 425671
     },
     "outfits/teen-neutral": {
       "url": "/assets/pixel-life/outfits/teen-neutral.png",
@@ -300,119 +300,119 @@
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 492145
+      "bytes": 452465
     },
     "outfits/adult-guard": {
       "url": "/assets/pixel-life/outfits/adult-guard.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 445225
+      "bytes": 413273
     },
     "outfits/adult-adventurer": {
       "url": "/assets/pixel-life/outfits/adult-adventurer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 620671
+      "bytes": 571035
     },
     "outfits/adult-cleric": {
       "url": "/assets/pixel-life/outfits/adult-cleric.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 556583
+      "bytes": 513281
     },
     "outfits/adult-farmer": {
       "url": "/assets/pixel-life/outfits/adult-farmer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 491657
+      "bytes": 461426
     },
     "outfits/adult-healer": {
       "url": "/assets/pixel-life/outfits/adult-healer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 562192
+      "bytes": 528814
     },
     "outfits/adult-knight": {
       "url": "/assets/pixel-life/outfits/adult-knight.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 510259
+      "bytes": 481271
     },
     "outfits/adult-laborer": {
       "url": "/assets/pixel-life/outfits/adult-laborer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 524158
+      "bytes": 487603
     },
     "outfits/adult-mage": {
       "url": "/assets/pixel-life/outfits/adult-mage.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 530610
+      "bytes": 490656
     },
     "outfits/adult-magic-training": {
       "url": "/assets/pixel-life/outfits/adult-magic-training.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 551768
+      "bytes": 508891
     },
     "outfits/adult-merchant": {
       "url": "/assets/pixel-life/outfits/adult-merchant.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 505736
+      "bytes": 472185
     },
     "outfits/adult-professor": {
       "url": "/assets/pixel-life/outfits/adult-professor.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 519908
+      "bytes": 478193
     },
     "outfits/adult-retired": {
       "url": "/assets/pixel-life/outfits/adult-retired.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 595667
+      "bytes": 554772
     },
     "outfits/adult-student": {
       "url": "/assets/pixel-life/outfits/adult-student.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 566068
+      "bytes": 520354
     },
     "outfits/adult-sword-training": {
       "url": "/assets/pixel-life/outfits/adult-sword-training.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 436784
+      "bytes": 399437
     },
     "outfits/adult-swordsman": {
       "url": "/assets/pixel-life/outfits/adult-swordsman.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 508022
+      "bytes": 468064
     },
     "outfits/adult-teacher": {
       "url": "/assets/pixel-life/outfits/adult-teacher.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 524135
+      "bytes": 491394
     },
     "outfits/adult-neutral": {
       "url": "/assets/pixel-life/outfits/adult-neutral.png",
@@ -433,112 +433,112 @@
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 388776
+      "bytes": 383324
     },
     "outfits/elder-adventurer": {
       "url": "/assets/pixel-life/outfits/elder-adventurer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 540207
+      "bytes": 531180
     },
     "outfits/elder-cleric": {
       "url": "/assets/pixel-life/outfits/elder-cleric.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 484286
+      "bytes": 477942
     },
     "outfits/elder-farmer": {
       "url": "/assets/pixel-life/outfits/elder-farmer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 434808
+      "bytes": 431008
     },
     "outfits/elder-healer": {
       "url": "/assets/pixel-life/outfits/elder-healer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 498890
+      "bytes": 493853
     },
     "outfits/elder-knight": {
       "url": "/assets/pixel-life/outfits/elder-knight.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 454069
+      "bytes": 449490
     },
     "outfits/elder-laborer": {
       "url": "/assets/pixel-life/outfits/elder-laborer.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 458352
+      "bytes": 453203
     },
     "outfits/elder-mage": {
       "url": "/assets/pixel-life/outfits/elder-mage.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 462374
+      "bytes": 456060
     },
     "outfits/elder-magic-training": {
       "url": "/assets/pixel-life/outfits/elder-magic-training.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 480659
+      "bytes": 472809
     },
     "outfits/elder-merchant": {
       "url": "/assets/pixel-life/outfits/elder-merchant.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 444738
+      "bytes": 439123
     },
     "outfits/elder-professor": {
       "url": "/assets/pixel-life/outfits/elder-professor.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 450963
+      "bytes": 443384
     },
     "outfits/elder-retired": {
       "url": "/assets/pixel-life/outfits/elder-retired.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 523127
+      "bytes": 516136
     },
     "outfits/elder-student": {
       "url": "/assets/pixel-life/outfits/elder-student.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 491783
+      "bytes": 483757
     },
     "outfits/elder-sword-training": {
       "url": "/assets/pixel-life/outfits/elder-sword-training.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 377709
+      "bytes": 370940
     },
     "outfits/elder-swordsman": {
       "url": "/assets/pixel-life/outfits/elder-swordsman.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 440859
+      "bytes": 433814
     },
     "outfits/elder-teacher": {
       "url": "/assets/pixel-life/outfits/elder-teacher.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 464165
+      "bytes": 459425
     },
     "outfits/elder-neutral": {
       "url": "/assets/pixel-life/outfits/elder-neutral.png",
@@ -580,7 +580,7 @@
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 342541
+      "bytes": 338913
     },
     "bodies/dwarf-child": {
       "url": "/assets/pixel-life/bodies/dwarf-child.png",
@@ -601,119 +601,119 @@
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 391655
+      "bytes": 388883
     },
     "bodies/elf-teen": {
       "url": "/assets/pixel-life/bodies/elf-teen.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 478971
+      "bytes": 475829
     },
     "bodies/beastfolk-teen": {
       "url": "/assets/pixel-life/bodies/beastfolk-teen.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 513263
+      "bytes": 509412
     },
     "bodies/migurd-teen": {
       "url": "/assets/pixel-life/bodies/migurd-teen.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 490783
+      "bytes": 478161
     },
     "bodies/dwarf-teen": {
       "url": "/assets/pixel-life/bodies/dwarf-teen.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 452343
+      "bytes": 449091
     },
     "bodies/superd-teen": {
       "url": "/assets/pixel-life/bodies/superd-teen.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 427251
+      "bytes": 424472
     },
     "bodies/elf-adult": {
       "url": "/assets/pixel-life/bodies/elf-adult.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 600004
+      "bytes": 555239
     },
     "bodies/beastfolk-adult": {
       "url": "/assets/pixel-life/bodies/beastfolk-adult.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 641108
+      "bytes": 591809
     },
     "bodies/migurd-adult": {
       "url": "/assets/pixel-life/bodies/migurd-adult.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 580777
+      "bytes": 509576
     },
     "bodies/dwarf-adult": {
       "url": "/assets/pixel-life/bodies/dwarf-adult.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 565108
+      "bytes": 520991
     },
     "bodies/superd-adult": {
       "url": "/assets/pixel-life/bodies/superd-adult.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 535940
+      "bytes": 492661
     },
     "bodies/human-elder": {
       "url": "/assets/pixel-life/bodies/human-elder.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 474719
+      "bytes": 466926
     },
     "bodies/elf-elder": {
       "url": "/assets/pixel-life/bodies/elf-elder.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 568054
+      "bytes": 559432
     },
     "bodies/beastfolk-elder": {
       "url": "/assets/pixel-life/bodies/beastfolk-elder.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 620241
+      "bytes": 610429
     },
     "bodies/migurd-elder": {
       "url": "/assets/pixel-life/bodies/migurd-elder.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 473221
+      "bytes": 465370
     },
     "bodies/dwarf-elder": {
       "url": "/assets/pixel-life/bodies/dwarf-elder.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 548611
+      "bytes": 539514
     },
     "bodies/superd-elder": {
       "url": "/assets/pixel-life/bodies/superd-elder.png",
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 559858
+      "bytes": 551472
     },
     "bodies/human-infant": {
       "url": "/assets/pixel-life/bodies/human-infant.png",

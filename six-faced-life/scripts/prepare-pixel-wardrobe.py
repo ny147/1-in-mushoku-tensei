@@ -24,40 +24,48 @@ def runs(values):
         groups[-1].append(value)
     return groups
 
-rows = runs([y for y in range(base.height) if alpha.crop((0, y, base.width, y+1)).getextrema()[1] > 128])
-if len(rows) != 16:
-    raise ValueError(f'Expected inspected 16-row source, found {len(rows)}')
-# The source omitted a social row. Its actual greeting is reused for social.
-row_map = [0, 1, 2, 3, 4, 5, 6, 7, 11, 8, 9, 10, 11, 12, 13, 14, 15]
-cells = []
-for index, row in enumerate(rows):
-    top = 0 if index == 0 else (rows[index-1][-1] + row[0]) // 2
-    bottom = base.height if index == 15 else (row[-1] + rows[index+1][0]) // 2
-    strip = alpha.crop((0, top, base.width, bottom))
-    columns = runs([x for x in range(base.width) if strip.crop((x, 0, x+1, strip.height)).getextrema()[1] > 128])
-    if len(columns) != 8:
-        raise ValueError(f'Row {index}: expected 8 separate figures, found {len(columns)}')
-    frame_cells = []
-    for col, column in enumerate(columns):
-        left = 0 if col == 0 else (columns[col-1][-1] + column[0]) // 2
-        right = base.width if col == 7 else (column[-1] + columns[col+1][0]) // 2
-        box = (left, top, right, bottom)
-        mask = alpha.crop(box)
-        bbox = mask.getbbox()
-        foot_y = bbox[3]
-        feet = mask.crop((0, max(0, foot_y-4), mask.width, foot_y)).getbbox()
-        foot_x = (feet[0] + feet[2]) / 2
-        frame_cells.append((box, foot_x, foot_y))
-    cells.append(frame_cells)
+def registration(source):
+    alpha = source.getchannel('A')
+    rows = runs([y for y in range(source.height) if alpha.crop((0, y, source.width, y+1)).getextrema()[1] > 128])
+    if len(rows) != 16:
+        raise ValueError(f'Expected inspected 16-row source, found {len(rows)}')
+    cells = []
+    for index, row in enumerate(rows):
+        top = 0 if index == 0 else (rows[index-1][-1] + row[0]) // 2
+        bottom = source.height if index == 15 else (row[-1] + rows[index+1][0]) // 2
+        strip = alpha.crop((0, top, source.width, bottom))
+        columns = runs([x for x in range(source.width) if strip.crop((x, 0, x+1, strip.height)).getextrema()[1] > 128])
+        if len(columns) != 8:
+            raise ValueError(f'Row {index}: expected 8 separate figures, found {len(columns)}')
+        frame_cells = []
+        for col, column in enumerate(columns):
+            left = 0 if col == 0 else (columns[col-1][-1] + column[0]) // 2
+            right = source.width if col == 7 else (column[-1] + columns[col+1][0]) // 2
+            box = (left, top, right, bottom)
+            mask = alpha.crop(box)
+            bbox = mask.getbbox()
+            foot_y = bbox[3]
+            feet = mask.crop((0, max(0, foot_y-4), mask.width, foot_y)).getbbox()
+            foot_x = (feet[0] + feet[2]) / 2
+            frame_cells.append((box, foot_x, foot_y, foot_y-bbox[1]))
+        cells.append(frame_cells)
+    return cells
 
-def export(source, height):
+cells = registration(base)
+# Source omitted social: reuse greeting.
+row_map = [0, 1, 2, 3, 4, 5, 6, 7, 11, 8, 9, 10, 11, 12, 13, 14, 15]
+
+def export(source, height, own_registration=False):
     source = source.convert('RGBA')
     if source.size != base.size:
         source = source.resize(base.size, Image.Resampling.NEAREST)
-    scale = height / 83
+    frame_cells = registration(source) if own_registration else cells
     sheet = Image.new('RGBA', (512, 1088))
     for target_row, source_row in enumerate(row_map):
-        for col, (box, foot_x, foot_y) in enumerate(cells[source_row]):
+        for col, (box, foot_x, foot_y, pose_height) in enumerate(frame_cells[source_row]):
+            # Raised hands must fit above the common foot anchor. Garments use
+            # exactly the same reference-derived scale as their underlying body.
+            scale = min(height / 83, 54 / pose_height)
             frame = source.crop(box)
             frame = frame.resize((round(frame.width*scale), round(frame.height*scale)), Image.Resampling.NEAREST)
             cell = Image.new('RGBA', (64, 64))
@@ -83,7 +91,7 @@ for stage, height in [('child', 34), ('teen', 42), ('adult', 48), ('elder', 44)]
             source = base
         else:
             source = Image.open(path)
-        save(f'bodies/{race}-{stage}', export(source, height))
+        save(f'bodies/{race}-{stage}', export(source, height, own_registration=(race == 'migurd' and source_stage == 'adult')))
     for outfit, path in outfits.items():
         with Image.open(path) as source:
             save(f'outfits/{stage}-{outfit}', export(source, height))

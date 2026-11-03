@@ -144,7 +144,7 @@ Reviewed against the source on 2026-10-24. This is the current implementation gu
 
 - Quiet paper surfaces and fine dividers.
 - Self-hosted literary type paired with practical controls.
-- A painted scene beside a readable character record.
+- A regional pixel scene beside a readable character record; original painting on other spreads and as the loading/failure fallback.
 - Muted state colors, clear focus outlines, and restrained motion.
 
 ## Colors
@@ -321,7 +321,7 @@ For UI changes, inspect desktop and narrow phone layouts, keyboard operation, ex
 
 - **Do** retain the warm paper, forest ink, and restrained gold relationship.
 - **Do** pair serif narrative headings with sans-serif controls and explicit state labels.
-- **Do** keep original painted scenery and maintain its text-supporting overlay.
+- **Do** retain the original painting for other spreads and fallback; keep pixel scenery crisp with its forest-ink text overlay.
 - **Do** preserve visible keyboard focus and the stacked mobile reading order.
 
 ### Don't:
@@ -333,3 +333,22 @@ For UI changes, inspect desktop and narrow phone layouts, keyboard operation, ex
 ## Sword practice and mentorship
 
 The chronicle rail and character view use the same compact Sword styles section: three factual rank/XP rows, a labeled native Practice style select, and explicit decision-lock text. Paid mentorship shows the paid fee, eligible-year progress, paused reason and manual trial readiness. Teacher quotes and bilingual trials reuse the existing decision/outcome panels and keyboard outcome focus. Completed records show factual per-style ranks and actual mentorship years. Existing paper/ink tokens, fonts, mobile order and reduced-motion rules remain.
+
+## Pixel life scene
+
+The active chronicle uses original layered pixel artwork for the current region,
+race and life stage. Everyday clothes follow the primary occupation. Magic or
+sword focus uses training clothes and the selected discipline's earned capped
+rank. The scene is visual only and never changes gameplay or saved progress.
+
+Play shows the current activity; Pause and pending choices show gentle idle
+motion. Sprite speed stays constant at every playback speed. **Scene motion**
+turns all scene movement off for the current app session; reload restores the
+preference to on. Device reduced-motion preferences take priority and show a
+still frame. Hidden tabs, offscreen scenes and completed lives also stay still.
+Short reactions never block decisions or replay saved history. A pending phone
+decision hides the scene to keep the story visible. Failed or still-loading art
+uses the original painted landscape as a complete fallback. New-life and other
+painted screens retain their original artwork; archive previews have no live scene.
+
+Use 64px sprite cells at integer scale, restrained effects and the existing literary caption hierarchy. Raster layers are decorative beneath one localized image description. Scene motion is a native 44px button with explicit pressed state, keyboard focus and a reduced-motion explanation. Keep caption and hero on opposite sides at every breakpoint.

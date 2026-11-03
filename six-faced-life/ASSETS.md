@@ -1,33 +1,50 @@
 # Asset record
 
-## Pixel scene — checkpoint, 2026-11-02
+## Pixel life scene — 2026-11-03
 
-Implementation is paused at the user's request before final acceptance and
-provenance review. Runtime files are under `public/assets/pixel-life/`, indexed
-by `src/components/life-scene/assets.json`: 179 PNGs, 42,999,612 bytes total.
-They include six regions, six ambient atlases, 30 race/stage bodies, 73 wardrobe
-atlases, 56 rank overlays and eight selected-discipline effects.
+Original detailed fantasy pixel artwork generated with the built-in ImageGen tool
+on 2026-11-02, following the user's selected lower panel B. No franchise sprites
+were downloaded. All 179 runtime PNGs are under `public/assets/pixel-life/`;
+`src/components/life-scene/assets.json` records every path, dimension, alpha flag
+and compressed byte size. Current total: **41,874,507 bytes**.
 
-The original source artwork was generated with the built-in imagegen tool in
-this chat, using the selected lower panel B of the design comparison as direction.
-It contains original characters, outfits and representative regional scenery;
-no franchise sprites were downloaded. The user explicitly authorized Pillow
-mechanical resizing, transparent trimming and sheet slicing. The optional
-authoring scripts `scripts/prepare-pixel-backgrounds.py`,
-`scripts/prepare-pixel-wardrobe.py` and `scripts/prepare-pixel-details.py` perform
-those operations with Pillow (11.3.0 used). They are not application/build
-dependencies and require retained source PNGs.
+| Category | Files | Dimensions |
+| --- | ---: | --- |
+| Regional scenery | 6 | 768×256 |
+| Ambient atlases | 6 | 512×128 |
+| Race and age bodies | 30 | 512×1088 |
+| Wardrobe | 73 | 512×1088 |
+| Rank gear | 56 | 512×1088 |
+| Selected-discipline effects | 8 | 1024×128 |
 
-Retain local originals in ignored `.sites-workflow/pixel-life/sources/` and the
-Codex generated-image cache. The scripts document expected input filenames;
-final exact prompt cataloguing and complete frame/fit review remain pending.
-The actual generation prompts are preserved in this chat. Do not call the
-artwork or animation release fully verified from this checkpoint.
+Exact original prompts, variant substitutions and reference-image inputs are
+retained in [the authoring record](../docs/superpowers/specs/assets/2026-11-02-pixel-life-prompts.md).
+The [source inventory](../docs/superpowers/specs/assets/2026-11-02-pixel-life-sources.md)
+records filenames, byte sizes and SHA-256 hashes of the accepted originals.
+Original PNGs remain locally in ignored `.sites-workflow/pixel-life/sources/`
+and the Codex generated-image cache. Preserve them for future art revisions.
 
-The 16-row pose source maps to the 17 runtime clips by sharing greeting/social;
-children and teens use size variants, elders separately generated aged features.
-The manifest tests check actual PNG dimensions, alpha format and compressed bytes.
-See CONTINUE.md and the active implementation plan for completed and pending QA.
+The user explicitly authorized Pillow for mechanical resizing, transparent
+trimming and sheet slicing. The optional `scripts/prepare-pixel-backgrounds.py`,
+`prepare-pixel-wardrobe.py` and `prepare-pixel-details.py` require those source
+PNGs and Pillow (11.3.0 used); neither is an application/build dependency.
+Run them in that order with the source directory argument. Never regenerate
+art as part of the normal build. The exported assets are committed directly.
+
+Mechanical registration uses 64×64 hero cells, eight columns and 17 clips, with
+foot anchor (32,56). The 16-row original pose sheet shares greeting/social.
+Child/teen bodies use size variants; elders have separately generated aged
+features; infants have their own six-race sheet. Migurd youthful sources use
+their own inspected row/foot geometry. Tall raised poses scale to fit the cell;
+wardrobe uses the same reference scale. `python scripts/test_pixel_registration.py`
+checks the reproduced neighboring-row and raised-pose clipping regressions.
+
+A conservative upper bound across all categories is **1,720,121 compressed bytes**
+for a scene, counting the shared ambient atlas once. There are at most seven
+raster layers, six potentially moving. Other regions/characters are selected
+lazily. Actual file coverage and metadata checks run in `tests/pixel-assets.test.ts`.
+Visual acceptance status and any remaining limitations live in CONTINUE.md and
+the active implementation plan; metadata tests alone do not prove artwork fit.
 
 ## Original landscape
 

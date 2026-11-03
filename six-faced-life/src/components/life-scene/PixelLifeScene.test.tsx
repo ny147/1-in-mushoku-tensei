@@ -59,6 +59,8 @@ it("never lets stale images replace a newer scene and handles failures", () => {
   const p = props();
   const { rerender, container } = render(<PixelLifeScene {...p} />);
   const old = [...images];
+  // A callback already queued by the browser survives handler detachment.
+  const queued = old.map((i) => i.onload);
   const next = {
     ...p,
     presentation: {
@@ -73,10 +75,30 @@ it("never lets stale images replace a newer scene and handles failures", () => {
     },
   };
   rerender(<PixelLifeScene {...next} />);
-  act(() => old.forEach((i) => i.onload?.()));
+  act(() => queued.forEach((load) => load?.()));
   expect(container.querySelector('[data-scene-ready="false"]')).not.toBeNull();
   act(() =>
     images.filter((i) => !old.includes(i)).forEach((i) => i.onerror?.()),
   );
   expect(container.querySelector('[data-scene-ready="false"]')).not.toBeNull();
+});
+it("settles only the newest complete scene and disconnects visibility observation", () => {
+  const disconnect = vi.fn();
+  let notify: (entries: { isIntersecting: boolean }[]) => void = () => {};
+  vi.stubGlobal("IntersectionObserver", class {
+    constructor(callback: typeof notify) { notify = callback; }
+    observe() {}
+    disconnect = disconnect;
+  });
+  const p = props();
+  const { container, unmount } = render(<PixelLifeScene {...p} />);
+  act(() => notify([{ isIntersecting: false }]));
+  expect(p.onVisibilityChange).toHaveBeenLastCalledWith(false);
+  act(() => images.slice(1).forEach((image) => image.onload?.()));
+  expect(container.querySelector('[data-scene-ready="false"]')).not.toBeNull();
+  act(() => images[0].onload?.());
+  expect(container.querySelector('[data-scene-ready="true"]')).not.toBeNull();
+  unmount();
+  expect(disconnect).toHaveBeenCalledOnce();
+  expect(images.every((image) => image.onload === null && image.onerror === null)).toBe(true);
 });

@@ -1,93 +1,111 @@
 # Save point — Six-Faced Life
 
-## Pixel life scene — paused at user's request, 2026-11-02 22:29 Asia/Bangkok
+## Pixel life scene — paused at user's request, 2026-11-03 17:23 Asia/Bangkok
 
-User said **"prepare to stop on check point"**. Stop implementation after saving
-this checkpoint. Continue **`codex/pixel-life-scene`**, existing draft
-**[PR #19](https://github.com/ny147/1-in-mushoku-tensei/pull/19)**, base **main**.
-Do not create another task branch or PR, merge, auto-merge, delete the branch or
-publish. Last completed implementation commits before this checkpoint:
-**`3e22968`** (read-only scene model), **`438fe7f`** (bounded reactions).
-This checkpoint saves the subsequent artwork, renderer and integration work.
+User said **"prepare to stop"**. Implementation has stopped; only checkpoint
+commit/push/PR delivery follows. Resume the existing **`codex/pixel-life-scene`**
+branch and **draft [PR #19](https://github.com/ny147/1-in-mushoku-tensei/pull/19)**,
+base **main**. Last prior checkpoint: **`5b94fc4`**. Do not create another branch
+or PR, merge, rebase, auto-merge, delete the branch or publish. ADHD-friendly
+output remains enabled. Native execution was selected; do not restart discovery.
 
-Spec: [pixel life scene](docs/superpowers/specs/2026-11-02-pixel-life-scene-design.md).
-Plan/ledger: [implementation plan](docs/superpowers/plans/2026-11-02-pixel-life-scene.md).
-User approved the design for planning, reviewed the plan and selected **Native**
-execution ("1"). ADHD-friendly output stays enabled. Do not restart discovery.
+Spec: `docs/superpowers/specs/2026-11-02-pixel-life-scene-design.md`.
+Plan/ledger: `docs/superpowers/plans/2026-11-02-pixel-life-scene.md`.
 
-**Implemented, incomplete release:** read-only scene model and transient reaction
-reducer; original pixel artwork and manifest; current-layer selection; React/CSS
-renderer, loading/fallback guards, motion/visibility hook and EN/TH descriptions;
-App session motion preference, chronicle scene replacement and active-ending slot.
-No simulation/save-schema change. New-life/other screens retain original painting.
-No browser saves at player **127.0.0.1:5173** were touched.
+**Implemented, still draft:** read-only scene facts/model, bounded reactions,
+179 original raster assets, layer selector, renderer/fallback/visibility lifecycle,
+session motion toggle, EN/TH labels, App chronicle and still active-ending slots.
+No simulation, save-schema or RNG changes. Player **5173 storage untouched**.
 
-**Art on disk:** 179 runtime PNGs (42,999,612 bytes total) under
-`six-faced-life/public/assets/pixel-life/`: six regions, six ambient atlases,
-30 race/stage bodies, 73 wardrobe atlases, 56 rank overlays and eight effects.
-All generated with built-in imagegen, then mechanically processed by the three
-`six-faced-life/scripts/prepare-pixel-*.py` scripts (Pillow 11.3.0 available).
-The user explicitly authorized **mechanical resizing, transparent trimming and
-sheet slicing**. Keep original sources in ignored
-`six-faced-life/.sites-workflow/pixel-life/sources/` and Codex generated-images
-cache; they are needed to revise art. Do not delete these local files. Source
-sheets are 16 rows; the export maps them to the 17 runtime clips, reusing greeting
-for social. Children/teens scale the youthful adult source; elders have separately
-generated aged features. Additional full-pose visual inspection remains.
+**This session:** added reduced-motion/media cleanup, hidden-tab timer/listener
+cleanup, genuinely queued stale-image callbacks, visibility observer cleanup and
+live-ending/archive App coverage. Recovered exact authoring inputs from this
+chat into `docs/superpowers/specs/assets/2026-11-02-pixel-life-prompts.md` and
+source filename/size/SHA-256 inventory beside it. Updated ASSETS/PRODUCT/README,
+DESIGN and its sidecar for actual built behavior; retain existing art/licenses.
 
-**Verification actually run:**
-- Full suite **358/358 tests, 56 files**, 75.38s, before renderer/App integration.
-  This is historical within this task, NOT a current full-suite result.
-- Latest focused App/language/lifecycle/renderer/model/reaction run: **50/50** in
-  eight files. Asset/model/reaction run separately: **16/16** in three files,
-  including real PNG dimensions/bytes/alpha format and matrix/size checks.
-- Latest `npm.cmd run build` passed after App integration and image-loader cleanup;
-  existing >500kB JS advisory remains (current bundle about 740kB).
-- Vitest/esbuild needed authorized sandbox escalation for spawn EPERM. A transient
-  Node fs type error was fixed by moving the file-based asset test outside browser
-  TS scope to `six-faced-life/tests/pixel-assets.test.ts`; no dependency added.
-- Infant ending precedence was reproduced RED then fixed GREEN. New renderer and
-  integration tests were observed failing before implementation.
+**Artwork correction in progress:** all-pose inspection found youthful Migurd
+source rows drifted from the shared human reference, leaking neighboring blue
+heads into later clips. Added source-specific slicing/foot registration for that
+source and capped tall-pose scaling to fit above the shared foot anchor. Two
+Pillow regression tests were observed RED then GREEN. Updated bodies, wardrobe
+and manifest are saved, but **do not call final artwork accepted**: the new
+`fits-migurd.png` contact sheet shows some frames (especially 7 in farmer/magic
+and crouched sword) with body and clothing shifted apart. Body registration now
+uses its own geometry while garments still use the human reference; race-fit
+registration or authored variants must reconcile those anchors. All affected
+Migurd child/teen/adult clips need fit review. Rank overlays must also be
+rechecked after the tall-pose scale adjustment. No further fix was made after
+the stop request. Retain raw sources; don't blindly rerun details/backgrounds.
 
-**Isolated browser QA (5174):** generated a disposable life, then used ignored
-`.sites-workflow/pixel-life/qa.html` fixture controls (UI buttons write QA saves)
-for adult elf/fire/King and elder Superd/North God/God in Thai. Desktop 1280 and
-360px mobile inspected; scene ready=true, no horizontal overflow and no console
-errors observed. 8x retained 1s sprite timing; Pause yielded idle; motion off gave
-animation-name none on all layers. Reload preserved life/pending decision and
-started paused, with session motion preference reset on. A tablet screenshot was
-visibly cropped despite DOM overflow=false: repeat and confirm viewport geometry
-before claiming tablet passes. Do not claim all browser acceptance flows passed.
+Runtime art now **41,874,507 bytes / 179 PNGs**. Conservative per-scene upper
+bound across categories **1,720,121 bytes**, max seven layers (six moving).
+Optional mechanical scripts require retained source PNGs and Pillow 11.3.0;
+the user explicitly approved resize/trim/slice processing. Normal builds need
+neither Python nor original sources.
 
-**Paused environment:** isolated Vite server was started on **5174**, exec session
-**17799**; reuse if still running. QA browser tab id **1**, browser **2 (IAB)**,
-URL http://127.0.0.1:5174/ is marked for handoff. Playback paused (clip idle,
-ready true); viewport override reset. Use cua_repl documentation refresh on resume.
-Ignored logs/contact sheets and source art remain under `.sites-workflow/pixel-life/`.
+**Checks actually run:**
+- Full integrated `npm.cmd test -- --maxWorkers=2`: **372/372 tests in 59 files**,
+  91.46s. This was before the later mechanical art corrections; application code
+  is unchanged since, except removing an invalid test query option.
+- `npm.cmd run build` passed after that test-query TypeScript correction;
+  existing >500kB JS advisory (740.39kB output) remains. No final post-art build.
+- Post-art focused App/scene/asset run: **43/43 in six files**, 6.73s, including
+  current actual PNG metadata/bytes and full enum/rank matrix.
+- `python scripts/test_pixel_registration.py`: **2/2**, both observed RED→GREEN.
+- Earlier expanded lifecycle run: **20/20**; queued stale callbacks and fallback
+  tests pass. Sandbox tests/build use authorized escalation for esbuild spawn.
+- Final diff/check/index inspection is part of this checkpoint delivery; see
+  commit/PR for final result. Do not invent a later full-suite or visual result.
 
-**Remaining, exact next work:**
-1. Recheck status, usage and `git fetch origin --prune`; read this checkpoint and
-   ledger. Resume Task 6/7 acceptance hardening, not Task 1. Run
-   `npm.cmd test -- tests/pixel-assets.test.ts src/components/life-scene src/i18n/life-scene.test.ts src/App.test.tsx --maxWorkers=2`
-   from `six-faced-life/` before changes.
-2. Add/verify reduced-motion media changes, hidden-tab listener/timer cleanup,
-   pending-phone hiding, live ending versus archive, reaction bursts and keyboard
-   Space/focus. Complete desktop 1700/tablet 850/mobile EN+TH QA, failure/slow load
-   checks and real per-scene asset/element measurements. Inspect every pose/gear fit.
-3. Finish exact artwork prompt/provenance records in ASSETS, then PRODUCT/DESIGN,
-   sidecar and README for actual built behavior. These remain unfinished; retain
-   existing previews/licenses. Source generators currently require retained local
-   source PNGs; final docs must explain their authoring-only role.
-4. Run current full `npm.cmd test -- --maxWorkers=2` and `npm.cmd run build`, inspect
-   results, then perform the Native workflow's required fresh whole-branch review.
-   No final code review has happened. Fix significant findings with regression
-   tests; keep PR draft until all required checks/art coverage pass.
+**Browser 5174 only:** EN 850/1280/1700 and TH 360/850/1700 inspected; no overflow
+on sampled layouts. Thai live death went straight to ending with all layers
+`animation-name:none`; archive list and opened preview contained zero pixel
+scenes. Pending EN phone scene was `display:none` and all loaded layers stopped.
+Space on Scene motion toggled only motion, kept focus on its button and left
+time paused. All four speeds retained 1s body/outfit/rank loops; Pause→idle.
+Offscreen footer scroll stopped every layer; console error list was empty.
+Reload kept selected life/gear, idle and no reaction replay. Device reduced
+motion changes/hidden-tab behavior tested through subscriptions, not browser OS
+settings. Slow/failed asset delivery is covered in component tests, not real
+network throttling. Contact sheets inspected all six race stages in neutral,
+farmer and training outfits with frames 0/3/7, all career outfits adult/teen,
+all rank families/stages and eight effect strips. Those checks exposed the
+remaining Migurd fit issue above; they do not certify every pose/garment pair.
 
-Usage observed **22:29 Asia/Bangkok Nov 2**: five-hour **57% remaining**, weekly
-**90% remaining**; resets **Nov 3 01:03** / **Nov 9 09:20** Asia/Bangkok.
-No credits/billing actions. Final fetch/commit/push status is in the checkpoint
-handoff/PR metadata; if remote delivery fails, preserve all local work and report
-it. User merges manually. Do not publish the game.
+**Independent whole-branch code review completed** by `pixel_final_review`:
+no Critical/Important code defect. Two Minor findings are deferred:
+1. Allocating carried expanded legacy sword XP into a selected style triggers a
+   false promotion celebration (`model.ts` / `reactions.ts`); no progress changes.
+2. Without IntersectionObserver, pending-phone CSS visibility changes are not
+   resampled until scroll/resize (`PixelLifeScene.tsx`); can leave stillness or
+   hidden animation stale on that fallback path.
+Reviewer declined artwork/remaining browser acceptance/docs under parent work;
+these remain the parent's responsibility, not automatically accepted. No second
+review required by Native; fix Important issues test-first if further discovered.
+
+**Exact next steps after user resumes:**
+1. Recheck usage/status/fetch, read this section and plan ledger. Preserve this
+   task branch and sources. Do not repeat completed model/reaction work.
+2. Inspect `.sites-workflow/pixel-life/fits-migurd.png`, then fix per-race body /
+   garment registration. Start with failing fit/regression evidence; compare
+   frames 0/3/7 and every clip, including rank overlays after scale changes.
+3. Rerun current asset/Pillow checks and build after art fix; finish acceptance,
+   update byte counts if changed, and run the full suite before ready delivery.
+   Keep PR draft until required visual acceptance passes. User merges manually.
+
+Paused QA: Vite **5174**, exec session **24563**; browser **2**, tab **4**, current
+URL http://127.0.0.1:5174/, paused Thai Migurd/Water God, viewport override reset,
+marked handoff. Some previous tabs became stale; current tab 4 worked. Use Cua
+refresh/documentation on resume; don't touch player 5173. Local screenshot:
+`six-faced-life/.sites-workflow/pixel-life/final-preview.jpg`.
+All sources, QA fixture (with alive/near-ending/ended selector), logs and contact
+sheets remain ignored under `.sites-workflow/pixel-life/`. Preserve them.
+
+Usage observed **2026-11-03 17:23 Bangkok**: five-hour **15% remaining**, weekly
+**76% remaining**; resets **Nov 3 21:58:50** / **Nov 9 09:20:55** Bangkok. No billing
+or reset-credit action. Final escalated fetch succeeded: latest `origin/main`
+**53f8fb7** is an ancestor of the task. Final commit/push/PR SHA follows in Git/PR.
 
 ## Swordsmanship styles — implemented, 2026-10-29
 
