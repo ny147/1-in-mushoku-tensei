@@ -182,3 +182,20 @@ This is an unofficial fan creation. Mushoku Tensei and its setting belong to the
 The reference HTML and JavaScript captured during investigation live outside this project and are never included in its build. See the parent `docs/research/reference-findings.md` for evidence and analysis limitations.
 
 Typography: Cormorant Garamond and DM Sans for English, with Noto Serif Thai and Noto Sans Thai for Thai, all self-hosted under the SIL Open Font License. Original license files and pinned Thai font provenance are recorded in [ASSETS.md](ASSETS.md), alongside the illustration's generation record.
+
+## Pixel life scene
+
+The active chronicle uses original layered pixel artwork for the current region,
+race and life stage. Everyday clothes follow the primary occupation. Magic or
+sword focus uses training clothes and the selected discipline's earned capped
+rank. The scene is visual only and never changes gameplay or saved progress.
+
+Play shows the current activity; Pause and pending choices show gentle idle
+motion. Sprite speed stays constant at every playback speed. **Scene motion**
+turns all scene movement off for the current app session; reload restores the
+preference to on. Device reduced-motion preferences take priority and show a
+still frame. Hidden tabs, offscreen scenes and completed lives also stay still.
+Short reactions never block decisions or replay saved history. A pending phone
+decision hides the scene to keep the story visible. Failed or still-loading art
+uses the original painted landscape as a complete fallback. New-life and other
+painted screens retain their original artwork; archive previews have no live scene.

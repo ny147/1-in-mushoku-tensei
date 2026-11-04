@@ -282,6 +282,17 @@
       ],
       "controls": "Native labeled style select, locked during pending/queued decisions; bilingual paid/progress/paused/readiness copy.",
       "presentation": "Existing paper/forest-ink system, compact definition lists; no new theme or motion."
+    },
+    "pixelLifeScene": {
+      "updated": "2026-11-03",
+      "surface": "Active chronicle and still active ending; archive previews excluded",
+      "art": "Original local raster atlases, integer sprite scale, forest-ink text gradient; original painting fallback",
+      "motion": "Session toggle; paused/pending idle, constant speed; hidden/offscreen/reduced/off/ended still",
+      "accessibility": "Localized image description, decorative layers, native 44px toggle and reduced-motion explanation",
+      "budget": {
+        "maxLayers": 7,
+        "compressedUpperBoundBytes": 1720121
+      }
     }
   },
   "components": [
@@ -383,14 +394,14 @@
     "keyCharacteristics": [
       "Quiet paper surfaces and fine dividers.",
       "Self-hosted literary type paired with practical controls.",
-      "A painted scene beside a readable character record.",
+      "A regional pixel scene beside a readable character record, with original painting retained on other spreads and as fallback.",
       "Muted state colors, clear focus outlines, and restrained motion."
     ],
     "rules": [],
     "dos": [
       "**Do** retain the warm paper, forest ink, and restrained gold relationship.",
       "**Do** pair serif narrative headings with sans-serif controls and explicit state labels.",
-      "**Do** keep original painted scenery and maintain its text-supporting overlay.",
+      "**Do** retain original painted scenery for fallback and other spreads; use crisp regional pixel art in the chronicle.",
       "**Do** preserve visible keyboard focus and the stacked mobile reading order."
     ],
     "donts": [

@@ -1,5 +1,55 @@
 # Asset record
 
+## Pixel life scene — 2026-11-03
+
+Original detailed fantasy pixel artwork generated with the built-in ImageGen tool
+on 2026-11-02, following the user's selected lower panel B. No franchise sprites
+were downloaded. All 179 runtime PNGs are under `public/assets/pixel-life/`;
+`src/components/life-scene/assets.json` records every path, dimension, alpha flag
+and compressed byte size. Current total: **41,749,648 bytes**.
+
+| Category | Files | Dimensions |
+| --- | ---: | --- |
+| Regional scenery | 6 | 768×256 |
+| Ambient atlases | 6 | 512×128 |
+| Race and age bodies | 30 | 512×1088 |
+| Wardrobe | 73 | 512×1088 |
+| Rank gear | 56 | 512×1088 |
+| Selected-discipline effects | 8 | 1024×128 |
+
+Exact original prompts, variant substitutions and reference-image inputs are
+retained in [the authoring record](../docs/superpowers/specs/assets/2026-11-02-pixel-life-prompts.md).
+The [source inventory](../docs/superpowers/specs/assets/2026-11-02-pixel-life-sources.md)
+records filenames, byte sizes and SHA-256 hashes of the accepted originals.
+Original PNGs remain locally in ignored `.sites-workflow/pixel-life/sources/`
+and the Codex generated-image cache. Preserve them for future art revisions.
+
+The user explicitly authorized Pillow for mechanical resizing, transparent
+trimming and sheet slicing. The optional `scripts/prepare-pixel-backgrounds.py`,
+`prepare-pixel-wardrobe.py` and `prepare-pixel-details.py` require those source
+PNGs and Pillow (11.3.0 used); neither is an application/build dependency.
+Run them in that order with the source directory argument. Never regenerate
+art as part of the normal build. The exported assets are committed directly.
+
+Mechanical registration uses 64×64 hero cells, eight columns and 17 clips, with
+foot anchor (32,56). The 16-row original pose sheet shares greeting/social.
+Child/teen bodies use size variants; elders have separately generated aged
+features; infants have their own six-race sheet. The corrected Migurd youthful source is a registered blue-hair edit of the
+human pose sheet and uses the same reference geometry as its clothing. The
+rejected original is retained locally but no longer exported. Tall raised poses scale to fit the cell;
+wardrobe uses the same reference scale. `python scripts/test_pixel_registration.py`
+checks the reproduced neighboring-row leakage, raised-pose clipping and
+Migurd torso/garment coverage regressions (3/3 passing).
+
+A conservative upper bound across all categories is **1,720,121 compressed bytes**
+for a scene, counting the shared ambient atlas once. There are at most seven
+raster layers, six potentially moving. Other regions/characters are selected
+lazily. Actual file coverage and metadata checks run in `tests/pixel-assets.test.ts`.
+Frame/fit contact sheets and browser samples were inspected, including the
+registered Migurd replacement on 2026-11-04. CONTINUE.md and the implementation
+plan record the completed checks and two deferred minor controller limitations;
+metadata tests alone do not prove artwork fit.
+
 ## Original landscape
 
 File: `public/assets/asura-countryside.png`.

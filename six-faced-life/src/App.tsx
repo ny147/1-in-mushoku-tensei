@@ -56,6 +56,8 @@ import { archiveLife, loadGame, saveGame } from "./game/storage";
 import { RACES, REGIONS, lifeStage } from "./game/world";
 import { BirthRecord, NewLife } from "./components/NewLife";
 import { CharacterView, LifeView } from "./components/LifeView";
+import {PixelLifeScene} from './components/life-scene/PixelLifeScene';
+import {useLifeScene} from './components/life-scene/useLifeScene';
 import { selectSwordStyle } from "./game/engine";
 import { Archive, Ending } from "./components/Archive";
 import { WorldView } from "./components/WorldView";
@@ -115,6 +117,7 @@ export default function App() {
     initial.data.active ? "chronicle" : "new",
   );
   const [playing, setPlaying] = useState(false);
+  const [sceneMotionEnabled,setSceneMotionEnabled]=useState(true);
   const [speed, setSpeed] = useState(1);
   const [auto, setAuto] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -130,6 +133,8 @@ export default function App() {
   const dataRef = useRef(data);
   dataRef.current = data;
   const life = data.active;
+  const sceneSession=useLifeScene({life,enabled:page==='chronicle',playing,motionEnabled:sceneMotionEnabled});
+  const scene=sceneSession.presentation && life?.phase!=='birth'?<PixelLifeScene presentation={sceneSession.presentation} onVisibilityChange={sceneSession.setVisible} motionEnabled={sceneMotionEnabled} onMotionChange={setSceneMotionEnabled}/>:null;
   const language =
     page === "new"
       ? draftLanguage
@@ -772,9 +777,10 @@ export default function App() {
                 }}
               />
             ) : life?.phase === "ended" ? (
-              <Ending life={life} saved={saved} onNew={() => navigate("new")} />
+              <Ending life={life} saved={saved} onNew={() => navigate("new")} scene={scene}/>
             ) : life ? (
               <LifeView
+                scene={scene}
                 life={life}
                 onSwordStyle={(style) =>
                   updateLife((current) =>

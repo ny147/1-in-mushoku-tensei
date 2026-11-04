@@ -1,0 +1,1258 @@
+{
+  "version": 1,
+  "assets": {
+    "regions/asura": {
+      "url": "/assets/pixel-life/regions/asura.png",
+      "width": 768,
+      "height": 256,
+      "alpha": false,
+      "bytes": 472531
+    },
+    "regions/ranoa": {
+      "url": "/assets/pixel-life/regions/ranoa.png",
+      "width": 768,
+      "height": 256,
+      "alpha": false,
+      "bytes": 447362
+    },
+    "regions/millis": {
+      "url": "/assets/pixel-life/regions/millis.png",
+      "width": 768,
+      "height": 256,
+      "alpha": false,
+      "bytes": 463579
+    },
+    "regions/forest": {
+      "url": "/assets/pixel-life/regions/forest.png",
+      "width": 768,
+      "height": 256,
+      "alpha": false,
+      "bytes": 476764
+    },
+    "regions/demon": {
+      "url": "/assets/pixel-life/regions/demon.png",
+      "width": 768,
+      "height": 256,
+      "alpha": false,
+      "bytes": 443539
+    },
+    "regions/begaritt": {
+      "url": "/assets/pixel-life/regions/begaritt.png",
+      "width": 768,
+      "height": 256,
+      "alpha": false,
+      "bytes": 408712
+    },
+    "outfits/child-guard": {
+      "url": "/assets/pixel-life/outfits/child-guard.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 247636
+    },
+    "outfits/child-adventurer": {
+      "url": "/assets/pixel-life/outfits/child-adventurer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 340454
+    },
+    "outfits/child-cleric": {
+      "url": "/assets/pixel-life/outfits/child-cleric.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 308353
+    },
+    "outfits/child-farmer": {
+      "url": "/assets/pixel-life/outfits/child-farmer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 278409
+    },
+    "outfits/child-healer": {
+      "url": "/assets/pixel-life/outfits/child-healer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 320446
+    },
+    "outfits/child-knight": {
+      "url": "/assets/pixel-life/outfits/child-knight.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 290995
+    },
+    "outfits/child-laborer": {
+      "url": "/assets/pixel-life/outfits/child-laborer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 291007
+    },
+    "outfits/child-mage": {
+      "url": "/assets/pixel-life/outfits/child-mage.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 293146
+    },
+    "outfits/child-magic-training": {
+      "url": "/assets/pixel-life/outfits/child-magic-training.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 304224
+    },
+    "outfits/child-merchant": {
+      "url": "/assets/pixel-life/outfits/child-merchant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 283857
+    },
+    "outfits/child-professor": {
+      "url": "/assets/pixel-life/outfits/child-professor.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 285454
+    },
+    "outfits/child-retired": {
+      "url": "/assets/pixel-life/outfits/child-retired.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 332254
+    },
+    "outfits/child-student": {
+      "url": "/assets/pixel-life/outfits/child-student.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 310232
+    },
+    "outfits/child-sword-training": {
+      "url": "/assets/pixel-life/outfits/child-sword-training.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 239176
+    },
+    "outfits/child-swordsman": {
+      "url": "/assets/pixel-life/outfits/child-swordsman.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 279416
+    },
+    "outfits/child-teacher": {
+      "url": "/assets/pixel-life/outfits/child-teacher.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 297818
+    },
+    "outfits/child-neutral": {
+      "url": "/assets/pixel-life/outfits/child-neutral.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "outfits/child-child": {
+      "url": "/assets/pixel-life/outfits/child-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "outfits/teen-guard": {
+      "url": "/assets/pixel-life/outfits/teen-guard.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 355031
+    },
+    "outfits/teen-adventurer": {
+      "url": "/assets/pixel-life/outfits/teen-adventurer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 491441
+    },
+    "outfits/teen-cleric": {
+      "url": "/assets/pixel-life/outfits/teen-cleric.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 442684
+    },
+    "outfits/teen-farmer": {
+      "url": "/assets/pixel-life/outfits/teen-farmer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 398122
+    },
+    "outfits/teen-healer": {
+      "url": "/assets/pixel-life/outfits/teen-healer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 458641
+    },
+    "outfits/teen-knight": {
+      "url": "/assets/pixel-life/outfits/teen-knight.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 415564
+    },
+    "outfits/teen-laborer": {
+      "url": "/assets/pixel-life/outfits/teen-laborer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 419385
+    },
+    "outfits/teen-mage": {
+      "url": "/assets/pixel-life/outfits/teen-mage.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 422284
+    },
+    "outfits/teen-magic-training": {
+      "url": "/assets/pixel-life/outfits/teen-magic-training.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 437860
+    },
+    "outfits/teen-merchant": {
+      "url": "/assets/pixel-life/outfits/teen-merchant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 406712
+    },
+    "outfits/teen-professor": {
+      "url": "/assets/pixel-life/outfits/teen-professor.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 410974
+    },
+    "outfits/teen-retired": {
+      "url": "/assets/pixel-life/outfits/teen-retired.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 477024
+    },
+    "outfits/teen-student": {
+      "url": "/assets/pixel-life/outfits/teen-student.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 446987
+    },
+    "outfits/teen-sword-training": {
+      "url": "/assets/pixel-life/outfits/teen-sword-training.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 344033
+    },
+    "outfits/teen-swordsman": {
+      "url": "/assets/pixel-life/outfits/teen-swordsman.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 402426
+    },
+    "outfits/teen-teacher": {
+      "url": "/assets/pixel-life/outfits/teen-teacher.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 425671
+    },
+    "outfits/teen-neutral": {
+      "url": "/assets/pixel-life/outfits/teen-neutral.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "outfits/teen-child": {
+      "url": "/assets/pixel-life/outfits/teen-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "bodies/human-adult": {
+      "url": "/assets/pixel-life/bodies/human-adult.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 452465
+    },
+    "outfits/adult-guard": {
+      "url": "/assets/pixel-life/outfits/adult-guard.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 413273
+    },
+    "outfits/adult-adventurer": {
+      "url": "/assets/pixel-life/outfits/adult-adventurer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 571035
+    },
+    "outfits/adult-cleric": {
+      "url": "/assets/pixel-life/outfits/adult-cleric.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 513281
+    },
+    "outfits/adult-farmer": {
+      "url": "/assets/pixel-life/outfits/adult-farmer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 461426
+    },
+    "outfits/adult-healer": {
+      "url": "/assets/pixel-life/outfits/adult-healer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 528814
+    },
+    "outfits/adult-knight": {
+      "url": "/assets/pixel-life/outfits/adult-knight.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 481271
+    },
+    "outfits/adult-laborer": {
+      "url": "/assets/pixel-life/outfits/adult-laborer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 487603
+    },
+    "outfits/adult-mage": {
+      "url": "/assets/pixel-life/outfits/adult-mage.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 490656
+    },
+    "outfits/adult-magic-training": {
+      "url": "/assets/pixel-life/outfits/adult-magic-training.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 508891
+    },
+    "outfits/adult-merchant": {
+      "url": "/assets/pixel-life/outfits/adult-merchant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 472185
+    },
+    "outfits/adult-professor": {
+      "url": "/assets/pixel-life/outfits/adult-professor.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 478193
+    },
+    "outfits/adult-retired": {
+      "url": "/assets/pixel-life/outfits/adult-retired.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 554772
+    },
+    "outfits/adult-student": {
+      "url": "/assets/pixel-life/outfits/adult-student.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 520354
+    },
+    "outfits/adult-sword-training": {
+      "url": "/assets/pixel-life/outfits/adult-sword-training.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 399437
+    },
+    "outfits/adult-swordsman": {
+      "url": "/assets/pixel-life/outfits/adult-swordsman.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 468064
+    },
+    "outfits/adult-teacher": {
+      "url": "/assets/pixel-life/outfits/adult-teacher.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 491394
+    },
+    "outfits/adult-neutral": {
+      "url": "/assets/pixel-life/outfits/adult-neutral.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "outfits/adult-child": {
+      "url": "/assets/pixel-life/outfits/adult-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "outfits/elder-guard": {
+      "url": "/assets/pixel-life/outfits/elder-guard.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 383324
+    },
+    "outfits/elder-adventurer": {
+      "url": "/assets/pixel-life/outfits/elder-adventurer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 531180
+    },
+    "outfits/elder-cleric": {
+      "url": "/assets/pixel-life/outfits/elder-cleric.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 477942
+    },
+    "outfits/elder-farmer": {
+      "url": "/assets/pixel-life/outfits/elder-farmer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 431008
+    },
+    "outfits/elder-healer": {
+      "url": "/assets/pixel-life/outfits/elder-healer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 493853
+    },
+    "outfits/elder-knight": {
+      "url": "/assets/pixel-life/outfits/elder-knight.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 449490
+    },
+    "outfits/elder-laborer": {
+      "url": "/assets/pixel-life/outfits/elder-laborer.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 453203
+    },
+    "outfits/elder-mage": {
+      "url": "/assets/pixel-life/outfits/elder-mage.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 456060
+    },
+    "outfits/elder-magic-training": {
+      "url": "/assets/pixel-life/outfits/elder-magic-training.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 472809
+    },
+    "outfits/elder-merchant": {
+      "url": "/assets/pixel-life/outfits/elder-merchant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 439123
+    },
+    "outfits/elder-professor": {
+      "url": "/assets/pixel-life/outfits/elder-professor.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 443384
+    },
+    "outfits/elder-retired": {
+      "url": "/assets/pixel-life/outfits/elder-retired.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 516136
+    },
+    "outfits/elder-student": {
+      "url": "/assets/pixel-life/outfits/elder-student.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 483757
+    },
+    "outfits/elder-sword-training": {
+      "url": "/assets/pixel-life/outfits/elder-sword-training.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 370940
+    },
+    "outfits/elder-swordsman": {
+      "url": "/assets/pixel-life/outfits/elder-swordsman.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 433814
+    },
+    "outfits/elder-teacher": {
+      "url": "/assets/pixel-life/outfits/elder-teacher.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 459425
+    },
+    "outfits/elder-neutral": {
+      "url": "/assets/pixel-life/outfits/elder-neutral.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "outfits/elder-child": {
+      "url": "/assets/pixel-life/outfits/elder-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "bodies/human-child": {
+      "url": "/assets/pixel-life/bodies/human-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 270134
+    },
+    "bodies/elf-child": {
+      "url": "/assets/pixel-life/bodies/elf-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 331708
+    },
+    "bodies/beastfolk-child": {
+      "url": "/assets/pixel-life/bodies/beastfolk-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 353746
+    },
+    "bodies/migurd-child": {
+      "url": "/assets/pixel-life/bodies/migurd-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 292383
+    },
+    "bodies/dwarf-child": {
+      "url": "/assets/pixel-life/bodies/dwarf-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 312495
+    },
+    "bodies/superd-child": {
+      "url": "/assets/pixel-life/bodies/superd-child.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 296367
+    },
+    "bodies/human-teen": {
+      "url": "/assets/pixel-life/bodies/human-teen.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 388883
+    },
+    "bodies/elf-teen": {
+      "url": "/assets/pixel-life/bodies/elf-teen.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 475829
+    },
+    "bodies/beastfolk-teen": {
+      "url": "/assets/pixel-life/bodies/beastfolk-teen.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 509412
+    },
+    "bodies/migurd-teen": {
+      "url": "/assets/pixel-life/bodies/migurd-teen.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 420427
+    },
+    "bodies/dwarf-teen": {
+      "url": "/assets/pixel-life/bodies/dwarf-teen.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 449091
+    },
+    "bodies/superd-teen": {
+      "url": "/assets/pixel-life/bodies/superd-teen.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 424472
+    },
+    "bodies/elf-adult": {
+      "url": "/assets/pixel-life/bodies/elf-adult.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 555239
+    },
+    "bodies/beastfolk-adult": {
+      "url": "/assets/pixel-life/bodies/beastfolk-adult.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 591809
+    },
+    "bodies/migurd-adult": {
+      "url": "/assets/pixel-life/bodies/migurd-adult.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 488981
+    },
+    "bodies/dwarf-adult": {
+      "url": "/assets/pixel-life/bodies/dwarf-adult.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 520991
+    },
+    "bodies/superd-adult": {
+      "url": "/assets/pixel-life/bodies/superd-adult.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 492661
+    },
+    "bodies/human-elder": {
+      "url": "/assets/pixel-life/bodies/human-elder.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 466926
+    },
+    "bodies/elf-elder": {
+      "url": "/assets/pixel-life/bodies/elf-elder.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 559432
+    },
+    "bodies/beastfolk-elder": {
+      "url": "/assets/pixel-life/bodies/beastfolk-elder.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 610429
+    },
+    "bodies/migurd-elder": {
+      "url": "/assets/pixel-life/bodies/migurd-elder.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 465370
+    },
+    "bodies/dwarf-elder": {
+      "url": "/assets/pixel-life/bodies/dwarf-elder.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 539514
+    },
+    "bodies/superd-elder": {
+      "url": "/assets/pixel-life/bodies/superd-elder.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 551472
+    },
+    "bodies/human-infant": {
+      "url": "/assets/pixel-life/bodies/human-infant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 133839
+    },
+    "bodies/elf-infant": {
+      "url": "/assets/pixel-life/bodies/elf-infant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 121557
+    },
+    "bodies/beastfolk-infant": {
+      "url": "/assets/pixel-life/bodies/beastfolk-infant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 125313
+    },
+    "bodies/migurd-infant": {
+      "url": "/assets/pixel-life/bodies/migurd-infant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 127196
+    },
+    "bodies/dwarf-infant": {
+      "url": "/assets/pixel-life/bodies/dwarf-infant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 125434
+    },
+    "bodies/superd-infant": {
+      "url": "/assets/pixel-life/bodies/superd-infant.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 122786
+    },
+    "outfits/infant-neutral": {
+      "url": "/assets/pixel-life/outfits/infant-neutral.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 2240
+    },
+    "ambient/asura": {
+      "url": "/assets/pixel-life/ambient/asura.png",
+      "width": 512,
+      "height": 128,
+      "alpha": true,
+      "bytes": 15885
+    },
+    "ambient/ranoa": {
+      "url": "/assets/pixel-life/ambient/ranoa.png",
+      "width": 512,
+      "height": 128,
+      "alpha": true,
+      "bytes": 15885
+    },
+    "ambient/millis": {
+      "url": "/assets/pixel-life/ambient/millis.png",
+      "width": 512,
+      "height": 128,
+      "alpha": true,
+      "bytes": 15885
+    },
+    "ambient/forest": {
+      "url": "/assets/pixel-life/ambient/forest.png",
+      "width": 512,
+      "height": 128,
+      "alpha": true,
+      "bytes": 15885
+    },
+    "ambient/demon": {
+      "url": "/assets/pixel-life/ambient/demon.png",
+      "width": 512,
+      "height": 128,
+      "alpha": true,
+      "bytes": 15885
+    },
+    "ambient/begaritt": {
+      "url": "/assets/pixel-life/ambient/begaritt.png",
+      "width": 512,
+      "height": 128,
+      "alpha": true,
+      "bytes": 15885
+    },
+    "ranks/child-magic-0": {
+      "url": "/assets/pixel-life/ranks/child-magic-0.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7416
+    },
+    "ranks/child-magic-1": {
+      "url": "/assets/pixel-life/ranks/child-magic-1.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 6874
+    },
+    "ranks/child-magic-2": {
+      "url": "/assets/pixel-life/ranks/child-magic-2.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7719
+    },
+    "ranks/child-magic-3": {
+      "url": "/assets/pixel-life/ranks/child-magic-3.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7280
+    },
+    "ranks/child-magic-4": {
+      "url": "/assets/pixel-life/ranks/child-magic-4.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 8394
+    },
+    "ranks/child-magic-5": {
+      "url": "/assets/pixel-life/ranks/child-magic-5.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 8381
+    },
+    "ranks/child-magic-6": {
+      "url": "/assets/pixel-life/ranks/child-magic-6.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 10606
+    },
+    "ranks/child-sword-0": {
+      "url": "/assets/pixel-life/ranks/child-sword-0.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 5258
+    },
+    "ranks/child-sword-1": {
+      "url": "/assets/pixel-life/ranks/child-sword-1.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 5370
+    },
+    "ranks/child-sword-2": {
+      "url": "/assets/pixel-life/ranks/child-sword-2.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 5889
+    },
+    "ranks/child-sword-3": {
+      "url": "/assets/pixel-life/ranks/child-sword-3.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 5990
+    },
+    "ranks/child-sword-4": {
+      "url": "/assets/pixel-life/ranks/child-sword-4.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 9383
+    },
+    "ranks/child-sword-5": {
+      "url": "/assets/pixel-life/ranks/child-sword-5.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7932
+    },
+    "ranks/child-sword-6": {
+      "url": "/assets/pixel-life/ranks/child-sword-6.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11658
+    },
+    "ranks/teen-magic-0": {
+      "url": "/assets/pixel-life/ranks/teen-magic-0.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 10211
+    },
+    "ranks/teen-magic-1": {
+      "url": "/assets/pixel-life/ranks/teen-magic-1.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 9214
+    },
+    "ranks/teen-magic-2": {
+      "url": "/assets/pixel-life/ranks/teen-magic-2.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11255
+    },
+    "ranks/teen-magic-3": {
+      "url": "/assets/pixel-life/ranks/teen-magic-3.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 10417
+    },
+    "ranks/teen-magic-4": {
+      "url": "/assets/pixel-life/ranks/teen-magic-4.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 12140
+    },
+    "ranks/teen-magic-5": {
+      "url": "/assets/pixel-life/ranks/teen-magic-5.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11663
+    },
+    "ranks/teen-magic-6": {
+      "url": "/assets/pixel-life/ranks/teen-magic-6.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 15866
+    },
+    "ranks/teen-sword-0": {
+      "url": "/assets/pixel-life/ranks/teen-sword-0.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 6501
+    },
+    "ranks/teen-sword-1": {
+      "url": "/assets/pixel-life/ranks/teen-sword-1.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7152
+    },
+    "ranks/teen-sword-2": {
+      "url": "/assets/pixel-life/ranks/teen-sword-2.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 8178
+    },
+    "ranks/teen-sword-3": {
+      "url": "/assets/pixel-life/ranks/teen-sword-3.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7309
+    },
+    "ranks/teen-sword-4": {
+      "url": "/assets/pixel-life/ranks/teen-sword-4.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 14161
+    },
+    "ranks/teen-sword-5": {
+      "url": "/assets/pixel-life/ranks/teen-sword-5.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 10641
+    },
+    "ranks/teen-sword-6": {
+      "url": "/assets/pixel-life/ranks/teen-sword-6.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 17135
+    },
+    "ranks/adult-magic-0": {
+      "url": "/assets/pixel-life/ranks/adult-magic-0.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11616
+    },
+    "ranks/adult-magic-1": {
+      "url": "/assets/pixel-life/ranks/adult-magic-1.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 9582
+    },
+    "ranks/adult-magic-2": {
+      "url": "/assets/pixel-life/ranks/adult-magic-2.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11799
+    },
+    "ranks/adult-magic-3": {
+      "url": "/assets/pixel-life/ranks/adult-magic-3.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11760
+    },
+    "ranks/adult-magic-4": {
+      "url": "/assets/pixel-life/ranks/adult-magic-4.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 12688
+    },
+    "ranks/adult-magic-5": {
+      "url": "/assets/pixel-life/ranks/adult-magic-5.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 12739
+    },
+    "ranks/adult-magic-6": {
+      "url": "/assets/pixel-life/ranks/adult-magic-6.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 17901
+    },
+    "ranks/adult-sword-0": {
+      "url": "/assets/pixel-life/ranks/adult-sword-0.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7034
+    },
+    "ranks/adult-sword-1": {
+      "url": "/assets/pixel-life/ranks/adult-sword-1.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7540
+    },
+    "ranks/adult-sword-2": {
+      "url": "/assets/pixel-life/ranks/adult-sword-2.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 9318
+    },
+    "ranks/adult-sword-3": {
+      "url": "/assets/pixel-life/ranks/adult-sword-3.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 8718
+    },
+    "ranks/adult-sword-4": {
+      "url": "/assets/pixel-life/ranks/adult-sword-4.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 15242
+    },
+    "ranks/adult-sword-5": {
+      "url": "/assets/pixel-life/ranks/adult-sword-5.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11893
+    },
+    "ranks/adult-sword-6": {
+      "url": "/assets/pixel-life/ranks/adult-sword-6.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 18749
+    },
+    "ranks/elder-magic-0": {
+      "url": "/assets/pixel-life/ranks/elder-magic-0.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 10193
+    },
+    "ranks/elder-magic-1": {
+      "url": "/assets/pixel-life/ranks/elder-magic-1.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 9177
+    },
+    "ranks/elder-magic-2": {
+      "url": "/assets/pixel-life/ranks/elder-magic-2.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11209
+    },
+    "ranks/elder-magic-3": {
+      "url": "/assets/pixel-life/ranks/elder-magic-3.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 10387
+    },
+    "ranks/elder-magic-4": {
+      "url": "/assets/pixel-life/ranks/elder-magic-4.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 12127
+    },
+    "ranks/elder-magic-5": {
+      "url": "/assets/pixel-life/ranks/elder-magic-5.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 11624
+    },
+    "ranks/elder-magic-6": {
+      "url": "/assets/pixel-life/ranks/elder-magic-6.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 15817
+    },
+    "ranks/elder-sword-0": {
+      "url": "/assets/pixel-life/ranks/elder-sword-0.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 6477
+    },
+    "ranks/elder-sword-1": {
+      "url": "/assets/pixel-life/ranks/elder-sword-1.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7142
+    },
+    "ranks/elder-sword-2": {
+      "url": "/assets/pixel-life/ranks/elder-sword-2.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 8144
+    },
+    "ranks/elder-sword-3": {
+      "url": "/assets/pixel-life/ranks/elder-sword-3.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 7278
+    },
+    "ranks/elder-sword-4": {
+      "url": "/assets/pixel-life/ranks/elder-sword-4.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 14128
+    },
+    "ranks/elder-sword-5": {
+      "url": "/assets/pixel-life/ranks/elder-sword-5.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 10599
+    },
+    "ranks/elder-sword-6": {
+      "url": "/assets/pixel-life/ranks/elder-sword-6.png",
+      "width": 512,
+      "height": 1088,
+      "alpha": true,
+      "bytes": 17086
+    },
+    "effects/water": {
+      "url": "/assets/pixel-life/effects/water.png",
+      "width": 1024,
+      "height": 128,
+      "alpha": true,
+      "bytes": 23481
+    },
+    "effects/fire": {
+      "url": "/assets/pixel-life/effects/fire.png",
+      "width": 1024,
+      "height": 128,
+      "alpha": true,
+      "bytes": 16073
+    },
+    "effects/earth": {
+      "url": "/assets/pixel-life/effects/earth.png",
+      "width": 1024,
+      "height": 128,
+      "alpha": true,
+      "bytes": 19032
+    },
+    "effects/wind": {
+      "url": "/assets/pixel-life/effects/wind.png",
+      "width": 1024,
+      "height": 128,
+      "alpha": true,
+      "bytes": 23472
+    },
+    "effects/healing": {
+      "url": "/assets/pixel-life/effects/healing.png",
+      "width": 1024,
+      "height": 128,
+      "alpha": true,
+      "bytes": 25639
+    },
+    "effects/sword-god": {
+      "url": "/assets/pixel-life/effects/sword-god.png",
+      "width": 1024,
+      "height": 128,
+      "alpha": true,
+      "bytes": 21582
+    },
+    "effects/water-god": {
+      "url": "/assets/pixel-life/effects/water-god.png",
+      "width": 1024,
+      "height": 128,
+      "alpha": true,
+      "bytes": 27259
+    },
+    "effects/north-god": {
+      "url": "/assets/pixel-life/effects/north-god.png",
+      "width": 1024,
+      "height": 128,
+      "alpha": true,
+      "bytes": 17019
+    }
+  }
+}

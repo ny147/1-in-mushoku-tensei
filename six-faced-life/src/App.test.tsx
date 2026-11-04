@@ -13,6 +13,35 @@ import { beginLife, choose, createLife } from "./game/engine";
 import { loadGame, saveGame, SAVE_KEY } from "./game/storage";
 import { createExpandedLife } from "./game/expanded/origins";
 
+it("keeps a live ending still across the chronicle boundary and archive preview", () => {
+  const life = beginLife(createLife({ seed: 32 }));
+  life.phase = "alive";
+  life.age = 25;
+  life.deathAge = 26;
+  life.pending = null;
+  saveGame(window.localStorage, { version: 1, active: life, archive: [] });
+  const { container } = render(<App />);
+  fireEvent.click(screen.getByRole("button", { name: "+1 year" }));
+  expect(loadGame(window.localStorage).data.active?.phase).toBe("ended");
+  expect(container.querySelector('.pixel-scene')?.getAttribute('data-clip')).toBe('ending');
+  expect(container.querySelector('.pixel-layer[style*="pixel-frames"]')).toBeNull();
+  fireEvent.click(screen.getByRole("button", { name: "Past lives 1" }));
+  expect(container.querySelector('.pixel-scene')).toBeNull();
+});
+
+it('keeps scene motion independent of gameplay and starts the scene paused',()=>{
+  const life=createExpandedLife({seed:32});life.phase='alive';life.age=25;life.pending=null;life.focus='study';
+  saveGame(window.localStorage,{version:1,active:life,archive:[]});
+  const {container}=render(<App/>);
+  const before=loadGame(window.localStorage).data.active;
+  expect(container.querySelector('.pixel-scene')?.getAttribute('data-clip')).toBe('idle');
+  fireEvent.click(screen.getByRole('button',{name:'Scene motion'}));
+  expect(loadGame(window.localStorage).data.active).toEqual(before);
+  fireEvent.click(screen.getByRole('button',{name:'Play time'}));
+  expect(container.querySelector('.pixel-scene')?.getAttribute('data-clip')).toBe('read');
+  expect(screen.getByRole('button',{name:'Scene motion'}).getAttribute('aria-pressed')).toBe('false');
+});
+
 it("keeps expanded allegiance decisions manual even when watch mode finds a free option", () => {
   vi.useFakeTimers();
   let life = createExpandedLife({ seed: 0 });

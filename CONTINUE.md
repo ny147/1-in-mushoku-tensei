@@ -1,5 +1,81 @@
 # Save point — Six-Faced Life
 
+## Pixel life scene — implemented for human review, 2026-11-04 19:06 Bangkok
+
+User resumed from **`ba145ad`** on existing **`codex/pixel-life-scene`**.
+Implementation and acceptance are complete; final commit/push updates existing
+**[PR #19](https://github.com/ny147/1-in-mushoku-tensei/pull/19)**, base **main**.
+User merges manually. Do not merge, auto-merge, delete the branch or publish.
+ADHD-friendly output remains enabled. Native execution selected; independent
+whole-branch review already completed on Nov3, no Critical/Important code issue.
+
+Spec: `docs/superpowers/specs/2026-11-02-pixel-life-scene-design.md`.
+Plan/ledger: `docs/superpowers/plans/2026-11-02-pixel-life-scene.md`.
+
+**Built:** visual-only scene follows actual region, race, five age stages, primary
+career, focus and selected discipline's earned capped rank. Bounded reactions,
+loading/failure painted fallback, EN/TH descriptions, session motion toggle,
+visibility/media cleanup, chronicle replacement and still active-ending slot.
+Archive previews have no live scene. Simulation/saves/RNG unchanged. Player
+**127.0.0.1:5173 storage untouched**; all disposable QA used5174.
+
+**Final Migurd correction:** the original source drifted in pose geometry, so
+mechanically recentering it still left clothes behind. A new ImageGen edit of
+`human-adult-draft.png`, changing hair to blue while preserving poses, is retained
+as ignored `sources/body-migurd-adult-v2.png`. The exporter requires this accepted
+source for child/teen/adult and shares clothing's reference geometry. Original
+rejected source remains intact. A reproduced torso-leak test went RED→GREEN;
+neighbor-row and raised-pose regression checks still pass. Exporter skips
+unchanged images and atomically replaces changed PNGs to avoid observed Windows
+write contention. No new runtime dependency or new manifest category.
+
+**Verification after final export:**
+- Full `npm.cmd test -- --maxWorkers=2`: **372/372 tests,59 files**,82.71s.
+- `npm.cmd run build`: PASS, existing >500kB JS advisory (740.39kB output).
+- `python scripts/test_pixel_registration.py`: **3/3**, all defects observed
+  failing before their fixes. Python/Pillow is authoring-only, not a build need.
+- Actual current PNG metadata/byte and full scene-enum/rank matrix are included
+  in the full suite. Runtime179 PNGs **41,749,648 bytes**; conservative per-scene
+  upper bound **1,720,121 bytes**, max7 layers/six potentially moving.
+- Inspected all17 corrected clips at frames0/3/7 for child/farmer, teen/sword and
+  adult/magic with max gear. Prior all-race/stage/career/rank/effect contacts stand.
+  The previous Migurd torso leakage/neighbor-row fragments are resolved in these
+  contacts. Exact new ImageGen prompt and source hash are committed with prior
+  production provenance. ASSETS/product/design/readme/sidecar describe built use.
+
+**Browser QA evidence:** Nov3 EN850/1280/1700 +TH360/850/1700, no overflow; live
+ending still/archive excluded; phone pending scene hidden/stopped; Space motion
+button keeps focus/time paused; all four speeds retain1s sprite timing; offscreen
+suspension/reload; empty console errors. Nov4 corrected adult magic/max gear and
+child North God/Thai360 rechecked; ready=true, no overflow, empty console errors.
+Reduced-motion/hidden subscriptions and failed/stale loads tested automatically,
+not claimed as browser OS/network-emulation checks. Current preview is paused.
+
+**Deferred minor limitations from independent review:**
+1. Allocating carried expanded legacy sword XP into a style can trigger a cosmetic
+   promotion celebration despite no new rank (`model.ts`/`reactions.ts`).
+2. Without IntersectionObserver, CSS pending phone visibility is resampled only
+   on scroll/resize; fallback motion may remain stale (`PixelLifeScene.tsx`).
+These do not change gameplay/saves. No unresolved Critical/Important code issue.
+Reviewer set art/browser/docs aside to parent; parent acceptance is now complete,
+with exact evidence/limits above. Do not expand scope by silently fixing minors.
+
+**Delivery:** final task commit is after `ba145ad` in Git history /PR head. Fresh
+fetch on Nov4 confirms `origin/main 53f8fb7` is contained. Final diff/index/clean
+status and remote-head checks are recorded in the delivery response/PR. If user
+asks to resume, inspect actual Git/usage before more work; don't repeat completed
+model/renderer/artwork generation. Next action is human review of PR19.
+
+**Preserved local environment:** isolated Vite5174, exec session40828; browser2,
+tab5, paused Thai Migurd child/North God. Viewport reset; marked deliverable.
+Screenshot: `.sites-workflow/pixel-life/final-migurd-preview.jpg` (ignored).
+Sources/QA fixture/logs/contact sheets under `.sites-workflow/pixel-life/` must
+remain. New contact: `migurd-v2-all-poses.png`. Do not delete these originals or
+scratch art merely to clean a plan workspace. Port5173 save remains protected.
+
+Usage observed **Nov4 19:06 Bangkok**: **71% five-hour /55% weekly remaining**;
+resets **Nov4 19:14 /Nov9 09:20** Bangkok. No credit/reset/billing action.
+
 ## Swordsmanship styles — implemented, 2026-10-29
 
 User requested implementation of **PR #18**. Continued clean existing

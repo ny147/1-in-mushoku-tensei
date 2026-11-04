@@ -1,4 +1,5 @@
 import { useI18n } from "../i18n/context";
+import type {ReactNode} from 'react';
 import { Retrospective } from "./Retrospective";
 import { expandedLabel } from "../i18n/expanded";
 import { careerTitle } from "../game/simulation";
@@ -24,16 +25,19 @@ export function Ending({
   onNew,
   onBack,
   saved = true,
+  scene,
 }: {
   life: Life;
   onNew: () => void;
   onBack?: () => void;
   saved?: boolean;
+  scene?:ReactNode;
 }) {
   const { t } = useI18n();
 
   return (
     <div className="ending-page page-enter">
+      {scene}
       {onBack && (
         <button className="text-button" onClick={onBack}>
           <ArrowLeft size={15} />
