@@ -207,10 +207,10 @@ Concept art generation must preserve these frame/anchor invariants. Inspect gene
 - [x] User selected Native execution ("1"). Implementation proceeds on the existing task branch.
 - [x] Task 1: read-only model, nine tests including race/age gates, capped selected tracks, frozen saves and legacy handling. Infant ending precedence reproduced RED then corrected GREEN.
 - [x] Task 2: pure reaction detection/reduction, three tests covering initial loads, selection changes, priority, burst bounds, choice deferral and deadlines.
-- [x] Tasks 3–5 implementation: 179 exported PNGs and runtime selector; real-file metadata and enum/rank matrix checks pass. Full-pose visual acceptance and provenance documentation still need final QA.
-- [ ] Task 6 acceptance incomplete: renderer, lifecycle hook and EN/TH descriptions exist and six initial tests pass; expand reduced-motion/hidden-tab/cleanup coverage.
-- [ ] Task 7 acceptance incomplete: App/chronicle/active-ending slots exist; focused App/language/scene checks pass 50/50. Complete pending-phone, ending/archive and keyboard/browser checks.
-- [ ] Task 8 not complete: current full suite, complete browser acceptance, built docs/provenance, fresh whole-branch review and ready-for-review delivery remain.
+- [x] Tasks 3–5: 179 exported PNGs, runtime selector, matrix/budget checks, provenance and inspected frame/fit contacts. Migurd source replaced with registered variant on Nov 4.
+- [x] Task 6: renderer, EN/TH descriptions, queued-load fallback guards, reduced-media/hidden timers and cleanup checks pass.
+- [x] Task 7: App/chronicle/still-ending integration, archive exclusion, phone hiding and keyboard/browser acceptance verified.
+- [x] Task 8: full suite 372/372, build, 3 Pillow checks and final corrected art/browser inspection pass. Independent whole-branch review found no Critical/Important code issue; two Minor findings deferred. Existing PR prepared for human review.
 
 **Paused at user request, 2026-11-02 22:29 Asia/Bangkok.** Resume from CONTINUE.md.
 Last prior task commits: model `3e22968`, reactions `438fe7f`. The checkpoint
@@ -280,3 +280,44 @@ User requested stop; save and stop after delivery. Continue existing branch/PR19
 - Usage: 15% five-hour /76% weekly remaining; resets Nov3 21:58:50 / Nov9 09:20:55
   Bangkok. Exact resume actions and environment are in CONTINUE.md. Do not
   regenerate retained art or repeat completed Tasks1/2. Do not publish or merge.
+
+
+### Final acceptance — 2026-11-04 19:06 Bangkok
+
+- Resumed clean `codex/pixel-life-scene` from `ba145ad`; fetched origin. Latest
+  `origin/main 53f8fb7` remains an ancestor; no upstream integration needed.
+- Reproduced remaining Migurd torso/garment leak with a new Pillow coverage test
+  (122 bright exposed pixels versus allowed 73 after attempted normalization).
+  Rejected the old source; ImageGen authored `body-migurd-adult-v2.png` as a
+  tightly registered hair-only edit of the original human atlas. Export all
+  three youthful stages using common reference cells/feet/scales. Test GREEN.
+  Prior two regression tests also remain GREEN; source and exact prompt/hash
+  retained. Original source was preserved, not overwritten.
+- Ruling: replace the drifting Migurd variant with a newly authored registered
+  source rather than keeping source-specific body coordinates — shared clothes
+  require identical pose geometry — risk if wrong: renewed clothing misalignment,
+  covered by the new torso regression and inspected 17-clip 0/3/7 contact sheet.
+- Exporter skips byte-identical PNGs and atomically replaces changed outputs;
+  this resolved the observed Windows open-for-write failure on unchanged art.
+- Art acceptance: inspected all 17 corrected clips at frames 0/3/7 for child
+  farmer, teen sword and adult magic/max rank; prior all-race/stage/career/rank/
+  effect reviews stand. No exposed separate torso/neighboring head remains in
+  those contacts. Current browser verifies adult magic and child North God,
+  Thai mobile360, desktop1280, loaded ready=true, no overflow/console errors.
+- **Fresh final automated result:** `npm.cmd test -- --maxWorkers=2` → **372/372
+  in 59 files**, 82.71s; `npm.cmd run build` → PASS (existing >500kB advisory);
+  `python scripts/test_pixel_registration.py` → **3/3**. All after final export.
+- Final: Ruling: parent's art/browser/docs acceptance, set aside by reviewer,
+  is now satisfied by recorded contacts/flows and fresh checks — close that
+  temporary draft gate — risk if wrong: unobserved combinations could have visual
+  polish defects; metadata matrix covers file existence/budget, not aesthetics.
+- Final code review from Nov3 stands; no application runtime code changed in
+  this resumption. Two Minor findings remain deferred as recorded above, not
+  merge blockers. No re-review dispatched under Native's single-review workflow.
+- Authoring drafts, original source PNGs and ignored QA contacts are deliberately
+  retained per the user's preservation instructions; do not delete this workspace.
+- Runtime total **41,749,648 bytes /179 PNGs**, conservative scene bound unchanged
+  **1,720,121 bytes**, at most7 layers/six moving. Asset/docs values updated.
+- Usage at19:06 Bangkok: **71% five-hour /55% weekly remaining**, resets Nov4
+  19:14 /Nov9 09:20. No credit/billing/reset actions. Ready delivery uses existing
+  PR19, base main; user merges manually. No merge, auto-merge or publication.

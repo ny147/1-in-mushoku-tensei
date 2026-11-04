@@ -6,7 +6,7 @@ Original detailed fantasy pixel artwork generated with the built-in ImageGen too
 on 2026-11-02, following the user's selected lower panel B. No franchise sprites
 were downloaded. All 179 runtime PNGs are under `public/assets/pixel-life/`;
 `src/components/life-scene/assets.json` records every path, dimension, alpha flag
-and compressed byte size. Current total: **41,874,507 bytes**.
+and compressed byte size. Current total: **41,749,648 bytes**.
 
 | Category | Files | Dimensions |
 | --- | ---: | --- |
@@ -34,17 +34,21 @@ art as part of the normal build. The exported assets are committed directly.
 Mechanical registration uses 64×64 hero cells, eight columns and 17 clips, with
 foot anchor (32,56). The 16-row original pose sheet shares greeting/social.
 Child/teen bodies use size variants; elders have separately generated aged
-features; infants have their own six-race sheet. Migurd youthful sources use
-their own inspected row/foot geometry. Tall raised poses scale to fit the cell;
+features; infants have their own six-race sheet. The corrected Migurd youthful source is a registered blue-hair edit of the
+human pose sheet and uses the same reference geometry as its clothing. The
+rejected original is retained locally but no longer exported. Tall raised poses scale to fit the cell;
 wardrobe uses the same reference scale. `python scripts/test_pixel_registration.py`
-checks the reproduced neighboring-row and raised-pose clipping regressions.
+checks the reproduced neighboring-row leakage, raised-pose clipping and
+Migurd torso/garment coverage regressions (3/3 passing).
 
 A conservative upper bound across all categories is **1,720,121 compressed bytes**
 for a scene, counting the shared ambient atlas once. There are at most seven
 raster layers, six potentially moving. Other regions/characters are selected
 lazily. Actual file coverage and metadata checks run in `tests/pixel-assets.test.ts`.
-Visual acceptance status and any remaining limitations live in CONTINUE.md and
-the active implementation plan; metadata tests alone do not prove artwork fit.
+Frame/fit contact sheets and browser samples were inspected, including the
+registered Migurd replacement on 2026-11-04. CONTINUE.md and the implementation
+plan record the completed checks and two deferred minor controller limitations;
+metadata tests alone do not prove artwork fit.
 
 ## Original landscape
 

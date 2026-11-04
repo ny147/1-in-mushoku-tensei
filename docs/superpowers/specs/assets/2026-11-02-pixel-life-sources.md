@@ -49,3 +49,6 @@ Original ImageGen source PNGs retained locally in ignored `six-faced-life/.sites
 | outfit-teacher.png | 1473114 | `a57956091ce65a167cd0eb0dd5a738657a7ed49efe9d90a161366d8946ee60a6` |
 | rank-gear.png | 1729869 | `367ab00145b36a6ecb9d134b1c568bb1314f0c81a98b8bd1b4de9f0d3160634e` |
 | ranoa.png | 2944208 | `e7594a51da225b4e852b957af090731cdc6fe7e4d679ad777c6b4eaeb0adf274` |
+| body-migurd-adult-v2.png | 1485624 | `ead4f6e5e1f0e0e18a2a458bd5fd17075e2cb178a21d2d33b3b5b575965bb386` |
+
+`body-migurd-adult-v2.png` replaces the rejected original Migurd adult source for export on 2026-11-04. Original is retained unchanged.

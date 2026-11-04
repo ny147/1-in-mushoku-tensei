@@ -580,7 +580,7 @@
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 338913
+      "bytes": 292383
     },
     "bodies/dwarf-child": {
       "url": "/assets/pixel-life/bodies/dwarf-child.png",
@@ -622,7 +622,7 @@
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 478161
+      "bytes": 420427
     },
     "bodies/dwarf-teen": {
       "url": "/assets/pixel-life/bodies/dwarf-teen.png",
@@ -657,7 +657,7 @@
       "width": 512,
       "height": 1088,
       "alpha": true,
-      "bytes": 509576
+      "bytes": 488981
     },
     "bodies/dwarf-adult": {
       "url": "/assets/pixel-life/bodies/dwarf-adult.png",

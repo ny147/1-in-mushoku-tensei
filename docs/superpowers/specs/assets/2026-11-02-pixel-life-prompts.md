@@ -1,5 +1,17 @@
 # Pixel scene artwork generation record
 
+## Migurd registered replacement — 2026-11-04
+
+The original Migurd adult sheet was rejected after pose/garment fit review.
+Built-in ImageGen edited `human-adult-draft.png`; accepted output is retained
+locally as `body-migurd-adult-v2.png`. Transparency was requested. The original
+source remains retained for provenance but is no longer exported. The replacement
+uses the common human reference grid and drives the child/teen/adult derivatives.
+
+Exact replacement prompt:
+
+> Edit the provided production sprite atlas with ONE minimal localized change: recolor ONLY the existing character's brown hair to vivid deep blue hair (Migurd fantasy race). Preserve every other pixel/shape/pose/position, especially all ivory shirt, skin, torso, legs, feet, hands, face and facial proportions. This is a registered color variant of the exact atlas, not a redesign. Do not re-pose, change perspective, move or resize any figure. Preserve original 860x1828 canvas and actual 8 columns by 16 rows, original uneven row spacing, exact cell coordinates and transparent alpha. Keep the original small-pixel art and original hair silhouettes; blue highlights/navy shadows may replace brown hair shades only. All 128 figures must remain in their exact source positions. No new facial features, clothes, props, text, grid lines or background. The entire atlas must overlay exactly on the reference; original clothing layers must continue to fit. Output actual transparency.
+
 Generated with built-in ImageGen on 2026-11-02. These are the original authoring call inputs recovered from this chat, including prompt templates and every variant substitution. Code blocks are provenance, not build scripts. Local reference paths identify generated source sheets; they are not distributed dependencies.
 
 ## Authoring batch 1

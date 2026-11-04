@@ -1,111 +1,80 @@
 # Save point — Six-Faced Life
 
-## Pixel life scene — paused at user's request, 2026-11-03 17:23 Asia/Bangkok
+## Pixel life scene — implemented for human review, 2026-11-04 19:06 Bangkok
 
-User said **"prepare to stop"**. Implementation has stopped; only checkpoint
-commit/push/PR delivery follows. Resume the existing **`codex/pixel-life-scene`**
-branch and **draft [PR #19](https://github.com/ny147/1-in-mushoku-tensei/pull/19)**,
-base **main**. Last prior checkpoint: **`5b94fc4`**. Do not create another branch
-or PR, merge, rebase, auto-merge, delete the branch or publish. ADHD-friendly
-output remains enabled. Native execution was selected; do not restart discovery.
+User resumed from **`ba145ad`** on existing **`codex/pixel-life-scene`**.
+Implementation and acceptance are complete; final commit/push updates existing
+**[PR #19](https://github.com/ny147/1-in-mushoku-tensei/pull/19)**, base **main**.
+User merges manually. Do not merge, auto-merge, delete the branch or publish.
+ADHD-friendly output remains enabled. Native execution selected; independent
+whole-branch review already completed on Nov3, no Critical/Important code issue.
 
 Spec: `docs/superpowers/specs/2026-11-02-pixel-life-scene-design.md`.
 Plan/ledger: `docs/superpowers/plans/2026-11-02-pixel-life-scene.md`.
 
-**Implemented, still draft:** read-only scene facts/model, bounded reactions,
-179 original raster assets, layer selector, renderer/fallback/visibility lifecycle,
-session motion toggle, EN/TH labels, App chronicle and still active-ending slots.
-No simulation, save-schema or RNG changes. Player **5173 storage untouched**.
+**Built:** visual-only scene follows actual region, race, five age stages, primary
+career, focus and selected discipline's earned capped rank. Bounded reactions,
+loading/failure painted fallback, EN/TH descriptions, session motion toggle,
+visibility/media cleanup, chronicle replacement and still active-ending slot.
+Archive previews have no live scene. Simulation/saves/RNG unchanged. Player
+**127.0.0.1:5173 storage untouched**; all disposable QA used5174.
 
-**This session:** added reduced-motion/media cleanup, hidden-tab timer/listener
-cleanup, genuinely queued stale-image callbacks, visibility observer cleanup and
-live-ending/archive App coverage. Recovered exact authoring inputs from this
-chat into `docs/superpowers/specs/assets/2026-11-02-pixel-life-prompts.md` and
-source filename/size/SHA-256 inventory beside it. Updated ASSETS/PRODUCT/README,
-DESIGN and its sidecar for actual built behavior; retain existing art/licenses.
+**Final Migurd correction:** the original source drifted in pose geometry, so
+mechanically recentering it still left clothes behind. A new ImageGen edit of
+`human-adult-draft.png`, changing hair to blue while preserving poses, is retained
+as ignored `sources/body-migurd-adult-v2.png`. The exporter requires this accepted
+source for child/teen/adult and shares clothing's reference geometry. Original
+rejected source remains intact. A reproduced torso-leak test went RED→GREEN;
+neighbor-row and raised-pose regression checks still pass. Exporter skips
+unchanged images and atomically replaces changed PNGs to avoid observed Windows
+write contention. No new runtime dependency or new manifest category.
 
-**Artwork correction in progress:** all-pose inspection found youthful Migurd
-source rows drifted from the shared human reference, leaking neighboring blue
-heads into later clips. Added source-specific slicing/foot registration for that
-source and capped tall-pose scaling to fit above the shared foot anchor. Two
-Pillow regression tests were observed RED then GREEN. Updated bodies, wardrobe
-and manifest are saved, but **do not call final artwork accepted**: the new
-`fits-migurd.png` contact sheet shows some frames (especially 7 in farmer/magic
-and crouched sword) with body and clothing shifted apart. Body registration now
-uses its own geometry while garments still use the human reference; race-fit
-registration or authored variants must reconcile those anchors. All affected
-Migurd child/teen/adult clips need fit review. Rank overlays must also be
-rechecked after the tall-pose scale adjustment. No further fix was made after
-the stop request. Retain raw sources; don't blindly rerun details/backgrounds.
+**Verification after final export:**
+- Full `npm.cmd test -- --maxWorkers=2`: **372/372 tests,59 files**,82.71s.
+- `npm.cmd run build`: PASS, existing >500kB JS advisory (740.39kB output).
+- `python scripts/test_pixel_registration.py`: **3/3**, all defects observed
+  failing before their fixes. Python/Pillow is authoring-only, not a build need.
+- Actual current PNG metadata/byte and full scene-enum/rank matrix are included
+  in the full suite. Runtime179 PNGs **41,749,648 bytes**; conservative per-scene
+  upper bound **1,720,121 bytes**, max7 layers/six potentially moving.
+- Inspected all17 corrected clips at frames0/3/7 for child/farmer, teen/sword and
+  adult/magic with max gear. Prior all-race/stage/career/rank/effect contacts stand.
+  The previous Migurd torso leakage/neighbor-row fragments are resolved in these
+  contacts. Exact new ImageGen prompt and source hash are committed with prior
+  production provenance. ASSETS/product/design/readme/sidecar describe built use.
 
-Runtime art now **41,874,507 bytes / 179 PNGs**. Conservative per-scene upper
-bound across categories **1,720,121 bytes**, max seven layers (six moving).
-Optional mechanical scripts require retained source PNGs and Pillow 11.3.0;
-the user explicitly approved resize/trim/slice processing. Normal builds need
-neither Python nor original sources.
+**Browser QA evidence:** Nov3 EN850/1280/1700 +TH360/850/1700, no overflow; live
+ending still/archive excluded; phone pending scene hidden/stopped; Space motion
+button keeps focus/time paused; all four speeds retain1s sprite timing; offscreen
+suspension/reload; empty console errors. Nov4 corrected adult magic/max gear and
+child North God/Thai360 rechecked; ready=true, no overflow, empty console errors.
+Reduced-motion/hidden subscriptions and failed/stale loads tested automatically,
+not claimed as browser OS/network-emulation checks. Current preview is paused.
 
-**Checks actually run:**
-- Full integrated `npm.cmd test -- --maxWorkers=2`: **372/372 tests in 59 files**,
-  91.46s. This was before the later mechanical art corrections; application code
-  is unchanged since, except removing an invalid test query option.
-- `npm.cmd run build` passed after that test-query TypeScript correction;
-  existing >500kB JS advisory (740.39kB output) remains. No final post-art build.
-- Post-art focused App/scene/asset run: **43/43 in six files**, 6.73s, including
-  current actual PNG metadata/bytes and full enum/rank matrix.
-- `python scripts/test_pixel_registration.py`: **2/2**, both observed RED→GREEN.
-- Earlier expanded lifecycle run: **20/20**; queued stale callbacks and fallback
-  tests pass. Sandbox tests/build use authorized escalation for esbuild spawn.
-- Final diff/check/index inspection is part of this checkpoint delivery; see
-  commit/PR for final result. Do not invent a later full-suite or visual result.
+**Deferred minor limitations from independent review:**
+1. Allocating carried expanded legacy sword XP into a style can trigger a cosmetic
+   promotion celebration despite no new rank (`model.ts`/`reactions.ts`).
+2. Without IntersectionObserver, CSS pending phone visibility is resampled only
+   on scroll/resize; fallback motion may remain stale (`PixelLifeScene.tsx`).
+These do not change gameplay/saves. No unresolved Critical/Important code issue.
+Reviewer set art/browser/docs aside to parent; parent acceptance is now complete,
+with exact evidence/limits above. Do not expand scope by silently fixing minors.
 
-**Browser 5174 only:** EN 850/1280/1700 and TH 360/850/1700 inspected; no overflow
-on sampled layouts. Thai live death went straight to ending with all layers
-`animation-name:none`; archive list and opened preview contained zero pixel
-scenes. Pending EN phone scene was `display:none` and all loaded layers stopped.
-Space on Scene motion toggled only motion, kept focus on its button and left
-time paused. All four speeds retained 1s body/outfit/rank loops; Pause→idle.
-Offscreen footer scroll stopped every layer; console error list was empty.
-Reload kept selected life/gear, idle and no reaction replay. Device reduced
-motion changes/hidden-tab behavior tested through subscriptions, not browser OS
-settings. Slow/failed asset delivery is covered in component tests, not real
-network throttling. Contact sheets inspected all six race stages in neutral,
-farmer and training outfits with frames 0/3/7, all career outfits adult/teen,
-all rank families/stages and eight effect strips. Those checks exposed the
-remaining Migurd fit issue above; they do not certify every pose/garment pair.
+**Delivery:** final task commit is after `ba145ad` in Git history /PR head. Fresh
+fetch on Nov4 confirms `origin/main 53f8fb7` is contained. Final diff/index/clean
+status and remote-head checks are recorded in the delivery response/PR. If user
+asks to resume, inspect actual Git/usage before more work; don't repeat completed
+model/renderer/artwork generation. Next action is human review of PR19.
 
-**Independent whole-branch code review completed** by `pixel_final_review`:
-no Critical/Important code defect. Two Minor findings are deferred:
-1. Allocating carried expanded legacy sword XP into a selected style triggers a
-   false promotion celebration (`model.ts` / `reactions.ts`); no progress changes.
-2. Without IntersectionObserver, pending-phone CSS visibility changes are not
-   resampled until scroll/resize (`PixelLifeScene.tsx`); can leave stillness or
-   hidden animation stale on that fallback path.
-Reviewer declined artwork/remaining browser acceptance/docs under parent work;
-these remain the parent's responsibility, not automatically accepted. No second
-review required by Native; fix Important issues test-first if further discovered.
+**Preserved local environment:** isolated Vite5174, exec session40828; browser2,
+tab5, paused Thai Migurd child/North God. Viewport reset; marked deliverable.
+Screenshot: `.sites-workflow/pixel-life/final-migurd-preview.jpg` (ignored).
+Sources/QA fixture/logs/contact sheets under `.sites-workflow/pixel-life/` must
+remain. New contact: `migurd-v2-all-poses.png`. Do not delete these originals or
+scratch art merely to clean a plan workspace. Port5173 save remains protected.
 
-**Exact next steps after user resumes:**
-1. Recheck usage/status/fetch, read this section and plan ledger. Preserve this
-   task branch and sources. Do not repeat completed model/reaction work.
-2. Inspect `.sites-workflow/pixel-life/fits-migurd.png`, then fix per-race body /
-   garment registration. Start with failing fit/regression evidence; compare
-   frames 0/3/7 and every clip, including rank overlays after scale changes.
-3. Rerun current asset/Pillow checks and build after art fix; finish acceptance,
-   update byte counts if changed, and run the full suite before ready delivery.
-   Keep PR draft until required visual acceptance passes. User merges manually.
-
-Paused QA: Vite **5174**, exec session **24563**; browser **2**, tab **4**, current
-URL http://127.0.0.1:5174/, paused Thai Migurd/Water God, viewport override reset,
-marked handoff. Some previous tabs became stale; current tab 4 worked. Use Cua
-refresh/documentation on resume; don't touch player 5173. Local screenshot:
-`six-faced-life/.sites-workflow/pixel-life/final-preview.jpg`.
-All sources, QA fixture (with alive/near-ending/ended selector), logs and contact
-sheets remain ignored under `.sites-workflow/pixel-life/`. Preserve them.
-
-Usage observed **2026-11-03 17:23 Bangkok**: five-hour **15% remaining**, weekly
-**76% remaining**; resets **Nov 3 21:58:50** / **Nov 9 09:20:55** Bangkok. No billing
-or reset-credit action. Final escalated fetch succeeded: latest `origin/main`
-**53f8fb7** is an ancestor of the task. Final commit/push/PR SHA follows in Git/PR.
+Usage observed **Nov4 19:06 Bangkok**: **71% five-hour /55% weekly remaining**;
+resets **Nov4 19:14 /Nov9 09:20** Bangkok. No credit/reset/billing action.
 
 ## Swordsmanship styles — implemented, 2026-10-29
 

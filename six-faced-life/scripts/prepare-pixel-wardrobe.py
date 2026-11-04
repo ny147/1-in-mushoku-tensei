@@ -5,6 +5,7 @@ No new artwork is drawn. Original sources are retained unchanged.
 """
 import argparse
 import json
+from io import BytesIO
 from pathlib import Path
 from PIL import Image
 
@@ -55,14 +56,13 @@ cells = registration(base)
 # Source omitted social: reuse greeting.
 row_map = [0, 1, 2, 3, 4, 5, 6, 7, 11, 8, 9, 10, 11, 12, 13, 14, 15]
 
-def export(source, height, own_registration=False):
+def export(source, height):
     source = source.convert('RGBA')
     if source.size != base.size:
         source = source.resize(base.size, Image.Resampling.NEAREST)
-    frame_cells = registration(source) if own_registration else cells
     sheet = Image.new('RGBA', (512, 1088))
     for target_row, source_row in enumerate(row_map):
-        for col, (box, foot_x, foot_y, pose_height) in enumerate(frame_cells[source_row]):
+        for col, (box, foot_x, foot_y, pose_height) in enumerate(cells[source_row]):
             # Raised hands must fit above the common foot anchor. Garments use
             # exactly the same reference-derived scale as their underlying body.
             scale = min(height / 83, 54 / pose_height)
@@ -78,7 +78,13 @@ manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
 def save(key, image):
     target = root / f'{key}.png'
     target.parent.mkdir(parents=True, exist_ok=True)
-    image.save(target, optimize=True)
+    buffer = BytesIO()
+    image.save(buffer, format='PNG', optimize=True)
+    encoded = buffer.getvalue()
+    if not target.exists() or target.read_bytes() != encoded:
+        temporary = target.with_suffix('.tmp.png')
+        temporary.write_bytes(encoded)
+        temporary.replace(target)
     manifest['assets'][key] = dict(url=f'/assets/pixel-life/{key}.png', width=image.width, height=image.height, alpha=True, bytes=target.stat().st_size)
 
 outfits = {'guard': args.source / 'guard.png'}
@@ -86,12 +92,13 @@ outfits.update({p.stem.removeprefix('outfit-'): p for p in args.source.glob('out
 for stage, height in [('child', 34), ('teen', 42), ('adult', 48), ('elder', 44)]:
     for race in ('human','elf','beastfolk','migurd','dwarf','superd'):
         source_stage = 'elder' if stage == 'elder' else 'adult'
-        path = args.source / f'body-{race}-{source_stage}.png'
+        filename = 'body-migurd-adult-v2.png' if race == 'migurd' and source_stage == 'adult' else f'body-{race}-{source_stage}.png'
+        path = args.source / filename
         if race == 'human' and source_stage == 'adult':
             source = base
         else:
             source = Image.open(path)
-        save(f'bodies/{race}-{stage}', export(source, height, own_registration=(race == 'migurd' and source_stage == 'adult')))
+        save(f'bodies/{race}-{stage}', export(source, height))
     for outfit, path in outfits.items():
         with Image.open(path) as source:
             save(f'outfits/{stage}-{outfit}', export(source, height))
