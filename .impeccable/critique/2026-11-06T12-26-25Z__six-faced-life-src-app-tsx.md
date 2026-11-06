@@ -129,4 +129,4 @@ Adult progression, storage-failure recovery and completed retrospectives were so
 
 ## Questions for the next pass
 
-Which matters most next: mobile character hierarchy, scene/tablet layout, or currency/accessibility consistency? Should the next pass address the two layout problems first or all five findings?
+Which matters most next: mobile character hierarchy, scene/tablet layout, or currency/accessibility consistency? Should the next pass address the three layout/hierarchy findings first or all five findings?
