@@ -9,7 +9,8 @@ import { ExpandedDetails, ExpandedFamily } from "./ExpandedDetails";
 import { careerTitle } from "../game/simulation";
 import { expandedLabel } from "../i18n/expanded";
 import { talentAssessmentText } from "../i18n/education";
-import { decisionText, entryText } from "../i18n/story";
+import { entryText } from "../i18n/story";
+import { currentDecisionText } from "../i18n/current-decision";
 import { choiceEffects } from "../i18n/choice-effects";
 import {
   ArrowDown,
@@ -333,7 +334,7 @@ export function DecisionPanel({
 
   const canonicalDecision = getDecision(life);
   const decision = canonicalDecision
-    ? decisionText(canonicalDecision, life, life.language ?? "en")
+    ? currentDecisionText(canonicalDecision, life, life.language ?? "en")
     : null;
   if (!decision && outcome) return <ChoiceOutcome result={outcome} />;
   if (!decision)

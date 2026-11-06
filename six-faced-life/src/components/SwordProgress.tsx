@@ -89,7 +89,7 @@ export function SwordProgress({
           ? "ฝึกเองได้ถึงขั้นสูง ชั้นเซียนขึ้นไปต้องหาอาจารย์และฝึกหนึ่งปีต่อระดับ งานใช้รูปแบบที่แข็งแกร่งที่สุด เหตุการณ์ใช้รูปแบบที่เลือก"
           : "Self-practice reaches Advanced. Saint+ needs a mentor and one training year per rank. Jobs use your strongest style; events use your selected style."}
       </p>
-      {swordMentorText(life, language).map((line) => (
+      {swordMentorText(life, language, true).map((line) => (
         <p key={line}>{line}</p>
       ))}
     </section>

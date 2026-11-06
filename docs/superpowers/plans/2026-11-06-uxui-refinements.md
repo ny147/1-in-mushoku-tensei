@@ -193,3 +193,5 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 
 - Baseline suite: 372/372 tests, 59 files passed (73.79s).
 - Task 1: complete — monetary helper and structured savings/income/debt/effect surfaces. Debt-unit regressions RED→GREEN; history snapshot pinned before UI edits and unchanged; focused 38/38 tests passed. Protected education generation helpers/catalogues unchanged.
+
+- Task 2: complete — live-only decision adapter; focused 32/32 tests pass, canonical decisions/outcomes/history/RNG unchanged. Exact known education fragments retain requirements/refund clauses. Mentorship copy is opt-in at UI call sites because the same reader also feeds generated history; its default wording remains historical.
