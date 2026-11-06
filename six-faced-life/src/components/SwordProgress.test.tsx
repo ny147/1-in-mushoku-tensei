@@ -104,3 +104,23 @@ it("explains one-time allocation and paid paused progress", () => {
   expect(screen.getByText(/Paid 16 silver/)).toBeTruthy();
   expect(screen.getByText(/Training paused/)).toBeTruthy();
 });
+
+it.each(["en","th"] as const)("discloses early %s tracks without hiding paid or legacy obligations", language=>{
+ const l=createExpandedLife({seed:1,language});l.phase="alive";l.age=0;
+ l.expansion.swords!.tracks["water-god"].xp=31.25;
+ l.expansion.swords!.legacy={xp:560,cap:4};
+ l.expansion.swords!.mentorship={style:"water-god",target:3,fee:16,progress:0.25,deferred:false};
+ const {container,rerender}=render(<SwordProgress life={l} onSelect={()=>{}}/>);
+ expect(screen.queryByRole("combobox")).toBeNull();
+ expect(container.querySelector("dl")?.closest("details")).toBeTruthy();
+ expect(screen.getByText(/31.25 XP/)).toBeTruthy();
+ expect(screen.getByText(language==="en"?/Move existing 560/:/โอนประสบการณ์เดิม 560/).closest("details")).toBeNull();
+ expect(screen.getByText(language==="en"?/Paid 16 silver/:/จ่ายแล้ว 16 เหรียญเงิน/).closest("details")).toBeNull();
+ l.age=5;rerender(<SwordProgress life={l} onSelect={()=>{}}/>);
+ expect(container.querySelector("dl")?.closest("details")).toBeNull();
+ expect(screen.getByRole("combobox")).toBeTruthy();
+ l.expansion.swords!.mentorship!.progress=1;l.expansion.swords!.mentorship!.deferred=true;
+ l.phase="ended";rerender(<SwordProgress life={l} onSelect={()=>{}}/>);
+ expect(screen.queryByRole("combobox")).toBeNull();
+ expect(screen.getByText(language==="en"?/Trial ready/:/พร้อมทดสอบ/).closest("details")).toBeNull();
+});

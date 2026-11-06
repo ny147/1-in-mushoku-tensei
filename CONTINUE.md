@@ -1,4 +1,118 @@
+# UX/UI implementation — incomplete acceptance save point, 2026-11-06 20:12 Bangkok
+
+User approved implementing PR #21 on the existing `codex/uxui-refinement-spec`
+branch. Tasks1–7 are implemented; Task8 acceptance/documentation remains open.
+Implementation/review-fix checkpoint **`2e042c5`** is pushed to PR #21.
+PR draft state and base main were verified through authenticated GitHub REST.
+This delivery note follows in a documentation commit. Final fetch succeeded;
+branch contains current origin/main `100e395`, with zero commits behind.
+PR: https://github.com/ny147/1-in-mushoku-tensei/pull/21 (base main; keep draft).
+The user merges manually. No publication is authorized.
+
+Implemented: current economic silver/เหรียญเงิน presentation with protected
+historical copy; condition-first character, age-aware sword disclosures, independent
+spellbook state, normal-flow scene text bands, wrapping time groups and accessible
+filters with explicit-change announcements. Domain/saves/RNG unchanged.
+
+Verification: final394/394 tests in61 files,77.01s; final build PASS with existing
+bundle advisory; detector `[]`; whitespace clean. Independent review's three
+Important monetary gaps reproduced and fixed. See
+[verification record](docs/verification/uxui-refinements.md) for exact browser
+coverage, deferred minor and remaining acceptance. **TH390 long-name character
+still overflows at CSS zoom2.** The attempted passport wrap rule did not resolve
+it. Do not mark ready. Next: restart isolated5174 and investigate overflowing
+rectangles at the documented fixture, then finish Task8 matrix and product/design/
+sidecar documentation. Do not repeat completed Tasks1–7.
+
+Usage observed 2026-11-06 20:12 Bangkok: **6% five-hour /14% weekly remaining**;
+resets Nov7 00:04 /Nov9 09:20 Bangkok. Check usage again on resumption; no credit,
+reset or billing operation. Low-capacity save point taken before more work.
+Player5173 storage untouched; QA browser closed/viewport reset; ignored fixture/
+logs retained. Task-owned changes are committed/pushed when delivery succeeds;
+inspect `git log -3 --oneline`, clean status and fetch before continuing.
+
 # Save point — Six-Faced Life
+
+## UX/UI review and implementation plan — prepared, 2026-11-06
+
+The user requested review of **[PR #21](https://github.com/ny147/1-in-mushoku-tensei/pull/21)**
+and an implementation plan. This is a follow-up on the clean existing
+**`codex/uxui-refinement-spec`** branch; no separate PR is needed. Pre-planning
+head was **`75575f7`**, with freshly fetched **`origin/main` at `100e395`**.
+Review/plan commit **`11e8b1d`** is pushed to PR #21, base **main**; the PR title
+and description now include the plan and review. This checkpoint delivery note
+follows in its own documentation commit. The user merges manually.
+
+Plan: `docs/superpowers/plans/2026-11-06-uxui-refinements.md`.
+Spec: `docs/superpowers/specs/2026-11-06-uxui-refinements-design.md`.
+Review found **no blocking findings**, confirmed by an independent read-only
+review of the original PR head against its base. The plan covers monetary
+formatting and isolated live copy, character/sword order and disclosure,
+independent spellbook state, scene geometry, time controls, filter semantics,
+and integrated acceptance/documentation/delivery in eight tasks.
+
+**Scope:** documentation only. No application code, dependencies, browser
+storage, simulation, history, hosting or publication changed. The spec status
+now links the requested plan without treating it as implementation approval.
+Detailed design and execution method remain for user review. Native sequential
+execution with an independent whole-branch review is recommended.
+
+**Verification:** checked existing component/i18n/domain responsibilities,
+actual package scripts and source constraints. The plan specifically guards
+catalogue-reconstructed history, disclosure choices across playback, explicit
+filter announcements and real-browser layout checks. Application tests/build
+and browser QA are future implementation requirements, not checks run for this
+documentation-only follow-up. Local Markdown links, eight task cycles, actual
+test command paths and documentation diff were checked; `git diff --check`
+passed. Preserve the older dated evidence below.
+
+**Next:** user reviews the design/plan and chooses an execution method. After
+approval, recheck usage, clean Git status and fetch; use the plan's Before
+Execution checklist. Intended code branch: `codex/uxui-refinements` from fetched
+`origin/main` after the documentation is integrated, or obtain the user's
+integration instruction if it remains unmerged. Do not implement automatically.
+
+Usage observed **2026-11-06 19:43 Bangkok**: **48% five-hour /21% weekly
+remaining**; resets **Nov7 00:04 /Nov9 09:20 Bangkok**. No billing/reset action.
+
+## UX/UI refinement specification — proposed, 2026-11-06
+
+User requested a spec to implement the preceding Impeccable review. Task branch
+**`codex/uxui-refinement-spec`** starts from freshly fetched **`origin/main
+100e395`**. The review remains in [PR #20](https://github.com/ny147/1-in-mushoku-tensei/pull/20);
+this spec is self-contained and does not depend on merging that documentation.
+Specification **`b14494e`** is pushed in **[PR #21](https://github.com/ny147/1-in-mushoku-tensei/pull/21)**,
+base **main**. This delivery note follows in its own commit. The user merges
+manually; no merge, auto-merge, branch deletion or publishing was performed.
+
+Spec: `docs/superpowers/specs/2026-11-06-uxui-refinements-design.md`.
+It proposes all five review priorities: condition-first character information,
+stage-appropriate sword/spellbook disclosures, nonoverlapping scene text,
+readable tablet time controls, canonical silver/เหรียญเงิน, and accessible
+All/Memories filter state/status. The first two character changes form one
+priority. These details are proposals, not confirmed implementation decisions.
+
+**Scope:** documentation only. Existing identity, simulation, saved lives,
+immutable past prose, locks, focus, playback and recovery behavior are protected.
+No UI code, dependencies, save migration, implementation plan or publishing.
+Minor review observations and Impeccable format/skill updates are deferred.
+
+**Validation:** checked source responsibilities, current unlock/disclosure/focus
+behavior, relative reference paths and document diff. Independent builder check
+identified the shared Thai narrative catalogue boundary; the spec now explicitly
+protects rendered history as well as payloads, retaining old and newly recorded
+narrative wording while standardizing structured economic UI/live-only copy.
+The reviewer rechecked that clarification and reported no important gaps.
+Application tests/build and browser QA are specified for future implementation,
+not claimed as executed for this documentation-only task.
+
+**Next:** user reviews the proposed spec. After explicit design approval, invoke
+the writing-plans workflow and create the implementation plan. Do not infer
+implementation or publishing approval from the spec's existence or Git merge.
+No application changes are pending.
+
+Usage observed **2026-11-06 19:35 Bangkok**: **59% five-hour /22% weekly
+remaining**; resets **Nov7 00:04 /Nov9 09:20 Bangkok**. No billing/reset action.
 
 ## Pixel life scene — implemented for human review, 2026-11-04 19:06 Bangkok
 

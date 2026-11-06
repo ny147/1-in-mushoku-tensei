@@ -40,3 +40,24 @@ describe("expanded bilingual catalogue", () => {
     expect(expandedEntryText(n.history.at(-1)!, "th")?.text).toMatch(/[ก-๙]/);
   });
 });
+
+// Pin the existing generation/localization path before changing live economic UI.
+import { entryText } from "./story";
+it("preserves literal monetary history in both languages", () => {
+  const records = [];
+  for (const language of ["en", "th"] as const) {
+    for (const event of ["aid", "instruction", "work", "university"]) {
+      const l = createExpandedLife({seed: 1, language});
+      l.phase = "alive"; l.age = 25; l.coins = 500;
+      l.pending = `expanded.${event}`;
+      const d = getDecision(l)!;
+      const c = d.choices.find(c => !c.disabled) ?? d.choices[0];
+      const after = choose(l, c.id);
+      const e = after.history.at(-1)!;
+      records.push({language, event, entry: entryText(e, language), expanded: expandedEntryText(e, language)});
+    }
+    const fallback = {id: 999, age: 20, kind: "choice" as const, title: "Old fee", text: "Paid 4 coins", message: {key:"unknown.old",params:{}}};
+    records.push({language, fallback: entryText(fallback, language)});
+  }
+  expect(records).toMatchSnapshot();
+});

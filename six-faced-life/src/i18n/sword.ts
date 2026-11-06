@@ -1,3 +1,4 @@
+import { moneyText } from "./money";
 import type { ExpandedLife, Language } from "../game/types";
 import { SWORD_NAMES, type SwordStyle } from "../game/expanded/sword-state";
 import {
@@ -30,7 +31,7 @@ export const swordRankName = (r: number, lang: Language): string =>
         "Emperor",
         "God",
       ])[r] ?? "";
-export function swordMentorText(l: ExpandedLife, lang: Language): string[] {
+export function swordMentorText(l: ExpandedLife, lang: Language, current = false): string[] {
   const m = l.expansion.swords?.mentorship;
   if (!m) return [];
   const th = lang === "th",
@@ -52,8 +53,8 @@ export function swordMentorText(l: ExpandedLife, lang: Language): string[] {
   return [
     `${swordStyleName(m.style, lang)} · ${swordRankName(m.target, lang)} · ${SWORD_MENTORS[m.style][th ? "th" : "en"]}`,
     th
-      ? `จ่ายแล้ว ${m.fee} เหรียญ · ฝึก ${Number((m.progress * 100).toFixed(1))}% ของหนึ่งปี ไม่ต้องจ่ายซ้ำ`
-      : `Paid ${m.fee} silver · ${Number((m.progress * 100).toFixed(1))}% of one training year; no repeat fee`,
+      ? `จ่ายแล้ว ${current ? moneyText(m.fee, lang) : `${m.fee} เหรียญ`} · ฝึก ${Number((m.progress * 100).toFixed(1))}% ของหนึ่งปี ไม่ต้องจ่ายซ้ำ`
+      : `Paid ${current ? moneyText(m.fee, lang) : `${m.fee} silver`} · ${Number((m.progress * 100).toFixed(1))}% of one training year; no repeat fee`,
     m.progress === 1
       ? th
         ? "พร้อมทดสอบด้วยตนเอง ผ่านแน่นอนเมื่อครบเงื่อนไข"

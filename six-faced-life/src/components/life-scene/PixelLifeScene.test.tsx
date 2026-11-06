@@ -102,3 +102,18 @@ it("settles only the newest complete scene and disconnects visibility observatio
   expect(disconnect).toHaveBeenCalledOnce();
   expect(images.every((image) => image.onload === null && image.onerror === null)).toBe(true);
 });
+
+import { LanguageProvider } from "../../i18n/context";
+it.each(["en","th"] as const)("keeps %s text and reduced-motion controls available through fallback and load",language=>{
+ const p=props();
+ const {container}=render(<LanguageProvider language={language}><PixelLifeScene {...p} presentation={{...p.presentation,reducedMotion:true}}/></LanguageProvider>);
+ const button=screen.getByRole("button",{name:language==="en"?"Scene motion":"การเคลื่อนไหวของฉาก"}) as HTMLButtonElement;
+ expect(button.disabled).toBe(true);expect(button.getAttribute("aria-pressed")).toBe("false");
+ const description=document.getElementById(button.getAttribute("aria-describedby")!);
+ expect(description?.textContent).toBeTruthy();
+ expect(container.querySelector(".scene-top")?.textContent).toBeTruthy();
+ expect(container.querySelector(".scene-caption h2")?.textContent).toBeTruthy();
+ expect(container.querySelector(".scene-art-note")?.textContent).toBeTruthy();
+ act(()=>images.forEach(i=>i.onerror?.()));
+ expect(container.querySelector('[data-scene-ready="false"]')).toBeTruthy();
+});
