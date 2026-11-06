@@ -39,7 +39,7 @@ describe("effect presentation boundaries", () => {
     const c = getDecision(l)!.choices.find((c) => c.id.endsWith(".promote"))!;
     const preview = choiceEffects(l, c, "en").join(" ");
     expect(preview).toContain("Job base pay 20 → 28 silver/year");
-    expect(preview).toContain("24/year stipend");
+    expect(preview).toContain("24 silver/year stipend");
     const after = choose(l, c.id);
     expect(choiceChanges(l, after).join(" ")).not.toContain("Yearly income");
   });
@@ -85,7 +85,7 @@ describe("effect presentation boundaries", () => {
         { id: "test", label: "", description: "", outcome: "", coins: 20 },
         "en",
       ),
-    ).toContain("Silver +1");
+    ).toContain("Silver +1 silver");
   });
   it("gives every actionable expanded choice a disclosure without changing RNG or the save", () => {
     const l = createExpandedLife({ seed: 2 });

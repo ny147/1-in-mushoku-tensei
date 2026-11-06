@@ -1,3 +1,4 @@
+import { moneyText } from "./money";
 import type { Choice, ExpandedLife, Language } from "../game/types";
 import { PAY, HAZARDS } from "../game/expanded/balance";
 import type { Occupation } from "../game/expanded/types";
@@ -23,7 +24,7 @@ export function expandedChoiceEffects(
     return [
       text(
         `Selected style Advanced+; immediate fatal risk ${a.risk * 100}%; success: ${a.reward} silver, reputation +${a.reputation}, service +${a.serviceCredit}, obligations −${a.obligations}, faction trust +${a.trust}`,
-        `รูปแบบดาบที่เลือกต้องขั้นสูงขึ้นไป เสี่ยงเสียชีวิตทันที ${a.risk * 100}% เมื่อสำเร็จ: เงิน ${a.reward} เหรียญ ชื่อเสียง +${a.reputation} งานรับใช้ +${a.serviceCredit} ภาระหน้าที่ −${a.obligations} ความไว้ใจของฝ่าย +${a.trust}`,
+        `รูปแบบดาบที่เลือกต้องขั้นสูงขึ้นไป เสี่ยงเสียชีวิตทันที ${a.risk * 100}% เมื่อสำเร็จ: เงิน ${a.reward} เหรียญเงิน ชื่อเสียง +${a.reputation} งานรับใช้ +${a.serviceCredit} ภาระหน้าที่ −${a.obligations} ความไว้ใจของฝ่าย +${a.trust}`,
       ),
     ];
   }
@@ -94,7 +95,7 @@ export function expandedChoiceEffects(
     x.training?.active && !x.training.paused && x.training.mode === "full-time"
       ? [
           text(
-            "Full-time training still replaces job wages with its 24/year stipend",
+            "Full-time training still replaces job wages with its 24 silver/year stipend",
             "ระหว่างฝึกเต็มเวลา ยังคงรับเบี้ยเลี้ยง 24 ต่อปีแทนค่าจ้างงาน",
           ),
         ]
@@ -110,7 +111,7 @@ export function expandedChoiceEffects(
       ),
       text(
         `Job pay ${pay} silver/year before expenses and work-focus bonus`,
-        `ค่าจ้างงาน ${pay} เหรียญต่อปี ก่อนหักค่าใช้จ่ายและโบนัสเป้าหมายทำงาน`,
+        `ค่าจ้างงาน ${pay} เหรียญเงินต่อปี ก่อนหักค่าใช้จ่ายและโบนัสเป้าหมายทำงาน`,
       ),
       ...stipend(),
     ];
@@ -152,7 +153,7 @@ export function expandedChoiceEffects(
     return [
       text(
         `Job level → ${level}; Job base pay ${oldPay} → ${pay} silver/year before work-focus bonus`,
-        `ระดับงาน → ${level} ค่าจ้างงานพื้นฐาน ${oldPay} → ${pay} เหรียญต่อปี ก่อนโบนัสเป้าหมายทำงาน`,
+        `ระดับงาน → ${level} ค่าจ้างงานพื้นฐาน ${oldPay} → ${pay} เหรียญเงินต่อปี ก่อนโบนัสเป้าหมายทำงาน`,
       ),
       ...stipend(),
     ];
@@ -240,7 +241,7 @@ export function expandedChoiceEffects(
     const assignment = key === "assignment",
       coins = assignment ? 20 : 30;
     const rewards = [
-      `${coins} ${text("silver", "เหรียญ")}`,
+      `${moneyText(coins, language)}`,
       delta("Reputation", "ชื่อเสียง", x.standing.reputation, 8),
       text("Service +1", "งานรับใช้ +1"),
     ];
@@ -306,14 +307,14 @@ export function expandedChoiceEffects(
     return [
       text(
         "Marriage recorded; household expenses +6 silver/year while married",
-        "บันทึกการสมรส ค่าใช้จ่ายครัวเรือนเพิ่ม 6 เหรียญต่อปีขณะยังสมรส",
+        "บันทึกการสมรส ค่าใช้จ่ายครัวเรือนเพิ่ม 6 เหรียญเงินต่อปีขณะยังสมรส",
       ),
     ];
   if (key === "child")
     return [
       text(
         "If an eligible spouse and record space are available: one child; expenses +4 silver/year until age 18",
-        "หากมีคู่สมรสที่มีคุณสมบัติครบและมีพื้นที่บันทึก จะมีลูกหนึ่งคน ค่าใช้จ่ายเพิ่ม 4 เหรียญต่อปีจนลูกอายุ 18 ปี",
+        "หากมีคู่สมรสที่มีคุณสมบัติครบและมีพื้นที่บันทึก จะมีลูกหนึ่งคน ค่าใช้จ่ายเพิ่ม 4 เหรียญเงินต่อปีจนลูกอายุ 18 ปี",
       ),
     ];
   if (key === "family") {
@@ -322,7 +323,7 @@ export function expandedChoiceEffects(
       return [
         text(
           "Ends the first active marriage; spouse relationship −30; expenses −6 silver/year",
-          "ยุติการสมรสปัจจุบันลำดับแรก ความสัมพันธ์กับคู่สมรส −30 ค่าใช้จ่ายลด 6 เหรียญต่อปี",
+          "ยุติการสมรสปัจจุบันลำดับแรก ความสัมพันธ์กับคู่สมรส −30 ค่าใช้จ่ายลด 6 เหรียญเงินต่อปี",
         ),
       ];
     return [

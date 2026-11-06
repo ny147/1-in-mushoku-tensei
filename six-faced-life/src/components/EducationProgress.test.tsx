@@ -102,3 +102,15 @@ it.each(["en", "th"] as const)(
     expect(stored?.pending).toBe("expanded.training-quote");
   },
 );
+
+import { EducationProgress } from "./EducationProgress";
+import { LanguageProvider } from "../i18n/context";
+it.each(["en", "th"] as const)("labels every %s debt amount with its unit", language => {
+ const l = createExpandedLife({seed: 1, language}); l.phase="alive"; l.age=20;
+ const before=JSON.stringify(l);
+ render(<LanguageProvider language={language}><EducationProgress life={l}/></LanguageProvider>);
+ const unit=language==="en"?"silver":"เหรียญเงิน";
+ expect(screen.getByText(new RegExp(`^${language==="en"?"Principal borrowed":"เงินกู้สะสม"}`)).textContent).toContain(`0 ${unit}`);
+ expect(screen.getByText(new RegExp(`^${language==="en"?"Last repayment":"ชำระครั้งล่าสุด"}`)).textContent).toContain(`0 ${unit}`);
+ expect(JSON.stringify(l)).toBe(before);
+});

@@ -228,7 +228,7 @@ describe("expanded chronicle details", () => {
     expect(
       screen.getAllByRole("heading", { name: "Farmer" }).length,
     ).toBeGreaterThan(0);
-    expect(screen.getByText(/20.*coins/)).toBeTruthy();
+    expect(screen.getByText(/20.*silver/)).toBeTruthy();
   });
   it("renders the same stored snapshot in Thai without exposing a latent diagnosis", () => {
     const l = createExpandedLife({ seed: 1 });

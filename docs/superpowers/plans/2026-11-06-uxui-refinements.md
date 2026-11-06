@@ -179,7 +179,17 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 | --- | --- | --- |
 | PR #21 specification review | Complete, 2026-11-06 | Head `75575f7`, base `100e395`; source comparison and independent read-only review; no blocking findings |
 | Implementation plan | Prepared for user review | This document; no application code changed |
-| Design/plan approval and execution method | Pending | Current request covers review and plan only |
+| Design/plan approval and execution method | Approved, 2026-11-06 | User requested implementation and explicitly approved updating existing PR #21 on codex/uxui-refinement-spec; native sequential execution |
 | Tasks 1–8 | Not started | Test/build/browser commands above are future requirements, not executed results |
 
 **Recommended execution:** native, sequential implementation, with the required independent whole-branch review before delivery. These tasks share components and CSS; concurrent edits would add integration work. The spec and this plan should be reviewed before execution.
+
+### Execution rulings and pre-flight
+
+- Ruling: continue the existing PR #21 branch rather than create codex/uxui-refinements — explicitly authorized by the user; all implementation stays reviewable in the same PR.
+- Ruling: use this existing plan ledger with native Windows commands instead of shell-specific scratch scripts; preserves one durable checkpoint and per-task evidence.
+- Pre-flight: Tasks 1→2 share monetary helpers; preserve caller number formatting. Tasks 3→4/7 share LifeView but keep independent transient state. Tasks 5/6 share responsive CSS; verify final cascade together in the browser. No interface conflict found.
+- Baseline build: PASS; existing >500kB bundle advisory. Initial sandbox esbuild spawn EPERM resolved by escalated execution. Baseline tests running.
+
+- Baseline suite: 372/372 tests, 59 files passed (73.79s).
+- Task 1: complete — monetary helper and structured savings/income/debt/effect surfaces. Debt-unit regressions RED→GREEN; history snapshot pinned before UI edits and unchanged; focused 38/38 tests passed. Protected education generation helpers/catalogues unchanged.

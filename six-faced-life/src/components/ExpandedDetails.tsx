@@ -1,3 +1,4 @@
+import { moneyText } from "../i18n/money";
 import type { ExpandedLife } from "../game/types";
 import { useI18n } from "../i18n/context";
 import { expandedLabel } from "../i18n/expanded";
@@ -134,10 +135,10 @@ export function ExpandedCareer({ life }: { life: ExpandedLife }) {
       <h2>{th ? "งานและโอกาส" : "Work and opportunity"}</h2>
       <h3>{label(x.career.role)}</h3>
       <p>
-        {careerIncomeExpanded(life)}{" "}
+        {moneyText(careerIncomeExpanded(life), language)}{" "}
         {th
-          ? "เหรียญต่อปี ก่อนหักค่าใช้จ่าย"
-          : "coins per year before living costs"}
+          ? "ต่อปี ก่อนหักค่าใช้จ่าย"
+          : "per year before living costs"}
       </p>
       <p>
         {th ? "ระดับ" : "Level"} {record.level} ·{" "}
@@ -145,8 +146,8 @@ export function ExpandedCareer({ life }: { life: ExpandedLife }) {
         {th ? "ปี" : "years"}
       </p>
       <p>
-        {th ? "รายรับปีล่าสุด" : "Last annual income"} {x.economy.lastIncome} ·{" "}
-        {th ? "จ่ายจริง" : "Actually spent"} {x.economy.lastExpenses}
+        {th ? "รายรับปีล่าสุด" : "Last annual income"} {moneyText(x.economy.lastIncome, language)} ·{" "}
+        {th ? "จ่ายจริง" : "Actually spent"} {moneyText(x.economy.lastExpenses, language)}
       </p>
       <details>
         <summary>

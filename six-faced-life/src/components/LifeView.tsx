@@ -1,3 +1,4 @@
+import { currencyUnit } from "../i18n/money";
 import { EducationProgress } from "./EducationProgress";
 import { SwordProgress } from "./SwordProgress";
 import type { SwordStyle } from "../game/expanded/sword-state";
@@ -73,7 +74,7 @@ export const focusIcons: Record<Focus, typeof Heart> = {
 };
 
 export function CharacterStats({ life }: { life: Life }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
 
   return (
     <section className="rail-section">
@@ -108,7 +109,7 @@ export function CharacterStats({ life }: { life: Life }) {
         <Wallet size={17} />
         <span>{t("Your savings")}</span>
         <strong>
-          {t(life.coins.toLocaleString())} <small>{t("silver")}</small>
+          {t(life.coins.toLocaleString())} <small>{currencyUnit(language)}</small>
         </strong>
       </div>
     </section>

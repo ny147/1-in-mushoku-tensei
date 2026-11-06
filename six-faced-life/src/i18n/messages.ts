@@ -513,7 +513,7 @@ const templates: readonly [RegExp, (...parts: string[]) => string][] = [
   [/^(.+) style$/, (s) => `วิชา${tr(s)}`],
   [/^Explore (.+)$/, (s) => `สำรวจ${tr(s)}`],
   [/^ · (\d+) years old$/, (n) => ` · อายุ ${n} ปี`],
-  [/^ · Need (\d+) more silver$/, (n) => ` · ต้องมีเงินเพิ่มอีก ${n} เหรียญ`],
+  [/^ · Need (\d+) more silver$/, (n) => ` · ต้องมีเงินเพิ่มอีก ${n} เหรียญเงิน`],
   [/^ · (\d+) for next rank$/, (n) => ` · อีก ${n} สู่ระดับถัดไป`],
   [/^ · (.+) instruction needed$/, (s) => ` · ต้องมีการสอนระดับ${tr(s)}`],
   [/^ · (\d+) to learn$/, (n) => ` · ต้องฝึกอีก ${n}`],

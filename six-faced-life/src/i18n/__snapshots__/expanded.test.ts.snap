@@ -1,0 +1,116 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`preserves literal monetary history in both languages 1`] = `
+[
+  {
+    "entry": {
+      "text": "The household receives a limited period of practical support.",
+      "title": "Arrange the support",
+    },
+    "event": "aid",
+    "expanded": {
+      "text": "The household receives a limited period of practical support.",
+      "title": "Arrange the support",
+    },
+    "language": "en",
+  },
+  {
+    "entry": {
+      "text": "You train under a sword instructor.",
+      "title": "Pay for sword instruction",
+    },
+    "event": "instruction",
+    "expanded": {
+      "text": "You train under a sword instructor.",
+      "title": "Pay for sword instruction",
+    },
+    "language": "en",
+  },
+  {
+    "entry": {
+      "text": "You begin earning a modest living from farm work.",
+      "title": "Take local farm work",
+    },
+    "event": "work",
+    "expanded": {
+      "text": "You begin earning a modest living from farm work.",
+      "title": "Take local farm work",
+    },
+    "language": "en",
+  },
+  {
+    "entry": {
+      "text": "Your choice is recorded. Time has not advanced.",
+      "title": "Continue without committing",
+    },
+    "event": "university",
+    "expanded": {
+      "text": "Your choice is recorded. Time has not advanced.",
+      "title": "Continue without committing",
+    },
+    "language": "en",
+  },
+  {
+    "fallback": {
+      "text": "Paid 4 coins",
+      "title": "Old fee",
+    },
+    "language": "en",
+  },
+  {
+    "entry": {
+      "text": "ครัวเรือนได้รับความช่วยเหลือด้านปัจจัยจำเป็นในช่วงเวลาจำกัด",
+      "title": "จัดเตรียมความช่วยเหลือ",
+    },
+    "event": "aid",
+    "expanded": {
+      "text": "ครัวเรือนได้รับความช่วยเหลือด้านปัจจัยจำเป็นในช่วงเวลาจำกัด",
+      "title": "จัดเตรียมความช่วยเหลือ",
+    },
+    "language": "th",
+  },
+  {
+    "entry": {
+      "text": "คุณฝึกภายใต้คำแนะนำของครูดาบ",
+      "title": "จ่ายค่าเรียนดาบ",
+    },
+    "event": "instruction",
+    "expanded": {
+      "text": "คุณฝึกภายใต้คำแนะนำของครูดาบ",
+      "title": "จ่ายค่าเรียนดาบ",
+    },
+    "language": "th",
+  },
+  {
+    "entry": {
+      "text": "คุณเริ่มหาเลี้ยงชีพด้วยงานเกษตรที่ให้รายได้พอประมาณ",
+      "title": "รับงานเกษตรในชุมชน",
+    },
+    "event": "work",
+    "expanded": {
+      "text": "คุณเริ่มหาเลี้ยงชีพด้วยงานเกษตรที่ให้รายได้พอประมาณ",
+      "title": "รับงานเกษตรในชุมชน",
+    },
+    "language": "th",
+  },
+  {
+    "entry": {
+      "text": "บันทึกการตัดสินใจแล้ว เวลาไม่ได้เดินไปข้างหน้า",
+      "title": "ดำเนินต่อโดยยังไม่ผูกมัด",
+    },
+    "event": "university",
+    "expanded": {
+      "text": "บันทึกการตัดสินใจแล้ว เวลาไม่ได้เดินไปข้างหน้า",
+      "title": "ดำเนินต่อโดยยังไม่ผูกมัด",
+    },
+    "language": "th",
+  },
+  {
+    "fallback": {
+      "text": "Paid 4 coins",
+      "title": "Old fee",
+    },
+    "language": "th",
+  },
+]
+`;

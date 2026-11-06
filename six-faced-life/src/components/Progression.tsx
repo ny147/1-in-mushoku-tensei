@@ -1,3 +1,4 @@
+import { moneyText } from "../i18n/money";
 import { useI18n } from "../i18n/context";
 import { ExpandedCareer } from "./ExpandedDetails";
 import {
@@ -126,7 +127,7 @@ export function StudyFocus({
 }
 
 export function CareerProgress({ life }: { life: Life }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   if (life.ruleset === "expanded-1") return <ExpandedCareer life={life} />;
 
   const p = getProgression(life);
@@ -184,7 +185,7 @@ export function CareerProgress({ life }: { life: Life }) {
         <div className="career-income">
           <span>{t("Yearly income")}</span>
           <strong>
-            {careerIncome(life)} {t(" silver")}
+            {moneyText(careerIncome(life), language)}
           </strong>
           <small>{t("Before living costs and any work-focus bonus")}</small>
         </div>
