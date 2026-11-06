@@ -2,7 +2,10 @@
 
 User approved implementing PR #21 on the existing `codex/uxui-refinement-spec`
 branch. Tasks1–7 are implemented; Task8 acceptance/documentation remains open.
-Review fixes are included in the checkpoint commit after `265ee8f`.
+Implementation/review-fix checkpoint **`2e042c5`** is pushed to PR #21.
+PR draft state and base main were verified through authenticated GitHub REST.
+This delivery note follows in a documentation commit. Final fetch succeeded;
+branch contains current origin/main `100e395`, with zero commits behind.
 PR: https://github.com/ny147/1-in-mushoku-tensei/pull/21 (base main; keep draft).
 The user merges manually. No publication is authorized.
 
