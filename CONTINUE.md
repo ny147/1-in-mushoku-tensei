@@ -1,5 +1,41 @@
 # Save point — Six-Faced Life
 
+## UX/UI refinement specification — proposed, 2026-11-06
+
+User requested a spec to implement the preceding Impeccable review. Task branch
+**`codex/uxui-refinement-spec`** starts from freshly fetched **`origin/main
+100e395`**. The review remains in [PR #20](https://github.com/ny147/1-in-mushoku-tensei/pull/20);
+this spec is self-contained and does not depend on merging that documentation.
+
+Spec: `docs/superpowers/specs/2026-11-06-uxui-refinements-design.md`.
+It proposes all five review priorities: condition-first character information,
+stage-appropriate sword/spellbook disclosures, nonoverlapping scene text,
+readable tablet time controls, canonical silver/เหรียญเงิน, and accessible
+All/Memories filter state/status. The first two character changes form one
+priority. These details are proposals, not confirmed implementation decisions.
+
+**Scope:** documentation only. Existing identity, simulation, saved lives,
+immutable past prose, locks, focus, playback and recovery behavior are protected.
+No UI code, dependencies, save migration, implementation plan or publishing.
+Minor review observations and Impeccable format/skill updates are deferred.
+
+**Validation:** checked source responsibilities, current unlock/disclosure/focus
+behavior, relative reference paths and document diff. Independent builder check
+identified the shared Thai narrative catalogue boundary; the spec now explicitly
+protects rendered history as well as payloads, retaining old and newly recorded
+narrative wording while standardizing structured economic UI/live-only copy.
+The reviewer rechecked that clarification and reported no important gaps.
+Application tests/build and browser QA are specified for future implementation,
+not claimed as executed for this documentation-only task.
+
+**Next:** user reviews the proposed spec. After explicit design approval, invoke
+the writing-plans workflow and create the implementation plan. Do not infer
+implementation or publishing approval from the spec's existence or Git merge.
+No application changes are pending.
+
+Usage observed **2026-11-06 19:35 Bangkok**: **59% five-hour /22% weekly
+remaining**; resets **Nov7 00:04 /Nov9 09:20 Bangkok**. No billing/reset action.
+
 ## Pixel life scene — implemented for human review, 2026-11-04 19:06 Bangkok
 
 User resumed from **`ba145ad`** on existing **`codex/pixel-life-scene`**.
