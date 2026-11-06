@@ -200,3 +200,5 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 
 - Task 4: code verified — independent native disclosures, current study opens only on actual selection change; 24/24 focused tests pass after RED. Full spellbook focus is additionally covered in the integrated App assertions.
 - Tasks 5/6 baseline rendered failures observed in IAB: Thai741 Next decision fragmented into three lines and +1 year split;1280 scene metadata/caption intersect, art credit/motion intersect. These are layout failures, not jsdom claims.
+
+- Task 5: code verified — separate metadata/stage/footer rows, hero layers share the caption row; loaded/fallback/reduced semantics retained. Task 5/6 regression run 31/31 passed; build passed. Thai741 inspected: text/control rectangles separate; hero visible; no horizontal overflow. Full matrix remains Task 8.

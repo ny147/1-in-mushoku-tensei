@@ -140,7 +140,7 @@ export function PixelLifeScene({
         )}
       >
         {ready ? (
-          layers.map((layer, index) =>
+          layers.filter(layer => layer.anchor !== "hero" && layer.anchor !== "effect").map((layer, index) =>
             layer.anchor === "background" ? (
               <div
                 key={layer.id}
@@ -166,6 +166,7 @@ export function PixelLifeScene({
         <span>{t(REGIONS[model.region].name)}</span>
         <span>{ageText}</span>
       </div>
+      <div className="pixel-stage">
       <div className="scene-caption">
         <span>
           {t(
@@ -197,6 +198,13 @@ export function PixelLifeScene({
             : t(model.careerTitle)}
         </p>
       </div>
+      <div className="pixel-performer" aria-hidden="true">
+        {ready && layers.filter(layer => layer.anchor === "hero" || layer.anchor === "effect").map((layer,index) => (
+          <div key={`${layer.id}-${index}`} className={`pixel-layer pixel-${layer.anchor}`} style={style(layer)} />
+        ))}
+      </div>
+      </div>
+      <div className="pixel-footer">
       <span className="scene-art-note">{words.art}</span>
       {presentation.reducedMotion && (
         <span className="pixel-motion-note" id={reducedDescription}>
@@ -217,6 +225,7 @@ export function PixelLifeScene({
           {motionEnabled && !presentation.reducedMotion ? " ●" : " ○"}
         </span>
       </button>
+      </div>
     </section>
   );
 }

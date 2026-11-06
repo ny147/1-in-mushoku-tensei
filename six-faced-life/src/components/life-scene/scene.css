@@ -158,3 +158,72 @@
     animation: none !important;
   }
 }
+
+/* Text bands grow with localized copy; raster scenery remains behind them. */
+.scene.pixel-scene {
+  height: auto;
+  min-height: 245px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  padding: 20px;
+}
+.pixel-scene .scene-top {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: space-between;
+}
+.pixel-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(128px, 0.8fr);
+  gap: 12px;
+  align-items: center;
+  z-index: 9;
+}
+.pixel-scene .scene-caption {
+  position: static;
+  max-width: none;
+  min-width: 0;
+}
+.pixel-performer {
+  position: relative;
+  align-self: end;
+  min-height: 128px;
+}
+.pixel-performer .pixel-hero {
+  left: 50%;
+  bottom: 0;
+}
+.pixel-performer .pixel-effect {
+  left: calc(50% + 32px);
+  bottom: 20px;
+}
+.pixel-footer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.pixel-footer .scene-art-note,
+.pixel-footer .pixel-motion-note,
+.pixel-footer .pixel-motion {
+  position: static;
+  max-width: 100%;
+  margin: 0;
+}
+.pixel-footer .scene-art-note { flex: 1 1 120px; }
+.pixel-footer .pixel-motion { flex: 0 0 auto; }
+.pixel-footer .pixel-motion-note { flex: 1 1 180px; }
+@media (min-width: 1700px) {
+  .scene.pixel-scene { min-height: 300px; }
+}
+@media (max-width: 650px) {
+  .scene.pixel-scene { padding: 16px; }
+  .has-decision .scene.pixel-scene { display: none; }
+}
