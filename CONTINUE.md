@@ -6,6 +6,9 @@ The user requested review of **[PR #21](https://github.com/ny147/1-in-mushoku-te
 and an implementation plan. This is a follow-up on the clean existing
 **`codex/uxui-refinement-spec`** branch; no separate PR is needed. Pre-planning
 head was **`75575f7`**, with freshly fetched **`origin/main` at `100e395`**.
+Review/plan commit **`11e8b1d`** is pushed to PR #21, base **main**; the PR title
+and description now include the plan and review. This checkpoint delivery note
+follows in its own documentation commit. The user merges manually.
 
 Plan: `docs/superpowers/plans/2026-11-06-uxui-refinements.md`.
 Spec: `docs/superpowers/specs/2026-11-06-uxui-refinements-design.md`.
