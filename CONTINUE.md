@@ -1,5 +1,44 @@
 # Save point — Six-Faced Life
 
+## UX/UI review and implementation plan — prepared, 2026-11-06
+
+The user requested review of **[PR #21](https://github.com/ny147/1-in-mushoku-tensei/pull/21)**
+and an implementation plan. This is a follow-up on the clean existing
+**`codex/uxui-refinement-spec`** branch; no separate PR is needed. Pre-planning
+head was **`75575f7`**, with freshly fetched **`origin/main` at `100e395`**.
+
+Plan: `docs/superpowers/plans/2026-11-06-uxui-refinements.md`.
+Spec: `docs/superpowers/specs/2026-11-06-uxui-refinements-design.md`.
+Review found **no blocking findings**, confirmed by an independent read-only
+review of the original PR head against its base. The plan covers monetary
+formatting and isolated live copy, character/sword order and disclosure,
+independent spellbook state, scene geometry, time controls, filter semantics,
+and integrated acceptance/documentation/delivery in eight tasks.
+
+**Scope:** documentation only. No application code, dependencies, browser
+storage, simulation, history, hosting or publication changed. The spec status
+now links the requested plan without treating it as implementation approval.
+Detailed design and execution method remain for user review. Native sequential
+execution with an independent whole-branch review is recommended.
+
+**Verification:** checked existing component/i18n/domain responsibilities,
+actual package scripts and source constraints. The plan specifically guards
+catalogue-reconstructed history, disclosure choices across playback, explicit
+filter announcements and real-browser layout checks. Application tests/build
+and browser QA are future implementation requirements, not checks run for this
+documentation-only follow-up. Local Markdown links, eight task cycles, actual
+test command paths and documentation diff were checked; `git diff --check`
+passed. Preserve the older dated evidence below.
+
+**Next:** user reviews the design/plan and chooses an execution method. After
+approval, recheck usage, clean Git status and fetch; use the plan's Before
+Execution checklist. Intended code branch: `codex/uxui-refinements` from fetched
+`origin/main` after the documentation is integrated, or obtain the user's
+integration instruction if it remains unmerged. Do not implement automatically.
+
+Usage observed **2026-11-06 19:43 Bangkok**: **48% five-hour /21% weekly
+remaining**; resets **Nov7 00:04 /Nov9 09:20 Bangkok**. No billing/reset action.
+
 ## UX/UI refinement specification — proposed, 2026-11-06
 
 User requested a spec to implement the preceding Impeccable review. Task branch

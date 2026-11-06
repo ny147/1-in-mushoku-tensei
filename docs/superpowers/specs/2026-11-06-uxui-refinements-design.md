@@ -1,7 +1,9 @@
 # UX/UI refinements
 
-Status: **proposed design for user review, 2026-11-06**. Documentation only;
-implementation and a task-by-task implementation plan have not started.
+Status: **proposed design with implementation plan for user review, 2026-11-06**.
+Documentation only; application implementation has not started. The user's
+subsequent review/planning request produced the accompanying
+[implementation plan](../plans/2026-11-06-uxui-refinements.md).
 
 ## Intent and authority
 
@@ -307,8 +309,9 @@ finished. Reconcile findings against the established visual authority; the revie
 
 ## Approval and delivery
 
-User review of this proposed design is the next decision. Once approved, create
-the implementation plan using the normal planning workflow. Do not interpret
+User review of this proposed design and its accompanying implementation plan is
+the next decision. The user explicitly requested review and planning; that does
+not authorize application implementation or publication. Do not interpret
 creation or merging of this documentation PR as approval to implement or publish.
 
 Implementation later follows AGENTS.md: fresh usage/Git checks, a clean task
