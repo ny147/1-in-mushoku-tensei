@@ -130,7 +130,7 @@ describe("new-life language ownership", () => {
       const stored = loadGame(window.localStorage).data.active;
       expect(stored?.stats.knowledge).toBe(knowledge);
       expect(stored?.pending).toBe(pending);
-      expect(screen.getByRole("status").textContent).toContain(
+      expect(screen.getByRole("status", { name: "" }).textContent).toContain(
         `ความรู้ +${displayedGain}`,
       );
       if (pending) {
@@ -274,12 +274,12 @@ describe("new-life language ownership", () => {
     fireEvent.click(
       screen.getByRole("button", { name: /^Listen\. Watch\. Learn\./ }),
     );
-    expect(screen.getByRole("status").textContent).toContain(
+    expect(screen.getByRole("status", { name: "" }).textContent).toContain(
       "You keep your secret",
     );
     fireEvent.click(screen.getByRole("button", { name: /Past lives/ }));
     fireEvent.click(screen.getByRole("button", { name: /ThaiRecord/ }));
-    expect(screen.getByRole("status").textContent).toBe("");
+    expect(screen.getByRole("status", { name: "" }).textContent).toBe("");
   });
 
   it("preserves a personal name even when it is also a translatable domain label", () => {

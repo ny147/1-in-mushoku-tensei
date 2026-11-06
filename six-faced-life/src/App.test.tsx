@@ -210,7 +210,7 @@ describe("clear next actions and recovery", () => {
     act(() => vi.advanceTimersByTime(1200));
     expect(loadGame(window.localStorage).data.active?.pending).toBeNull();
     expect(document.activeElement).toBe(watch);
-    expect(screen.getByRole("status").textContent).toBe("");
+    expect(screen.getByRole("status", { name: "" }).textContent).toBe("");
   });
 
   it("keeps the last manual outcome visible during ordinary timed playback", () => {

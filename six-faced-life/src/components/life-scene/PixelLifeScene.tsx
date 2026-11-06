@@ -140,23 +140,27 @@ export function PixelLifeScene({
         )}
       >
         {ready ? (
-          layers.filter(layer => layer.anchor !== "hero" && layer.anchor !== "effect").map((layer, index) =>
-            layer.anchor === "background" ? (
-              <div
-                key={layer.id}
-                className="pixel-backdrop"
-                aria-hidden="true"
-                style={{ backgroundImage: `url("${layer.asset.url}")` }}
-              />
-            ) : (
-              <div
-                key={`${layer.id}-${index}`}
-                aria-hidden="true"
-                className={`pixel-layer pixel-${layer.anchor} ${layer.anchor === "ambient" ? `pixel-ambient-${layer.row}` : ""}`}
-                style={style(layer)}
-              />
-            ),
-          )
+          layers
+            .filter(
+              (layer) => layer.anchor !== "hero" && layer.anchor !== "effect",
+            )
+            .map((layer, index) =>
+              layer.anchor === "background" ? (
+                <div
+                  key={layer.id}
+                  className="pixel-backdrop"
+                  aria-hidden="true"
+                  style={{ backgroundImage: `url("${layer.asset.url}")` }}
+                />
+              ) : (
+                <div
+                  key={`${layer.id}-${index}`}
+                  aria-hidden="true"
+                  className={`pixel-layer pixel-${layer.anchor} ${layer.anchor === "ambient" ? `pixel-ambient-${layer.row}` : ""}`}
+                  style={style(layer)}
+                />
+              ),
+            )
         ) : (
           <Landscape alt={words.art} />
         )}
@@ -167,64 +171,73 @@ export function PixelLifeScene({
         <span>{ageText}</span>
       </div>
       <div className="pixel-stage">
-      <div className="scene-caption">
-        <span>
-          {t(
-            model.stage === "infant"
-              ? "Infancy"
-              : model.stage === "child"
-                ? "Childhood"
-                : model.stage === "teen"
-                  ? "Youth"
-                  : model.stage === "adult"
-                    ? "Adulthood"
-                    : "Later years",
-          )}
-        </span>
-        <h2>
-          {t(
-            model.age < 3
-              ? "Everything is new. Except you."
-              : model.age < 15
-                ? "A whole world to grow into."
-                : model.age < 45
-                  ? "Make this life your own."
-                  : "The things that stay with us.",
-          )}
-        </h2>
-        <p>
-          {model.age < 3
-            ? t("Small hands. Old memories. Endless possibility.")
-            : t(model.careerTitle)}
-        </p>
-      </div>
-      <div className="pixel-performer" aria-hidden="true">
-        {ready && layers.filter(layer => layer.anchor === "hero" || layer.anchor === "effect").map((layer,index) => (
-          <div key={`${layer.id}-${index}`} className={`pixel-layer pixel-${layer.anchor}`} style={style(layer)} />
-        ))}
-      </div>
+        <div className="scene-caption">
+          <span>
+            {t(
+              model.stage === "infant"
+                ? "Infancy"
+                : model.stage === "child"
+                  ? "Childhood"
+                  : model.stage === "teen"
+                    ? "Youth"
+                    : model.stage === "adult"
+                      ? "Adulthood"
+                      : "Later years",
+            )}
+          </span>
+          <h2>
+            {t(
+              model.age < 3
+                ? "Everything is new. Except you."
+                : model.age < 15
+                  ? "A whole world to grow into."
+                  : model.age < 45
+                    ? "Make this life your own."
+                    : "The things that stay with us.",
+            )}
+          </h2>
+          <p>
+            {model.age < 3
+              ? t("Small hands. Old memories. Endless possibility.")
+              : t(model.careerTitle)}
+          </p>
+        </div>
+        <div className="pixel-performer" aria-hidden="true">
+          {ready &&
+            layers
+              .filter(
+                (layer) => layer.anchor === "hero" || layer.anchor === "effect",
+              )
+              .map((layer, index) => (
+                <div
+                  key={`${layer.id}-${index}`}
+                  className={`pixel-layer pixel-${layer.anchor}`}
+                  style={style(layer)}
+                />
+              ))}
+        </div>
       </div>
       <div className="pixel-footer">
-      <span className="scene-art-note">{words.art}</span>
-      {presentation.reducedMotion && (
-        <span className="pixel-motion-note" id={reducedDescription}>
-          {words.reduced}
-        </span>
-      )}
-      <button
-        className="pixel-motion"
-        disabled={presentation.reducedMotion}
-        aria-describedby={
-          presentation.reducedMotion ? reducedDescription : undefined
-        }
-        aria-pressed={motionEnabled && !presentation.reducedMotion}
-        onClick={() => onMotionChange(!motionEnabled)}
-      >
-        {words.motion}
-        <span aria-hidden="true">
-          {motionEnabled && !presentation.reducedMotion ? " ●" : " ○"}
-        </span>
-      </button>
+        <span className="scene-art-note">{words.art}</span>
+        {presentation.reducedMotion && (
+          <span className="pixel-motion-note" id={reducedDescription}>
+            {words.reduced}
+          </span>
+        )}
+        <button
+          className="pixel-motion"
+          disabled={presentation.reducedMotion}
+          aria-describedby={
+            presentation.reducedMotion ? reducedDescription : undefined
+          }
+          aria-pressed={motionEnabled && !presentation.reducedMotion}
+          onClick={() => onMotionChange(!motionEnabled)}
+        >
+          {words.motion}
+          <span aria-hidden="true">
+            {motionEnabled && !presentation.reducedMotion ? " ●" : " ○"}
+          </span>
+        </button>
       </div>
     </section>
   );

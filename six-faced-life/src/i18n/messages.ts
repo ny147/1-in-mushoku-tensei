@@ -172,6 +172,7 @@ export const UI_TH: Record<string, string> = {
   "Sword skill": "ทักษะดาบ",
   Silver: "เงิน",
   silver: "เหรียญเงิน",
+  "Chronicle filter status": "สถานะตัวกรองบันทึกชีวิต",
   "Chronicle filters": "ตัวกรองบันทึกชีวิต",
   "Chronicle results": "รายการบันทึกชีวิต",
   "Life and background": "ชีวิตและภูมิหลัง",

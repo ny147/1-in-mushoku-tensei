@@ -1,3 +1,4 @@
+import { currentRequirementText } from "../i18n/current-requirements";
 import { moneyText } from "../i18n/money";
 import type { ExpandedLife } from "../game/types";
 import { useI18n } from "../i18n/context";
@@ -136,9 +137,7 @@ export function ExpandedCareer({ life }: { life: ExpandedLife }) {
       <h3>{label(x.career.role)}</h3>
       <p>
         {moneyText(careerIncomeExpanded(life), language)}{" "}
-        {th
-          ? "ต่อปี ก่อนหักค่าใช้จ่าย"
-          : "per year before living costs"}
+        {th ? "ต่อปี ก่อนหักค่าใช้จ่าย" : "per year before living costs"}
       </p>
       <p>
         {th ? "ระดับ" : "Level"} {record.level} ·{" "}
@@ -146,8 +145,10 @@ export function ExpandedCareer({ life }: { life: ExpandedLife }) {
         {th ? "ปี" : "years"}
       </p>
       <p>
-        {th ? "รายรับปีล่าสุด" : "Last annual income"} {moneyText(x.economy.lastIncome, language)} ·{" "}
-        {th ? "จ่ายจริง" : "Actually spent"} {moneyText(x.economy.lastExpenses, language)}
+        {th ? "รายรับปีล่าสุด" : "Last annual income"}{" "}
+        {moneyText(x.economy.lastIncome, language)} ·{" "}
+        {th ? "จ่ายจริง" : "Actually spent"}{" "}
+        {moneyText(x.economy.lastExpenses, language)}
       </p>
       <details>
         <summary>
@@ -160,7 +161,7 @@ export function ExpandedCareer({ life }: { life: ExpandedLife }) {
           {educationRequirements(life).map((r) => (
             <li key={r.id} data-met={r.met}>
               {r.met ? (th ? "ผ่าน" : "Met") : th ? "ยังไม่ผ่าน" : "Unmet"}:{" "}
-              {label(r.id)} {Math.round(r.current)} / {r.required}
+              {currentRequirementText(r, language)}
             </li>
           ))}
         </ul>
@@ -173,7 +174,7 @@ export function ExpandedCareer({ life }: { life: ExpandedLife }) {
               {careerRequirements(life, role).map((r) => (
                 <li key={r.id} data-met={r.met}>
                   {r.met ? (th ? "ผ่าน" : "Met") : th ? "ยังไม่ผ่าน" : "Unmet"}:{" "}
-                  {label(r.id)} {Math.round(r.current)} / {r.required}
+                  {currentRequirementText(r, language)}
                 </li>
               ))}
             </ul>

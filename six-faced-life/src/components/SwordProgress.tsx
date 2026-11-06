@@ -24,34 +24,48 @@ export function SwordProgress({
     life.age < 5 ||
     !!life.pending ||
     life.expansion.queue.length > 0;
-  const records = (<dl className="detail-list">
-        {SWORD_STYLES.map((style) => (
-          <div key={style}>
-            <dt>
-              {swordStyleName(style, language)}
-              {s.selected === style ? (th ? " · กำลังฝึก" : " · Selected") : ""}
-            </dt>
-            <dd>
-              {swordRankName(swordRank(s.tracks[style]), language)} ·{" "}
-              {Number(s.tracks[style].xp.toFixed(2))} XP
-            </dd>
-          </div>
-        ))}
-      </dl>);
-  const guidance = (<p>
-        {th
-          ? "ฝึกเองได้ถึงขั้นสูง ชั้นเซียนขึ้นไปต้องหาอาจารย์และฝึกหนึ่งปีต่อระดับ งานใช้รูปแบบที่แข็งแกร่งที่สุด เหตุการณ์ใช้รูปแบบที่เลือก"
-          : "Self-practice reaches Advanced. Saint+ needs a mentor and one training year per rank. Jobs use your strongest style; events use your selected style."}
-      </p>);
+  const records = (
+    <dl className="detail-list">
+      {SWORD_STYLES.map((style) => (
+        <div key={style}>
+          <dt>
+            {swordStyleName(style, language)}
+            {s.selected === style ? (th ? " · กำลังฝึก" : " · Selected") : ""}
+          </dt>
+          <dd>
+            {swordRankName(swordRank(s.tracks[style]), language)} ·{" "}
+            {Number(s.tracks[style].xp.toFixed(2))} XP
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+  const guidance = (
+    <p>
+      {th
+        ? "ฝึกเองได้ถึงขั้นสูง ชั้นเซียนขึ้นไปต้องหาอาจารย์และฝึกหนึ่งปีต่อระดับ งานใช้รูปแบบที่แข็งแกร่งที่สุด เหตุการณ์ใช้รูปแบบที่เลือก"
+        : "Self-practice reaches Advanced. Saint+ needs a mentor and one training year per rank. Jobs use your strongest style; events use your selected style."}
+    </p>
+  );
   return (
     <section className="rail-section sword-progress" aria-labelledby={id}>
       <h2 id={id}>{th ? "วิชาดาบสามรูปแบบ" : "Sword styles"}</h2>
       {life.age < 5 ? (
         <>
           <p>{th ? "เริ่มฝึกได้เมื่ออายุ 5 ปี" : "Practice opens at age 5"}</p>
-          <details><summary>{th ? "ระดับที่บันทึกไว้และการพัฒนา" : "Recorded styles and advancement"}</summary>{records}{guidance}</details>
+          <details>
+            <summary>
+              {th
+                ? "ระดับที่บันทึกไว้และการพัฒนา"
+                : "Recorded styles and advancement"}
+            </summary>
+            {records}
+            {guidance}
+          </details>
         </>
-      ) : records}
+      ) : (
+        records
+      )}
       {s.legacy && (
         <p>
           {th
@@ -95,7 +109,14 @@ export function SwordProgress({
               : "Resolve the current decision before changing style."}
         </p>
       )}
-      {life.age >= 5 && <details><summary>{th ? "เกี่ยวกับการพัฒนาวิชาดาบ" : "About sword advancement"}</summary>{guidance}</details>}
+      {life.age >= 5 && (
+        <details>
+          <summary>
+            {th ? "เกี่ยวกับการพัฒนาวิชาดาบ" : "About sword advancement"}
+          </summary>
+          {guidance}
+        </details>
+      )}
       {swordMentorText(life, language, true).map((line) => (
         <p key={line}>{line}</p>
       ))}

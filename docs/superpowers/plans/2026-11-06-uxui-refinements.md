@@ -180,7 +180,8 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 | PR #21 specification review | Complete, 2026-11-06 | Head `75575f7`, base `100e395`; source comparison and independent read-only review; no blocking findings |
 | Implementation plan | Prepared for user review | This document; no application code changed |
 | Design/plan approval and execution method | Approved, 2026-11-06 | User requested implementation and explicitly approved updating existing PR #21 on codex/uxui-refinement-spec; native sequential execution |
-| Tasks 1–8 | Not started | Test/build/browser commands above are future requirements, not executed results |
+| Tasks 1–7 | Implemented | Per-task RED/GREEN evidence below; final394/394 pass |
+| Task 8 | Incomplete acceptance save point | TH390 long-name CSS zoom2 overflow remains; see docs/verification/uxui-refinements.md |
 
 **Recommended execution:** native, sequential implementation, with the required independent whole-branch review before delivery. These tasks share components and CSS; concurrent edits would add integration work. The spec and this plan should be reviewed before execution.
 
@@ -206,3 +207,9 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 - Task 6: code verified — intrinsic time groups wrap at usable width. Thai741 now has intact one-line labels and all sampled controls44px high, speed targets44x44; no overflow. App tests cover bilingual order/full-spellbook focus; playback/pending regressions remain green in combined31/31 run.
 
 - Task 7: code verified — named button group/results, mutually exclusive pressed state, event-driven polite full-match counts; EN/TH focus, pagination, zero/ended and silent growth regressions RED→GREEN, 7/7 LifeView tests pass.
+
+- Final review: independent reviewer found three Important/P2 monetary gaps; mentor Effects, Thai stipend and current monetary requirements fixed RED→GREEN, focused29/29 and full394/394 pass. No Critical issue.
+- Final: minor (deferred): stronger paid university/mentorship literal history coverage; current snapshot university example declines.
+- Final: Ruling: reviewer left geometry/contrast/hero/mobile/zoom/AT/document accuracy to parent — rendered evidence and unfinished acceptance are recorded in docs/verification/uxui-refinements.md; PR stays draft. Cost if wrong: visual/accessibility defects remain until acceptance finishes.
+- Task 8 save point: full394/394, build PASS, detector empty. TH390 long-name CSS zoom2 overflow remains after attempted passport wrap; investigate exact overflowing DOM next. Product/design/sidecar final updates and remaining sampled browser cases pending.
+- Usage save point: 2026-11-06 around20:13 Bangkok,6% five-hour/14% weekly remaining; resets Nov7 00:04/Nov9 09:20 Bangkok. Existing branch/PR preserved; no billing action.

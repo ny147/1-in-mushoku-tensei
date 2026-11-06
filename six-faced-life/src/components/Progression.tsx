@@ -184,9 +184,7 @@ export function CareerProgress({ life }: { life: Life }) {
       {life.age >= 15 && (
         <div className="career-income">
           <span>{t("Yearly income")}</span>
-          <strong>
-            {moneyText(careerIncome(life), language)}
-          </strong>
+          <strong>{moneyText(careerIncome(life), language)}</strong>
           <small>{t("Before living costs and any work-focus bonus")}</small>
         </div>
       )}
@@ -267,7 +265,10 @@ export function Spellbook({ life }: { life: Life }) {
   }));
   // Only a real study change opens a discipline. Ticks preserve user choices.
   if (disclosures.study !== p.specialization) {
-    setDisclosures({study: p.specialization, open: new Set([...disclosures.open, p.specialization])});
+    setDisclosures({
+      study: p.specialization,
+      open: new Set([...disclosures.open, p.specialization]),
+    });
   }
   return (
     <section className="spellbook">
@@ -294,11 +295,12 @@ export function Spellbook({ life }: { life: Life }) {
               open={disclosures.open.has(id)}
               onToggle={(event) => {
                 const open = event.currentTarget.open;
-                setDisclosures(previous => {
+                setDisclosures((previous) => {
                   if (previous.open.has(id) === open) return previous;
                   const next = new Set(previous.open);
-                  if (open) next.add(id); else next.delete(id);
-                  return {...previous, open: next};
+                  if (open) next.add(id);
+                  else next.delete(id);
+                  return { ...previous, open: next };
                 });
               }}
               className={id === p.specialization ? "current-study" : ""}
@@ -307,15 +309,20 @@ export function Spellbook({ life }: { life: Life }) {
                 <Sparkles size={17} strokeWidth={1.4} />
                 <div>
                   <strong>{t(school.name)}</strong>
-                  <span className="spellbook-summary-count">{learned.length} {t(learned.length === 1 ? "spell" : "spells")} {t("learned")}{t(id === p.specialization ? " · Current study" : "")}</span>
+                  <span className="spellbook-summary-count">
+                    {learned.length}{" "}
+                    {t(learned.length === 1 ? "spell" : "spells")}{" "}
+                    {t("learned")}
+                    {t(id === p.specialization ? " · Current study" : "")}
+                  </span>
                 </div>
               </summary>
-                  <p className="spellbook-rank">
-                    {Math.round(track.xp)} {t(" experience ·")}
-                    {t(" ")}
-                    {t(rankFor(track.xp, life.training.magicCap))}
-                    {t(id === p.specialization ? " · Current study" : "")}
-                  </p>
+              <p className="spellbook-rank">
+                {Math.round(track.xp)} {t(" experience ·")}
+                {t(" ")}
+                {t(rankFor(track.xp, life.training.magicCap))}
+                {t(id === p.specialization ? " · Current study" : "")}
+              </p>
               <p className="school-description">{t(school.description)}</p>
               {learned.length ? (
                 <ul>

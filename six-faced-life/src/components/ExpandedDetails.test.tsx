@@ -228,7 +228,7 @@ describe("expanded chronicle details", () => {
     expect(
       screen.getAllByRole("heading", { name: "Farmer" }).length,
     ).toBeGreaterThan(0);
-    expect(screen.getByText(/20.*silver/)).toBeTruthy();
+    expect(screen.getByText(/20 silver per year before living costs/)).toBeTruthy();
   });
   it("renders the same stored snapshot in Thai without exposing a latent diagnosis", () => {
     const l = createExpandedLife({ seed: 1 });
@@ -246,4 +246,16 @@ describe("expanded chronicle details", () => {
       screen.getAllByText(/ผู้สืบสกุลที่ยังมีชีวิตทั้งหมด/).length,
     ).toBeGreaterThan(0);
   });
+});
+
+it.each(["en","th"] as const)("labels current %s monetary requirements without changing the life", language=>{
+ const l=createExpandedLife({seed:1,language});l.phase="alive";l.age=20;l.coins=0;
+ const before=JSON.stringify(l);
+ const {container}=render(<LanguageProvider language={language}><ExpandedCareer life={l}/></LanguageProvider>);
+ const rows=[...container.querySelectorAll(".requirement-list li")].map(e=>e.textContent!);
+ const unit=language==="en"?"silver":"เหรียญเงิน";
+ for(const label of language==="en"?["Complete funding","Available funds","Equipment funding"]:["ทุนค่าใช้จ่ายทั้งหมด","เงินที่ใช้ได้","ทุนซื้ออุปกรณ์"]) {
+  const row=rows.find(r=>r.includes(label));expect(row,label).toBeDefined();expect(row).toContain(unit);
+ }
+ expect(rows.join(" ")).not.toContain("Available coins");expect(JSON.stringify(l)).toBe(before);
 });

@@ -34,13 +34,7 @@ export function expandedChoiceEffects(
     key === "sword-abandon" ||
     key === "sword-select"
   )
-    return [
-      language === "th"
-        ? c.description === c.outcome
-          ? c.description
-          : c.outcome
-        : c.description,
-    ];
+    return [c.description];
   if (
     key === "instruction" &&
     action === "sword" &&
@@ -96,7 +90,7 @@ export function expandedChoiceEffects(
       ? [
           text(
             "Full-time training still replaces job wages with its 24 silver/year stipend",
-            "ระหว่างฝึกเต็มเวลา ยังคงรับเบี้ยเลี้ยง 24 ต่อปีแทนค่าจ้างงาน",
+            "ระหว่างฝึกเต็มเวลา ยังคงรับเบี้ยเลี้ยง 24 เหรียญเงินต่อปีแทนค่าจ้างงาน",
           ),
         ]
       : [];

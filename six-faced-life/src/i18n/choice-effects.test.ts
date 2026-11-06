@@ -140,3 +140,20 @@ describe("effect presentation boundaries", () => {
     expect(choiceChanges(restored, after)).toEqual(choiceChanges(quote, after));
   });
 });
+
+import { currentDecisionText } from "./current-decision";
+it("uses silver in Thai mentor effects while preserving historical outcomes",()=>{
+ const l=createExpandedLife({seed:1,language:"th"});l.phase="alive";l.age=30;l.coins=500;l.pending="expanded.sword-mentor";
+ allocateSwordStyle(l,"sword-god");l.expansion.swords!.tracks["sword-god"]={xp:260,cap:2};l.region="asura";
+ const d=getDecision(l)!;const original=JSON.stringify(d);
+ const c=currentDecisionText(d,l,"th").choices.find(c=>c.id.endsWith(".enroll"))!;
+ expect(choiceEffects(l,c,"th").join(" ")).not.toMatch(/เหรียญ(?!เงิน)/);
+ expect(choiceEffects(l,c,"th").join(" ")).toContain("16 เหรียญเงิน");
+ expect(JSON.stringify(d)).toBe(original);
+});
+it("labels the Thai stipend as money in job effect previews",()=>{
+ const l=createExpandedLife({seed:1,language:"th"});l.phase="alive";l.age=20;l.pending="expanded.work";
+ l.expansion.training!.active="guard";l.expansion.training!.mode="full-time";
+ const c=getDecision(l)!.choices.find(c=>c.id.endsWith(".farmer"))!;
+ expect(choiceEffects(l,c,"th").join(" ")).toContain("24 เหรียญเงินต่อปี");
+});

@@ -1,3 +1,33 @@
+# UX/UI implementation — incomplete acceptance save point, 2026-11-06 20:12 Bangkok
+
+User approved implementing PR #21 on the existing `codex/uxui-refinement-spec`
+branch. Tasks1–7 are implemented; Task8 acceptance/documentation remains open.
+Review fixes are included in the checkpoint commit after `265ee8f`.
+PR: https://github.com/ny147/1-in-mushoku-tensei/pull/21 (base main; keep draft).
+The user merges manually. No publication is authorized.
+
+Implemented: current economic silver/เหรียญเงิน presentation with protected
+historical copy; condition-first character, age-aware sword disclosures, independent
+spellbook state, normal-flow scene text bands, wrapping time groups and accessible
+filters with explicit-change announcements. Domain/saves/RNG unchanged.
+
+Verification: final394/394 tests in61 files,77.01s; final build PASS with existing
+bundle advisory; detector `[]`; whitespace clean. Independent review's three
+Important monetary gaps reproduced and fixed. See
+[verification record](docs/verification/uxui-refinements.md) for exact browser
+coverage, deferred minor and remaining acceptance. **TH390 long-name character
+still overflows at CSS zoom2.** The attempted passport wrap rule did not resolve
+it. Do not mark ready. Next: restart isolated5174 and investigate overflowing
+rectangles at the documented fixture, then finish Task8 matrix and product/design/
+sidecar documentation. Do not repeat completed Tasks1–7.
+
+Usage observed 2026-11-06 20:12 Bangkok: **6% five-hour /14% weekly remaining**;
+resets Nov7 00:04 /Nov9 09:20 Bangkok. Check usage again on resumption; no credit,
+reset or billing operation. Low-capacity save point taken before more work.
+Player5173 storage untouched; QA browser closed/viewport reset; ignored fixture/
+logs retained. Task-owned changes are committed/pushed when delivery succeeds;
+inspect `git log -3 --oneline`, clean status and fetch before continuing.
+
 # Save point — Six-Faced Life
 
 ## UX/UI review and implementation plan — prepared, 2026-11-06
