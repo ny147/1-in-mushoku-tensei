@@ -4114,3 +4114,28 @@ h2[tabindex="-1"] {
 }
 .sword-progress .detail-list div { flex-wrap: wrap; gap: 4px 12px; }
 .sword-progress p { overflow-wrap: anywhere; }
+
+/* Character reading order follows the same document sequence at every width. */
+.character-page .character-detail-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+.character-background,
+.character-training {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+}
+.character-detail-grid > .rail-section {
+  margin: 0;
+}
+.sword-progress details > summary {
+  min-height: 44px;
+  padding-block: 10px;
+  cursor: pointer;
+}
+@media (max-width: 850px) {
+  .character-background,
+  .character-training { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+}

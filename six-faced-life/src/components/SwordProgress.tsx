@@ -24,10 +24,7 @@ export function SwordProgress({
     life.age < 5 ||
     !!life.pending ||
     life.expansion.queue.length > 0;
-  return (
-    <section className="rail-section sword-progress" aria-labelledby={id}>
-      <h2 id={id}>{th ? "วิชาดาบสามรูปแบบ" : "Sword styles"}</h2>
-      <dl className="detail-list">
+  const records = (<dl className="detail-list">
         {SWORD_STYLES.map((style) => (
           <div key={style}>
             <dt>
@@ -40,7 +37,21 @@ export function SwordProgress({
             </dd>
           </div>
         ))}
-      </dl>
+      </dl>);
+  const guidance = (<p>
+        {th
+          ? "ฝึกเองได้ถึงขั้นสูง ชั้นเซียนขึ้นไปต้องหาอาจารย์และฝึกหนึ่งปีต่อระดับ งานใช้รูปแบบที่แข็งแกร่งที่สุด เหตุการณ์ใช้รูปแบบที่เลือก"
+          : "Self-practice reaches Advanced. Saint+ needs a mentor and one training year per rank. Jobs use your strongest style; events use your selected style."}
+      </p>);
+  return (
+    <section className="rail-section sword-progress" aria-labelledby={id}>
+      <h2 id={id}>{th ? "วิชาดาบสามรูปแบบ" : "Sword styles"}</h2>
+      {life.age < 5 ? (
+        <>
+          <p>{th ? "เริ่มฝึกได้เมื่ออายุ 5 ปี" : "Practice opens at age 5"}</p>
+          <details><summary>{th ? "ระดับที่บันทึกไว้และการพัฒนา" : "Recorded styles and advancement"}</summary>{records}{guidance}</details>
+        </>
+      ) : records}
       {s.legacy && (
         <p>
           {th
@@ -48,7 +59,7 @@ export function SwordProgress({
             : `Move existing ${s.legacy.xp} XP and earned ceiling once, into one style. The other styles begin at zero.`}
         </p>
       )}
-      {onSelect && life.phase === "alive" && (
+      {onSelect && life.phase === "alive" && life.age >= 5 && (
         <>
           <label htmlFor={`${id}-select`}>
             {th ? "รูปแบบวิชาดาบที่ฝึก" : "Practice style"}
@@ -73,7 +84,7 @@ export function SwordProgress({
           </select>
         </>
       )}
-      {locked && life.phase === "alive" && (
+      {locked && life.phase === "alive" && life.age >= 5 && (
         <p id={`${id}-lock`}>
           {life.age < 5
             ? th
@@ -84,11 +95,7 @@ export function SwordProgress({
               : "Resolve the current decision before changing style."}
         </p>
       )}
-      <p>
-        {th
-          ? "ฝึกเองได้ถึงขั้นสูง ชั้นเซียนขึ้นไปต้องหาอาจารย์และฝึกหนึ่งปีต่อระดับ งานใช้รูปแบบที่แข็งแกร่งที่สุด เหตุการณ์ใช้รูปแบบที่เลือก"
-          : "Self-practice reaches Advanced. Saint+ needs a mentor and one training year per rank. Jobs use your strongest style; events use your selected style."}
-      </p>
+      {life.age >= 5 && <details><summary>{th ? "เกี่ยวกับการพัฒนาวิชาดาบ" : "About sword advancement"}</summary>{guidance}</details>}
       {swordMentorText(life, language, true).map((line) => (
         <p key={line}>{line}</p>
       ))}

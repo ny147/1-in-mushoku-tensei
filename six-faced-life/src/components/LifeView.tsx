@@ -720,9 +720,8 @@ export function CharacterView({
         </div>
       </div>
       <div className="character-detail-grid">
-        {life.ruleset === "expanded-1" && (
-          <SwordProgress life={life} onSelect={onSwordStyle} />
-        )}
+        <CharacterStats life={life} />
+        <div className="character-background" aria-label={t("Life and background")}>
         {life.ruleset === "expanded-1" && <ExpandedDetails life={life} />}
         <section>
           <h2>{t("The life you were given")}</h2>
@@ -784,14 +783,16 @@ export function CharacterView({
               <p>{t("Early practice is helping your mana develop.")}</p>
             )}
           </div>
-          <Spellbook life={life} />
         </section>
-        <aside>
-          <CharacterStats life={life} />
-          <Training life={life} onStudyChange={onStudyChange} />
+        </div>
+        <div className="character-training" aria-label={t("Training and work")}>
+          <Training life={life} onStudyChange={life.phase === "alive" ? onStudyChange : undefined} />
+          {life.ruleset === "expanded-1" && <SwordProgress life={life} onSelect={onSwordStyle} />}
           <CareerProgress life={life} />
-          <Family life={life} />
-        </aside>
+          {life.ruleset === "expanded-1" && <EducationProgress life={life} />}
+        </div>
+        <Family life={life} />
+        <Spellbook life={life} />
       </div>
     </div>
   );

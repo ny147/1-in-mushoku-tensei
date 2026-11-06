@@ -195,3 +195,5 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 - Task 1: complete — monetary helper and structured savings/income/debt/effect surfaces. Debt-unit regressions RED→GREEN; history snapshot pinned before UI edits and unchanged; focused 38/38 tests passed. Protected education generation helpers/catalogues unchanged.
 
 - Task 2: complete — live-only decision adapter; focused 32/32 tests pass, canonical decisions/outcomes/history/RNG unchanged. Exact known education fragments retain requirements/refund clauses. Mentorship copy is opt-in at UI call sites because the same reader also feeds generated history; its default wording remains historical.
+
+- Task 3: code verified — condition precedes background/training/family/spellbook, sword details by age with visible legacy/paid obligations; 11/11 focused tests passed after RED. Rendered newborn/zoom acceptance remains for Task 8. Character-page education finance is now reachable too.
