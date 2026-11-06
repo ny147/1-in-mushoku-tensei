@@ -6,6 +6,9 @@ User requested a spec to implement the preceding Impeccable review. Task branch
 **`codex/uxui-refinement-spec`** starts from freshly fetched **`origin/main
 100e395`**. The review remains in [PR #20](https://github.com/ny147/1-in-mushoku-tensei/pull/20);
 this spec is self-contained and does not depend on merging that documentation.
+Specification **`b14494e`** is pushed in **[PR #21](https://github.com/ny147/1-in-mushoku-tensei/pull/21)**,
+base **main**. This delivery note follows in its own commit. The user merges
+manually; no merge, auto-merge, branch deletion or publishing was performed.
 
 Spec: `docs/superpowers/specs/2026-11-06-uxui-refinements-design.md`.
 It proposes all five review priorities: condition-first character information,
