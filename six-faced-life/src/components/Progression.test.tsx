@@ -64,3 +64,24 @@ describe("visible progression", () => {
     expect(screen.queryByText(/Need -\d+ more silver/)).toBeNull();
   });
 });
+
+it("keeps five spell disclosures independent across playback and study changes",()=>{
+ const life=grown();life.progression!.specialization="water";
+ const {container,rerender,unmount}=render(<Spellbook life={life}/>);
+ const find=(id:string)=>container.querySelector(`[data-school="${id}"]`) as HTMLDetailsElement;
+ expect(container.querySelectorAll(".spellbook-studies > details")).toHaveLength(5);
+ expect(find("water").open).toBe(true);expect(find("fire").open).toBe(false);
+ const toggle=(id:string,open:boolean)=>{find(id).open=open;fireEvent(find(id),new Event("toggle"));};
+ toggle("fire",true);toggle("water",false);
+ const next=structuredClone(life);next.age++;
+ rerender(<Spellbook life={next}/>);
+ expect(find("fire").open).toBe(true);expect(find("water").open).toBe(false);
+ next.progression!.specialization="earth";rerender(<Spellbook life={next}/>);
+ expect(find("earth").open).toBe(true);expect(find("fire").open).toBe(true);
+ toggle("earth",false);rerender(<Spellbook life={{...next}}/>);
+ expect(find("earth").open).toBe(false);
+ expect(container.querySelector("#spellbook-heading")?.getAttribute("tabindex")).toBe("-1");
+ unmount();const fresh=render(<Spellbook life={next}/>);
+ expect((fresh.container.querySelector('[data-school="earth"]') as HTMLDetailsElement).open).toBe(true);
+ expect((fresh.container.querySelector('[data-school="fire"]') as HTMLDetailsElement).open).toBe(false);
+});

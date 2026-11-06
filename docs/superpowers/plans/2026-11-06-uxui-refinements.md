@@ -197,3 +197,6 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 - Task 2: complete — live-only decision adapter; focused 32/32 tests pass, canonical decisions/outcomes/history/RNG unchanged. Exact known education fragments retain requirements/refund clauses. Mentorship copy is opt-in at UI call sites because the same reader also feeds generated history; its default wording remains historical.
 
 - Task 3: code verified — condition precedes background/training/family/spellbook, sword details by age with visible legacy/paid obligations; 11/11 focused tests passed after RED. Rendered newborn/zoom acceptance remains for Task 8. Character-page education finance is now reachable too.
+
+- Task 4: code verified — independent native disclosures, current study opens only on actual selection change; 24/24 focused tests pass after RED. Full spellbook focus is additionally covered in the integrated App assertions.
+- Tasks 5/6 baseline rendered failures observed in IAB: Thai741 Next decision fragmented into three lines and +1 year split;1280 scene metadata/caption intersect, art credit/motion intersect. These are layout failures, not jsdom claims.
