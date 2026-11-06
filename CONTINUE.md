@@ -1,5 +1,43 @@
 # Save point — Six-Faced Life
 
+## UX/UI review — completed, 2026-11-06 19:26 Bangkok
+
+User requested an Impeccable review. Task branch **`codex/uxui-review`** starts
+from freshly fetched **`origin/main 100e395`** (pixel-scene PR #19 merged).
+This task changes review documentation only; no UI/gameplay fixes or publishing.
+PR delivery targets **main**; the user merges manually.
+
+Review: `.impeccable/critique/2026-11-06T12-26-25Z__six-faced-life-src-app-tsx.md`.
+Independent design/browser assessments plus a source detector give **28/40,
+Good**. Five **P2** findings: mobile character condition buried under future
+progression; desktop scene metadata/caption overlap; Thai tablet time-control
+squeezing; silver/coins terminology; chronicle filters missing selected semantics.
+Recommendations are proposals, not approved implementation decisions.
+
+**Checks actually run:** source/context/spec review; independent browser checks
+at desktop ~1264x712/1280x720, phones 390x844/360x800, and Thai tablet 741px.
+No overflow at B's desktop/phone sizes; zero captured warning/error console
+entries there. Keyboard outline, route heading focus and mobile menu Escape/focus
+restoration verified. Detector returned 415 declaration findings (408 advisory,
+7 warning), chiefly design-system documentation/token comparisons; approved Thai
+font warnings are false positives. No mutable browser overlay available.
+Adult flows, ending records and save failures were source-reviewed, not exercised.
+Application tests/build were not rerun for this documentation-only review.
+
+**Preservation/cleanup:** existing saves retained, 5173 never visited. A new
+disposable `localhost:5176` Ren Mirel life was created and left paused. Reviewer
+tabs closed or temporary; viewport overrides reset. Review-only Vite sessions
+40254 (port 5174) and 92334 (port 5176) were stopped. No detector
+live-server started; snapshot body temp removed. Local artwork/hosting files kept.
+
+**Next:** user selects mobile character hierarchy, scene/tablet layout, or
+currency/accessibility consistency, then approves fix scope. Do not implement
+proposals merely because this review exists. Final commit/PR details are in the
+branch history and delivery response; no active implementation plan was created.
+
+Usage observed **2026-11-06 19:23 Bangkok**: **70% five-hour /24% weekly
+remaining**; resets **Nov7 00:04 /Nov9 09:20 Bangkok**. No billing/reset action.
+
 ## Pixel life scene — implemented for human review, 2026-11-04 19:06 Bangkok
 
 User resumed from **`ba145ad`** on existing **`codex/pixel-life-scene`**.
