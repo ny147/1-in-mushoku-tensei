@@ -204,3 +204,5 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 - Task 5: code verified — separate metadata/stage/footer rows, hero layers share the caption row; loaded/fallback/reduced semantics retained. Task 5/6 regression run 31/31 passed; build passed. Thai741 inspected: text/control rectangles separate; hero visible; no horizontal overflow. Full matrix remains Task 8.
 
 - Task 6: code verified — intrinsic time groups wrap at usable width. Thai741 now has intact one-line labels and all sampled controls44px high, speed targets44x44; no overflow. App tests cover bilingual order/full-spellbook focus; playback/pending regressions remain green in combined31/31 run.
+
+- Task 7: code verified — named button group/results, mutually exclusive pressed state, event-driven polite full-match counts; EN/TH focus, pagination, zero/ended and silent growth regressions RED→GREEN, 7/7 LifeView tests pass.

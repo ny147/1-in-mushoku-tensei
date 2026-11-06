@@ -434,7 +434,14 @@ export function LifeRecord({
   const { t } = useI18n();
 
   const [count, setCount] = useState(all ? 1000 : 5);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState<"all" | "memories">("all");
+  const [announcement, setAnnouncement] = useState("");
+  const changeFilter = (next: "all" | "memories") => {
+    if (next === filter) return;
+    setFilter(next);
+    const total = life.history.filter(e => next !== "memories" || e.kind === "memory").length;
+    setAnnouncement(`${t(next === "all" ? "All" : "Memories")}: ${total} ${t(total === 1 ? "moment" : "moments")}`);
+  };
   const entries = [...life.history]
     .reverse()
     .filter((e) => filter !== "memories" || e.kind === "memory");
@@ -449,22 +456,25 @@ export function LifeRecord({
             {t(life.history.length === 1 ? "moment" : "moments")}
           </span>
         </h2>
-        <div className="record-filters">
+        <div className="record-filters" role="group" aria-label={t("Chronicle filters")}>
           <button
-            onClick={() => setFilter("all")}
+            onClick={() => changeFilter("all")}
+            aria-pressed={filter === "all"}
             className={filter === "all" ? "active" : ""}
           >
             {t("All")}
           </button>
           <button
-            onClick={() => setFilter("memories")}
+            onClick={() => changeFilter("memories")}
+            aria-pressed={filter === "memories"}
             className={filter === "memories" ? "active" : ""}
           >
             {t("Memories")}
           </button>
         </div>
       </div>
-      <div className="record-entries">
+      <p className="sr-only" role="status" aria-live="polite">{announcement}</p>
+      <div className="record-entries" role="region" aria-label={t("Chronicle results")}>
         {entries.slice(0, count).map((entry, i) => {
           const Icon = entryIcons[entry.kind];
           const localized = entryText(entry, life.language ?? "en");
