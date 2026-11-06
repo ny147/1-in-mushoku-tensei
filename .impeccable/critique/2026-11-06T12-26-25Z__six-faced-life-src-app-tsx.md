@@ -2,7 +2,7 @@
 target: Six-Faced Life UX/UI review
 total_score: 28
 max_score: 40
-na_heuristics: 
+na_heuristics:
 p0_count: 0
 p1_count: 0
 target_identity: "file:D:\\Developer\\mashoku bilion\\six-faced-life\\src\\App.tsx"
