@@ -2,8 +2,9 @@
 
 User reported head/clothing misalignment and confirmed that interpretation.
 Task branch `codex/pixel-layer-registration` starts clean from fetched
-`origin/main5c3cf90` (PR21 merged). New task PR targets main; final delivery
-commit follows this checkpoint. User merges manually; no publishing authorized.
+`origin/main5c3cf90` (PR21 merged). Implementation **116c181** is pushed in **[PR #22](https://github.com/ny147/1-in-mushoku-tensei/pull/22)**, base main.
+Final fetch confirmed zero commits behind origin/main5c3cf90. This delivery
+note follows in a documentation commit. User merges manually; no publishing authorized.
 
 Implemented scoped head-occlusion fix: exported garments no longer paint over
 faces. Authoring-only template matching protects race head silhouettes per pose;
