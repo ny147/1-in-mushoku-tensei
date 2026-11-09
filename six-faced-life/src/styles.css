@@ -3558,32 +3558,32 @@ button svg {
 .spellbook-studies {
   margin-top: 22px;
 }
-.spellbook-studies > article {
+.spellbook-studies > details {
   padding: 19px 0 22px;
   border-bottom: 1px solid var(--line);
 }
-.spellbook-studies > article.current-study {
+.spellbook-studies > details.current-study {
   background: #edf0e4;
   border-radius: 6px;
   padding: 18px;
   margin-bottom: 5px;
   border: 0;
 }
-.spellbook-studies header {
+.spellbook-studies summary {
   display: flex;
   align-items: flex-start;
   gap: 10px;
   color: var(--green);
 }
-.spellbook-studies header > svg {
+.spellbook-studies summary > svg {
   margin-top: 4px;
 }
-.spellbook-studies h3 {
+.spellbook-studies summary strong {
   font-family: var(--serif);
   font-size: 25px;
   font-weight: 600;
 }
-.spellbook-studies header p {
+.spellbook-studies summary p {
   font-size: 11px;
   color: var(--muted);
   margin-top: 4px;
@@ -3657,7 +3657,7 @@ button svg {
   .spellbook > h2 {
     font-size: 27px;
   }
-  .spellbook-studies h3 {
+  .spellbook-studies summary strong {
     font-size: 24px;
   }
 }
@@ -4114,3 +4114,96 @@ h2[tabindex="-1"] {
 }
 .sword-progress .detail-list div { flex-wrap: wrap; gap: 4px 12px; }
 .sword-progress p { overflow-wrap: anywhere; }
+
+/* Character reading order follows the same document sequence at every width. */
+.character-page .character-detail-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+.character-background,
+.character-training {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+}
+.character-detail-grid > .rail-section {
+  margin: 0;
+}
+.sword-progress details > summary {
+  min-height: 44px;
+  padding-block: 10px;
+  cursor: pointer;
+}
+@media (max-width: 850px) {
+  .character-background,
+  .character-training { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+}
+
+.spellbook-studies summary {
+  min-height: 44px;
+  cursor: pointer;
+  display: list-item;
+}
+.spellbook-studies summary > svg { display: none; }
+.spellbook-studies summary > div { display: inline; }
+.spellbook-studies summary strong { display: inline; }
+.spellbook-summary-count,
+.spellbook-rank { display: block; font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* Wrap coherent time groups before individual action labels can compress. */
+.time-bar .time-main {
+  flex: 1 1 320px;
+  width: auto;
+  min-width: 0;
+}
+.time-bar .time-forward {
+  flex: 1 0 360px;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  margin-left: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px 12px;
+}
+.time-bar .play-button,
+.time-bar .time-step,
+.time-bar .auto-control {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.time-bar .next-decision {
+  flex: 0 0 auto;
+  min-width: max-content;
+  white-space: normal;
+}
+.time-bar button > svg { flex-shrink: 0; }
+.time-bar .time-forward .auto-control {
+  margin-right: auto;
+  padding-right: 0;
+  border-right: 0;
+}
+
+.character-passport > div { min-width: 0; overflow-wrap: anywhere; }
+
+/* Enlarged text and very narrow content must reflow rather than widen the page. */
+@media (max-width: 650px) {
+  .mobile-top { height: auto; min-height: 72px; padding-block: 12px; gap: 12px; }
+  .mobile-top .brand { min-width: 0; flex: 1; }
+  .mobile-top .brand > div { min-width: 0; }
+  .mobile-top .brand strong { overflow-wrap: anywhere; white-space: normal; }
+  .mobile-top > .icon-button { flex: 0 0 auto; }
+  .topbar { height: auto; min-height: 58px; padding-block: 10px; flex-wrap: wrap; }
+  .topbar-actions { min-width: 0; flex-wrap: wrap; }
+  .character-passport { flex-wrap: wrap; }
+  .character-page .detail-list > div { grid-template-columns: minmax(0, 40%) minmax(0, 1fr); }
+  .character-page .detail-list dt,
+  .character-page .detail-list dd { overflow-wrap: anywhere; }
+  .subtle-tag { max-width: 100%; }
+  .page-heading > div:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .time-main .speed-controls { min-width: 0; max-width: 100%; flex-wrap: wrap; }
+  .life-record .section-topline { flex-wrap: wrap; }
+  .character-rail { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(180px, 45%)), 1fr)); }
+  .main-nav > button { min-width: 0; overflow-wrap: anywhere; }
+}

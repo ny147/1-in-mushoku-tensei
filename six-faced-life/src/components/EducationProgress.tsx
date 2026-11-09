@@ -1,3 +1,4 @@
+import { moneyText } from "../i18n/money";
 import type { ExpandedLife } from "../game/types";
 import { ORDINARY_ROLES, ordinaryEntry } from "../game/expanded/career-access";
 import { expandedLabel } from "../i18n/expanded";
@@ -71,8 +72,8 @@ export function EducationProgress({
                 : "Progress and stipend paused; normal job income applies."
               : t.mode === "full-time"
                 ? th
-                  ? "24 เหรียญต่อปีแทนค่าจ้างงานเดิม"
-                  : "24 coins/year replaces regular job wages."
+                  ? "24 เหรียญเงินต่อปีแทนค่าจ้างงานเดิม"
+                  : "24 silver/year replaces regular job wages."
                 : th
                   ? "คงรายได้งานเดิม ไม่มีเบี้ยเลี้ยงเพิ่ม"
                   : "Keep current job wages; no extra stipend."}
@@ -116,13 +117,12 @@ export function EducationProgress({
           {th ? "เงินเพื่อการศึกษาและหนี้" : "Education funding and debt"}
         </summary>
         <p>
-          {th ? "เงินกู้สะสม" : "Principal borrowed"}: {totals.borrowed} ·{" "}
-          {th ? "หนี้คงเหลือ" : "Remaining debt"}: {totals.balance} ·{" "}
-          {th ? "ชำระแล้ว" : "Repaid"}: {totals.repaid}
+          {th ? "เงินกู้สะสม" : "Principal borrowed"}: {moneyText(totals.borrowed, language)} ·{" "}
+          {th ? "หนี้คงเหลือ" : "Remaining debt"}: {moneyText(totals.balance, language)} ·{" "}
+          {th ? "ชำระแล้ว" : "Repaid"}: {moneyText(totals.repaid, language)}
         </p>
         <p>
-          {th ? "ชำระครั้งล่าสุด" : "Last repayment"}: {f?.lastRepayment ?? 0}{" "}
-          {th ? "เหรียญ" : "coins"}
+          {th ? "ชำระครั้งล่าสุด" : "Last repayment"}: {moneyText(f?.lastRepayment ?? 0, language)}
         </p>
         {f && f.pauseReason !== "none" && (
           <p>
@@ -140,7 +140,7 @@ export function EducationProgress({
                   : "no affordable surplus after necessities"}
           </p>
         )}
-        <p>{ew("policy", language)}</p>
+        <p>{th ? "ไม่มีดอกเบี้ย ชำระ 10% ของรายได้ส่วนเกินหลังปัจจัยจำเป็นในแต่ละปี (อย่างน้อย 1 เหรียญเงินเมื่อจ่ายไหว) พักชำระเมื่อเดือดร้อนหรือเรียนมหาวิทยาลัย ไม่หักเงินออมเดิม" : "Interest-free. Repay 10% of positive annual earned surplus after necessities (at least 1 silver when affordable). Paused during hardship or university. Saved wealth is not taken."}</p>
       </details>
     </section>
   );

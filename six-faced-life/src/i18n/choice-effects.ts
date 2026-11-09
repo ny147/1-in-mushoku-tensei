@@ -1,3 +1,4 @@
+import { moneyText } from "./money";
 import type { Choice, Language, Life, Stat } from "../game/types";
 import { CAREERS, REGIONS } from "../game/world";
 import { getProgression, MAGIC_SCHOOLS } from "../game/progression";
@@ -86,7 +87,7 @@ export function choiceEffects(
     const reward =
       Math.max(0, Math.min(1_000_000, purseAfterFee + choice.coins)) -
       purseAfterFee;
-    gains.push(effectDelta(language, "Silver", reward));
+    gains.push(moneyText(effectDelta(language, "Silver", reward), language));
   }
   if (!expanded) {
     const p = getProgression(life);

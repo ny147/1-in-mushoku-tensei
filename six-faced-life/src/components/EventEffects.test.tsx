@@ -125,7 +125,7 @@ describe("consequences before choosing", () => {
     show(fixture("child", "th"));
     const child = screen.getByRole("button", { name: /ต้อนรับลูกด้วยกัน/ });
     expect(child.textContent).toContain("ผลที่ได้รับ");
-    expect(child.textContent).toContain("4 เหรียญต่อปี");
+    expect(child.textContent).toContain("4 เหรียญเงินต่อปี");
     expect(child.textContent).not.toContain("Effects");
   });
   it("also discloses structured gains and setback risk for legacy lives", () => {

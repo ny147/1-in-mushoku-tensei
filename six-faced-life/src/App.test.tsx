@@ -210,7 +210,7 @@ describe("clear next actions and recovery", () => {
     act(() => vi.advanceTimersByTime(1200));
     expect(loadGame(window.localStorage).data.active?.pending).toBeNull();
     expect(document.activeElement).toBe(watch);
-    expect(screen.getByRole("status").textContent).toBe("");
+    expect(screen.getByRole("status", { name: "" }).textContent).toBe("");
   });
 
   it("keeps the last manual outcome visible during ordinary timed playback", () => {
@@ -381,4 +381,16 @@ describe("browser playback and saving", () => {
     expect(restored.progression?.specialization).toBe("healing");
     expect(restored.coins).toBe(life.coins);
   });
+});
+
+it.each(["en","th"] as const)("keeps %s time controls in order and focuses the full spellbook",language=>{
+ const life=createExpandedLife({seed:32,language});life.phase="alive";life.age=8;life.pending=null;
+ saveGame(window.localStorage,{version:1,active:life,archive:[]});
+ const {container}=render(<App/>);
+ const main=container.querySelector(".time-main")!;
+ const forward=container.querySelector(".time-forward")!;
+ expect(main.compareDocumentPosition(forward)&Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+ expect([...main.querySelectorAll("button")].map(b=>b.textContent)).toEqual([language==="en"?"Play":"เล่น","1×","2×","4×","8×"]);
+ fireEvent.click(screen.getByRole("button",{name:language==="en"?"Open your full spellbook":"เปิดตำราเวทฉบับเต็ม"}));
+ expect(document.activeElement?.id).toBe("spellbook-heading");
 });

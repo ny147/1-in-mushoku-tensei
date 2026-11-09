@@ -183,9 +183,9 @@ Both families ship weights 400, 500, 600, and 700 with `font-display: swap`. Hea
 
 Desktop uses a fixed left navigation (226px), a top bar (76px), and centered content with a maximum width of 1580px. The chronicle is a story column plus a character rail (274px), separated by the spread-gap token. The rail is divided by rules rather than enclosed in repeated cards.
 
-At 1250px and 1050px the sidebar narrows to 205px and 184px. At 850px the chronicle becomes one column, with the character sections in a two-column grid below the story. At 650px the sidebar becomes a menu below a 72px mobile header, page gutters become 20px, and time controls wrap into rows. The mobile menu has two columns and a visible How to play row below them. Additional 360px adjustments support narrow phones.
+At 1250px and 1050px the sidebar narrows to 205px and 184px. At 850px the chronicle becomes one column, with the character sections in supporting columns below the story; narrow phone content reflows to one column. At 650px the sidebar becomes a menu below a 72px mobile header, page gutters become 20px, and time controls wrap into rows. The mobile menu has two columns and a visible How to play row below them. Additional 360px adjustments support narrow phones.
 
-At 1700px the character rail grows to 310px and the spread gap to 40px. Scene height is 300px on wide screens, 160px from 851–1699px, 245px at the stacked tablet layout, and 218px on phones. A pending phone decision hides the scene so its story follows the time guidance directly. Keep narrative, decisions, yearly focus, and record in reading order before supporting character information.
+At 1700px the character rail grows to 310px and the spread gap to 40px. Pixel scene height grows with its separate metadata, caption/hero and footer bands, with a 245px minimum (300px on wide screens). Painted scenes retain their existing height rules. A pending phone decision hides the scene so its story follows the time guidance directly. Keep narrative, decisions, yearly focus, and record in reading order before supporting character information.
 
 ## Elevation & Depth
 
@@ -240,9 +240,9 @@ Separate the next promotion with a dashed rule. Pair the thin career-experience 
 
 ### Character Spellbook
 
-The character page places the full spellbook after the life details and memory summary. A fine top rule introduces the serif heading (29px; 27px on phones). Each discipline is a vertically stacked article with a serif title (25px; 24px on phones), experience/rank metadata, description, learned spell names and explanations, and the next spell's explicit requirement.
+The character page orders condition/savings, background, training/work, family, then the full spellbook. DOM and keyboard order follow this sequence at every width. A fine top rule introduces the serif heading (29px; 27px on phones). Each discipline is an independent native details/summary disclosure with a serif title (25px; 24px on phones), experience/rank metadata, description, learned spell names and explanations, and the next spell's explicit requirement.
 
-The current discipline alone receives a pale sage fill (`#edf0e4`), 6px corners, and 18px padding; the remaining disciplines are separated by paper rules. “Current study” text accompanies the highlight. Preserve the distinction between learned spells, an unwritten spellbook, and instruction needed; these states use words and icons alongside color.
+Summaries identify discipline, learned count and current-study status. On entry only the current discipline opens; a real study change opens its new section without closing others. Playback does not reset user expansion choices. The current discipline alone receives a pale sage fill (`#edf0e4`), 6px corners, and 18px padding; the remaining disciplines are separated by paper rules. “Current study” text accompanies the highlight. Preserve the distinction between learned spells, an unwritten spellbook, and instruction needed; these states use words and icons alongside color.
 
 ## Interaction and state
 
@@ -352,3 +352,26 @@ uses the original painted landscape as a complete fallback. New-life and other
 painted screens retain their original artwork; archive previews have no live scene.
 
 Use 64px sprite cells at integer scale, restrained effects and the existing literary caption hierarchy. Raster layers are decorative beneath one localized image description. Scene motion is a native 44px button with explicit pressed state, keyboard focus and a reduced-motion explanation. Keep caption and hero on opposite sides at every breakpoint.
+
+## Refinement interaction details
+
+Before age five, Sword styles shows an unlock sentence and native disclosure of
+all retained XP/ranks; no disabled selector occupies the compact view. From five,
+records and the labeled selector remain visible and general advancement rules
+have their own disclosure. Legacy allocation and paid mentorship fee, progress,
+paused reason and ready/deferred trial guidance always remain outside disclosures.
+
+Pixel scenes use normal-flow metadata, a caption beside the hero, and a wrapping
+footer for credit, reduced-motion explanation and motion control. Raster layers,
+integer scale and animation/suspension rules remain intact. Time actions use
+intrinsic wrapping groups; preserve 44px targets, action text and keyboard order.
+Mobile header, detail columns, speed controls and supporting sections reflow
+with enlarged text and long names, without clipping or shrinking type.
+
+All/Memories remain native buttons in a named filter group with aria-pressed.
+A named results region and separate polite status expose full matching counts
+only on an explicit filter transition; yearly history growth stays silent.
+Current monetary values and requirements use silver / เหรียญเงิน. Outcome prose
+and catalogue-reconstructed history preserve their old text; numeric feedback
+alongside it uses current units. See the dated verification record in docs for
+rendered checks and the limits of zoom/media simulations.

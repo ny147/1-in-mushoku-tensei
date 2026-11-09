@@ -1,3 +1,4 @@
+import { moneyText } from "./money";
 import type { ExpandedLife, Life, Language } from "../game/types";
 import { CAREERS, FOCUSES, REGIONS } from "../game/world";
 import {
@@ -30,7 +31,8 @@ export function choiceChanges(before: Life, after: Life): string[] {
       before.stats[key],
       after.stats[key],
     );
-  delta("Silver", "เงิน", before.coins, after.coins);
+  if (Math.abs(after.coins - before.coins) > 0.000001)
+    changes.push(moneyText(effectDelta(language, text("Silver", "เงิน"), after.coins - before.coins), language));
   delta(
     "Magic experience",
     "ประสบการณ์เวทมนตร์",
@@ -166,7 +168,7 @@ export function choiceChanges(before: Life, after: Life): string[] {
       changes.push(
         text(
           `Yearly base pay → ${careerIncome(after)} silver`,
-          `ค่าจ้างพื้นฐานรายปี → ${careerIncome(after)} เหรียญ`,
+          `ค่าจ้างพื้นฐานรายปี → ${careerIncome(after)} เหรียญเงิน`,
         ),
       );
     for (const person of after.family.filter(
@@ -200,9 +202,9 @@ function expandedChanges(
     b = after.expansion;
   const text = (en: string, th: string) => effectText(language, en, th);
   const changes: string[] = [];
-  const delta = (en: string, th: string, old: number, value: number) => {
+  const delta = (en: string, th: string, old: number, value: number, monetary = false) => {
     if (Math.abs(value - old) > 0.000001)
-      changes.push(effectDelta(language, text(en, th), value - old));
+      changes.push(monetary ? moneyText(effectDelta(language, text(en, th), value - old), language) : effectDelta(language, text(en, th), value - old));
   };
   for (const [key, en, th] of [
     ["protectionUntil", "Protection active through", "ความคุ้มครองถึงปี"],
@@ -299,7 +301,7 @@ function expandedChanges(
     changes.push(
       text(
         `Yearly income ${income(before)} → ${income(after)} silver before expenses`,
-        `รายได้รายปี ${income(before)} → ${income(after)} เหรียญก่อนหักค่าใช้จ่าย`,
+        `รายได้รายปี ${income(before)} → ${income(after)} เหรียญเงินก่อนหักค่าใช้จ่าย`,
       ),
     );
   if (a.education.stage !== b.education.stage)
@@ -333,13 +335,14 @@ function expandedChanges(
     "เงินทุนศึกษาจากครอบครัว",
     a.economy.familyFunds,
     b.economy.familyFunds,
+    true,
   );
   const debt = (l: ExpandedLife) =>
     Object.values(l.expansion.finance?.purposes ?? {}).reduce(
       (sum, r) => sum + (r?.balance ?? 0),
       0,
     );
-  delta("Education debt", "หนี้การศึกษา", debt(before), debt(after));
+  delta("Education debt", "หนี้การศึกษา", debt(before), debt(after), true);
   if (a.training?.active !== b.training?.active)
     changes.push(
       text(
@@ -389,7 +392,7 @@ function expandedChanges(
     changes.push(
       text(
         `Yearly dependant costs → ${dependantCosts(after)} silver`,
-        `ค่าใช้จ่ายผู้พึ่งพารายปี → ${dependantCosts(after)} เหรียญ`,
+        `ค่าใช้จ่ายผู้พึ่งพารายปี → ${dependantCosts(after)} เหรียญเงิน`,
       ),
     );
   for (const person of b.family.people) {

@@ -1,3 +1,4 @@
+import { currencyUnit } from "../i18n/money";
 import { EducationProgress } from "./EducationProgress";
 import { SwordProgress } from "./SwordProgress";
 import type { SwordStyle } from "../game/expanded/sword-state";
@@ -8,7 +9,8 @@ import { ExpandedDetails, ExpandedFamily } from "./ExpandedDetails";
 import { careerTitle } from "../game/simulation";
 import { expandedLabel } from "../i18n/expanded";
 import { talentAssessmentText } from "../i18n/education";
-import { decisionText, entryText } from "../i18n/story";
+import { entryText } from "../i18n/story";
+import { currentDecisionText } from "../i18n/current-decision";
 import { choiceEffects } from "../i18n/choice-effects";
 import {
   ArrowDown,
@@ -73,7 +75,7 @@ export const focusIcons: Record<Focus, typeof Heart> = {
 };
 
 export function CharacterStats({ life }: { life: Life }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
 
   return (
     <section className="rail-section">
@@ -108,7 +110,8 @@ export function CharacterStats({ life }: { life: Life }) {
         <Wallet size={17} />
         <span>{t("Your savings")}</span>
         <strong>
-          {t(life.coins.toLocaleString())} <small>{t("silver")}</small>
+          {t(life.coins.toLocaleString())}{" "}
+          <small>{currencyUnit(language)}</small>
         </strong>
       </div>
     </section>
@@ -332,7 +335,7 @@ export function DecisionPanel({
 
   const canonicalDecision = getDecision(life);
   const decision = canonicalDecision
-    ? decisionText(canonicalDecision, life, life.language ?? "en")
+    ? currentDecisionText(canonicalDecision, life, life.language ?? "en")
     : null;
   if (!decision && outcome) return <ChoiceOutcome result={outcome} />;
   if (!decision)
@@ -432,7 +435,18 @@ export function LifeRecord({
   const { t } = useI18n();
 
   const [count, setCount] = useState(all ? 1000 : 5);
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState<"all" | "memories">("all");
+  const [announcement, setAnnouncement] = useState("");
+  const changeFilter = (next: "all" | "memories") => {
+    if (next === filter) return;
+    setFilter(next);
+    const total = life.history.filter(
+      (e) => next !== "memories" || e.kind === "memory",
+    ).length;
+    setAnnouncement(
+      `${t(next === "all" ? "All" : "Memories")}: ${total} ${t(total === 1 ? "moment" : "moments")}`,
+    );
+  };
   const entries = [...life.history]
     .reverse()
     .filter((e) => filter !== "memories" || e.kind === "memory");
@@ -447,22 +461,40 @@ export function LifeRecord({
             {t(life.history.length === 1 ? "moment" : "moments")}
           </span>
         </h2>
-        <div className="record-filters">
+        <div
+          className="record-filters"
+          role="group"
+          aria-label={t("Chronicle filters")}
+        >
           <button
-            onClick={() => setFilter("all")}
+            onClick={() => changeFilter("all")}
+            aria-pressed={filter === "all"}
             className={filter === "all" ? "active" : ""}
           >
             {t("All")}
           </button>
           <button
-            onClick={() => setFilter("memories")}
+            onClick={() => changeFilter("memories")}
+            aria-pressed={filter === "memories"}
             className={filter === "memories" ? "active" : ""}
           >
             {t("Memories")}
           </button>
         </div>
       </div>
-      <div className="record-entries">
+      <p
+        className="sr-only"
+        role="status"
+        aria-label={t("Chronicle filter status")}
+        aria-live="polite"
+      >
+        {announcement}
+      </p>
+      <div
+        className="record-entries"
+        role="region"
+        aria-label={t("Chronicle results")}
+      >
         {entries.slice(0, count).map((entry, i) => {
           const Icon = entryIcons[entry.kind];
           const localized = entryText(entry, life.language ?? "en");
@@ -569,7 +601,7 @@ export function LifeView({
   onSpellbook?: () => void;
   onActivity?: (key: Activity) => void;
   onSwordStyle?: (style: SwordStyle) => void;
-  scene?:ReactNode;
+  scene?: ReactNode;
 }) {
   const { t } = useI18n();
 
@@ -578,52 +610,54 @@ export function LifeView({
       className={`life-columns page-enter ${life.pending ? "has-decision" : ""}`}
     >
       <div className="story-column">
-        {scene ?? <section className="scene">
-          <Landscape
-            alt={t(
-              "An imagined countryside of the Six-Faced World, painted in warm morning light",
-            )}
-          />
-          <div className="scene-shade" />
-          <div className="scene-top">
-            <span>
-              <MapPin size={13} />
-              {t(REGIONS[life.region].name)}
-            </span>
-            <span>
-              {life.ruleset === "expanded-1"
-                ? `K${life.expansion.birthYear + life.age} · `
-                : t("Scenario year ")}
-              {life.ruleset === "expanded-1"
-                ? `${t("Age")} ${life.age}`
-                : life.age + 1}
-            </span>
-          </div>
-          <div className="scene-caption">
-            <span>{t(lifeStage(life.age, life.race))}</span>
-            <h2>
-              {t(
-                life.age < 3
-                  ? "Everything is new. Except you."
-                  : life.age < 15
-                    ? "A whole world to grow into."
-                    : life.age < 45
-                      ? "Make this life your own."
-                      : "The things that stay with us.",
+        {scene ?? (
+          <section className="scene">
+            <Landscape
+              alt={t(
+                "An imagined countryside of the Six-Faced World, painted in warm morning light",
               )}
-            </h2>
-            <p>
-              {t(
-                life.age < 3
-                  ? "Small hands. Old memories. Endless possibility."
-                  : careerTitle(life) + " · " + REGIONS[life.region].short,
-              )}
-            </p>
-          </div>
-          <span className="scene-art-note">
-            {t("An imagined view of Asura")}
-          </span>
-        </section>}
+            />
+            <div className="scene-shade" />
+            <div className="scene-top">
+              <span>
+                <MapPin size={13} />
+                {t(REGIONS[life.region].name)}
+              </span>
+              <span>
+                {life.ruleset === "expanded-1"
+                  ? `K${life.expansion.birthYear + life.age} · `
+                  : t("Scenario year ")}
+                {life.ruleset === "expanded-1"
+                  ? `${t("Age")} ${life.age}`
+                  : life.age + 1}
+              </span>
+            </div>
+            <div className="scene-caption">
+              <span>{t(lifeStage(life.age, life.race))}</span>
+              <h2>
+                {t(
+                  life.age < 3
+                    ? "Everything is new. Except you."
+                    : life.age < 15
+                      ? "A whole world to grow into."
+                      : life.age < 45
+                        ? "Make this life your own."
+                        : "The things that stay with us.",
+                )}
+              </h2>
+              <p>
+                {t(
+                  life.age < 3
+                    ? "Small hands. Old memories. Endless possibility."
+                    : careerTitle(life) + " · " + REGIONS[life.region].short,
+                )}
+              </p>
+            </div>
+            <span className="scene-art-note">
+              {t("An imagined view of Asura")}
+            </span>
+          </section>
+        )}
         <DecisionPanel
           life={life}
           onChoose={onChoose}
@@ -718,78 +752,87 @@ export function CharacterView({
         </div>
       </div>
       <div className="character-detail-grid">
-        {life.ruleset === "expanded-1" && (
-          <SwordProgress life={life} onSelect={onSwordStyle} />
-        )}
-        {life.ruleset === "expanded-1" && <ExpandedDetails life={life} />}
-        <section>
-          <h2>{t("The life you were given")}</h2>
-          <dl className="detail-list">
-            <div>
-              <dt>{t("Born in")}</dt>
-              <dd>{t(REGIONS[life.birthRegion].name)}</dd>
-            </div>
-            <div>
-              <dt>{t("Home now")}</dt>
-              <dd>{t(REGIONS[life.region].name)}</dd>
-            </div>
-            <div>
-              <dt>{t("Family background")}</dt>
-              <dd>
-                {life.ruleset === "expanded-1"
-                  ? expandedLabel(
-                      life.expansion.origin.wealth,
-                      life.language ?? "en",
-                    )
-                  : t(life.background)}
-              </dd>
-            </div>
-            <div>
-              <dt>{t("Natural aptitude")}</dt>
-              <dd>
-                {life.ruleset === "expanded-1"
-                  ? talentAssessmentText(life, language)
-                  : t(life.aptitude)}
-              </dd>
-            </div>
-            <div>
-              <dt>{t("Temperament")}</dt>
-              <dd>{t(life.personality)}</dd>
-            </div>
-            <div>
-              <dt>{t("Calling")}</dt>
-              <dd>{t(careerTitle(life))}</dd>
-            </div>
-            <div>
-              <dt>{t("Your people")}</dt>
-              <dd>{t(RACES[life.race].description)}</dd>
-            </div>
-          </dl>
-          <div className="memory-summary">
-            <Sparkles size={20} />
-            <h3>{t("What you remember")}</h3>
-            <p>
-              {t(
-                life.flags.silentCasting
-                  ? "You discovered that intention can shape a spell without an incantation."
-                  : "You remember another world, another lifetime. These memories give you a different way of seeing.",
+        <CharacterStats life={life} />
+        <div
+          className="character-background"
+          aria-label={t("Life and background")}
+        >
+          {life.ruleset === "expanded-1" && <ExpandedDetails life={life} />}
+          <section>
+            <h2>{t("The life you were given")}</h2>
+            <dl className="detail-list">
+              <div>
+                <dt>{t("Born in")}</dt>
+                <dd>{t(REGIONS[life.birthRegion].name)}</dd>
+              </div>
+              <div>
+                <dt>{t("Home now")}</dt>
+                <dd>{t(REGIONS[life.region].name)}</dd>
+              </div>
+              <div>
+                <dt>{t("Family background")}</dt>
+                <dd>
+                  {life.ruleset === "expanded-1"
+                    ? expandedLabel(
+                        life.expansion.origin.wealth,
+                        life.language ?? "en",
+                      )
+                    : t(life.background)}
+                </dd>
+              </div>
+              <div>
+                <dt>{t("Natural aptitude")}</dt>
+                <dd>
+                  {life.ruleset === "expanded-1"
+                    ? talentAssessmentText(life, language)
+                    : t(life.aptitude)}
+                </dd>
+              </div>
+              <div>
+                <dt>{t("Temperament")}</dt>
+                <dd>{t(life.personality)}</dd>
+              </div>
+              <div>
+                <dt>{t("Calling")}</dt>
+                <dd>{t(careerTitle(life))}</dd>
+              </div>
+              <div>
+                <dt>{t("Your people")}</dt>
+                <dd>{t(RACES[life.race].description)}</dd>
+              </div>
+            </dl>
+            <div className="memory-summary">
+              <Sparkles size={20} />
+              <h3>{t("What you remember")}</h3>
+              <p>
+                {t(
+                  life.flags.silentCasting
+                    ? "You discovered that intention can shape a spell without an incantation."
+                    : "You remember another world, another lifetime. These memories give you a different way of seeing.",
+                )}
+              </p>
+              {life.flags.sharedSecret && (
+                <p>{t("You have trusted someone with your secret.")}</p>
               )}
-            </p>
-            {life.flags.sharedSecret && (
-              <p>{t("You have trusted someone with your secret.")}</p>
-            )}
-            {life.flags.earlyMana && (
-              <p>{t("Early practice is helping your mana develop.")}</p>
-            )}
-          </div>
-          <Spellbook life={life} />
-        </section>
-        <aside>
-          <CharacterStats life={life} />
-          <Training life={life} onStudyChange={onStudyChange} />
+              {life.flags.earlyMana && (
+                <p>{t("Early practice is helping your mana develop.")}</p>
+              )}
+            </div>
+          </section>
+        </div>
+        <div className="character-training" aria-label={t("Training and work")}>
+          <Training
+            life={life}
+            onStudyChange={life.phase === "alive" ? onStudyChange : undefined}
+          />
+          {life.ruleset === "expanded-1" && (
+            <SwordProgress life={life} onSelect={onSwordStyle} />
+          )}
           <CareerProgress life={life} />
-          <Family life={life} />
-        </aside>
+          {life.ruleset === "expanded-1" && <EducationProgress life={life} />}
+        </div>
+        <Family life={life} />
+        <Spellbook life={life} />
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { moneyText } from "../i18n/money";
 import { useI18n } from "../i18n/context";
 import { ExpandedCareer } from "./ExpandedDetails";
 import {
@@ -8,7 +9,7 @@ import {
   Sparkles,
   TrendingUp,
 } from "lucide-react";
-import { useId } from "react";
+import { useId, useState } from "react";
 import type { Life, MagicSchool } from "../game/types";
 import { RANKS, rankFor } from "../game/world";
 import {
@@ -126,7 +127,7 @@ export function StudyFocus({
 }
 
 export function CareerProgress({ life }: { life: Life }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
   if (life.ruleset === "expanded-1") return <ExpandedCareer life={life} />;
 
   const p = getProgression(life);
@@ -183,9 +184,7 @@ export function CareerProgress({ life }: { life: Life }) {
       {life.age >= 15 && (
         <div className="career-income">
           <span>{t("Yearly income")}</span>
-          <strong>
-            {careerIncome(life)} {t(" silver")}
-          </strong>
+          <strong>{moneyText(careerIncome(life), language)}</strong>
           <small>{t("Before living costs and any work-focus bonus")}</small>
         </div>
       )}
@@ -260,6 +259,17 @@ export function Spellbook({ life }: { life: Life }) {
   const { t } = useI18n();
 
   const p = getProgression(life);
+  const [disclosures, setDisclosures] = useState(() => ({
+    study: p.specialization,
+    open: new Set<MagicSchool>([p.specialization]),
+  }));
+  // Only a real study change opens a discipline. Ticks preserve user choices.
+  if (disclosures.study !== p.specialization) {
+    setDisclosures({
+      study: p.specialization,
+      open: new Set([...disclosures.open, p.specialization]),
+    });
+  }
   return (
     <section className="spellbook">
       <h2 id="spellbook-heading" tabIndex={-1}>
@@ -279,22 +289,40 @@ export function Spellbook({ life }: { life: Life }) {
           );
           const next = school.spells.find((s) => !track.spells.includes(s.id));
           return (
-            <article
+            <details
               key={id}
+              data-school={id}
+              open={disclosures.open.has(id)}
+              onToggle={(event) => {
+                const open = event.currentTarget.open;
+                setDisclosures((previous) => {
+                  if (previous.open.has(id) === open) return previous;
+                  const next = new Set(previous.open);
+                  if (open) next.add(id);
+                  else next.delete(id);
+                  return { ...previous, open: next };
+                });
+              }}
               className={id === p.specialization ? "current-study" : ""}
             >
-              <header>
+              <summary>
                 <Sparkles size={17} strokeWidth={1.4} />
                 <div>
-                  <h3>{t(school.name)}</h3>
-                  <p>
-                    {Math.round(track.xp)} {t(" experience ·")}
-                    {t(" ")}
-                    {t(rankFor(track.xp, life.training.magicCap))}
+                  <strong>{t(school.name)}</strong>
+                  <span className="spellbook-summary-count">
+                    {learned.length}{" "}
+                    {t(learned.length === 1 ? "spell" : "spells")}{" "}
+                    {t("learned")}
                     {t(id === p.specialization ? " · Current study" : "")}
-                  </p>
+                  </span>
                 </div>
-              </header>
+              </summary>
+              <p className="spellbook-rank">
+                {Math.round(track.xp)} {t(" experience ·")}
+                {t(" ")}
+                {t(rankFor(track.xp, life.training.magicCap))}
+                {t(id === p.specialization ? " · Current study" : "")}
+              </p>
               <p className="school-description">{t(school.description)}</p>
               {learned.length ? (
                 <ul>
@@ -330,7 +358,7 @@ export function Spellbook({ life }: { life: Life }) {
                   </p>
                 </div>
               )}
-            </article>
+            </details>
           );
         })}
       </div>
