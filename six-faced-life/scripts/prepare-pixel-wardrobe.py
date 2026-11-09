@@ -8,6 +8,7 @@ import json
 from io import BytesIO
 from pathlib import Path
 from PIL import Image
+from pixel_registration import head_exclusion, protect_heads
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('source', type=Path)
@@ -90,6 +91,7 @@ def save(key, image):
 outfits = {'guard': args.source / 'guard.png'}
 outfits.update({p.stem.removeprefix('outfit-'): p for p in args.source.glob('outfit-*.png')})
 for stage, height in [('child', 34), ('teen', 42), ('adult', 48), ('elder', 44)]:
+    bodies = []
     for race in ('human','elf','beastfolk','migurd','dwarf','superd'):
         source_stage = 'elder' if stage == 'elder' else 'adult'
         filename = 'body-migurd-adult-v2.png' if race == 'migurd' and source_stage == 'adult' else f'body-{race}-{source_stage}.png'
@@ -98,10 +100,13 @@ for stage, height in [('child', 34), ('teen', 42), ('adult', 48), ('elder', 44)]
             source = base
         else:
             source = Image.open(path)
-        save(f'bodies/{race}-{stage}', export(source, height))
+        body = export(source, height)
+        bodies.append(body)
+        save(f'bodies/{race}-{stage}', body)
+    exclusion = head_exclusion(export(base, height), bodies)
     for outfit, path in outfits.items():
         with Image.open(path) as source:
-            save(f'outfits/{stage}-{outfit}', export(source, height))
+            save(f'outfits/{stage}-{outfit}', protect_heads(export(source, height), exclusion))
     empty = Image.new('RGBA', (512, 1088))
     save(f'outfits/{stage}-neutral', empty)
     save(f'outfits/{stage}-child', empty)

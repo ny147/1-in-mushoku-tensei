@@ -5,3 +5,5 @@ dist/
 *.log
 *.tsbuildinfo
 screenshots/
+
+scripts/__pycache__/

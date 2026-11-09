@@ -1,3 +1,30 @@
+# Pixel head/wardrobe correction — 2026-11-09
+
+User reported head/clothing misalignment and confirmed that interpretation.
+Task branch `codex/pixel-layer-registration` starts clean from fetched
+`origin/main5c3cf90` (PR21 merged). Implementation **116c181** is pushed in **[PR #22](https://github.com/ny147/1-in-mushoku-tensei/pull/22)**, base main.
+Final fetch confirmed zero commits behind origin/main5c3cf90. This delivery
+note follows in a documentation commit. User merges manually; no publishing authorized.
+
+Implemented scoped head-occlusion fix: exported garments no longer paint over
+faces. Authoring-only template matching protects race head silhouettes per pose;
+64 existing PNGs/byte metadata re-exported, original body/source art retained.
+A broad first prototype was rejected; only the reviewed template result ships.
+Screenshot case Elf15/farmer/Ranoa inspected. Existing garment pose drift in
+some other clips is explicitly not fixed by this head-exclusion correction.
+
+Checks:4/4 Python registration tests (literal face test RED→GREEN),396/396 app
+suite in61 files,71.65s; build PASS with existing advisory. Independent review
+found no confirmed Important/Critical introduced issue. Details/remaining art
+limits/minor test-hardening suggestions:
+[verification](docs/verification/pixel-head-registration.md).
+
+Usage at verification boundary:24% five-hour/88% weekly remaining. No billing/
+reset action. Browser QA5174 only; tab closed/viewport reset, own server stopped
+at handoff. Ignored sources/prototype/contacts retained. Next: human review of
+the new task PR; do not merge automatically or claim the entire pose catalogue
+has been re-registered. Inspect actual Git/fetch/usage on further resumption.
+
 # UX/UI refinements — completed for human review, 2026-11-09 20:33 Bangkok
 
 PR #21: https://github.com/ny147/1-in-mushoku-tensei/pull/21, base main.

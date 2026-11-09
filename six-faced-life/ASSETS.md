@@ -6,7 +6,7 @@ Original detailed fantasy pixel artwork generated with the built-in ImageGen too
 on 2026-11-02, following the user's selected lower panel B. No franchise sprites
 were downloaded. All 179 runtime PNGs are under `public/assets/pixel-life/`;
 `src/components/life-scene/assets.json` records every path, dimension, alpha flag
-and compressed byte size. Current total: **41,749,648 bytes**.
+and compressed byte size. Current total: **41,229,786 bytes**.
 
 | Category | Files | Dimensions |
 | --- | ---: | --- |
@@ -39,7 +39,7 @@ human pose sheet and uses the same reference geometry as its clothing. The
 rejected original is retained locally but no longer exported. Tall raised poses scale to fit the cell;
 wardrobe uses the same reference scale. `python scripts/test_pixel_registration.py`
 checks the reproduced neighboring-row leakage, raised-pose clipping and
-Migurd torso/garment coverage regressions (3/3 passing).
+Migurd torso/garment coverage regressions plus the Elf teen face-overpaint regression (4/4 passing).
 
 A conservative upper bound across all categories is **1,720,121 compressed bytes**
 for a scene, counting the shared ambient atlas once. There are at most seven
@@ -82,3 +82,27 @@ Icons: lucide-react (ISC).
 The Six-Faced Life geometric mark and the simplified SVG regional guide were authored in code for this project. The map is explicitly labeled as simplified geography.
 
 The complete OFL text is retained, with one trailing space normalized in each local license so repository whitespace checks pass. Font binaries are unmodified.
+
+## Head/wardrobe exclusion correction — 2026-11-09
+
+The reported Elf teen farmer mismatch was reproduced at idle face pixel(18,19):
+the garment repainted the face. Shared headless garment sources contain collars
+that overlap the underlying head. The authoring exporter now uses the accepted
+brown-haired pose reference's idle head as a template, matches it separately in
+each pose cell, and excludes the union of the six races' head alpha from garments
+inside that window. This preserves the actual face/hair silhouette without
+moving bodies or changing skin/hair art.64 existing non-infant garment atlases
+were re-exported; all original sources, body atlases, anchors, cell sizes and IDs
+are unchanged. The helper is authoring-only Pillow code, never a runtime/build
+requirement. Byte metadata is refreshed; no new runtime asset category.
+
+A first broad connected-color prototype was rejected because hands/shadows could
+merge with hair and remove torso clothing. The final reference-template method
+was independently inspected across136 Human adult head boxes; Human adult/Elf
+teen17-clip frame0/3/7 contacts and all six race/four age idle contacts were also
+inspected. Isolated5174 reproduces the Thai15-year-old Elf farmer in Ranoa with
+a visible face, motion on/off, desktop/mobile and no console errors.4/4 Python
+checks,396/396 app tests and build passed. Original garment pose drift in some
+raised/rest frames remains; this is a head-occlusion correction, not a complete
+redraw or pose-registration overhaul. Future source changes still require visual
+inspection; match-score rejection and literal multi-pose tests are deferred.
