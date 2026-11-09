@@ -110,7 +110,7 @@ export function currentDecisionText(
       let label = adapt(c.label),
         description = adapt(c.description);
       const action = c.id.split(".")[2];
-      if (quote && action?.startsWith("enroll") && quote.loan > 0)
+      if (quote && action === "enroll-loan" && quote.loan > 0)
         label = th
           ? `กู้ ${moneyText(quote.loan, language)}และ${key === "university" ? "เข้าเรียนมหาวิทยาลัย" : "เริ่มฝึก"}`
           : `Borrow ${moneyText(quote.loan, language)} and enroll${key === "university" ? " at university" : ""}`;

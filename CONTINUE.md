@@ -1,3 +1,32 @@
+# UX/UI refinements — completed for human review, 2026-11-09 20:33 Bangkok
+
+PR #21: https://github.com/ny147/1-in-mushoku-tensei/pull/21, base main.
+Branch `codex/uxui-refinement-spec`; resumed from clean `9641fd0` with fresh fetch.
+All eight plan tasks are complete. Final delivery commit follows this checkpoint;
+inspect `git log -3 --oneline` for its exact SHA. The user merges manually.
+
+Completed: condition-first character, stage-aware sword disclosures, independent
+spellbook state, separate scene text/control bands, wrapping time groups,
+current economic silver/เหรียญเงิน and accessible explicit-change record filters.
+Resolved remaining enlarged long-name overflow through header/detail/rail reflow.
+Also fixed funded-vs-loan university labels with EN/TH failing-first regressions.
+Historical outcomes/readers/catalogues, domain rules, saves and RNG unchanged.
+
+Final tests396/396 in61 files,68.08s; final TypeScript/Vite build PASS, existing
+bundle-size advisory. Detector empty; whitespace checked. Independent review's
+Important findings are fixed. Browser acceptance and updated design previews
+completed; exact observations/limitations in
+[verification](docs/verification/uxui-refinements.md). Actual native zoom/OS
+reduced-motion/AT listening not claimed; CSS zoom2/media simulations labeled.
+No outstanding Critical/Important issue; deferred minor: strengthen financial
+history snapshot examples. No need to repeat completed implementation on resume.
+
+Usage at final task boundary:56% five-hour/93% weekly remaining. No billing/reset
+operation. Player5173 storage untouched; isolated5174 tabs closed/viewport reset,
+server stopped at handoff. Ignored QA fixtures/logs retained. Next action: review
+PR #21 and merge manually after CI. No automatic merge, branch deletion or
+publication. Historical incomplete checkpoint follows for provenance only.
+
 # UX/UI implementation — incomplete acceptance save point, 2026-11-06 20:12 Bangkok
 
 User approved implementing PR #21 on the existing `codex/uxui-refinement-spec`

@@ -80,3 +80,21 @@ it.each(["en", "th"] as const)(
     );
   },
 );
+
+it.each(["en", "th"] as const)("keeps %s funded and borrowed university offers distinct", language => {
+  const life = createExpandedLife({seed: 1, language});
+  life.phase = "alive"; life.age = 20; life.coins = 0;
+  life.pending = "expanded.university"; life.expansion.economy.familyFunds = 0;
+  life.stats.knowledge = 40; life.training.magicXp = 60;
+  life.expansion.genetics.magicTalent = false;
+  life.expansion.genetics.academicTalent = false;
+  const canonical = getDecision(life)!;
+  const localized = decisionText(canonical, life, language);
+  const current = currentDecisionText(canonical, life, language);
+  const funded = current.choices.find(c => c.id.endsWith(".enroll"))!;
+  const borrowed = current.choices.find(c => c.id.endsWith(".enroll-loan"))!;
+  expect(funded.label).toBe(localized.choices.find(c=>c.id===funded.id)!.label);
+  expect(funded.label).not.toBe(borrowed.label);
+  expect(funded.disabled).toBe(true);
+  expect(borrowed.disabled).toBe(false);
+});

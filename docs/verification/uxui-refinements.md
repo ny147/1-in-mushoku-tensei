@@ -1,3 +1,68 @@
+# UX/UI refinements — completed acceptance, 2026-11-09
+
+Resumed from `9641fd0` on `codex/uxui-refinement-spec`, existing PR #21/base main.
+The November 6 incomplete checkpoint below is historical; its overflow and
+remaining sampled acceptance have now been resolved/completed.
+
+## Final verification
+
+- Full `npm.cmd test -- --maxWorkers=2`: **396/396**,61 files,68.08s, exit0.
+- `npm.cmd run build`: PASS, TypeScript/Vite; existing >500kB JS advisory
+  (749.26kB JS,224.03kB gzip). No dependencies or domain/save-schema edits.
+- Impeccable detector once on the six changed markup targets this session:
+  `[]`,exit0. `git diff --check` passed.
+- University label regression reproduced in EN/TH: the disabled funded offer
+  had received the loan label. Restricting the override to `enroll-loan`
+  preserves distinct labels/eligibility; focused12/12 and final396/396 pass.
+- Existing independent whole-branch review remains recorded below; its three
+  Important findings were fixed and remain covered by the green suite. Resumed
+  CSS fix was browser-verified; one-line label fix was tested RED→GREEN.
+
+## Final rendered acceptance (IAB, isolated5174)
+
+- Located the zoom overflow in header minimum sizes and fixed detail columns,
+  beyond the already wrapping name. Mobile header/actions, passport/details,
+  speeds, filters and supporting rail now reflow without hiding text/shrinking
+  type. Corrected for the existing horizontal scroll offset in measurements.
+- EN and TH long-name newborn character at390x844 with CSS zoom2:
+  scrollWidth375 <= innerWidth390; no horizontal overflow. Enlarged TH chronicle
+  also fits. Keyboard navigation verifies the actual destination; zoomed pointer
+  targeting was unreliable in the automation, not used as acceptance proof.
+- Final default newborn: TH360x800 condition heading y435/savings bottom717;
+  EN390x844 heading y464/savings bottom729. Both viewport criteria pass.
+- Final EN/TH adult matrix at360,390,649,651,741,849,850,851,1280,1700:
+  no horizontal overflow, zero scene text/control intersections,44px minimum
+  sampled time targets.1280 height720; other matrix heights844. Hero visible,
+  default layout visually inspected. Prior infant/fallback checks below stand.
+- Restored TH newborn paid/paused mentorship: no practice selector, paid16,
+  progress25% and paused reason outside closed disclosure. EN adult ready/deferred
+ 100% trial and age8 migrated560XP allocation guidance remain visible.
+- University EN741: distinct funded/loan options, full canonical432-silver quote;
+  actual borrowing/enrollment moves to Ranoa and survives reload. Protected
+  outcome title still says coins, while numeric debt feedback says silver.
+  TH360 quote uses เหรียญเงิน throughout current labels; no overflow.
+- TH real24-silver training loan withdrawal cancels unused debt to0; principal24,
+  balance0, repayment0 persist after reload, with explicit units.
+- EN850 style North God, study Fire, focus Practice magic persist immediately
+  across reload. Watch checkbox,8x, Play/Pause and scene activity checked.
+- Two IAB tabs both reported visible, so that attempt did not establish native
+  hidden-tab suspension. Existing automatic hidden-tab tests passed; no claim of
+  a new native visibility observation. OS reduced-motion/browser-native200% zoom
+  and actual screen-reader listening were not performed. CSS zoom/media fixtures
+  are explicitly simulations; this is not WCAG certification.
+- Both affected design sidecar previews rendered and keyboard disclosures worked;
+  finance debt/repayment units verified after correcting the preview text.
+- Sampled warning/error logs empty. Player5173 storage never accessed/cleared.
+  QA tabs closed and viewport reset. Only this task's5174 server stopped.
+
+PRODUCT.md, DESIGN.md, spec status, plan ledger and affected existing spellbook/
+finance previews now describe built behavior. No Critical/Important finding
+remains. Deferred minor: strengthen paid university/mentorship literal history
+snapshots; existing history readers/catalogues remain unchanged and pinned tests
+pass. User merges manually; no publishing, auto-merge or branch deletion.
+
+---
+
 # UX/UI refinements verification — save point, 2026-11-06
 
 Branch: `codex/uxui-refinement-spec`, existing PR #21, base `main`.

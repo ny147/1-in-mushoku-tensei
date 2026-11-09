@@ -1,6 +1,6 @@
 # UX/UI Refinements Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Execution method has not been selected; native execution is recommended for these closely related components.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. User approved native sequential implementation on the existing PR #21 branch; execution is complete. The progress ledger records actual checks and deviations.
 
 **Goal:** Implement the five priorities from PR #21 without changing simulation, saved lives, or historical narrative.
 
@@ -10,7 +10,7 @@
 
 **Spec:** [UX/UI refinements](../specs/2026-11-06-uxui-refinements-design.md), reviewed in [PR #21](https://github.com/ny147/1-in-mushoku-tensei/pull/21), head `75575f73d9b10049551f8be5700e523a9f0b006e`, against `origin/main` at `100e395c9a3ab73859208163b1351f63225d5adb`.
 
-**Authority:** The user requested review and planning on 2026-11-06. This plan is prepared for review; application implementation and publishing are not authorized by this document. The spec's detailed choices remain proposals until confirmed. Code execution begins only after user review of the plan/design.
+**Authority:** The user approved implementation on 2026-11-06 and explicitly authorized continuing on the existing PR #21 branch. On 2026-11-09 the user resumed the incomplete acceptance checkpoint. Implementation is complete; publishing remains outside this authorization.
 
 ## Global Constraints
 
@@ -178,10 +178,10 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 | Step | Status | Evidence |
 | --- | --- | --- |
 | PR #21 specification review | Complete, 2026-11-06 | Head `75575f7`, base `100e395`; source comparison and independent read-only review; no blocking findings |
-| Implementation plan | Prepared for user review | This document; no application code changed |
+| Implementation plan | Executed,2026-11-09 | Native sequential implementation; evidence below |
 | Design/plan approval and execution method | Approved, 2026-11-06 | User requested implementation and explicitly approved updating existing PR #21 on codex/uxui-refinement-spec; native sequential execution |
 | Tasks 1–7 | Implemented | Per-task RED/GREEN evidence below; final394/394 pass |
-| Task 8 | Incomplete acceptance save point | TH390 long-name CSS zoom2 overflow remains; see docs/verification/uxui-refinements.md |
+| Task 8 | Complete,2026-11-09 | Zoom reflow fixed;396/396 tests/build pass; final rendered samples/docs/previews checked; see verification record |
 
 **Recommended execution:** native, sequential implementation, with the required independent whole-branch review before delivery. These tasks share components and CSS; concurrent edits would add integration work. The spec and this plan should be reviewed before execution.
 
@@ -213,3 +213,12 @@ Also sample 1700px wide, 649/651px and 849/851px (one pixel around existing 650/
 - Final: Ruling: reviewer left geometry/contrast/hero/mobile/zoom/AT/document accuracy to parent — rendered evidence and unfinished acceptance are recorded in docs/verification/uxui-refinements.md; PR stays draft. Cost if wrong: visual/accessibility defects remain until acceptance finishes.
 - Task 8 save point: full394/394, build PASS, detector empty. TH390 long-name CSS zoom2 overflow remains after attempted passport wrap; investigate exact overflowing DOM next. Product/design/sidecar final updates and remaining sampled browser cases pending.
 - Usage save point: 2026-11-06 around20:13 Bangkok,6% five-hour/14% weekly remaining; resets Nov7 00:04/Nov9 09:20 Bangkok. Existing branch/PR preserved; no billing action.
+
+### Resumed completion — 2026-11-09
+
+- Resumed clean `9641fd0`, fetched origin/main100e395; usage77% five-hour/96% weekly remaining at start. Existing user-authorized branch retained.
+- Task8 complete: found header/detail-column minimum widths behind CSS zoom2 overflow; reflow correction observed failing→passing in EN/TH390 and enlarged TH chronicle. Final adult EN/TH width matrix remains clear.
+- University funded/loan label distinction reproduced RED→GREEN in2 tests; focused12/12 and final396/396 pass. Domain choices/outcomes remain untouched.
+- Full final suite396/396,61 files,68.08s; build PASS; existing bundle advisory; detector empty; whitespace clean. Both updated existing sidecar previews rendered/keyboard checked; product/design/spec/checkpoint updated.
+- Final parent acceptance covers rare paid/paused/ready/deferred and migrated allocation states, real university enrollment/reload and training debt cancellation, immediate focus/style/study persistence and Watch playback. Exact matrix/limits in verification record; native zoom/media/AT listening not claimed.
+- Prior branch/ledger rulings stand. Independent review complete; all Important findings fixed. Deferred minor history snapshot strengthening remains explicit. User merges manually.

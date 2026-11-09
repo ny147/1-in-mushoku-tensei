@@ -1,9 +1,12 @@
 # UX/UI refinements
 
-Status: **proposed design with implementation plan for user review, 2026-11-06**.
-Documentation only; application implementation has not started. The user's
-subsequent review/planning request produced the accompanying
-[implementation plan](../plans/2026-11-06-uxui-refinements.md).
+Status: **implemented for human review,2026-11-09**.
+User approved implementation and updating existing PR #21 on2026-11-06, then
+resumed acceptance on2026-11-09. The reviewed design below records the original
+proposal; the approved implementation and evidence are in the
+[plan ledger](../plans/2026-11-06-uxui-refinements.md) and
+[verification record](../../verification/uxui-refinements.md). No publishing
+is authorized. The user merges manually.
 
 ## Intent and authority
 

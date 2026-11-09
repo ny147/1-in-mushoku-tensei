@@ -36,7 +36,7 @@ The user chose a story and progression expansion on 2026-10-24. The current game
   Choice feedback confirms actual domain changes and fractional gains, including
   reputation, trust, aid expiry, education/debt and relationships. Household aid
   supplies its +12 yearly resources to adults as well as children, through the
-  existing two-year expiry; purchasing it still costs 8 coins.
+  existing two-year expiry; purchasing it still costs 8 silver.
 
 - New expanded lives roll one talent: 20% magical, 20% academic, 20%
   swordsmanship, or 40% none. Relevant positive magic/sword experience or
@@ -51,7 +51,7 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 - Expanded careers have reliable direct access for qualified ordinary applicants
   and optional beginner training for all ten ordinary roles. Full-time training
-  pays 24 coins/year instead of job wages and takes 2–3 years; part-time keeps the
+  pays 24 silver/year instead of job wages and takes 2–3 years; part-time keeps the
   current job and takes 4–6. Courses retain progress through pauses, withdrawal
   and switches; completion retains a manual guaranteed placement, including
   during injury recovery. Advanced mastery, knight and professor remain earned.
@@ -105,3 +105,20 @@ Short reactions never block decisions or replay saved history. A pending phone
 decision hides the scene to keep the story visible. Failed or still-loading art
 uses the original painted landscape as a complete fallback. New-life and other
 painted screens retain their original artwork; archive previews have no live scene.
+
+## Character and chronicle refinements
+
+The character page presents condition and savings before background, training and
+work, family, then the full spellbook. Sword records before age five remain in a
+native disclosure; the practice selector appears at five. General advancement
+rules are disclosed, while legacy allocation and paid/paused/ready mentorship
+stay visible. Five independent spellbook disclosures open the current study on
+entry; ordinary playback preserves the player's expansion choices.
+
+Scene metadata, caption/hero and credit/motion controls have separate layout
+bands that grow with English/Thai text. Time actions wrap in coherent groups.
+Chronicle filters expose selected state and announce full matching counts only
+when the player changes filters. Current economic UI uses silver / เหรียญเงิน,
+including funding requirements and debt; historical and current outcome narrative
+retain their original wording. No simulation, save-schema or historical-copy
+migration accompanies these presentation changes.

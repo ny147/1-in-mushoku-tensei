@@ -4186,3 +4186,24 @@ h2[tabindex="-1"] {
 }
 
 .character-passport > div { min-width: 0; overflow-wrap: anywhere; }
+
+/* Enlarged text and very narrow content must reflow rather than widen the page. */
+@media (max-width: 650px) {
+  .mobile-top { height: auto; min-height: 72px; padding-block: 12px; gap: 12px; }
+  .mobile-top .brand { min-width: 0; flex: 1; }
+  .mobile-top .brand > div { min-width: 0; }
+  .mobile-top .brand strong { overflow-wrap: anywhere; white-space: normal; }
+  .mobile-top > .icon-button { flex: 0 0 auto; }
+  .topbar { height: auto; min-height: 58px; padding-block: 10px; flex-wrap: wrap; }
+  .topbar-actions { min-width: 0; flex-wrap: wrap; }
+  .character-passport { flex-wrap: wrap; }
+  .character-page .detail-list > div { grid-template-columns: minmax(0, 40%) minmax(0, 1fr); }
+  .character-page .detail-list dt,
+  .character-page .detail-list dd { overflow-wrap: anywhere; }
+  .subtle-tag { max-width: 100%; }
+  .page-heading > div:first-child { min-width: 0; overflow-wrap: anywhere; }
+  .time-main .speed-controls { min-width: 0; max-width: 100%; flex-wrap: wrap; }
+  .life-record .section-topline { flex-wrap: wrap; }
+  .character-rail { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(180px, 45%)), 1fr)); }
+  .main-nav > button { min-width: 0; overflow-wrap: anywhere; }
+}
