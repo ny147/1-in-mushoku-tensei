@@ -4,6 +4,14 @@ from pathlib import Path
 from PIL import Image
 
 class RegistrationTest(unittest.TestCase):
+    def test_elf_teen_farmer_does_not_paint_over_the_face(self):
+        root = Path(__file__).resolve().parent.parent / 'public/assets/pixel-life'
+        body = Image.open(root / 'bodies/elf-teen.png')
+        actor = Image.alpha_composite(body, Image.open(root / 'outfits/teen-farmer.png'))
+        for point in [(18, 19), (18, 20), (19, 19), (20, 19)]:
+            self.assertEqual(actor.getpixel(point), body.getpixel(point),
+                             f'Farmer garment covers the face at {point}')
+
     def test_migurd_magic_clothes_cover_the_same_torso_as_reference(self):
         root = Path(__file__).resolve().parent.parent / 'public/assets/pixel-life'
         outfit = Image.open(root / 'outfits/adult-magic-training.png')
