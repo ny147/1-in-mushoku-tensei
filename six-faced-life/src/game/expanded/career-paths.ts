@@ -1,6 +1,6 @@
 import type { ExpandedLife } from '../types';
-import { CAREER_NODES, type CareerNode, type CareerNodeId } from './career-catalogue';
-import { careerRequirements } from './careers';
+import { CAREER_NODES, isCareerNode, type CareerNode, type CareerNodeId } from './career-catalogue';
+import { appoint, careerRequirements } from './careers';
 import { requirement, type Requirement } from './education';
 import { maxSwordXp } from './sword-state';
 import { worldYear } from './facts';
@@ -64,4 +64,45 @@ export function pathIncome(l:ExpandedLife):number {
   if(t?.active && !t.paused && t.mode==='full-time') return 24;
   const n=careerNode(l);
   return n?Math.max(n.pay,l.expansion.careerPaths?.payFloor[n.occupation]??0):0;
+}
+function rememberNode(l:ExpandedLife,id:CareerNodeId,code:string):void {
+  const s=l.expansion.careerPaths!,y=worldYear(l);
+  s.active=id;s.earned[id]??={year:y,source:'earned'};
+  s.recent.push({year:y,node:id,code,units:0});
+  if(s.recent.length>64)s.recent.shift();
+}
+export function syncCareerNode(l:ExpandedLife):void {
+  const s=l.expansion.careerPaths;
+  if(!s)return;
+  const role=l.expansion.career.role;
+  if(['child','student','retired'].includes(role)){s.active=null;return;}
+  if(s.active && CAREER_NODES[s.active].occupation===role)return;
+  const matches=Object.values(CAREER_NODES).filter(n=>n.occupation===role);
+  const preference=role==='teacher'?(s.teaching==='magic'?'magic-teacher':s.teaching==='sword'?'sword-instructor':'teacher-unspecified'):null;
+  const earned=matches.filter(n=>s.earned[n.id] && (!preference || n.id===preference || n.branch===CAREER_NODES[preference].branch)).sort((a,b)=>b.pay-a.pay)[0];
+  const target=earned??(preference?CAREER_NODES[preference]:matches.find(n=>!n.predecessor)??matches[0]);
+  if(target)rememberNode(l,target.id,'appointment');
+}
+export function enterCareerNode(l:ExpandedLife,id:CareerNodeId,funding?:'reserved-training'):boolean {
+  const s=l.expansion.careerPaths;
+  if(!s || !isCareerNode(id) || l.phase!=='alive' || l.expansion.education.stage==='university')return false;
+  const n=CAREER_NODES[id];
+  if(n.predecessor && !s.earned[id] && id!=='knight' && id!=='professor')return false;
+  const next=structuredClone(l),ns=next.expansion.careerPaths!;
+  if(id==='magic-teacher' || id==='sword-instructor')ns.teaching=id==='magic-teacher'?'magic':'sword';
+  if(!funding && pathRequirements(next,id).some(r=>!r.met))return false;
+  const sameRole=next.expansion.career.role===n.occupation && !!ns.active;
+  if(!sameRole && !appoint(next,n.occupation,funding?{funding}:undefined))return false;
+  const earned=Object.values(CAREER_NODES).filter(v=>v.branch===n.branch && ns.earned[v.id]).sort((a,b)=>b.pay-a.pay)[0];
+  rememberNode(next,earned?.id??id,'appointment');
+  Object.assign(l,next);return true;
+}
+export function promoteCareerNode(l:ExpandedLife,id:CareerNodeId):boolean {
+  const s=l.expansion.careerPaths;
+  if(!s || !isCareerNode(id) || l.phase!=='alive' || l.expansion.education.stage==='university')return false;
+  const n=CAREER_NODES[id];
+  if(!s.active || n.predecessor!==s.active || s.earned[id] || pathRequirements(l,id).some(r=>!r.met))return false;
+  const next=structuredClone(l);
+  if(next.expansion.career.role!==n.occupation && !appoint(next,n.occupation))return false;
+  rememberNode(next,id,'promotion');Object.assign(l,next);return true;
 }

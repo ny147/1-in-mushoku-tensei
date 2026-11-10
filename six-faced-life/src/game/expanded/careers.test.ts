@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { allocateSwordStyle, syncSwordCompatibility } from './sword-state';
-import { createExpandedLife } from "./origins";
+import { createExpandedLife as createCurrentLife } from "./origins";
+// Preserve coverage for unversioned expanded saves while new paths have their own tests.
+function createExpandedLife(options:Parameters<typeof createCurrentLife>[0]) {
+  const l=createCurrentLife(options);delete l.expansion.careerPaths;return l;
+}
 import {
   careerRequirements,
   appoint,
@@ -9,7 +13,7 @@ import {
   promote,
 } from "./careers";
 import type { Occupation } from "./types";
-describe("independent careers and access", () => {
+describe("unversioned expanded careers and access", () => {
   it('records earned promotions and health-related dismissal without erasing past work',()=>{
     const l=createExpandedLife({seed:1});l.age=25;appoint(l,'farmer');const r=l.expansion.career.records.farmer;r.xp=60;r.years=2;r.reputation=10;
     expect(promote(l)).toBe(true);expect(careerIncomeExpanded(l)).toBe(28);

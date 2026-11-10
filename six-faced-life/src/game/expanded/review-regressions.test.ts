@@ -6,11 +6,13 @@ import { applyHistoryYear } from "./history";
 import { introducePartner, marry } from "./family";
 import { draw } from "./random";
 import { finishLife } from "../engine";
+import { emptyCareerPaths } from './career-state';
 export function adult() {
   const l = createExpandedLife({ seed: 2 });
   const shift = 400 - l.expansion.birthYear;
   for (const p of l.expansion.family.people) p.born += shift;
   l.expansion.birthYear = 400;
+  l.expansion.careerPaths=emptyCareerPaths(400);
   l.expansion.training!.lastYear = 399;
   l.expansion.finance!.lastYear = 399;
   l.expansion.finance!.lastConsumptionYear = 399;

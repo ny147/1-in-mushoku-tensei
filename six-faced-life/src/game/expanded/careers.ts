@@ -9,6 +9,7 @@ import { clamp } from "./random";
 import { getProgression } from "../progression";
 import { talentMultiplier } from "./genetics";
 import { grantSwordXp, maxSwordXp, swordMeets } from "./sword-state";
+import { careerVacancy, pathIncome, syncCareerNode } from './career-paths';
 export function careerRequirements(
   l: ExpandedLife,
   role: Occupation,
@@ -29,7 +30,7 @@ export function careerRequirements(
       add("sword", maxSwordXp(l), c.sword!);
     if (role === "adventurer")
       add("skill", Math.max(maxSwordXp(l), l.training.magicXp), 15);
-    if (role === "teacher") add("skill", Math.max(school, maxSwordXp(l)), 25);
+    if (role === "teacher") add("skill", l.expansion.careerPaths?.teaching==='magic'?school:l.expansion.careerPaths?.teaching==='sword'?maxSwordXp(l):Math.max(school,maxSwordXp(l)), 25);
     if (role === "mage") add("magic", school, c.magic!);
     if (role === "healer" || role === "cleric")
       add("healing", l.progression?.magic.healing.xp ?? 0, c.magic!);
@@ -93,6 +94,7 @@ export function appoint(
   if (
     l.expansion.education.stage === "university" ||
     !OCCUPATIONS.includes(role) ||
+    (!!l.expansion.careerPaths && !careerVacancy(l,role)) ||
     (options?.funding && !funded) ||
     (!funded &&
       careerRequirements(l, role, options?.school).some((r) => !r.met))
@@ -148,9 +150,11 @@ export function appoint(
   });
   if (x.career.timeline.length > 128) x.career.timeline.shift();
   fact(l, "career", "appointed", role);
+  syncCareerNode(l);
   return true;
 }
 export function careerIncomeExpanded(l: ExpandedLife): number {
+  if(l.expansion.careerPaths)return pathIncome(l);
   const t = l.expansion.training;
   if (t?.active && !t.paused && t.mode === "full-time") return 24;
   const c = l.expansion.career;
@@ -170,6 +174,7 @@ export function annualIncomeExpanded(l: ExpandedLife): number {
   );
 }
 export function promotionReady(l: ExpandedLife) {
+  if(l.expansion.careerPaths)return false;
   const c = l.expansion.career.records[l.expansion.career.role],
     level = c.level;
   return (
@@ -215,6 +220,7 @@ export function applyCareerYear(l: ExpandedLife, attendingFullTime = false) {
     x.career.role = "child";
     l.career = "child";
     l.progression = getProgression(l);
+    syncCareerNode(l);
     fact(l, "career", "dismissed", previous);
     return;
   }

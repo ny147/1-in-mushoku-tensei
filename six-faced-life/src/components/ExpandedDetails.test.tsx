@@ -218,6 +218,7 @@ describe("expanded chronicle details", () => {
   it("shows the expanded occupation and actual pay rather than its compatibility role", () => {
     const l = createExpandedLife({ seed: 1 });
     l.age = 20;
+    delete l.expansion.careerPaths; // This case verifies the pre-path occupation reader.
     l.expansion.career.role = "farmer";
     l.career = "merchant";
     render(

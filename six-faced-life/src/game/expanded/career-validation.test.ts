@@ -15,7 +15,7 @@ describe('career ledger restoration boundaries',()=>{
     expect(validateCareerPaths(l.expansion.careerPaths,l)).toBe(true);
     expect(isLife(l)).toBe(true);
   });
-  it.each([
+  it.each<[string, (s:any)=>void]>([
     ['unknown version',(s:any)=>s.version=2],
     ['negative requests',(s:any)=>s.requests=-1],
     ['fractional units',(s:any)=>s.work.trade.units=0.5],
@@ -26,7 +26,7 @@ describe('career ledger restoration boundaries',()=>{
     ['future project',(s:any)=>s.lastProjectYear=9999],
     ['oversized history',(s:any)=>s.recent=Array(65).fill({year:400,node:'laborer',code:'safe',units:1})],
     ['invalid teacher school',(s:any)=>s.teacherCourse={kind:'magic',school:null}],
-  ] as const)('rejects %s and leaves stored input untouched',(_,mutate)=>{
+  ])('rejects %s and leaves stored input untouched',(_,mutate)=>{
     const l=life();mutate(l.expansion.careerPaths!);
     expect(validateCareerPaths(l.expansion.careerPaths,l)).toBe(false);
     const raw=JSON.stringify({version:1,active:l,archive:[]});

@@ -24,6 +24,7 @@ import {
 } from "./sword-state";
 import { creditSwordMentorship } from "./sword-mentors";
 import { queueReadySwordTrial } from "./sword-events";
+import { activateCareerPaths } from './career-migration';
 function syncLearning(life: ExpandedLife, magicXp = 0) {
   life.progression = getProgression(life);
   const track = life.progression.magic[life.progression.specialization];
@@ -158,7 +159,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   }
   queueReadySwordTrial(next);
   drain(next);
-  return next;
+  return activateCareerPaths(next);
 }
 export function setFocusExpanded(
   life: ExpandedLife,
@@ -299,7 +300,7 @@ export function advanceExpanded(
 ): ExpandedLife {
   if (life.phase !== "alive" || life.pending) return life;
   if (mode === "tick" && (!Number.isFinite(delta) || delta <= 0)) return life;
-  const next = structuredClone(life);
+  const next = structuredClone(activateCareerPaths(life));
   if (mode === "tick") {
     creditSwordMentorship(next, Math.min(0.25, delta, 1 - next.progress));
     next.progress += Math.min(0.25, delta);
