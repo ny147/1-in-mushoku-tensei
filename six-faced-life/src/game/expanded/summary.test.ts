@@ -4,7 +4,25 @@ import { finishLife } from '../engine';
 import { buildSummary, legacySummary } from './summary';
 import { isLife, loadGame } from '../storage';
 import { createLife } from '../legacy/engine';
+import { enterCareerNode } from './career-paths';
+import { activateCareerPaths } from './career-migration';
 describe('factual immutable retrospectives',()=>{
+  it('records actual new titles and inherited recognition without invented requests',()=>{
+    const old=createExpandedLife({seed:1});delete old.expansion.careerPaths;old.age=30;old.phase='alive';old.pending=null;
+    old.expansion.career.role='adventurer';old.expansion.career.records.adventurer.level=2;
+    const l=activateCareerPaths(old);finishLife(l,'aging');
+    const work=l.expansion.summary!.sections.find(s=>s.key==='work')!;
+    expect(work.en).toContain('B-rank Adventurer');expect(work.en).toContain('inherited recognition');
+    expect(work.en).toContain('Completed requests: 0');expect(work.th).toContain('แรงก์ B');
+    const snapshot=JSON.stringify(l.expansion.summary);
+    expect(loadGame({getItem:()=>JSON.stringify({version:1,active:l,archive:[l]}),setItem:()=>{}}).error).toBeNull();
+    expect(JSON.stringify(l.expansion.summary)).toBe(snapshot);
+  });
+  it('stores a new working title at death without rewriting old occupation history',()=>{
+    const l=createExpandedLife({seed:1});l.phase='alive';l.pending=null;l.age=25;l.stats.health=90;
+    enterCareerNode(l,'farmhand');finishLife(l,'illness');
+    expect(l.expansion.summary!.sections.find(s=>s.key==='work')!.en).toContain('Farmhand');
+  });
   it('records actual style ranks, last selection and completion years only when present',()=>{
     const l=createExpandedLife({seed:1});l.age=40;const s=l.expansion.swords!;s.selected='water-god';s.tracks['sword-god']={xp:560,cap:4};s.completed['sword-god'][4]=l.expansion.birthYear+39;finishLife(l,'aging');
     const work=l.expansion.summary!.sections.find(s=>s.key==='work')!;

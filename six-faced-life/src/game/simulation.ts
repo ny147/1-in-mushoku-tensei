@@ -5,6 +5,8 @@ import {
   careerTitle as legacyTitle,
 } from "./progression";
 import { expandedLabel } from "../i18n/expanded";
+import { careerNode } from './expanded/career-paths';
+import { careerNodeText } from '../i18n/careers';
 export const isExpanded = (life: Life): life is ExpandedLife =>
   life.ruleset === "expanded-1";
 export function canAutoChoose(life: Life): boolean {
@@ -17,6 +19,9 @@ export function setSpecialization(life: Life, school: MagicSchool): Life {
   return next;
 }
 export function careerTitle(life: Life): string {
+  if(life.ruleset==='expanded-1' && life.phase!=='ended') {
+    const node=careerNode(life);if(node)return careerNodeText(node.id,life.language??'en');
+  }
   return life.ruleset === "expanded-1"
     ? expandedLabel(life.expansion.career.role, life.language ?? "en")
     : legacyTitle(life);

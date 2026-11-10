@@ -182,7 +182,8 @@ describe("expanded chronicle details", () => {
       l.coins = 200;
       l.expansion.economy.peak = 200;
       l.stats.knowledge = 50;
-      l.pending = "expanded.career";
+      l.pending = "expanded.career-path";
+      l.expansion.careerPaths!.selection='trade';
       for (let seed = 0; seed < 1000; seed++) {
         l.expansion.worldSeed = seed;
         if (appointmentAvailable(l, "merchant")) break;
@@ -193,7 +194,7 @@ describe("expanded chronicle details", () => {
         </LanguageProvider>,
       );
       const merchant = screen.getByRole("button", {
-        name: language === "en" ? /^Merchant / : /^พ่อค้า/,
+        name: language === "en" ? /^Trade Assistant / : /^ผู้ช่วยการค้า/,
       });
       expect(merchant.textContent).toContain(
         language === "en" ? "Costs 10 silver" : "ใช้ 10 เหรียญเงิน",

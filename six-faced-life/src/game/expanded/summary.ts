@@ -7,6 +7,8 @@ import { domainText } from "../../i18n/world";
 import { RACES, REGIONS } from "../world";
 import { SWORD_STYLES, swordRank } from './sword-state';
 import { swordStyleName, swordRankName } from '../../i18n/sword';
+import { careerNodeText } from '../../i18n/careers';
+import type { CareerNodeId } from './career-catalogue';
 export function legacySummary(l: LegacyLife) {
   return {
     age: l.age,
@@ -90,7 +92,7 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
       th
         ? `วัยเด็กขาดปัจจัยจำเป็น ${x.economy.deprivedYears} ปี การประเมินความสามารถ ${x.education.assessed ? x.education.assessment : "ยังไม่ได้ประเมิน"} การศึกษา: ${t(x.education.stage)} ปีที่เรียนผ่าน ${x.education.successfulYears} สถานะทุน ${x.education.scholarship ? "ยังได้รับทุน" : "ไม่มีทุนปัจจุบัน"} ${facts}`
         : `Years with unmet necessities: ${x.economy.deprivedYears}. Assessment: ${x.education.assessed ? x.education.assessment : "not assessed"}. Education: ${t(x.education.stage)}; ${x.education.successfulYears} successful years. Current scholarship: ${x.education.scholarship ? "yes" : "no"}. ${facts}`,
-      `${work}. ${th ? "การฝึก" : "Training"}: ${training || (th ? "ไม่มีการฝึกที่บันทึกไว้" : "no recorded attendance")}. ${x.career.timeline.map((r) => `K${r.year} ${t(r.role)} ${r.level}: ${expandedRecordLabel(r.reason, lang)}`).join("; ")}`,
+      `${work}. ${th ? "การฝึก" : "Training"}: ${training || (th ? "ไม่มีการฝึกที่บันทึกไว้" : "no recorded attendance")}. ${x.career.timeline.map((r) => `K${r.year} ${t(r.role)} ${r.level}: ${expandedRecordLabel(r.reason, lang)}`).join("; ")}${x.careerPaths?`. ${Object.entries(x.careerPaths.earned).map(([id,r])=>`${careerNodeText(id as CareerNodeId,lang)} (${r.source==='inherited'?(th?'รับรองจากประวัติเดิม':'inherited recognition'):`K${r.year}`})`).join('; ')}. ${th?'คำขอสำเร็จ':'Completed requests'}: ${x.careerPaths.requests}.`:''}`,
       `${t(x.standing.status)}; ${th ? "ชื่อเสียง" : "Reputation"} ${Math.round(x.standing.reputation)}; ${x.politics.faction ? t(x.politics.faction) : th ? "ไม่มีฝ่ายปัจจุบัน" : "no current allegiance"}; ${th ? "ตำแหน่งปัจจุบัน" : "current title"} ${x.standing.title ?? (th ? "ไม่มี" : "none")}. ${exposure}. ${x.politics.records.map((r) => `K${r.year} ${expandedRecordLabel(r.code, lang)}`).join("; ")}`,
       th
         ? `คู่สมรสที่เคยสมรส ${spouseCount} คน บุตรโดยตรง ${counts.born} คน ยังมีชีวิต ${counts.survivingChildren} คน ผู้สืบสกุลที่ยังมีชีวิตทั้งหมด ${counts.survivingDescendants} คน ${marriages}. ${people}. ${social}`

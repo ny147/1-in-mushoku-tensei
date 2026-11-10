@@ -5,8 +5,17 @@ import { FOCUSES, RACES, REGIONS } from "../../game/world";
 import { OCCUPATIONS } from "../../game/expanded/balance";
 import { getProgression } from "../../game/progression";
 import { allocateSwordStyle } from "../../game/expanded/sword-state";
+import { CAREER_NODES } from '../../game/expanded/career-catalogue';
 
 describe("read-only life scene", () => {
+  it('uses underlying outfits for every new career title without title parsing',()=>{
+    for(const n of Object.values(CAREER_NODES)) {
+      const l=expandedSceneLife();l.age=25;l.focus='balanced';l.expansion.career.role=n.occupation;
+      const before=JSON.stringify(l);
+      expect(sampleSceneFacts(l).occupation).toBe(n.occupation);
+      resolveScene(sampleSceneFacts(l));expect(JSON.stringify(l)).toBe(before);
+    }
+  });
   it("settles an ended infant into an ending pose", () => {
     const l = expandedSceneLife();
     l.age = 1;
