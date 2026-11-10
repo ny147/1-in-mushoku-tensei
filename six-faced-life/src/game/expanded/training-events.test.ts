@@ -27,6 +27,7 @@ describe("manual education choices", () => {
     let n = openActivity(l, "training");
     expect(n.pending).toBe("expanded.training");
     expect(canAutoChoose(n)).toBe(false);
+    n = choose(n, 'expanded.training.path-martial');
     n = choose(n, "expanded.training.course-swordsman");
     expect(getDecision(n)!.requiresManual).toBe(true);
     n = choose(n,'expanded.training-quote.sword-god');

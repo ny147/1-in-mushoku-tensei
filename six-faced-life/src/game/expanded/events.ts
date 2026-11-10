@@ -1,5 +1,6 @@
 import { trainingDecision, applyTrainingChoice } from "./training-events";
 import { careerProject, applyCareerProject } from './career-work';
+import { careerDecision, applyCareerChoice } from './career-events';
 import {
   swordDecision,
   applySwordChoice,
@@ -67,6 +68,8 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
   const saved = life.expansion.swords?.compatibilityDecision;
   if (saved?.id === life.pending) return saved;
+  const career=careerDecision(life);
+  if(career)return career;
   const sword = swordDecision(life);
   if (sword) return sword;
   const education = trainingDecision(life);
@@ -391,6 +394,7 @@ export function applyExpandedChoice(
   life: ExpandedLife,
   id: string,
 ): string | null {
+  if(applyCareerChoice(life,id))return null;
   if (applySwordChoice(life, id)) return null;
   if (applyTrainingChoice(life, id)) return null;
   const [, key, action] = id.split("."),

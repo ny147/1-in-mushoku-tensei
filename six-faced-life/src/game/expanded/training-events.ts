@@ -17,6 +17,8 @@ import {
   enrollUniversity,
 } from "./education";
 import { expandedLabel } from "../../i18n/expanded";
+import { CAREER_NODES } from './career-catalogue';
+import { careerPathText } from '../../i18n/careers';
 import {
   courseDescription,
   fundingDescription,
@@ -104,6 +106,8 @@ export function trainingDecision(l: ExpandedLife): Decision | null {
       );
     }
     for (const role of ORDINARY_ROLES) {
+      const selected=l.expansion.careerPaths?.selection;
+      if(selected && !Object.values(CAREER_NODES).some(n=>n.path===selected && n.occupation===role))continue;
       const r = t.records[role];
       if (r.completedYear !== null) {
         option(
@@ -222,6 +226,10 @@ export function trainingDecision(l: ExpandedLife): Decision | null {
         missing.length > 0 || !!t.active,
       );
   }
+  if(key==='training' && l.expansion.careerPaths?.selection) {
+    title=[careerPathText(l.expansion.careerPaths.selection,'en'),careerPathText(l.expansion.careerPaths.selection,'th')];
+    option('paths',['Choose another path','เลือกเส้นทางอื่น']);
+  }
   option("later", [ew("later"), ew("later", "th")]);
   copy.title = title[1];
   copy.text = text[1];
@@ -262,6 +270,10 @@ export function applyTrainingChoice(l: ExpandedLife, id: string): boolean {
   if (key === "training") {
     const role = action.slice(action.indexOf("-") + 1);
     if (action.startsWith("course-") && isOrdinaryRole(role)) {
+      const s=l.expansion.careerPaths;
+      if(role==='teacher' && s && t.active!=='teacher' && t.records.teacher.units===0 && t.records.teacher.completedYear===null) {
+        const magic=s.selection==='magic';s.teacherCourse={kind:magic?'magic':'sword',school:magic?l.expansion.study:null};
+      }
       t.selection = { role, mode: "full-time" };
       queue("training-quote");
     } else if (action.startsWith("placement-") && isOrdinaryRole(role)) {

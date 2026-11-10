@@ -7,6 +7,7 @@ import {
 import { useI18n } from "../i18n/context";
 const names: Record<Activity, [string, string]> = {
   career: ["Browse careers", "ดูอาชีพ"],
+  'career-work':['Career work','งานประจำสายอาชีพ'],
   training: ["Career training", "ฝึกอาชีพ"],
   instruction: ["Seek instruction", "หาผู้สอน"],
   "sword-mentor": ["Seek a sword mentor", "หาอาจารย์ดาบ"],

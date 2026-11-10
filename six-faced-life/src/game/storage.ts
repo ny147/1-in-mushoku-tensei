@@ -96,6 +96,7 @@ export function isLife(v: unknown): v is Life {
         x.optionalActivity !== v.pending ||
         ![
           "career",
+          'career-path', 'career-work',
           "training",
           "training-quote",
           "training-placement",

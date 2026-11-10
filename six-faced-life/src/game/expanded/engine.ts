@@ -26,6 +26,7 @@ import { creditSwordMentorship } from "./sword-mentors";
 import { queueReadySwordTrial } from "./sword-events";
 import { activateCareerPaths } from './career-migration';
 import { creditCareerWork } from './career-work';
+import { careerChoiceOutcome } from '../../i18n/careers';
 function syncLearning(life: ExpandedLife, magicXp = 0) {
   life.progression = getProgression(life);
   const track = life.progression.magic[life.progression.specialization];
@@ -93,6 +94,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   next.expansion.optionalActivity = null;
   if (
     !id.startsWith("expanded.career.job-") &&
+    !(next.expansion.careerPaths && (id.startsWith('expanded.career-path.') || id.startsWith('expanded.career-work.') || id==='expanded.research.accept')) &&
     id !== "expanded.sword-mentor.enroll"
   )
     next.coins -= c.cost ?? 0;
@@ -143,6 +145,8 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
       key: "expanded.education-choice",
       params: { title: educationText.label, text: educationText.outcome },
     };
+  const careerOutcome=careerChoiceOutcome(life,next,id,next.language??'en');
+  if(careerOutcome)next.history[next.history.length-1].message={key:'expanded.education-choice',params:{title:next.language==='th'?educationText?.label??c.label:c.label,text:careerOutcome}};
   if (cause)
     next.history[next.history.length - 1].message = {
       key: "expanded.fatal-choice",

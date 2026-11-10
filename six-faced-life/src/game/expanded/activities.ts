@@ -1,9 +1,12 @@
 import type { ExpandedLife } from "../types";
 import { worldYear } from "./facts";
 import { getExpandedDecision } from "./events";
+import { activateCareerPaths } from './career-migration';
+import { careerWorkAvailable } from './career-events';
 
 export const ACTIVITIES = [
   "career",
+  'career-work',
   "training",
   "instruction",
   "sword-mentor",
@@ -18,6 +21,7 @@ export function activityAvailable(l: ExpandedLife, key: Activity): boolean {
   if (l.phase !== "alive" || l.pending || l.expansion.queue.length)
     return false;
   switch (key) {
+    case 'career-work':return l.age>=15 && careerWorkAvailable(l);
     case "training":
     case "career":
       return l.age >= 15;
@@ -44,7 +48,7 @@ export function openExpandedActivity(
   key: Activity,
 ): ExpandedLife {
   if (!activityAvailable(l, key)) return l;
-  const n = structuredClone(l);
+  const n = structuredClone(activateCareerPaths(l));
   n.pending = `expanded.${key}`;
   n.expansion.optionalActivity = n.pending;
   return getExpandedDecision(n) ? n : l;

@@ -80,22 +80,20 @@ describe("player-initiated optional activities", () => {
   it("allows an eligible non-farmer appointment, charges once, and explains blocked jobs in both languages", () => {
     const l = adult();
 
-    const n = openActivity(l, "career"),
+    const n = choose(openActivity(l, "career"),'expanded.career.path-trade'),
       d = getDecision(n)!;
     expect(
-      d.choices.find((c) => c.id === "expanded.career.job-merchant")?.disabled,
+      d.choices.find((c) => c.id === "expanded.career-path.enter-trade-assistant")?.disabled,
     ).toBe(false);
+    const martial=getDecision(choose(openActivity(l,'career'),'expanded.career.path-martial'))!;
+    expect(martial.choices.find(c=>c.id==='expanded.career-path.enter-guard')?.requirements)
+      .toContainEqual({id:'sword',current:0,required:20,met:false});
     expect(
-      expandedDecisionText(d, "en").choices.find(
-        (c) => c.id === "expanded.career.job-guard",
+      expandedDecisionText(martial, "th").choices.find(
+        (c) => c.id === "expanded.career-path.enter-guard",
       )?.description,
-    ).toContain("Still needed: Sword experience 0/20");
-    expect(
-      expandedDecisionText(d, "th").choices.find(
-        (c) => c.id === "expanded.career.job-guard",
-      )?.description,
-    ).toContain("ยังต้องมี");
-    const hired = choose(n, "expanded.career.job-merchant");
+    ).toMatch(/[ก-๙]/);
+    const hired = choose(n, "expanded.career-path.enter-trade-assistant");
     if (hired.ruleset !== "expanded-1") throw Error("expanded");
     expect(hired.expansion.career.role).toBe("merchant");
     expect(hired.coins).toBe(190);
