@@ -1,4 +1,5 @@
 import { trainingDecision, applyTrainingChoice } from "./training-events";
+import { careerProject, applyCareerProject } from './career-work';
 import {
   swordDecision,
   applySwordChoice,
@@ -292,6 +293,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
             x.education.stage !== "graduated" ||
             life.training.magicXp < 500 ||
             x.education.research >= 64,
+          ...(x.careerPaths?{disabled:!careerProject(life,'research') || life.coins<8}:{}),
         }),
         option("later"),
       ];
@@ -538,6 +540,7 @@ export function applyExpandedChoice(
   }
   if (key === "retire" && action === "accept") appoint(life, "retired");
   if (key === "research" && action === "accept") {
+    if(x.careerPaths) {applyCareerProject(life,'research');return null;}
     x.education.research++;
     x.standing.reputation = clamp(x.standing.reputation + 10);
     const feat = `research-${x.study}`;

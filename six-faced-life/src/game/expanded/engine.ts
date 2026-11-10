@@ -25,6 +25,7 @@ import {
 import { creditSwordMentorship } from "./sword-mentors";
 import { queueReadySwordTrial } from "./sword-events";
 import { activateCareerPaths } from './career-migration';
+import { creditCareerWork } from './career-work';
 function syncLearning(life: ExpandedLife, magicXp = 0) {
   life.progression = getProgression(life);
   const track = life.progression.magic[life.progression.specialization];
@@ -213,7 +214,8 @@ function year(life: ExpandedLife) {
   const attending = life.expansion.education.stage === "university";
   applyEducationYear(life);
   const priorRole = life.expansion.career.role;
-  applyCareerYear(life, attendingFullTime);
+  applyCareerYear(life, attendingFullTime || attending);
+  creditCareerWork(life,worldYear(life),{fullTime:attendingFullTime,university:attending});
   applyFamilyYear(life);
   applyPoliticalYear(life);
   if (
