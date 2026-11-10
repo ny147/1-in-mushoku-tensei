@@ -8,6 +8,12 @@ review. Documentation only. No game implementation or publishing authorized.
 and found no inaccurate statement of current career behavior in inspected source.
 This is design review, not application verification or implementation approval.
 
+**Planning follow-up — 2026-11-10:** The user requested an implementation plan
+from this design. See the [eight-task implementation plan](../plans/2026-11-10-career-paths.md)
+for proposed balance, interfaces, migration and verification. This authorizes
+planning; the written plan and numerical defaults await review. No application
+implementation or publishing is authorized by the planning request.
+
 ## Intent
 
 Reduce the number of competing career choices and give each career a recognizable

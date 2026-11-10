@@ -1,3 +1,34 @@
+# Career paths implementation plan — 2026-11-10, 17:21 Bangkok
+
+User requested an implementation plan for the agreed design. Prepared
+[eight-task plan](docs/superpowers/plans/2026-11-10-career-paths.md) on the existing
+clean `codex/career-paths-design` branch, starting at **3cde8da**, with fresh
+`origin/main 0f791ee`. Delivery updates existing **[PR #23](https://github.com/ny147/1-in-mushoku-tensei/pull/23)**,
+base main; inspect `git log -1 --oneline` for this follow-up's exact commit.
+
+Plan covers catalogue/ledger, strict safe-point migration, appointment/pay,
+career-specific annual work and manual projects, six-path decisions/grouped
+training, EN/TH reading/history, seeded save regressions, browser QA and delivery.
+It supplies proposed salaries/promotion gates/request thresholds/project rewards,
+and explicit inherited-role mappings. Teacher-course specialization freezes its
+discipline without changing existing courses or finance purpose identifiers.
+These numeric/default choices are proposals for plan review, not completed rules.
+
+Self-reviewed coverage, interfaces, current paths, engine order, validation before
+migration, old queued offers, teacher ambiguity and single-pay/project limits.
+Checked plan header/eight tasks/local links and documentation whitespace/full diff.
+Application tests/build/browser QA were not run: only documentation changed.
+The plan's checkboxes are all unexecuted. No game code, browser save or hosting
+changed. No known planning/delivery blocker. User merges manually.
+
+Usage observed Nov10 17:21 Bangkok: **85% five-hour /84% weekly remaining**;
+resets Nov10 21:49:58 /Nov16 19:12:05 Bangkok. No billing/reset action.
+Next: user reviews plan and numeric defaults, then chooses execution method.
+Native execution with one independent whole-branch review is recommended for
+the coupled ledger/domain/UI tasks. Do not implement until review; preserve
+the user's chosen method. Before execution recheck Git/fetch/usage and follow
+the plan's Before execution checklist. Historical design checkpoint follows.
+
 # Career paths design — 2026-11-10, 17:04 Bangkok
 
 User agreed to six paths: Farming/everyday work, Trade, Martial service,
