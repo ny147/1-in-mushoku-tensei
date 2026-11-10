@@ -27,6 +27,7 @@ describe("effect presentation boundaries", () => {
   });
   it("quotes promoted job base pay without claiming it replaces a full-time stipend", () => {
     const l = createExpandedLife({ seed: 1 });
+    delete l.expansion.careerPaths; // Already-offered pre-path promotion terms remain supported.
     l.phase = "alive";
     l.age = 18;
     l.pending = "expanded.career";
@@ -124,7 +125,8 @@ describe("effect presentation boundaries", () => {
     l.pending = "expanded.training";
     l.coins = 0;
     l.expansion.economy.familyFunds = 0;
-    const selection = choose(l, "expanded.training.course-guard") as ExpandedLife;
+    const grouped=choose(l,'expanded.training.path-martial');
+    const selection = choose(grouped, "expanded.training.course-guard") as ExpandedLife;
     const quote = choose(selection,'expanded.training-quote.sword-god') as ExpandedLife;
     const restored = JSON.parse(JSON.stringify(quote)) as ExpandedLife;
     const offer = getDecision(restored)!;

@@ -19,6 +19,8 @@ const later = [
   "คุณเก็บโอกาสนี้ไว้พิจารณาในวันหน้า",
 ] as const;
 export const EXPANDED_COPY: Record<string, EventCopy> = {
+  'career-path':event(['Career path','เส้นทางอาชีพ'],['Review the path and its requirements.','ตรวจสอบเส้นทางและเงื่อนไข'],{later}),
+  'career-work':event(['Career work','งานประจำสายอาชีพ'],['Review one project and its possible outcomes.','ตรวจสอบโครงการและผลที่อาจเกิดขึ้น'],{later}),
   'sword-select': event(['Choose your sword style','เลือกรูปแบบวิชาดาบ'],['Each style retains its own experience.','แต่ละรูปแบบเก็บประสบการณ์แยกกัน'],{later}),
   'sword-mentor': event(['Sword mentorship','ฝึกดาบกับอาจารย์'],['Review regional teachers, requirements and one-time fees.','ตรวจสอบอาจารย์ประจำภูมิภาค เงื่อนไขและค่าฝึกครั้งเดียว'],{later}),
   'sword-trial': event(['A manual sword trial','การทดสอบดาบด้วยตนเอง'],['Complete one promotion after a full eligible training year.','เลื่อนระดับหนึ่งขั้นหลังฝึกครบหนึ่งปีที่เข้าเงื่อนไข'],{later}),

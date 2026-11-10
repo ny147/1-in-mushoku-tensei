@@ -12,6 +12,28 @@ import App from "./App";
 import { beginLife, choose, createLife } from "./game/engine";
 import { loadGame, saveGame, SAVE_KEY } from "./game/storage";
 import { createExpandedLife } from "./game/expanded/origins";
+import { enterCareerNode } from './game/expanded/career-paths';
+
+it('keeps a career project manual in Watch mode and persists its exact cost immediately',()=>{
+  vi.useFakeTimers();
+  const l=createExpandedLife({seed:1});l.phase='alive';l.age=25;l.pending=null;l.stats.health=90;
+  l.coins=200;l.expansion.economy.peak=200;enterCareerNode(l,'farmhand');
+  saveGame(window.localStorage,{version:1,active:l,archive:[]});render(<App/>);
+  fireEvent.click(screen.getByRole('checkbox',{name:'Watch mode'}));
+  fireEvent.click(screen.getByText('Optional activities',{exact:true}));
+  fireEvent.click(screen.getByRole('button',{name:'Career work'}));
+  fireEvent.click(screen.getByRole('button',{name:'Play time'}));
+  act(()=>vi.advanceTimersByTime(2200));
+  expect(loadGame(window.localStorage).data.active?.pending).toBe('expanded.career-work');
+  const hidden=vi.spyOn(document,'hidden','get').mockReturnValue(true);
+  act(()=>vi.advanceTimersByTime(1200));
+  expect(loadGame(window.localStorage).data.active?.pending).toBe('expanded.career-work');
+  hidden.mockReturnValue(false);
+  fireEvent.click(screen.getByRole('button',{name:/^Prepare tools and seed /}));
+  const after=loadGame(window.localStorage).data.active;
+  expect(after?.coins).toBe(196);expect(after?.age).toBe(25);
+  expect(after?.ruleset==='expanded-1' && after.expansion.careerPaths?.work.farming.milestones).toBe(1);
+});
 
 it("keeps a live ending still across the chronicle boundary and archive preview", () => {
   const life = beginLife(createLife({ seed: 32 }));
@@ -87,9 +109,17 @@ describe("clear next actions and recovery", () => {
     view.unmount();
     render(<App />);
     expect(
-      screen.getByRole("heading", { name: "An available appointment" }),
+      screen.getByRole("heading", { name: "Choose your career path" }),
     ).toBeTruthy();
     expect(loadGame(window.localStorage).data.active?.age).toBe(35);
+    fireEvent.click(screen.getByRole('button',{name:/^Trade No job/}));
+    const detail=loadGame(window.localStorage).data.active;
+    expect(detail?.pending).toBe('expanded.career-path');
+    expect(detail?.ruleset==='expanded-1' && detail.expansion.careerPaths?.selection).toBe('trade');
+    fireEvent.click(screen.getByRole('button',{name:/^Trade Assistant /}));
+    const hired=loadGame(window.localStorage).data.active;
+    expect(hired?.ruleset==='expanded-1' && hired.expansion.careerPaths?.active).toBe('trade-assistant');
+    expect(hired?.coins).toBe(190);
   });
   it("keeps a voluntarily opened legendary challenge manual in Watch mode and permits declining it", () => {
     vi.useFakeTimers();

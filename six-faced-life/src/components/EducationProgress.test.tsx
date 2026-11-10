@@ -33,6 +33,7 @@ it("enrolls through the visible quote and immediately saves the manual choice", 
       screen.getByRole("region", { name: "Training and education finance" }),
     ).getByRole("button", { name: "Career training" }),
   );
+  fireEvent.click(screen.getByRole('button',{name:/^Martial service /}));
   fireEvent.click(screen.getByRole("button", { name: /^Train as Swordsman/ }));
   fireEvent.click(screen.getByRole('button',{name:/^Sword God Practice one style/}));
   expect(document.activeElement?.id).toBe("decision-heading");
