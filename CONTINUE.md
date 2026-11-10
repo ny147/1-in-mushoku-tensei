@@ -1,3 +1,36 @@
+# Career paths design — 2026-11-10, 17:04 Bangkok
+
+User agreed to six paths: Farming/everyday work, Trade, Martial service,
+Adventuring, Magic/scholarship, Healing/religious service. Mage and Professor
+share a professional/academic path; healing remains separate. Adventuring uses
+only **F → D → B → S**; the seven-rank proposal was rejected as too many ranks.
+
+Written design: [six career paths](docs/superpowers/specs/2026-11-10-career-paths-design.md).
+Structural direction is agreed; the written document awaits review. Annual work
+representing routine requests and inherited adventurer ranks are explicitly
+author proposals. Exact balance and detailed migration belong in the later plan.
+No application implementation or publishing has been authorized.
+
+Branch `codex/career-paths-design`, clean start from fetched `origin/main 0f791ee`.
+Design commit **a4188d9** is pushed in **[PR #23](https://github.com/ny147/1-in-mushoku-tensei/pull/23)**,
+base **main**. This checkpoint follows in a documentation commit; inspect
+`git log -2 --oneline` for the final delivery SHA. User merges manually.
+
+Checks: all design-local Markdown links resolve; source responsibilities and
+full design diff reviewed; whitespace checked. Independent read-only builder
+review reported "nothing important left" and no inaccurate current-behavior
+statement in inspected source. Application tests/build/browser QA were not run
+for this documentation-only change. No player storage or hosting was touched.
+Final fetch succeeded; task contains current `origin/main 0f791ee` (zero behind).
+
+Usage observed Nov10 17:04 Bangkok: **92% five-hour /85% weekly remaining**.
+Resets: Nov10 21:49:58 /Nov16 19:12:06 Bangkok. No billing or reset action.
+No unresolved delivery blocker or application changes.
+Next: review the written design and its marked proposals. After written-design
+approval, invoke writing-plans and produce the detailed implementation plan;
+do not start game implementation from structural approval alone. Recheck actual
+Git status, fetch and usage before resuming work. Historical checkpoints follow.
+
 # Pixel head/wardrobe correction — 2026-11-09
 
 User reported head/clothing misalignment and confirmed that interpretation.
