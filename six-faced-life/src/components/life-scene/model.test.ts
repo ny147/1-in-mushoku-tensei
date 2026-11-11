@@ -1,19 +1,86 @@
 import { describe, expect, it } from "vitest";
 import { sampleSceneFacts, resolveScene } from "./model";
-import { expandedSceneLife, legacySceneLife } from "./fixtures";
+import {
+  expandedSceneLife,
+  expandedFamilySceneLife,
+  legacySceneLife,
+} from "./fixtures";
+import { divorce, recordFamilyDeath } from "../../game/expanded/family";
 import { FOCUSES, RACES, REGIONS } from "../../game/world";
 import { OCCUPATIONS } from "../../game/expanded/balance";
 import { getProgression } from "../../game/progression";
 import { allocateSwordStyle } from "../../game/expanded/sword-state";
-import { CAREER_NODES } from '../../game/expanded/career-catalogue';
+import { CAREER_NODES } from "../../game/expanded/career-catalogue";
 
 describe("read-only life scene", () => {
-  it('uses underlying outfits for every new career title without title parsing',()=>{
-    for(const n of Object.values(CAREER_NODES)) {
-      const l=expandedSceneLife();l.age=25;l.focus='balanced';l.expansion.career.role=n.occupation;
-      const before=JSON.stringify(l);
+  it("shows recorded co-regional spouses and direct children without changing the save", () => {
+    const l = expandedFamilySceneLife();
+    const before = JSON.stringify(l);
+    const family = resolveScene(sampleSceneFacts(l)).family;
+    expect(family.map((p) => p.role)).toEqual(["spouse", "child"]);
+    expect(family[1]).toMatchObject({ stage: "infant", outfit: "neutral" });
+    expect(JSON.stringify(l)).toBe(before);
+  });
+  it("hides former spouses independently of their living children", () => {
+    const l = expandedFamilySceneLife();
+    const spouse = l.expansion.family.people.find((p) => p.role === "spouse")!;
+    divorce(l, spouse.id);
+    expect(resolveScene(sampleSceneFacts(l)).family.map((p) => p.role)).toEqual(
+      ["child"],
+    );
+    // An introduction without a marriage must not be depicted as a couple.
+    l.expansion.family.marriages = [];
+    expect(resolveScene(sampleSceneFacts(l)).family.map((p) => p.role)).toEqual(
+      ["child"],
+    );
+  });
+  it("hides dead and distant family and updates when the protagonist travels", () => {
+    const l = expandedFamilySceneLife();
+    const spouse = l.expansion.family.people.find((p) => p.role === "spouse")!;
+    const child = l.expansion.family.people.find((p) => p.role === "child")!;
+    child.home = l.region === "asura" ? "ranoa" : "asura";
+    expect(resolveScene(sampleSceneFacts(l)).family.map((p) => p.id)).toEqual([
+      spouse.id,
+    ]);
+    l.region = child.home;
+    expect(resolveScene(sampleSceneFacts(l)).family.map((p) => p.id)).toEqual([
+      child.id,
+    ]);
+    recordFamilyDeath(l, child.id);
+    expect(resolveScene(sampleSceneFacts(l)).family).toEqual([]);
+    l.region = spouse.home;
+    recordFamilyDeath(l, spouse.id);
+    expect(resolveScene(sampleSceneFacts(l)).family).toEqual([]);
+  });
+  it("uses the child's own age and race and never invents family for legacy or ended lives", () => {
+    const l = expandedFamilySceneLife();
+    const child = l.expansion.family.people.find((p) => p.role === "child")!;
+    child.race = "elf";
+    child.born = l.expansion.birthYear + l.age - 20;
+    expect(resolveScene(sampleSceneFacts(l)).family[1]).toMatchObject({
+      race: "elf",
+      stage: "adult",
+    });
+    child.born = l.expansion.birthYear + l.age + 1;
+    expect(resolveScene(sampleSceneFacts(l)).family.map((p) => p.role)).toEqual(
+      ["spouse"],
+    );
+    l.phase = "ended";
+    expect(resolveScene(sampleSceneFacts(l)).family).toEqual([]);
+    expect(resolveScene(sampleSceneFacts(legacySceneLife())).family).toEqual(
+      [],
+    );
+  });
+  it("uses underlying outfits for every new career title without title parsing", () => {
+    for (const n of Object.values(CAREER_NODES)) {
+      const l = expandedSceneLife();
+      l.age = 25;
+      l.focus = "balanced";
+      l.expansion.career.role = n.occupation;
+      const before = JSON.stringify(l);
       expect(sampleSceneFacts(l).occupation).toBe(n.occupation);
-      resolveScene(sampleSceneFacts(l));expect(JSON.stringify(l)).toBe(before);
+      resolveScene(sampleSceneFacts(l));
+      expect(JSON.stringify(l)).toBe(before);
     }
   });
   it("settles an ended infant into an ending pose", () => {

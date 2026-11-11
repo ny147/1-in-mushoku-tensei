@@ -7,10 +7,14 @@ import {
   type CSSProperties,
 } from "react";
 import { useI18n } from "../../i18n/context";
-import { sceneDescription, sceneWords } from "../../i18n/life-scene";
+import {
+  sceneDescription,
+  sceneFamilyDescription,
+  sceneWords,
+} from "../../i18n/life-scene";
 import { REGIONS } from "../../game/world";
 import { Landscape } from "../Landscape";
-import { getSceneLayers } from "./assets";
+import { getSceneLayers, getCompanionLayers } from "./assets";
 import type { SceneLayer, ScenePresentation } from "./types";
 import "./scene.css";
 
@@ -37,7 +41,22 @@ export function PixelLifeScene({
       return [];
     }
   }, [model, presentation.clip]);
-  const urls = [...new Set(layers.map((l) => l.asset.url))];
+  const companions = useMemo(() => {
+    try {
+      return model.family.map((person) => ({
+        person,
+        layers: getCompanionLayers(person),
+      }));
+    } catch {
+      return null;
+    }
+  }, [model.family]);
+  const urls = [
+    ...new Set([
+      ...layers.map((l) => l.asset.url),
+      ...(companions ?? []).flatMap((c) => c.layers.map((l) => l.asset.url)),
+    ]),
+  ];
   const signature = urls.join("|");
   const [loaded, setLoaded] = useState("");
   useEffect(() => {
@@ -95,7 +114,12 @@ export function PixelLifeScene({
       window.removeEventListener("scroll", fallback);
     };
   }, [onVisibilityChange, model.lifeId]);
-  const ready = !!signature && loaded === signature;
+  const ready =
+    !!signature &&
+    loaded === signature &&
+    companions !== null &&
+    layers.length > 0;
+  const familyDescription = sceneFamilyDescription(model, language);
   function style(layer: SceneLayer): CSSProperties {
     const effect = layer.anchor === "effect";
     const hero = layer.anchor === "hero";
@@ -170,7 +194,9 @@ export function PixelLifeScene({
         <span>{t(REGIONS[model.region].name)}</span>
         <span>{ageText}</span>
       </div>
-      <div className="pixel-stage">
+      <div
+        className={`pixel-stage${model.family.length ? " pixel-stage-family" : ""}`}
+      >
         <div className="scene-caption">
           <span>
             {t(
@@ -203,19 +229,41 @@ export function PixelLifeScene({
           </p>
         </div>
         <div className="pixel-performer" aria-hidden="true">
+          <div className="pixel-protagonist">
+            {ready &&
+              layers
+                .filter(
+                  (layer) =>
+                    layer.anchor === "hero" || layer.anchor === "effect",
+                )
+                .map((layer, index) => (
+                  <div
+                    key={`${layer.id}-${index}`}
+                    className={`pixel-layer pixel-${layer.anchor}`}
+                    style={style(layer)}
+                  />
+                ))}
+          </div>
           {ready &&
-            layers
-              .filter(
-                (layer) => layer.anchor === "hero" || layer.anchor === "effect",
-              )
-              .map((layer, index) => (
-                <div
-                  key={`${layer.id}-${index}`}
-                  className={`pixel-layer pixel-${layer.anchor}`}
-                  style={style(layer)}
-                />
-              ))}
+            companions?.map(({ person, layers: familyLayers }) => (
+              <div
+                className="pixel-companion"
+                data-companion-id={person.id}
+                key={person.id}
+              >
+                {familyLayers.map((layer) => (
+                  <div
+                    key={layer.id}
+                    className="pixel-layer pixel-hero"
+                    style={style(layer)}
+                  />
+                ))}
+              </div>
+            ))}
         </div>
+        {familyDescription && (
+          <p className="pixel-family-caption">{familyDescription}</p>
+        )}
       </div>
       <div className="pixel-footer">
         <span className="scene-art-note">{words.art}</span>

@@ -91,6 +91,14 @@ language, accessibility and recovery behavior applies to both rulesets.
 
 ## Pixel life scene
 
+Expanded chronicles show living partners in active marriages and direct children
+whose recorded home matches the protagonist's current region. Their pixel sprites
+use their own race and age. An English/Thai “Together here” caption names the
+present family. Separated, deceased and away partners are hidden; children are
+checked independently. Region is the available proxy for living together.
+Legacy and completed lives do not gain invented family members. Family artwork
+is visual only and follows existing scene motion and fallback rules.
+
 The active chronicle uses original layered pixel artwork for the current region,
 race and life stage. Everyday clothes follow the primary occupation. Magic or
 sword focus uses training clothes and the selected discipline's earned capped

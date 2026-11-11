@@ -39,17 +39,42 @@ export function sceneDescription(
   const index = language === "th" ? 1 : 0;
   const race = translate(language, RACES[model.race].name);
   const region = translate(language, REGIONS[model.region].name);
-  return language === "th"
-    ? `ฉากพิกเซล: ${race} ${stages[model.stage][index]} ${activities[model.activity][index]} — ${region}`
-    : `Pixel scene: ${stages[model.stage][index]} ${race}, ${activities[model.activity][index]} — ${region}`;
+  const description =
+    language === "th"
+      ? `ฉากพิกเซล: ${race} ${stages[model.stage][index]} ${activities[model.activity][index]} — ${region}`
+      : `Pixel scene: ${stages[model.stage][index]} ${race}, ${activities[model.activity][index]} — ${region}`;
+  const family = sceneFamilyDescription(model, language);
+  return family ? `${description}. ${family}` : description;
+}
+export function sceneFamilyDescription(
+  model: SceneModel,
+  language: Language,
+): string {
+  if (!model.family.length) return "";
+  const people = model.family
+    .map((person) => {
+      const role =
+        person.role === "spouse"
+          ? language === "th"
+            ? "คู่ครอง"
+            : "Partner"
+          : language === "th"
+            ? "ลูก"
+            : "Child";
+      return `${person.name} (${role})`;
+    })
+    .join(" · ");
+  return `${sceneWords[language].together}: ${people}`;
 }
 export const sceneWords = {
   en: {
+    together: "Together here",
     motion: "Scene motion",
     art: "An imagined regional view",
     reduced: "Your device requests reduced motion.",
   },
   th: {
+    together: "อยู่ด้วยกันที่นี่",
     motion: "การเคลื่อนไหวของฉาก",
     art: "ทิวทัศน์ภูมิภาคในจินตนาการ",
     reduced: "อุปกรณ์ของคุณตั้งค่าให้ลดการเคลื่อนไหว",

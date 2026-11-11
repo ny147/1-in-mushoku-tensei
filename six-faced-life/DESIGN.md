@@ -336,6 +336,16 @@ The chronicle rail and character view use the same compact Sword styles section:
 
 ## Pixel life scene
 
+When recorded family is present, the caption leads a wrapping group of 128px
+sprite boxes (64px cells at 2×), beginning with the protagonist. Each living,
+co-regional spouse in an active marriage and direct child uses their own race and
+age-stage body with everyday clothes and the idle loop. The scene grows to fit
+large households. A 12px English/Thai “Together here” caption names people and
+relationships, with the same information in the accessible scene description.
+It reuses the motion control's dark forest surface `#173b2de8` beneath ivory text.
+No eligible family means no family caption or extra layout. Existing reduced-motion,
+visibility, settled-ending and loading/error fallback rules cover all sprites.
+
 The active chronicle uses original layered pixel artwork for the current region,
 race and life stage. Everyday clothes follow the primary occupation. Magic or
 sword focus uses training clothes and the selected discipline's earned capped

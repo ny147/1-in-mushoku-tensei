@@ -1,5 +1,11 @@
 import manifest from "./assets.json";
-import type { AssetRecord, ClipId, SceneLayer, SceneModel } from "./types";
+import type {
+  AssetRecord,
+  ClipId,
+  SceneCompanion,
+  SceneLayer,
+  SceneModel,
+} from "./types";
 export const CLIPS: readonly ClipId[] = [
   "idle",
   "observe",
@@ -20,6 +26,26 @@ export const CLIPS: readonly ClipId[] = [
   "prepare",
 ];
 const assets: Readonly<Record<string, AssetRecord>> = manifest.assets;
+export function getCompanionLayers(
+  person: SceneCompanion,
+): readonly SceneLayer[] {
+  return [
+    `bodies/${person.race}-${person.stage}`,
+    `outfits/${person.stage}-${person.outfit}`,
+  ].map((id, z) => {
+    const asset = assets[id];
+    if (!asset) throw new Error(`Missing pixel scene asset: ${id}`);
+    return {
+      id,
+      asset,
+      anchor: "hero",
+      row: 0,
+      frames: 4,
+      durationMs: 1000,
+      z,
+    };
+  });
+}
 export function getSceneLayers(
   model: SceneModel,
   clip: ClipId,
