@@ -193,6 +193,44 @@
   align-self: end;
   min-height: 128px;
 }
+.pixel-protagonist,
+.pixel-companion {
+  position: relative;
+  flex: 0 0 128px;
+  width: 128px;
+  height: 128px;
+}
+.pixel-protagonist {
+  margin-inline: auto;
+}
+.pixel-stage-family {
+  grid-template-columns: minmax(0, 1fr);
+}
+.pixel-stage-family .pixel-performer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: end;
+  gap: 0 4px;
+}
+.pixel-stage-family .pixel-protagonist {
+  margin: 0;
+}
+.pixel-family-caption {
+  margin: 0;
+  color: var(--white);
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.pixel-stage-family .scene-caption {
+  max-width: 32rem;
+}
+.pixel-stage-family .pixel-family-caption {
+  background: #173b2de8;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
 .pixel-performer .pixel-hero {
   left: 50%;
   bottom: 0;

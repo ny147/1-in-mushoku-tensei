@@ -16,6 +16,7 @@ import type {
   SceneFacts,
   SceneModel,
   SceneOccupation,
+  SceneCompanion,
 } from "./types";
 
 function earnedRank(xp: number, cap: number): Rank {
@@ -72,6 +73,7 @@ export function sampleSceneFacts(life: Life): SceneFacts {
     marriageKeys:
       expanded?.family.marriages.map((m) => `${m.person}:${m.start}`) ?? [],
     directBorn: expanded?.family.directBorn ?? null,
+    family: sampleFamily(life),
   };
 }
 const STAGES: Record<string, AgeStage> = {
@@ -81,6 +83,51 @@ const STAGES: Record<string, AgeStage> = {
   Adulthood: "adult",
   "Later years": "elder",
 };
+function sampleFamily(life: Life): readonly SceneCompanion[] {
+  if (life.ruleset !== "expanded-1" || life.phase === "ended") return [];
+  const { family, birthYear } = life.expansion;
+  const year = birthYear + life.age;
+  const spouses = new Set(
+    family.marriages.filter((m) => m.end === null).map((m) => m.person),
+  );
+  return family.people.flatMap((person): SceneCompanion[] => {
+    if (
+      person.died !== null ||
+      person.home !== life.region ||
+      person.born > year
+    )
+      return [];
+    if (
+      person.role !== "child" &&
+      !(
+        person.role === "spouse" &&
+        person.partner === "self" &&
+        spouses.has(person.id)
+      )
+    )
+      return [];
+    const stage = STAGES[lifeStage(year - person.born, person.race)];
+    return [
+      {
+        id: person.id,
+        name: person.name,
+        role: person.role,
+        race: person.race,
+        stage,
+        outfit:
+          stage === "infant"
+            ? "neutral"
+            : stage === "elder"
+              ? "retired"
+              : stage === "child" || stage === "teen"
+                ? person.occupation === "student"
+                  ? "student"
+                  : "child"
+                : "neutral",
+      },
+    ];
+  });
+}
 const ACTIVITIES: Record<Focus, ClipId> = {
   balanced: "observe",
   magic: "magic",
@@ -94,6 +141,7 @@ const ACTIVITIES: Record<Focus, ClipId> = {
 export function resolveScene(f: SceneFacts): SceneModel {
   const stage = STAGES[lifeStage(f.age, f.race)];
   const base: SceneModel = {
+    family: f.family,
     age: f.age,
     careerTitle: f.careerTitle,
     calendarYear: f.calendarYear,

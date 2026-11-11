@@ -10,6 +10,14 @@ import type { SwordStyle } from "../../game/expanded/sword-state";
 export type AgeStage = "infant" | "child" | "teen" | "adult" | "elder";
 export type Rank = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export type SceneOccupation = Occupation | "neutral";
+export interface SceneCompanion {
+  readonly id: string;
+  readonly name: string;
+  readonly role: "spouse" | "child";
+  readonly race: RaceId;
+  readonly stage: AgeStage;
+  readonly outfit: SceneOccupation;
+}
 export type ClipId =
   | "idle"
   | "observe"
@@ -46,8 +54,10 @@ export interface SceneFacts {
   readonly legacySwordRank: Rank | null;
   readonly marriageKeys: readonly string[];
   readonly directBorn: number | null;
+  readonly family: readonly SceneCompanion[];
 }
 export interface SceneModel {
+  family: readonly SceneCompanion[];
   age: number;
   careerTitle: string;
   calendarYear: number | null;

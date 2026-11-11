@@ -1,3 +1,42 @@
+# Family pixel scene — implemented for review, 2026-11-11
+
+User confirmed only living family who share the protagonist's current region
+should appear, then approved the written design and implementation. Task branch:
+`codex/family-pixel-scene`, freshly based on `origin/main 2714a94`.
+PR #24: https://github.com/ny147/1-in-mushoku-tensei/pull/24, base main.
+Implementation commit `565ab7c`; this delivery checkpoint follows it (inspect
+`git log -2 --oneline` for its SHA). The user merges manually. No publication.
+
+Built recorded spouse/direct-child pixel companions using existing race/age
+sprites and bilingual “Together here” names. Spouses require an active marriage
+and partnership with self. Dead, separated and away people are hidden; children
+are independent of marriage. Region equality is the available home proxy.
+Family uses existing idle/motion/fallback rules; large households wrap. No
+simulation, RNG, dependency, save-schema or storage-key changes.
+
+Verification: 487/487 tests in 70 files PASS (89.11s); TypeScript/Vite production
+build PASS with existing >500 kB bundle advisory. New selection/render/translation
+regressions were observed RED then GREEN; 33 focused tests pass. Desktop 1280 and
+phone 390, English/Thai, keyboard motion stop, reload idle, separated/away and
+18-person family checked on isolated 5174; no clipping or horizontal overflow.
+Previous QA save restored; player 5173 storage untouched. Automated tests cover
+reduced motion and failed-art fallback; no manual OS-preference claim. Initial
+synthetic QA fixture peak-wealth error was fixed before use; no app console error.
+Independent whole-branch review: no actionable findings. Detector advisories
+were existing scene colors/type and deliberate reuse of its dark motion surface,
+now documented in DESIGN.md. No unresolved source defect.
+
+Spec: docs/superpowers/specs/2026-11-11-family-pixel-scene-design.md.
+Plan/ledger: docs/superpowers/plans/2026-11-11-family-pixel-scene.md.
+Ignored QA harness, test log and screenshot remain under .openai/ and checkpoints/.
+Usage Nov11 20:21 Bangkok: 32% five-hour /52% weekly remaining; resets
+Nov12 00:34:07 /Nov16 19:12:05 Bangkok. No billing/reset action.
+Fresh final fetch confirms latest origin/main 2714a94 is included.
+Delivery: branch pushed with its own upstream; PR open for review. GitHub CI
+started and was pending at creation; local required tests/build passed. No merge,
+auto-merge or branch deletion. Next: human PR review and manual merge after CI.
+For further changes recheck status/fetch/usage; continue this branch and PR.
+
 # Career paths — implemented for review, 2026-11-11
 
 User approved native implementation and requested continuation. Existing branch
