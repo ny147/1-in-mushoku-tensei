@@ -169,7 +169,7 @@ export function enterCareerNode(
   )
     return false;
   const earned = Object.values(CAREER_NODES)
-    .filter((v) => v.branch === n.branch && ns.earned[v.id])
+    .filter((v) => v.branch === n.branch && v.occupation===n.occupation && ns.earned[v.id])
     .sort((a, b) => b.pay - a.pay)[0];
   rememberNode(next, earned?.id ?? id, "appointment");
   Object.assign(l, next);

@@ -145,8 +145,12 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
       key: "expanded.education-choice",
       params: { title: educationText.label, text: educationText.outcome },
     };
-  const careerOutcome=careerChoiceOutcome(life,next,id,next.language??'en');
-  if(careerOutcome)next.history[next.history.length-1].message={key:'expanded.education-choice',params:{title:next.language==='th'?educationText?.label??c.label:c.label,text:careerOutcome}};
+  const careerOutcome=careerChoiceOutcome(life,next,id,'en');
+  if(careerOutcome) {
+    const record=next.history[next.history.length-1];
+    record.text=careerOutcome;
+    record.message={key:'expanded.career-choice',params:{titleTh:educationText?.label??c.label,textTh:careerChoiceOutcome(life,next,id,'th')??careerOutcome}};
+  }
   if (cause)
     next.history[next.history.length - 1].message = {
       key: "expanded.fatal-choice",

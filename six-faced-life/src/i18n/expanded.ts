@@ -856,6 +856,7 @@ export function expandedEntryText(
 ): { title: string; text: string } | null {
   const key = entry.message?.key;
   if (!key?.startsWith("expanded.")) return null;
+  if(key==='expanded.career-choice')return language==='th'?{title:String(entry.message?.params?.titleTh??entry.title),text:String(entry.message?.params?.textTh??entry.text)}:{title:entry.title,text:entry.text};
   if (key === "expanded.education-choice" && language === "th")
     return {
       title: String(entry.message?.params?.title ?? entry.title),

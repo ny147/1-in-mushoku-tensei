@@ -12,6 +12,7 @@ import { CAREER_NODES, type CareerNodeId } from "./career-catalogue";
 import { loadGame, saveGame, isLife } from "../storage";
 import { allocateSwordStyle, syncSwordCompatibility } from "./sword-state";
 import type { ExpandedLife } from "../types";
+import { activateCareerPaths } from './career-migration';
 
 function qualified() {
   const l = createExpandedLife({ seed: 1 });
@@ -64,6 +65,24 @@ function settle(l: ExpandedLife) {
   return l;
 }
 describe("complete career journeys and save futures", () => {
+  it.each(['professor','knight'] as const)('re-enters ordinary work after %s without restoring a different occupation or bypassing vacancies',prestige=>{
+    for(const inherited of [false,true]) {
+      let l=qualified();l.expansion.education.stage='graduated';l.expansion.education.successfulYears=4;l.expansion.education.research=2;l.expansion.career.records.teacher.years=5;
+      const ordinary=prestige==='professor'?'magic-teacher':'sworn-service';
+      expect(enterCareerNode(l,ordinary)).toBe(true);
+      for(let seed=0;seed<1000;seed++){l.expansion.worldSeed=seed;if(careerVacancy(l,prestige))break;}
+      expect(enterCareerNode(l,prestige)).toBe(true);
+      if(inherited){delete l.expansion.careerPaths;l=activateCareerPaths(l);}
+      expect(enterCareerNode(l,'laborer')).toBe(true);
+      for(let seed=0;seed<1000;seed++){l.expansion.worldSeed=seed;if(!careerVacancy(l,prestige))break;}
+      l=openExpandedActivity(l,'career');l=chooseExpanded(l,`expanded.career.path-${prestige==='professor'?'magic':'martial'}`);
+      l=chooseExpanded(l,`expanded.career-path.enter-${ordinary}`);
+      expect(l.expansion.career.role).toBe(prestige==='professor'?'teacher':'guard');
+      expect(CAREER_NODES[l.expansion.careerPaths!.active!].occupation).toBe(l.expansion.career.role);
+      expect(l.expansion.careerPaths!.active).not.toBe(prestige);
+      expect(isLife(l)).toBe(true);expect(reload(l)).toEqual(l);
+    }
+  });
   it.each<[CareerNodeId, CareerNodeId, number]>([
     ["farmhand", "farmer", 2],
     ["trade-assistant", "merchant", 2],
