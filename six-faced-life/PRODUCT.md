@@ -122,3 +122,24 @@ when the player changes filters. Current economic UI uses silver / เหรี�
 including funding requirements and debt; historical and current outcome narrative
 retain their original wording. No simulation, save-schema or historical-copy
 migration accompanies these presentation changes.
+
+
+## Six career paths
+
+Expanded lives now browse six paths: Farming/everyday work, Trade, Martial service,
+Adventuring, Magic/scholarship, and Healing/religious service. Related jobs become
+branches and earned titles. Adventurers use only F → D → B → S, an authored
+simplification. Professional mages can work without university; Professor retains
+degree/research/teaching and vacancy requirements. Healing has secular and cleric
+branches. Qualified sword specialists can teach without becoming mages.
+
+Career-specific annual work and one optional manual project per year develop
+progress. Costs, chances and outcomes are disclosed; promotions can be deferred.
+Only one occupation pays. Full-time training pays24 silver instead of wages;
+part-time keeps wages. Existing courses, interest-free provider loans and university
+remain. New teaching courses retain their quoted discipline across study changes.
+
+Active old expanded lives retain recorded work, occupation-specific earned pay and
+inherited recognition without invented requests. Conversion waits for old pending
+and queued offers to resolve. Legacy and completed lives keep their original rules
+and factual records. Save keys and browser origins remain unchanged.

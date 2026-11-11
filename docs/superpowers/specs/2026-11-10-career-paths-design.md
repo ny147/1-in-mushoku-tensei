@@ -1,8 +1,9 @@
 # Six career paths
 
 **Date:** 2026-11-10, Asia/Bangkok.
-**Status:** Career structure agreed in conversation; this written design awaits
-review. Documentation only. No game implementation or publishing authorized.
+**Status:** Implemented after user approval of the plan and native execution.
+Completed for human review2026-11-11; see [verification](../../verification/career-paths.md).
+Historical planning statements below are retained for provenance. No publication authorized.
 **Branch:** `codex/career-paths-design`, from fetched `origin/main` at `0f791ee`.
 **Builder check:** A fresh read-only reviewer reported "nothing important left"
 and found no inaccurate statement of current career behavior in inspected source.

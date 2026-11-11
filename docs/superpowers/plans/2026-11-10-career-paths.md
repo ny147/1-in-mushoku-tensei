@@ -15,7 +15,9 @@ preserve old pending decisions by delaying activation until their queue clears.
 
 **Spec:** [Six career paths design](../specs/2026-11-10-career-paths-design.md).
 
-**Status:** Requested implementation plan, 2026-11-10. No task below is executed.
+**Status:** Implemented for human review2026-11-11; see the execution ledger below.
+
+**Historical planning status:** Requested implementation plan, 2026-11-10.
 The request to create this plan authorizes planning from the design, not application
 implementation. All numeric values and migration choices below are proposed
 implementation defaults for review. Continue documentation delivery in
@@ -574,10 +576,20 @@ career redesign, not independently deployed subsystem projects.
 | Item | Status | Evidence |
 | --- | --- | --- |
 | Plan prepared and self-reviewed | Complete | Source paths, engine order, storage migration/validation and task interfaces inspected |
-| Plan/numeric defaults approved for execution | Pending | User reviews this document and chooses execution method |
-| Baseline tests/build | Not run | Planning-only session |
-| Tasks1–8 | Not started | No application changes |
+| Plan/numeric defaults approved for execution | Approved | User requested native implementation and later continuation |
+| Baseline tests/build | PASS | 396/396; build PASS |
+| Tasks1–8 | Complete | Final478/478, build PASS; browser/review evidence linked below |
 
 Resume at the first unchecked execution step only after plan review. Preserve
 completed evidence and log exact commits as tasks finish; use this ledger and
 `CONTINUE.md` rather than a competing checkpoint.
+
+
+## Execution completion — 2026-11-11
+
+User approved native implementation. Tasks1–7 commits:4b18e6c,3456181,43b2563,
+3692015,b6d946c,5d72f86,5127661. Review fixes and delivery follow in Git history.
+Final478/478 tests and build PASS. [Verification](../../verification/career-paths.md)
+records browser coverage, independent review, rulings and deferred minor. Original
+checkboxes above preserve the planning brief; completion evidence is this ledger,
+the verification record and task commits. No publishing or automatic merge.

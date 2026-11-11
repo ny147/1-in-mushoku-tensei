@@ -1,3 +1,32 @@
+# Career paths — implemented for review, 2026-11-11
+
+User approved native implementation and requested continuation. Existing branch
+`codex/career-paths-design`; PR23 base main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/23
+Tasks1–7 through5127661, review fixes/delivery follow in Git history. See
+`git log -3 --oneline` for final SHAs. User merges manually; no publication.
+
+Built six career paths, F/D/B/S adventurers, professional/academic magic,
+healing/cleric and martial branches, distinct work/projects, grouped training,
+EN/TH reader and actual outcomes. Existing records/pay/courses/loans and pending
+choices survive migration; legacy/completed lives retain their facts.
+
+Final478/478 tests in70files (87.39s), build PASS with existing bundle advisory.
+Independent review's prestige reentry defect fixed via RED→GREEN production-flow
+save regressions; actual bilingual outcome defect also fixed RED→GREEN. No
+unresolved Critical/Important issue. Minor deferred: repeated description/effects
+copy. Full evidence/limits: docs/verification/career-paths.md. Review rulings there.
+
+Browser EN/TH1280/390, promotion/reload, inherited rank/teacher, cleric, academic
+research, part-time26-silver loan and ending/archive navigation checked on isolated
+5174. No player5173 storage touched. Populated archive/storage failure/reduced-motion
+coverage is automated, not manually claimed. Ignored fixtures/logs preserved.
+
+Resume observation:88% five-hour /64% weekly remaining. No billing/reset action.
+Fresh fetch confirms task contains origin/main0f791ee. Exact delivery commit follows.
+Next: human PR review and manual merge after CI. Recheck actual Git/fetch/usage
+before further changes; do not repeat completed implementation. Historical notes:
+
 # Career paths implementation plan — 2026-11-10, 17:21 Bangkok
 
 User requested an implementation plan for the agreed design. Prepared
