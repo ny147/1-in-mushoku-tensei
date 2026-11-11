@@ -10,6 +10,7 @@ import { ensureEducationAccess } from "./education-access-state";
 import { fact } from "./facts";
 import { clamp } from "./random";
 import { getProgression } from "../progression";
+import { syncCareerNode } from './career-paths';
 export interface Requirement {
   id: string;
   current: number;
@@ -116,6 +117,7 @@ export function enrollUniversity(
   x.origin.locality = "university";
   life.region = "ranoa";
   x.career.role = "student";
+  syncCareerNode(life);
   life.career = "student";
   life.progression = getProgression(life);
   fact(life, "education", scholarship ? "scholarship" : "enrolled");

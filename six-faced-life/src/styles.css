@@ -4,6 +4,22 @@
   font-weight: 100 900;
   font-display: swap;
 }
+
+.career-paths .career-path-label {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.career-paths .career-path-pay { font-weight: 600; }
+.career-next { border-left: 2px solid var(--green); padding-left: 12px; margin-block: 16px; }
+.career-path-guidance, .career-inherited { color: var(--muted); font-size: 12px; }
+.career-path-list { border-top: 1px solid var(--line); margin-block: 16px; }
+.career-path-group { border-bottom: 1px solid var(--line); padding-block: 8px; }
+.career-path-group > summary { color: var(--ink); font-weight: 600; cursor: pointer; }
+.career-branch { padding: 8px 0 8px 12px; overflow-wrap: anywhere; }
+.career-branch + .career-branch { border-top: 1px solid var(--line); }
+.career-earned { color: var(--green); font-size: 12px; }
+.career-paths :is(.requirement-list, .career-history) { overflow-wrap: anywhere; }
 @font-face {
   font-family: LifeThaiSerif;
   src: url("/assets/notoserifthai.ttf") format("truetype");

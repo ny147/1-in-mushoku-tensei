@@ -4,6 +4,7 @@ import { cleanup, render, screen, within } from "@testing-library/react";
 import { LanguageProvider } from "../i18n/context";
 import { DecisionPanel } from "./LifeView";
 import { createExpandedLife } from "../game/expanded/origins";
+import { enterCareerNode } from '../game/expanded/career-paths';
 import { beginLife, createLife } from "../game/engine";
 import type { ExpandedLife, Language, Life } from "../game/types";
 
@@ -82,11 +83,12 @@ describe("consequences before choosing", () => {
     ).toContain("Public trust +5");
     cleanup();
     const l = fixture("research");
+    enterCareerNode(l,'laborer');
     l.expansion.education.stage = "graduated";
     l.training.magicXp = 500;
     show(l);
     expect(
-      screen.getByRole("button", { name: /Complete a research project/ })
+      screen.getByRole("button", { name: /Undertake research/ })
         .textContent,
     ).toContain("Reputation +10");
   });

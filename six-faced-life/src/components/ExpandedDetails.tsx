@@ -13,6 +13,7 @@ import {
 import { educationRequirements } from "../game/expanded/education";
 import { OCCUPATIONS } from "../game/expanded/balance";
 import { descendantCounts } from "../game/expanded/family";
+import { CareerPaths } from './CareerPaths';
 
 export function ExpandedDetails({
   life,
@@ -131,6 +132,7 @@ export function ExpandedCareer({ life }: { life: ExpandedLife }) {
     x = life.expansion,
     label = (key: string) => expandedLabel(key, language),
     record = x.career.records[x.career.role];
+  if(x.careerPaths)return <CareerPaths life={life}/>;
   return (
     <section className="rail-section expanded-career">
       <h2>{th ? "งานและโอกาส" : "Work and opportunity"}</h2>

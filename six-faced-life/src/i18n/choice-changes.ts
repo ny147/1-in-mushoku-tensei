@@ -14,6 +14,7 @@ import { effectDelta, effectNumber, effectText } from "./effect-text";
 import { translate } from "./messages";
 import { SWORD_STYLES, swordRank } from "../game/expanded/sword-state";
 import { swordStyleName, swordRankName } from "./sword";
+import { careerNodeText } from './careers';
 
 /** Actual differences only; a failed/no-op action must never announce promised gains. */
 export function choiceChanges(before: Life, after: Life): string[] {
@@ -111,6 +112,15 @@ export function choiceChanges(before: Life, after: Life): string[] {
       ),
     );
   if (before.ruleset === "expanded-1" && after.ruleset === "expanded-1") {
+    const ca=before.expansion.careerPaths,cb=after.expansion.careerPaths;
+    if(ca && cb) {
+      if(ca.active!==cb.active && cb.active)changes.push(text(`Career → ${careerNodeText(cb.active,'en')}`,`อาชีพ → ${careerNodeText(cb.active,'th')}`));
+      delta('Completed requests','คำขอสำเร็จ',ca.requests,cb.requests);
+      for(const branch of Object.keys(cb.work) as (keyof typeof cb.work)[]) {
+        delta('Work progress','ความก้าวหน้างาน',ca.work[branch].units,cb.work[branch].units);
+        delta('Completed projects','โครงการสำเร็จ',ca.work[branch].milestones,cb.work[branch].milestones);
+      }
+    }
     const a = before.expansion.swords,
       b = after.expansion.swords;
     if (a && b) {

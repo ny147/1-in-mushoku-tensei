@@ -9,6 +9,7 @@ import { loadGame, SAVE_KEY, isLife } from "../storage";
 const old = () => {
   const l = createExpandedLife({ seed: 1 });
   delete l.expansion.swords;
+  delete l.expansion.careerPaths; // Fixture predates both versioned progression extensions.
   l.phase = "alive";
   l.age = 30;
   l.pending = "expanded.instruction";

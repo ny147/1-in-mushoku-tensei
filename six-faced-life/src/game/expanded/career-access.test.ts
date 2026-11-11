@@ -4,6 +4,8 @@ import { createExpandedLife } from "./origins";
 import { ORDINARY_ROLES } from "./career-access";
 import { appoint, careerRequirements } from "./careers";
 import { getExpandedDecision } from "./events";
+import { CAREER_NODES, type CareerNodeId } from './career-catalogue';
+import { enterCareerNode } from './career-paths';
 describe("reliable ordinary direct entry", () => {
   it.each(ORDINARY_ROLES)(
     "accepts %s at its ordinary thresholds without consuming availability RNG",
@@ -26,14 +28,16 @@ describe("reliable ordinary direct entry", () => {
         l.expansion.standing.trust = 10;
         l.expansion.standing.reputation = 5;
         const rng = l.rng;
+        const node:Record<typeof ORDINARY_ROLES[number],CareerNodeId>={laborer:'laborer',farmer:'farmhand',merchant:'trade-assistant',guard:'guard',adventurer:'adventure-f',swordsman:'swordsman',mage:'mage',healer:'healer',cleric:'cleric',teacher:'magic-teacher'};
+        l.pending='expanded.career-path';l.expansion.careerPaths!.selection=CAREER_NODES[node[role]].path;
         const choice = getExpandedDecision(l)!.choices.find(
-          (c) => c.id === `expanded.career.job-${role}`,
+          (c) => c.id === `expanded.career-path.enter-${node[role]}`,
         )!;
         expect(choice.disabled).toBe(false);
         expect(choice.vacancy).toBe(true);
         expect(l.rng).toBe(rng);
         const before = l.coins;
-        expect(appoint(l, role)).toBe(true);
+        expect(enterCareerNode(l, node[role])).toBe(true);
         expect(l.coins).toBe(
           before - (role === "merchant" ? 10 : role === "adventurer" ? 5 : 0),
         );

@@ -10,6 +10,8 @@ import { migrateEducationAccess } from "./expanded/education-access-state";
 import { migrateTalents } from "./expanded/genetics";
 import { migrateSwordState } from "./expanded/sword-migration";
 import { validateSwordState } from "./expanded/sword-validation";
+import { activateCareerPaths } from './expanded/career-migration';
+import { validateCareerPaths } from './expanded/career-validation';
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -94,6 +96,7 @@ export function isLife(v: unknown): v is Life {
         x.optionalActivity !== v.pending ||
         ![
           "career",
+          'career-path', 'career-work',
           "training",
           "training-quote",
           "training-placement",
@@ -317,6 +320,10 @@ export function isLife(v: unknown): v is Life {
     )
   )
     return false;
+  if (expanded && !validateCareerPaths(
+    (v.expansion as import('./expanded/types').ExpandedState).careerPaths,
+    v as unknown as import('./types').ExpandedLife,
+  )) return false;
   if (
     expanded &&
     v.pending !== null &&
@@ -352,10 +359,10 @@ export function loadGame(storage: StorageLike): {
           ? save.active.ruleset === "expanded-1"
             ? save.active.phase === "ended"
               ? save.active
-              : migrateSwordState(
+              : activateCareerPaths(migrateSwordState(
                   migrateTalents(migrateEducationAccess(save.active)),
                   getExpandedDecision(save.active),
-                )
+                ))
             : migrateLife(save.active)
           : null,
         archive: save.archive.map((l) =>

@@ -24,6 +24,9 @@ import {
 } from "./sword-state";
 import { creditSwordMentorship } from "./sword-mentors";
 import { queueReadySwordTrial } from "./sword-events";
+import { activateCareerPaths } from './career-migration';
+import { creditCareerWork } from './career-work';
+import { careerChoiceOutcome } from '../../i18n/careers';
 function syncLearning(life: ExpandedLife, magicXp = 0) {
   life.progression = getProgression(life);
   const track = life.progression.magic[life.progression.specialization];
@@ -91,6 +94,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   next.expansion.optionalActivity = null;
   if (
     !id.startsWith("expanded.career.job-") &&
+    !(next.expansion.careerPaths && (id.startsWith('expanded.career-path.') || id.startsWith('expanded.career-work.') || id==='expanded.research.accept')) &&
     id !== "expanded.sword-mentor.enroll"
   )
     next.coins -= c.cost ?? 0;
@@ -141,6 +145,12 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
       key: "expanded.education-choice",
       params: { title: educationText.label, text: educationText.outcome },
     };
+  const careerOutcome=careerChoiceOutcome(life,next,id,'en');
+  if(careerOutcome) {
+    const record=next.history[next.history.length-1];
+    record.text=careerOutcome;
+    record.message={key:'expanded.career-choice',params:{titleTh:educationText?.label??c.label,textTh:careerChoiceOutcome(life,next,id,'th')??careerOutcome}};
+  }
   if (cause)
     next.history[next.history.length - 1].message = {
       key: "expanded.fatal-choice",
@@ -158,7 +168,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   }
   queueReadySwordTrial(next);
   drain(next);
-  return next;
+  return activateCareerPaths(next);
 }
 export function setFocusExpanded(
   life: ExpandedLife,
@@ -212,7 +222,8 @@ function year(life: ExpandedLife) {
   const attending = life.expansion.education.stage === "university";
   applyEducationYear(life);
   const priorRole = life.expansion.career.role;
-  applyCareerYear(life, attendingFullTime);
+  applyCareerYear(life, attendingFullTime || attending);
+  creditCareerWork(life,worldYear(life),{fullTime:attendingFullTime,university:attending});
   applyFamilyYear(life);
   applyPoliticalYear(life);
   if (
@@ -299,7 +310,7 @@ export function advanceExpanded(
 ): ExpandedLife {
   if (life.phase !== "alive" || life.pending) return life;
   if (mode === "tick" && (!Number.isFinite(delta) || delta <= 0)) return life;
-  const next = structuredClone(life);
+  const next = structuredClone(activateCareerPaths(life));
   if (mode === "tick") {
     creditSwordMentorship(next, Math.min(0.25, delta, 1 - next.progress));
     next.progress += Math.min(0.25, delta);

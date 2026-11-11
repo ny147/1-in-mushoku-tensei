@@ -51,7 +51,7 @@ export function swordDecision(l: ExpandedLife): Decision | null {
     l.age >= 5 &&
     (key === "practice" ||
       key === "sword-select" ||
-      (key === "training-quote" && role && ordinaryEntry(role).sword));
+      (key === "training-quote" && role && ordinaryEntry(role).sword && !(role==='teacher' && l.expansion.careerPaths?.teacherCourse?.kind==='magic')));
   if (
     !initial &&
     !["sword-mentor", "sword-trial", "sword-abandon", "sword-select"].includes(

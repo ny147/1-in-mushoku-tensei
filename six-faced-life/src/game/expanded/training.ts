@@ -19,6 +19,12 @@ import { requirement, type Requirement } from "./education";
 import { fact, worldYear } from "./facts";
 import { talentMultiplier } from "./genetics";
 import { creditSwordCourse } from "./sword-state";
+import type { CourseDefinition } from './career-access';
+export function trainingDefinition(l:ExpandedLife,role:OrdinaryRole):Readonly<CourseDefinition> {
+  const c=ordinaryEntry(role);
+  if(role==='teacher' && l.expansion.careerPaths?.teacherCourse?.kind==='magic')return {...c,sword:undefined,magic:25};
+  return c;
+}
 export interface TrainingQuote extends EducationQuote {
   mode: TrainingMode;
   remainingYears: number;
@@ -34,7 +40,7 @@ export function quoteTraining(
   mode: TrainingMode,
 ): TrainingQuote {
   const t = l.expansion.training ?? emptyTraining(l.expansion.birthYear),
-    c = ordinaryEntry(role),
+    c = trainingDefinition(l,role),
     r = t.records[role];
   const unused = t.active
     ? l.expansion.finance?.purposes[t.active]?.reserved
@@ -56,7 +62,7 @@ export function quoteTraining(
   };
   const remainingUnits = c.units - r.units;
   const school =
-    r.school ??
+    r.school ?? (role==='teacher'?l.expansion.careerPaths?.teacherCourse?.school:null) ??
     (role === "mage"
       ? l.expansion.study
       : ["healer", "cleric"].includes(role)
@@ -90,7 +96,7 @@ export function enrollTraining(
     !isOrdinaryRole(q.purpose) ||
     !["full-time", "part-time"].includes(q.mode) ||
     (!!l.expansion.swords &&
-      !!ordinaryEntry(q.purpose as OrdinaryRole)?.sword &&
+      !!trainingDefinition(l,q.purpose as OrdinaryRole)?.sword &&
       !l.expansion.swords.selected &&
       !l.expansion.swords.legacy)
   )
@@ -119,7 +125,7 @@ export function enrollTraining(
   state.mode = q.mode;
   state.paused = false;
   state.selection = null;
-  state.records[role].school = q.school;
+  state.records[role].school = role==='teacher'?null:q.school;
   l.coins = next.coins;
   l.expansion = next.expansion;
   fact(l, "education", "training-enrolled", role);
@@ -163,7 +169,7 @@ export function applyTrainingYear(l: ExpandedLife): void {
   )
     return;
   const role = t.active,
-    c = ordinaryEntry(role),
+    c = trainingDefinition(l,role),
     r = t.records[role],
     units = Math.min(c.units - r.units, t.mode === "full-time" ? 2 : 1);
   if (!consumeEducation(l, role, c.tuition ? units * 4 : 0, y)) return;
@@ -200,16 +206,17 @@ export function applyTrainingYear(l: ExpandedLife): void {
     const key = c.cap === "magic" ? "magicCap" : "swordCap";
     l.training[key] = Math.max(1, l.training[key]);
   }
-  if (c.magic && r.school) {
+  const courseSchool=r.school ?? (role==='teacher'?l.expansion.careerPaths?.teacherCourse?.school:null);
+  if (c.magic && courseSchool) {
     l.progression = getProgression(l);
-    const track = l.progression.magic[r.school],
+    const track = l.progression.magic[courseSchool],
       gain = Math.max(
         0,
         target(c.magic) * talentMultiplier(l, "magic") - track.xp,
       );
     track.xp += gain;
     l.training.magicXp += gain;
-    for (const spell of MAGIC_SCHOOLS[r.school].spells)
+    for (const spell of MAGIC_SCHOOLS[courseSchool].spells)
       if (
         track.xp >= spell.xp &&
         l.training.magicCap >= spell.rank &&
@@ -246,6 +253,7 @@ export function acceptTrainingPlacement(
 ): boolean {
   const r = l.expansion.training?.records[role];
   if (
+    // New teacher courses retain their quoted specialization; old courses stay unspecified.
     l.phase !== "alive" ||
     !r ||
     l.expansion.career.role === role ||
@@ -253,6 +261,7 @@ export function acceptTrainingPlacement(
     placementRequirements(l, role).some((r) => !r.met)
   )
     return false;
+  if(role==='teacher' && l.expansion.careerPaths)l.expansion.careerPaths.teaching=l.expansion.careerPaths.teacherCourse?.kind??null;
   if (
     !appoint(l, role, {
       school: r.school ?? undefined,

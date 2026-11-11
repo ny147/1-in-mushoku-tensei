@@ -8,6 +8,7 @@ import { expandedLabel } from "./expanded";
 import { effectDelta, effectNumber, effectText } from "./effect-text";
 import { swordApproach } from "../game/expanded/sword-events";
 import { isSwordStyle } from "../game/expanded/sword-state";
+import { careerDecision } from '../game/expanded/career-events';
 
 export function expandedChoiceEffects(
   l: ExpandedLife,
@@ -17,6 +18,10 @@ export function expandedChoiceEffects(
   const [, key, action] = c.id.split(".");
   const x = l.expansion,
     y = worldYear(l);
+  if(x.careerPaths && ['career','career-path','career-work','research'].includes(key)) {
+    const d=careerDecision(l);
+    return [language==='th'?d?.localized?.choices[c.id]?.description??c.description:c.description];
+  }
   const text = (en: string, th: string) => effectText(language, en, th);
   if ((key === "service" || key === "assignment") && isSwordStyle(action)) {
     const a = swordApproach(l, key);

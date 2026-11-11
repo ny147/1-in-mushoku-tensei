@@ -111,6 +111,7 @@ export const HAZARDS = {
   travel: 0.004,
 };
 export const EXPANDED_EVENT_IDS = [
+  'career-path','career-work',
   'sword-select', 'sword-mentor', 'sword-trial', 'sword-abandon',
   "training",
   "training-quote",

@@ -4,6 +4,7 @@ import { advance, beginLife, choose, getDecision, setFocus } from "../engine";
 import { isLife, loadGame, saveGame } from "../storage";
 import type { ExpandedLife, Life } from "../types";
 const safeChoice = (l: Life) =>
+  (getDecision(l)?.requiresManual ? getDecision(l)?.choices.find(c=>!c.disabled && c.id.endsWith('.later')) : undefined) ??
   getDecision(l)?.choices.find(
     (c) =>
       !c.disabled &&

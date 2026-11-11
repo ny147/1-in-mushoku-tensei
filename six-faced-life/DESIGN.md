@@ -375,3 +375,11 @@ Current monetary values and requirements use silver / เหรียญเง�
 and catalogue-reconstructed history preserve their old text; numeric feedback
 alongside it uses current units. See the dated verification record in docs for
 rendered checks and the limits of zoom/media simulations.
+
+
+## Career path reading
+
+The work panel leads with current title/pay and the next milestone. Six native
+disclosures contain branch ladders; retained work and university requirements
+remain available separately. Inherited recognition and unknown teaching disciplines
+are explicit. Existing paper/ink tokens, typography and mobile order are retained.

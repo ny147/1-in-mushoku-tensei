@@ -1,6 +1,7 @@
 import type { Language } from "../game/types";
 import { expandedLabel } from "./expanded";
 import { moneyText } from "./money";
+import { careerRequirementLabel } from './careers';
 export const isMonetaryRequirement = (id: string) =>
   ["funding", "capital", "equipment"].includes(id);
 /** Current requirement rows only: never change the shared history vocabulary. */
@@ -16,7 +17,7 @@ export function currentRequirementText(
       ? language === "th"
         ? "เงินที่ใช้ได้"
         : "Available funds"
-      : expandedLabel(id, language);
+      : careerRequirementLabel(id,language) ?? expandedLabel(id, language);
   const values = `${round(current)}${separator}${required}`;
   return `${label} ${isMonetaryRequirement(id) ? moneyText(values, language) : values}`;
 }
