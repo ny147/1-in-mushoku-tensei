@@ -1,6 +1,8 @@
 # Family in the pixel life scene
 
-Status: approved in chat and implemented, 2026-11-11; awaiting PR delivery.
+Status: approved in chat, implemented and verified, 2026-11-11.
+[PR #24](https://github.com/ny147/1-in-mushoku-tensei/pull/24) targets main;
+the user merges manually. No publication.
 
 ## Intent and confirmed scope
 

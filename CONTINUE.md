@@ -1,9 +1,11 @@
-# Family pixel scene — implemented, delivery in progress, 2026-11-11
+# Family pixel scene — implemented for review, 2026-11-11
 
 User confirmed only living family who share the protagonist's current region
 should appear, then approved the written design and implementation. Task branch:
-`codex/family-pixel-scene`, freshly based on `origin/main 2714a94`. PR delivery
-targets main; the user merges manually. No publication authorized or performed.
+`codex/family-pixel-scene`, freshly based on `origin/main 2714a94`.
+PR #24: https://github.com/ny147/1-in-mushoku-tensei/pull/24, base main.
+Implementation commit `565ab7c`; this delivery checkpoint follows it (inspect
+`git log -2 --oneline` for its SHA). The user merges manually. No publication.
 
 Built recorded spouse/direct-child pixel companions using existing race/age
 sprites and bilingual “Together here” names. Spouses require an active marriage
@@ -30,8 +32,10 @@ Ignored QA harness, test log and screenshot remain under .openai/ and checkpoint
 Usage Nov11 20:21 Bangkok: 32% five-hour /52% weekly remaining; resets
 Nov12 00:34:07 /Nov16 19:12:05 Bangkok. No billing/reset action.
 Fresh final fetch confirms latest origin/main 2714a94 is included.
-Next: commit/push task-owned changes and create PR targeting main, then record
-its link here. No merge, auto-merge or branch deletion.
+Delivery: branch pushed with its own upstream; PR open for review. GitHub CI
+started and was pending at creation; local required tests/build passed. No merge,
+auto-merge or branch deletion. Next: human PR review and manual merge after CI.
+For further changes recheck status/fetch/usage; continue this branch and PR.
 
 # Career paths — implemented for review, 2026-11-11
 

@@ -38,7 +38,7 @@ Consumes Task 1 family records. Produces `getCompanionLayers(person: SceneCompan
 - [x] Run `npm test` and `npm run build` in the app; inspect actual results.
 - [x] Inspect isolated desktop/mobile EN/TH, large family, keyboard and motion states; check console and overflow.
 - [x] Update PRODUCT.md, DESIGN.md and CONTINUE.md; review complete diff and get a fresh whole-branch review.
-- [ ] Fetch origin, check whitespace/status/freshness, commit task-owned files, push explicit branch and create PR targeting main. User merges manually.
+- [x] Fetch origin, check whitespace/status/freshness, commit task-owned files, push explicit branch and create PR targeting main. User merges manually.
 
 ## Progress ledger
 
@@ -49,3 +49,4 @@ Consumes Task 1 family records. Produces `getCompanionLayers(person: SceneCompan
 - Task 3 verification: full 487/487 tests in 70 files passed (89.11s); production build passed with existing >500 kB bundle advisory. No dependency installation needed. Sandbox subprocess restrictions required approved elevated test/build execution.
 - Browser: isolated 5174, 1280px desktop and 390px phone, EN/TH captions, keyboard Scene motion and stopped family animations, reload idle/no reaction replay, away and separated family, 18-person household with no clipping/overflow. Original QA save restored; player 5173 storage untouched. A synthetic harness initially failed its peak-wealth invariant; corrected before loading. No application console errors. Reduced-motion/fallback are automated coverage, not a claimed manual OS-preference test.
 - Independent whole-branch read-only reviewer: no actionable findings. Mechanical design detector: advisory findings for existing scene palette/type; new caption intentionally reuses the existing motion-control surface, now documented. No deferred source defect.
+- Delivery: implementation 565ab7c pushed to origin/codex/family-pixel-scene; [PR #24](https://github.com/ny147/1-in-mushoku-tensei/pull/24) open against main. Final focused 33 tests and build pass after formatting; final fetch contains origin/main 2714a94. GitHub CI pending at creation. This documentation checkpoint follows the implementation commit; no additional application changes. User merges manually.
