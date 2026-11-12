@@ -336,6 +336,10 @@ The chronicle rail and character view use the same compact Sword styles section:
 
 ## Pixel life scene
 
+Regional backdrops stay still. Omit the old miniature walker and flag overlays:
+they are generic decorations unrelated to the current character. Animated people
+are the protagonist and eligible recorded family, using their own scene layers.
+
 When recorded family is present, the caption leads a wrapping group of 128px
 sprite boxes (64px cells at 2×), beginning with the protagonist. Each living,
 co-regional spouse in an active marriage and direct child uses their own race and

@@ -32,14 +32,6 @@
   bottom: 30px;
   transform: translateX(-50%);
 }
-.pixel-ambient-0 {
-  left: 24%;
-  bottom: 26px;
-}
-.pixel-ambient-1 {
-  right: 12%;
-  bottom: 38px;
-}
 .pixel-scene .scene-shade {
   background: linear-gradient(
     90deg,
@@ -107,12 +99,6 @@
   .pixel-effect {
     bottom: 48px;
   }
-  .pixel-ambient-0 {
-    bottom: 45px;
-  }
-  .pixel-ambient-1 {
-    bottom: 70px;
-  }
 }
 @media (max-width: 650px) {
   .pixel-hero {
@@ -143,14 +129,6 @@
     right: auto;
     bottom: 18px;
     max-width: 45%;
-  }
-  .pixel-ambient-0 {
-    left: 44%;
-    bottom: 28px;
-  }
-  .pixel-ambient-1 {
-    right: 5%;
-    bottom: 60px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
