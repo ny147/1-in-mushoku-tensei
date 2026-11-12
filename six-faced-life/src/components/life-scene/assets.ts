@@ -76,8 +76,6 @@ export function getSceneLayers(
     });
   }
   add(`regions/${model.region}`, "background", 0, 1, 0);
-  add(`ambient/${model.region}`, "ambient", 0, 8, 1600);
-  add(`ambient/${model.region}`, "ambient", 1, 8, 1800);
   add(`bodies/${model.race}-${model.stage}`, "hero");
   add(`outfits/${model.stage}-${model.outfit}`, "hero");
   if (

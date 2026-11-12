@@ -193,6 +193,9 @@ Typography: Cormorant Garamond and DM Sans for English, with Noto Serif Thai and
 
 ## Pixel life scene
 
+Regional backdrops stay still, without unrelated miniature walker or flag
+overlays. The protagonist and eligible recorded family retain their own animation.
+
 The active chronicle uses original layered pixel artwork for the current region,
 race and life stage. Everyday clothes follow the primary occupation. Magic or
 sword focus uses training clothes and the selected discipline's earned capped

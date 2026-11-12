@@ -10,6 +10,7 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { PixelLifeScene } from "./PixelLifeScene";
 import { expandedSceneLife, expandedFamilySceneLife } from "./fixtures";
 import { resolveScene, sampleSceneFacts } from "./model";
+import { REGIONS } from "../../game/world";
 let images: {
   src: string;
   onload: (() => void) | null;
@@ -45,6 +46,30 @@ const props = () => ({
   motionEnabled: true,
   onMotionChange: vi.fn(),
 });
+it.each(Object.keys(REGIONS) as (keyof typeof REGIONS)[])(
+  "shows the current character without unrelated miniature overlays in %s",
+  (region) => {
+    const life = expandedSceneLife();
+    life.region = region;
+    life.race = "beastfolk";
+    life.age = 29;
+    const p = props();
+    p.presentation.model = resolveScene(sampleSceneFacts(life));
+    const { container } = render(<PixelLifeScene {...p} />);
+    act(() => images.forEach((image) => image.onload?.()));
+
+    expect(container.querySelector('[data-scene-ready="true"]')).toBeTruthy();
+    expect(container.querySelector(".pixel-ambient")).toBeNull();
+    expect(images.some((image) => image.src.includes("/ambient/"))).toBe(false);
+    expect(
+      container.querySelector<HTMLElement>(".pixel-backdrop")?.style.backgroundImage,
+    ).toContain(`/regions/${region}.png`);
+    expect(
+      container.querySelector<HTMLElement>(".pixel-protagonist .pixel-hero")?.style
+        .backgroundImage,
+    ).toContain("/bodies/beastfolk-adult.png");
+  },
+);
 it("renders present family with their own age sprites and removes them immediately when away", () => {
   const life = expandedFamilySceneLife();
   const p = props();

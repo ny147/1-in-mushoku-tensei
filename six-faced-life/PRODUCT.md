@@ -91,6 +91,10 @@ language, accessibility and recovery behavior applies to both rulesets.
 
 ## Pixel life scene
 
+Regional scenery omits the generic miniature walker and flag overlays. Character
+animation depicts the protagonist and eligible recorded family; the regional
+backdrop stays still.
+
 Expanded chronicles show living partners in active marriages and direct children
 whose recorded home matches the protagonist's current region. Their pixel sprites
 use their own race and age. An English/Thai “Together here” caption names the
