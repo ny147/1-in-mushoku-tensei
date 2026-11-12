@@ -1,3 +1,51 @@
+# Scene-edge miniature overlays — fixed for review, 2026-11-12
+
+User reported the tiny left/right animations mismatching the current character.
+Task branch `codex/fix-scene-edge-sprites` starts at freshly fetched origin/main
+`eec7ced`. Implementation `16462c2` is pushed in PR #26, base main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/26
+This checkpoint commit follows it; inspect `git log -2 --oneline` for its SHA.
+The user reviews and merges manually. No merge, deployment or publication.
+
+Root cause: `getSceneLayers` unconditionally added two regional ambient sheet
+rows, a miniature generic walker and flag, independent of the protagonist.
+Removed both overlays at selection and their obsolete responsive CSS positions.
+The regional backdrop stays still; protagonist, clothing/rank/effects and
+eligible recorded family retain their existing artwork and motion controls.
+No simulation, RNG, persistence, schema, dependency or hosting changes.
+Unused source art/manifest entries remain; they are no longer loaded by scenes.
+README, PRODUCT and DESIGN describe the corrected presentation.
+
+Six regression cases reproduced the unwanted overlays in all six regions (RED),
+then passed with the current beastfolk adult and backdrop preserved (GREEN).
+Focused renderer tests: 14/14 PASS. Full `npm test`: 493/493 in 70 files PASS,
+99.86s. `npm run build`: TypeScript and Vite PASS; existing >500kB advisory.
+Initial sandbox esbuild spawn EPERM resolved by rerunning with child-process
+permission; no test failure suppressed. Independent review: no actionable issue.
+Design detector: advisories only for unchanged scene colors/type, no new values.
+
+Browser QA on isolated 5174: desktop1280 and phone390; Thai present family and
+English solo/away-family scenes; no ambient sprites or horizontal overflow;
+keyboard Enter stops scene motion with visible focus and all layers still;
+reload returns idle with motion on. No warning/error console entries in checked
+tab. Previous QA save restored. Player5173 and hosted browser saves untouched.
+Reduced-motion/fallback coverage comes from the existing passing suite; no new
+manual OS-preference check claimed. Ignored preview:
+`checkpoints/scene-edge-fix-desktop.png`; existing harness in app `.openai/`.
+PowerShell npm wrapper dropped the QA port flag; that server was stopped without
+opening it. Correct QA command: from app, `node node_modules/vite/bin/vite.js
+--host 127.0.0.1 --port 5174` (server remains available on5174).
+
+Usage Nov12 19:15 Bangkok: 49% five-hour /43% weekly remaining; resets
+Nov12 23:29:34 /Nov16 19:12:05 Bangkok. No billing/reset action.
+Fresh final fetch confirms latest origin/main `eec7ced` is included. Complete
+task diff/whitespace review passed. No unresolved source issue or pending code.
+Next: review PR26 and merge manually after its CI checks. For follow-ups,
+recheck status/fetch/usage and continue this branch and PR; do not merge or
+publish automatically.
+
+Historical checkpoint:
+
 # Vercel test-worker timeout — fixed for review, 2026-11-12
 
 User requested investigation, then authorized the fix. PR #24 was manually
