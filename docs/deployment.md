@@ -38,7 +38,20 @@ Do not use the retired **CI and Cloudflare deployment** workflow's manual dispat
 
 [GitHub Actions](../.github/workflows/ci.yml) runs on PRs targeting `main`, pushes to `main`, and manual runs. It installs the lockfile with `npm ci`, runs `npm run build:vercel`, checks Vercel JSON syntax, and retains `dist/` for seven days as a diagnostic artifact. The existing check name **Test, build, and validate deployment** is retained for compatibility with any manually configured required check. Configure that check in GitHub branch protection if you want GitHub to block manual merges on failures; the workflow does not change branch protection.
 
-`build:vercel` runs `npm test && npm run build`. Both GitHub and Vercel use this command. The heavy 100-lifetime test retains its 30-second bound and every seed/assertion. A failing Vercel test, TypeScript check or Vite build prevents that release from publishing.
+`build:vercel` runs `npm test && npm run build`. Both GitHub and Vercel use this
+command. The complete application suite includes the 500-lifetime restoration
+test and the 10,000-birth mortality cohort; their seeds, assertions and existing
+60-/180-second bounds remain intact. A failing Vercel test, TypeScript check or
+Vite build prevents that release from publishing.
+
+Vitest 4.1.12 fixes the internal `onTaskUpdate` RPC timeout observed in the
+November 11 family-scene deployment, where all 487 assertions passed but the
+runner exited with an unhandled error. This is separate from an actual test's
+timeout; do not ignore unhandled errors or remove simulation coverage. The npm
+Vite override references the existing direct dependency range to keep compatible
+test/build peers aligned. `npm run test:runner` is an optional 65-second blocking
+regression, deliberately separate from normal deployment builds. Reproduction,
+upstream fix and current evidence are in [the verification record](verification/vitest-worker-timeout.md).
 
 Vercel builds independently from the selected Git revision. It does **not** download GitHub's artifact or wait for the GitHub check to finish. Its own test step provides the publication gate. GitHub's workflow uses read-only repository permissions and no deployment secrets. Production hosting and its account permissions are managed by Vercel's native integration.
 

@@ -26,6 +26,14 @@ npm run preview
 
 `npm test` runs Vitest and React Testing Library. `npm run build` checks TypeScript and creates `dist/`; `npm run preview` serves that build on the URL printed by Vite. A preview on another port has separate browser saves. No `lint`, `typecheck`, or `test:e2e` script is configured.
 
+Vitest is pinned to 4.1.12 to fix an internal worker timeout that could fail a
+slow build even after every test passed. Its Vite peers use this project's
+existing Vite range through the npm override. `npm run test:runner` separately
+checks the failure with a deliberate 65-second synchronous block; expect it to
+take just over a minute. This diagnostic fixture is outside ordinary test
+discovery, so `npm test` and `build:vercel` retain the full application suite
+without adding the diagnostic delay. See the [runner verification](../docs/verification/vitest-worker-timeout.md).
+
 GitHub Actions and Vercel's native GitHub integration both use `npm run build:vercel`, which runs the complete tests before the TypeScript/Vite build. Vercel builds from source independently of GitHub's diagnostic artifact and automatically publishes only main. No deployment API token or GitHub secret is needed. The project is already imported and live with Root Directory `six-faced-life`, Vite preset, Node 22.x, Production Branch `main`, and output `dist`; the app-local `vercel.json` supplies build settings and SPA routing. The [deployment guide](../docs/deployment.md) covers the current release and rollback. `npm run preview -- --port 5177 --strictPort` serves an isolated local production build. Hosted browser saves are separate from local saves.
 
 For QA that creates or replaces a life, use a separate origin so the player's save remains intact:
