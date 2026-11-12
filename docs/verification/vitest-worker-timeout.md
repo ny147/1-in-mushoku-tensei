@@ -59,3 +59,7 @@ the deterministic local regression reproduces the exact worker error instead.
 Delivery is a PR targeting main, for manual merge. Vercel's actual fixed
 production build can be verified after that merge; the failed release was not
 retried as part of this code correction.
+
+[PR #25](https://github.com/ny147/1-in-mushoku-tensei/pull/25) contains
+implementation commit `b507fc9`. The final documentation checkpoint adds the PR
+link; see Git history for its SHA and the PR Checks for the latest Linux CI run.

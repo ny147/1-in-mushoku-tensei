@@ -1,11 +1,14 @@
-# Vercel test-worker timeout — fixed, delivery in progress, 2026-11-12
+# Vercel test-worker timeout — fixed for review, 2026-11-12
 
 User requested investigation, then authorized the fix. PR #24 was manually
 merged into main as c34cd5c. GitHub CI passed; Vercel production build
 HLKira2RTwAQJ1N2mxNqQTQo6gxT failed with all 487 tests passing followed by an
 unhandled Vitest `onTaskUpdate` RPC timeout. Previous 2714a94 release stays live.
 New task branch `codex/vercel-test-worker-timeout` starts at fresh origin/main
-c34cd5c. No merge, redeploy or publication was performed.
+c34cd5c. Implementation b507fc9 is pushed in PR #25 targeting main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/25
+This delivery checkpoint follows; inspect git log -2 for its SHA.
+No merge, redeploy or publication was performed.
 
 Reproduced on Vitest 3.2.7: a 65-second synchronous block leaves 2/2 assertions
 passing but runner exits 1 with the exact production error (65.19s). Upgraded
@@ -28,8 +31,11 @@ Evidence and exact commands: docs/verification/vitest-worker-timeout.md.
 Usage Nov12 18:41 Bangkok: 71% five-hour /47% weekly remaining; resets
 Nov13 00:49:34 /Nov16 19:12:05 Bangkok. No billing/reset action.
 Ignored RED/GREEN/build logs remain in checkpoints/. README/deployment guide
-updated. Next: commit and push task-owned files, create PR targeting main, record
-link here, and verify GitHub CI. The user merges manually. Historical checkpoint:
+updated. Final fetch contains origin/main c34cd5c; clean task diff/whitespace
+review passed. GitHub CI starts on the PR; see its Checks for current result.
+Next: human review/manual merge after CI, then verify Vercel's main build.
+Keep this branch for follow-ups; do not merge, auto-merge or delete it.
+Historical checkpoint:
 
 # Family pixel scene — implemented for review, 2026-11-11
 
