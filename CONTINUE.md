@@ -1,3 +1,36 @@
+# Vercel test-worker timeout — fixed, delivery in progress, 2026-11-12
+
+User requested investigation, then authorized the fix. PR #24 was manually
+merged into main as c34cd5c. GitHub CI passed; Vercel production build
+HLKira2RTwAQJ1N2mxNqQTQo6gxT failed with all 487 tests passing followed by an
+unhandled Vitest `onTaskUpdate` RPC timeout. Previous 2714a94 release stays live.
+New task branch `codex/vercel-test-worker-timeout` starts at fresh origin/main
+c34cd5c. No merge, redeploy or publication was performed.
+
+Reproduced on Vitest 3.2.7: a 65-second synchronous block leaves 2/2 assertions
+passing but runner exits 1 with the exact production error (65.19s). Upgraded
+only Vitest and required test-runner dependencies to pinned 4.1.12, containing
+upstream fix vitest-dev/vitest#8297. Vite stays 7.3.7 through overrides.vite=$vite.
+This also avoids npm10/11's edgesOut failure resolving optional Vite8/devtools
+peers. No ignored errors, retries, removed tests or widened test timeouts.
+
+Clean npm ci using Node22.16.0 / bundled npm10.9.2 PASS; audit0 vulnerabilities.
+Final `npm run test:runner` PASS, 2/2 and exit0 (65.18s). The deliberate slow
+fixture has a dedicated opt-in config and is absent from default discovery.
+`CI=true npm run build:vercel` PASS: 487/487 in70files (94.78s), TypeScript/Vite
+build PASS (2.54s), existing >500kB advisory. UI/runtime bundle hashes unchanged.
+Independent review: no actionable finding. No app source, game assertions/seeds,
+browser saves, hosting settings or publishing changed. Docker Linux engine was
+unavailable; no constrained Linux/Vercel reproduction claimed. Actual production
+build will need verification after human merge.
+
+Evidence and exact commands: docs/verification/vitest-worker-timeout.md.
+Usage Nov12 18:41 Bangkok: 71% five-hour /47% weekly remaining; resets
+Nov13 00:49:34 /Nov16 19:12:05 Bangkok. No billing/reset action.
+Ignored RED/GREEN/build logs remain in checkpoints/. README/deployment guide
+updated. Next: commit and push task-owned files, create PR targeting main, record
+link here, and verify GitHub CI. The user merges manually. Historical checkpoint:
+
 # Family pixel scene — implemented for review, 2026-11-11
 
 User confirmed only living family who share the protagonist's current region
