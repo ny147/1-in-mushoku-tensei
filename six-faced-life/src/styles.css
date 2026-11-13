@@ -4043,17 +4043,22 @@ h2[tabindex="-1"] {
   line-height: 1.8;
 }
 .expanded-career details,
+.standing-details,
 .expanded-family details,
 .retrospective details {
   margin-block: 16px;
 }
 .expanded-career summary,
+.standing-details summary,
 .expanded-family summary,
 .retrospective summary {
   cursor: pointer;
   padding-block: 10px;
   line-height: 1.6;
 }
+.standing-details summary { min-height: 44px; }
+.standing-details .expanded-facts > div:nth-last-child(-n + 3) { grid-column: 1 / -1; }
+.standing-details dd { line-height: 1.65; max-width: 75ch; }
 .expanded-career h3,
 .career-requirements h3 {
   margin-block: 16px 8px;
