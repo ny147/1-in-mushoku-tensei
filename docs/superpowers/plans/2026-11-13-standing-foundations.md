@@ -262,23 +262,23 @@ returning the original object when ended/already initialized/pending/queued or
 holding a sword compatibility decision; otherwise a cloned adopted life.
 Produce `recordNobleAssociation(life: ExpandedLife): void` in `social-state.ts`.
 
-- [ ] Add failing tests `migration preserves all existing origin history and RNG`,
+- [x] Add failing tests `migration preserves all existing origin history and RNG`,
   `generic noble does not become royal`, `old pending and queued offers keep their
   original terms`, `activation happens once after final queued choice`, and
   `earned and born nobles have the same association lookup`. For migrated lives
   assert `debt === null`, `royalHouse === null`, and no retrospective deduction.
-- [ ] Run `npm test -- src/game/expanded/social-migration.test.ts src/game/storage.test.ts`;
+- [x] Run `npm test -- src/game/expanded/social-migration.test.ts src/game/storage.test.ts`;
   inspect intended failures.
-- [ ] Adopt only active expanded lives at a clear safe point after existing
+- [x] Adopt only active expanded lives at a clear safe point after existing
   migrations in `loadGame()`, after queue draining in `chooseExpanded()`, and
   before advancement in `advanceExpanded()`. Set activation-year guards to the
   current year. Never migrate an archive or an ended active life.
-- [ ] Route the existing grant through `recordNobleAssociation()` only when social
+- [x] Route the existing grant through `recordNobleAssociation()` only when social
   state exists; preserve old grant behavior otherwise. Retain original birth
   rank/wealth, debt, qualifications, `standing.title` and faction membership.
   Infer association only from recorded locations; missing past grant year stays
   unknown. Do not change fees/access based on birth noble versus earned noble.
-- [ ] Rerun focused tests; include invalid raw payload rejection before adoption
+- [x] Rerun focused tests; include invalid raw payload rejection before adoption
   and migration composed with sword/career activation. Commit
   `feat: migrate standing prospectively and retain earned noble rights`.
 
@@ -293,23 +293,23 @@ Produce `recordNobleAssociation(life: ExpandedLife): void` in `social-state.ts`.
 `parentalResponsibilityDue(life: ExpandedLife): boolean`. Age-15 scheduling is
 consumed in Task 5; these functions never draw randomness or push decisions.
 
-- [ ] Add failing table tests: support10/balance48 at age1 returns1, balance47,
+- [x] Add failing table tests: support10/balance48 at age1 returns1, balance47,
   no purse change; repeated year returns0; support8 returns0; no living local
   parent returns0; ages0/15 return0; aid still adds12. Assert actual food/shelter/
   care values from `applyEconomyYear()`, not only changed text.
-- [ ] Add refusal housing tests: after decision at K420, surcharge4 in K421–423
+- [x] Add refusal housing tests: after decision at K420, surcharge4 in K421–423
   while at the household region, zero at K420/K424 or while away. Verify shelter
   unmet need rises when those4 cannot be paid, and no asset/saving is confiscated.
-- [ ] Run `npm test -- src/game/expanded/parental-debt.test.ts src/game/expanded/economy.test.ts`;
+- [x] Run `npm test -- src/game/expanded/parental-debt.test.ts src/game/expanded/economy.test.ts`;
   inspect intended failures.
-- [ ] Implement household deduction from that year's support input, without
+- [x] Implement household deduction from that year's support input, without
   permanently decrementing base `economy.support`. Apply shelter surcharge at the
   actual shelter payment, before optional spending. Return its cost in annual
   accounting for Task 4. Keep the absent-ledger economy exactly as before.
-- [ ] Mark responsibility due from age15 when household balance remains and no
+- [x] Mark responsibility due from age15 when household balance remains and no
   decision was made, even if parents died. Do not accelerate it, create a new
   liability when money falls, or rely on `seen`/bounded history as the debt ledger.
-- [ ] Rerun focused tests; assert no automatic personal payment below15 and no
+- [x] Rerun focused tests; assert no automatic personal payment below15 and no
   debt offer when childhood payments settled the balance. Commit
   `feat: apply household debt and bounded housing consequences`.
 
@@ -519,11 +519,11 @@ fixtures, logs and browser backups ignored; do not add dependencies/hosting file
 | Task | State | Verification / commit |
 | --- | --- | --- |
 | 1 — State/origins/validation | Complete | 6683d04; RED→GREEN41/4; task review approved |
-| 2 — Migration/nobility parity | In progress | Focused implementer; independent of household economy |
-| 3 — Household/housing economy | In progress | Separate economy/helper files; no engine edits |
-| 4 — Shared repayment/service | Not started | — |
+| 2 — Migration/nobility parity | Complete | 08156c3; RED→GREEN103/6; independent review approved |
+| 3 — Household/housing economy | Complete | b42977f; GREEN38/2; review approved runtime; fixture typing fixed08156c3 |
+| 4 — Shared repayment/service | Partial checkpoint | 019faf8; RED→GREEN50/4; known eligibility bug/assignment guards pending |
 | 5 — Manual decisions | Not started | — |
-| 6 — EN/TH presentation/history | In progress | Separate UI/i18n/summary owner; no engine edits |
+| 6 — EN/TH presentation/history | UI implemented; hook pending | 19ecb74; focused31/4 PASS; static review approved; Task5 engine hook pending |
 | 7 — Release/restore/Watch tests | Not started | — |
 | 8 — Browser/docs/delivery | Not started | — |
 
@@ -577,3 +577,59 @@ Task1 complete:6683d04; focused41/4 PASS; independent task review approved, no C
 Ruling: execute Tasks2/3 concurrently with explicit file ownership — Task2 owns engine/storage/events/social-state migration; Task3 owns new parental-debt helper and economy only, so no shared writes. Both consume reviewed Task1 interfaces.
 
 Ruling: Task6 presentation can proceed against reviewed SocialState concurrently; its owner exports actual-outcome helpers for Task5 engine integration and does not edit engine/economy/state. No future stage actions. Task3 annual surcharge field is additionalShelterCosts, matching Task4.
+
+Task3 complete:b42977f; focused38/2 PASS. Task review found Important test typing seen=[]; corrected to{} in08156c3 and22 parental-debt tests PASS in combined103/6. No other Important finding.
+Task2 implemented08156c3, focused103/6 PASS; review pending. Ruling: replace birth-only knight family-fund checks by current standing for adopted social lives; real access parity requires quotes/requirements/debits all agree. Absent-ledger compatibility remains frozen.
+Remote save attempt: Git push stalled in send-pack; retried HTTP1.1 with low-speed timeout and received curl28/unexpected disconnect. No remote branch observed yet; draft PR creation returned422 because branch absent. Preserve commits locally and retry delivery later, never pushmain.
+
+Task2 complete08156c3: independent review approved no Critical/Important issue; shared nobleFamilyFunds applies to requirement, both quote paths and actual debit, preserving compatibility. Task4 started with account12%five-hour/28%weekly remaining; prioritize verification/save before exhaustion.
+
+### Usage save point — 2026-11-13 21:54 Bangkok
+
+Observed5%five-hour/27%weekly remaining; resets Nov14 00:10:42 /Nov16 19:12:06
+Bangkok. Save-point trigger reached; no more substantial work this session.
+Draft implementation PR28: https://github.com/ny147/1-in-mushoku-tensei/pull/28
+Remote branch initially reached6adde5f despite GitHTTP response timeout; do not
+assume a failed push means no update. Verify remote SHA through API/ls-remote.
+Task6 UI commit19ecb74 reviewed approved, focused31/4PASS; Task5 still needs exact
+engine hook from ignored checkpoints/standing-foundations/task6-report.md.
+Two summary/death integration failures were known before Task4 closure work;
+no post-Task4 fullsuite/build/browser check has been run. Do not claim those fixed
+until actually checked.
+Task4 bounded checkpoint reports50focused/4PASS; implementation incomplete:
+read-only service eligibility must not reject already-accounted current years
+(keep idempotence in credit method); assignment guards remain. Consult Task4
+report and actual commit before proceeding. Tasks5/7/8 unstarted. Task4 and6 are
+not complete release gates. Preserve player5173 and existing local hosting metadata.
+Next on resumption: status/branch, fresh fetch, usage, read this ledger/CONTINUE and
+Task4 report; fix service eligibility with failing regression, finish Task4 guards
+and review; then manual choices/hook, integrated tests/build and isolatedbrowserQA.
+
+
+Save-point verification at21:56: current `npm run build` PASS (TypeScript/Vite;
+existing >500kB advisory), `npm test -- src/game/expanded/summary.test.ts` PASS7/1.
+The two previously failing summary cases now pass after Task4 death closure.
+Full post-change npm test and browser QA remain NOT RUN. Task6 scoped static
+review19ecb74 approved, no Critical/Important finding. Task4 commit019faf8 is
+explicitly incomplete and has not had independent task review.
+
+Durable resume details (ignored reports may not exist on another checkout):
+1. In debt-service.test.ts add RED querying annualIncomeExpanded/careerProject
+   after an eligible credited year while service remains active; remove eligibility
+   condition `year <= service.lastYear`, keeping idempotence in creditDebtServiceYear.
+2. Add domain/menu guards for service/assignment/sword approach cash rewards in
+   events.ts; inspect old research path. Test final service year, promotion, snapshot
+   health crossing20/family changes, one laborer record, and both ledger annualguard
+   directions. Run focused economy/training/university/career-work tests and review.
+3. Task5 must add manual accept/service/refuse and exit transitions/queueing. Task6
+   exports socialEffects(life,action,language), socialChoiceOutcome(before,after,id,
+   language) and socialChoiceMessage(before,after,id,titleEn,titleTh). Engine after
+   existing entry/localized handling must set record.text to full EN
+   socialChoiceOutcome(...,'en') and record.message to socialChoiceMessage(...),
+   before fatal override. Never use params.textEn alone: stored bilingual text is
+   chunked into <=500-char fields, <=17 parameters; expandedEntryText joins chunks.
+4. Current choices to implement: expanded.parental-debt.accept/service/refuse,
+   expanded.debt-service-exit.confirm/keep. Effects must disclose actual current
+   parents/housing term, costs and service pauses; requiresManual in Watch mode.
+5. Finish Task6 history integration, Tasks7/8 tests/build/browserQA/review/docs.
+   Keep draftPR28 until complete; manual user merge only, no publication.

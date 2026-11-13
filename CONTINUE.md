@@ -1,21 +1,44 @@
-# Standing foundations — implementation in progress, 2026-11-13
+# Standing foundations — usage save point, 2026-11-13 21:54 Bangkok
 
-User approved implementation of the Stage1 plan, then explicitly approved carrying
-unmerged PR27 design/plan commits into a separate implementation branch.
-Branch `codex/standing-foundations` starts at fetched origin/main e7fa05b;
-carried documentation commits6e0742d,2b1ed16,6c96a36. Do not merge or publish.
-Plan and progress ledger: docs/superpowers/plans/2026-11-13-standing-foundations.md.
-Task1 commit6683d04 adds origins/state/strict validation. Focused41tests/4files
-PASS; independent task review approved. Tasks2migration and3household economy
-are in progress with separate file ownership. Tasks4–8 remain unstarted.
-Baseline npm test493/70 PASS(91.20s), npm run build PASS(existing >500kB advisory).
-No final release verification yet; debt closure at death awaits Task4, so do not
-claim a complete playable feature. Browser/player saves have not been touched.
-Usage at start:69% five-hour/37% weekly remaining, no low-capacity trigger.
-Next: finish Tasks2/3 and their reviews, then shared repayment/service(Task4),
-manual choices(Task5), presentation(Task6), release tests(Task7), browser/docs/PR
-(Task8). Resume from actual Git log and plan ledger, preserving task changes;
-recheck status/fetch/usage. PR27 remains separate; implementation PR not yet created.
+User approved Stage1 implementation and explicitly approved carrying PR27 design/
+plan commits into a separate branch. Branch `codex/standing-foundations`, based on
+fresh origin/main e7fa05b; carried docs6e0742d/2b1ed16/6c96a36. Draft PR28, base main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/28
+Do not merge, auto-merge, delete branch or publish. User merges manually.
+
+Existing plan/progress ledger: docs/superpowers/plans/2026-11-13-standing-foundations.md.
+Completed verified slices: Task1 origins/schema/validation6683d04 (41tests/4PASS),
+Task3 household/housingb42977f (38tests/2PASS), Task2 migration/earned parity08156c3
+(103tests/6PASS including Task3 fixture typing correction). All three independently
+reviewed. Task6 UI/i18n/summary19ecb74 (31tests/4PASS and scoped review approved),
+but engine actual-history hook awaitsTask5; exact exports/hook in ignored
+checkpoints/standing-foundations/task6-report.md. No browserQA yet.
+
+Task4 partial budget/service/economy/engine implementation is preserved in
+checkpoint commit019faf8 (details in plan ledger and ignored Task4 report).
+Focused50tests/4PASS reported; not fullTask4 complete. Known remaining bug:
+debtServiceYear must not reject the current processed year for read-only wages/
+projects; keep replay guard in creditDebtServiceYear instead. Add regression,
+fix, then implement assignment menu/execution guards and finish review. Tasks5
+manual choices/outcome hook,7release regressions and8browser/docs/delivery remain.
+Task6 previous two ended-debtor summary failures awaited Task4 closure; recheck
+rather than claiming fixed. Post-checkpoint npm run build PASS (TypeScript/Vite, existing >500kB advisory)
+and summary.test.ts PASS7/1 at21:56; prior two summary failures now pass. Full
+post-change suite and browserQA remain NOT RUN. Baseline
+before changes:493tests/70PASS(91.20s), buildPASS(existing >500kB advisory).
+
+Account observed21:54 Bangkok:5%five-hour/27%weekly remaining; resets Nov14
+00:10:42 /Nov16 19:12:06 Bangkok. Repository below10% rule requires this savepoint.
+No billing/reset action. Preserve all task work; no player browser saves touched.
+GitHTTP push response stalled/timed out, but first push actually created remote
+branch at6adde5f; draftPR28 created through API. Verify finalremoteSHA before assuming
+save failed/succeeded; final delivery status belongs in this chat's handoff.
+
+Exact resume: check git status/branch; fetch origin(prune, OpenSSL fallback), check
+usage; read plan ledger/Task4report, fix service eligibility regression then finish
+Task4, Task5 manual decisions, Task6 enginehook, Task7 fulltests/build, Task8 isolated
+QA5174 and finalreview. Continue this branch/PR, not a new task branch or repeated
+completed work. Preserve5173 saves. No code publication or automatic main integration.
 
 Historical checkpoint:
 
