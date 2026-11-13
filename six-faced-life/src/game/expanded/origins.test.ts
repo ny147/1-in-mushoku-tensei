@@ -13,7 +13,7 @@ describe('expanded origins and validation', () => {
       if (['migurd','superd'].includes(life.race)) expect(life.birthRegion).toBe('demon');
       if (life.race === 'superd') superd++;
       if (life.expansion.origin.status === 'noble') {
-        noble++; expect(['comfortable','extreme']).toContain(life.expansion.origin.wealth);
+        noble++;
       }
       counts[life.race] = (counts[life.race] ?? 0) + 1;
     }
@@ -22,6 +22,27 @@ describe('expanded origins and validation', () => {
     expect(Object.keys(counts)).toHaveLength(6);
     expect(createExpandedLife({seed:42})).toEqual(createExpandedLife({seed:42}));
   }, 30_000);
+  it('poor origins exist independently for commoner, noble and royal births', () => {
+    const poorRanks = new Set<string>();
+    let debtFreePoor = 0; let indebtedPoor = 0;
+    for (let seed = 0; seed < 10_000; seed++) {
+      const l = createExpandedLife({seed});
+      const s = l.expansion.social;
+      expect(s).toBeDefined();
+      if (l.expansion.origin.wealth === 'poor') {
+        poorRanks.add(s?.royalHouse ? 'royal' : l.expansion.origin.status);
+        if (s?.debt) indebtedPoor++; else debtFreePoor++;
+      } else expect(s?.debt).toBeNull();
+    }
+    expect([...poorRanks].sort()).toEqual(['commoner', 'noble', 'royal']);
+    expect(debtFreePoor).toBeGreaterThan(0);
+    expect(indebtedPoor).toBeGreaterThan(0);
+  }, 30_000);
+  it('unknown or inconsistent social state fails isLife', () => {
+    const l = createExpandedLife({seed:1});
+    Object.assign(l.expansion, {social:{version:99}});
+    expect(isLife(l)).toBe(false);
+  });
   it('preserves valid expanded records and rejects malformed nested facts without rewriting', () => {
     const life = createExpandedLife({seed:42});
     const load = (active:unknown) => loadGame({getItem:key=>key===SAVE_KEY?JSON.stringify({version:1, active, archive:[]}):null,setItem:()=>{throw Error('must not write');}});

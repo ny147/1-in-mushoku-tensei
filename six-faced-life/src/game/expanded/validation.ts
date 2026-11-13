@@ -99,6 +99,7 @@ export function validateExpansion(
     return false;
   const birthYear = v.birthYear;
   const year = birthYear + age;
+  if (v.social !== undefined && (!obj(v.social) || v.social.version !== 1)) return false;
   if (!validateEducationAccess(v, year, phase)) return false;
   if (
     !obj(v.origin) ||

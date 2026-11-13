@@ -12,6 +12,7 @@ import { migrateSwordState } from "./expanded/sword-migration";
 import { validateSwordState } from "./expanded/sword-validation";
 import { activateCareerPaths } from './expanded/career-migration';
 import { validateCareerPaths } from './expanded/career-validation';
+import { validateSocialState } from './expanded/social-validation';
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -322,6 +323,10 @@ export function isLife(v: unknown): v is Life {
     return false;
   if (expanded && !validateCareerPaths(
     (v.expansion as import('./expanded/types').ExpandedState).careerPaths,
+    v as unknown as import('./types').ExpandedLife,
+  )) return false;
+  if (expanded && !validateSocialState(
+    (v.expansion as import('./expanded/types').ExpandedState).social,
     v as unknown as import('./types').ExpandedLife,
   )) return false;
   if (

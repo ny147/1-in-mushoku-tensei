@@ -1,5 +1,25 @@
 import type { RaceId } from "../types";
 import type { Occupation, Wealth } from "./types";
+export const SOCIAL_BIRTH = {
+  royalSeed: 0x51a7e001,
+  debtSeed: 0xdeb70001,
+  royalChance: 1 / 12,
+  debtChance: 0.3,
+  debtBalance: 48,
+  relationship: 50,
+} as const;
+export const PARENTAL_DEBT = {
+  personalAge: 15,
+  childhoodPayment: 1,
+  childhoodSupportFloor: 9,
+  annualServiceCredit: 12,
+  serviceHealth: 20,
+  serviceBasicSupport: 18,
+  refusalHousingCost: 4,
+  refusalHousingYears: 3,
+  refusalRelationship: 35,
+  refusalBonds: 8,
+} as const;
 export const WEALTH: Record<RaceId, readonly (readonly [Wealth, number])[]> = {
   human: [
     ["poor", 45],
