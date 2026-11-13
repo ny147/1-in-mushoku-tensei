@@ -1,3 +1,49 @@
+# Standing foundations — implementation plan for review, 2026-11-13
+
+User linked PR #27 and requested an implementation plan. Prepared the detailed
+Stage 1 plan at `docs/superpowers/plans/2026-11-13-standing-foundations.md`, plus
+the Stage 2/3 delivery roadmap. This authorizes planning, not application code;
+the design's explicitly proposed balance/compatibility/governance choices remain
+proposals. All eight execution tasks are unstarted. No gameplay or publication.
+
+Continue this documentation follow-up on the existing clean-start branch
+`codex/standing-impact-design`, PR #27 targeting main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/27
+Starting HEAD `6544ec4`; freshly fetched origin/main `e7fa05b`. Inspect
+`git log -1 --oneline` for the plan/checkpoint delivery commit. User merges manually.
+
+Plan covers versioned social identity, independent wealth, strict validation,
+prospective active-save migration, earned nobility, childhood household costs,
+age-15 accept/service/refuse choices, shared education/parental repayment budget,
+real creditor work/housing consequences, EN/TH actual history, save/Watch tests,
+isolated browser QA and code-stage PR delivery. Exact royal/debt frequencies,
+48-silver liability, 12-silver annual service credit, bounded housing cost and
+education-first repayment allocation are reviewable builder defaults, not
+separately confirmed user decisions. No new Continue button. Later Stage 2 keeps
+permanent no-pardon exile and the complete 20% opposition claimant/ruler route;
+Stage 3 adds sponsorship/marriage after its own detailed plan and review.
+
+Self-review mapped Stage 1 requirements to tasks and checked current source
+paths/interfaces, queue bounds, annual work bonus, final-year service pay,
+source-aware education reserves, parent/property facts and migration composition.
+Plan header, eight unexecuted tasks, existing source paths, local document links,
+key constraints and documentation whitespace checks PASS. `git diff --check`
+PASS. Complete task diff reviewed, including the new plan; final fetch succeeded
+and current origin/main `e7fa05b` is included (zero behind). No known planning
+blocker. Application tests/build/browser QA are unnecessary for this documentation-
+only change and have not been run. Browser saves remain untouched. Git delivery
+uses this existing branch/PR; verify remote head matches the delivery commit.
+
+Usage observed Nov13 21:26 Bangkok: 75% five-hour /38% weekly remaining;
+resets Nov14 00:10:43 /Nov16 19:12:06 Bangkok. No billing/reset action.
+Next: review the written design and Stage 1 plan/defaults, then choose execution
+method. Native execution is recommended for the coupled accounting/queue work.
+Before actual code, recheck usage/status/fetch and require PR27's manual merge
+or explicit integration instructions, then start a clean Stage 1 branch from
+fresh origin/main with its own implementation PR. Do not merge or publish.
+
+Historical checkpoint:
+
 # Standing consequences — design awaiting approval, 2026-11-13
 
 User requested a design discussion using grill-me and i-have-adhd. ADHD output
