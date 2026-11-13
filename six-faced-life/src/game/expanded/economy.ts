@@ -7,7 +7,7 @@ import { worldYear, fact } from "./facts";
 import { clamp, draw } from "./random";
 import { annualIncomeExpanded } from "./careers";
 import { regionalConflict } from "./history";
-import { applyHouseholdDebtYear, housingSurcharge } from "./parental-debt";
+import { applyHouseholdDebtYear, housingSurcharge, debtServiceYear, type DebtServiceYear } from "./parental-debt";
 export interface Risk {
   cause: string;
   chance: number;
@@ -15,11 +15,11 @@ export interface Risk {
 export interface EconomyYear extends EducationYear {
   additionalShelterCosts: number;
 }
-export function applyEconomyYear(life: ExpandedLife): EconomyYear {
+export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = debtServiceYear(life, worldYear(life))): EconomyYear {
   const x = life.expansion,
     e = x.economy,
     year = worldYear(life);
-  const income = annualIncomeExpanded(life);
+  const income = service.eligible ? 0 : annualIncomeExpanded(life);
   const householdDeduction = applyHouseholdDebtYear(life);
   const additionalShelterCosts = housingSurcharge(life, year);
   const children = x.family.people.filter(
@@ -33,6 +33,7 @@ export function applyEconomyYear(life: ExpandedLife): EconomyYear {
   let resources =
     (life.age < 15 ? e.support - householdDeduction : life.coins + income) +
     (year <= e.aidUntil ? 12 : 0);
+  if (service.eligible) resources += service.support;
   // Scholarships pay actual necessities, never deposit an allowance in the purse.
   if (x.education.stage === "university" && x.education.scholarship)
     resources += 18;
@@ -82,6 +83,7 @@ export function applyEconomyYear(life: ExpandedLife): EconomyYear {
       : 0;
   return {
     worldYear: year,
+    creditorService: service.eligible,
     additionalShelterCosts,
     earnedIncome: income,
     necessaryEducationCosts: tuition + trainingCost,

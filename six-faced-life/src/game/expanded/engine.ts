@@ -28,6 +28,8 @@ import { activateCareerPaths } from './career-migration';
 import { creditCareerWork } from './career-work';
 import { careerChoiceOutcome } from '../../i18n/careers';
 import { activateSocialState } from './social-migration';
+import { debtServiceYear, creditDebtServiceYear, closeParentalDebt } from "./parental-debt";
+import { repayDebtsYear } from "./debt-budget";
 function syncLearning(life: ExpandedLife, magicXp = 0) {
   life.progression = getProgression(life);
   const track = life.progression.magic[life.progression.specialization];
@@ -68,6 +70,7 @@ export function beginExpanded(life: ExpandedLife): ExpandedLife {
 export function finishExpanded(life: ExpandedLife, cause: string) {
   if (life.phase === "ended") return;
   closeEducationDebt(life);
+  closeParentalDebt(life);
   life.phase = "ended";
   life.pending = null;
   life.expansion.queue = [];
@@ -196,6 +199,7 @@ export function setFocusExpanded(
 }
 function year(life: ExpandedLife) {
   life.age++;
+  const serviceYear = debtServiceYear(life, worldYear(life));
   life.progress = 0;
   const focus = FOCUSES[life.focus];
   for (const [k, v] of Object.entries(focus.effects))
@@ -209,7 +213,7 @@ function year(life: ExpandedLife) {
   grantSwordXp(life, (focus.sword ?? 0) * trainingMultiplier(life, "sword"));
   syncLearning(life, (focus.magic ?? 0) * trainingMultiplier(life, "magic"));
   const attendingFullTime = fullTimeTraining(life);
-  const annualEconomy = applyEconomyYear(life);
+  const annualEconomy = applyEconomyYear(life, serviceYear);
   life.stats.health = clamp(
     life.stats.health - 0.8 - (life.age > life.deathAge * 0.7 ? 1.2 : 0),
   );
@@ -292,7 +296,9 @@ function year(life: ExpandedLife) {
     };
     due.push("expanded.training-placement");
   }
-  repayEducationYear(life, annualEconomy);
+  if (life.expansion.social) repayDebtsYear(life, annualEconomy);
+  else repayEducationYear(life, annualEconomy);
+  creditDebtServiceYear(life, serviceYear);
   life.expansion.queue = due;
   queueReadySwordTrial(life);
   drain(life);

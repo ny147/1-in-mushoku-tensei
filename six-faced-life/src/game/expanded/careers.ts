@@ -10,6 +10,7 @@ import { getProgression } from "../progression";
 import { talentMultiplier } from "./genetics";
 import { grantSwordXp, maxSwordXp, swordMeets } from "./sword-state";
 import { careerVacancy, pathIncome, syncCareerNode } from './career-paths';
+import { debtServiceYear } from "./parental-debt";
 
 /** Adopted lives use current legal standing; old outstanding offers keep birth rules. */
 export function nobleFamilyFunds(life: ExpandedLife): number {
@@ -161,6 +162,7 @@ export function appoint(
   return true;
 }
 export function careerIncomeExpanded(l: ExpandedLife): number {
+  if (debtServiceYear(l, worldYear(l)).eligible) return 0;
   if(l.expansion.careerPaths)return pathIncome(l);
   const t = l.expansion.training;
   if (t?.active && !t.paused && t.mode === "full-time") return 24;
@@ -172,6 +174,7 @@ export function careerIncomeExpanded(l: ExpandedLife): number {
 }
 /** Annual earnings before necessities, shared by accounting and choice feedback. */
 export function annualIncomeExpanded(l: ExpandedLife): number {
+  if (debtServiceYear(l, worldYear(l)).eligible) return 0;
   if (l.age < 15 || l.expansion.education.stage === "university") return 0;
   const t = l.expansion.training;
   if (t?.active && !t.paused && t.mode === "full-time") return 24;
