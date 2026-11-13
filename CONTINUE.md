@@ -1,3 +1,63 @@
+# Standing consequences — design awaiting approval, 2026-11-13
+
+User requested a design discussion using grill-me and i-have-adhd. ADHD output
+preferences remain active until the user says to stop. We interviewed one decision
+at a time, inspected existing behavior, and wrote the agreed staged design:
+`docs/superpowers/specs/2026-11-13-standing-consequences-design.md`.
+Task branch `codex/standing-impact-design`, based on fresh origin/main `e7fa05b`.
+Design commit `9b5d224` is pushed in draft PR #27, explicitly targeting main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/27
+This checkpoint commit follows it; inspect `git log -2 --oneline` for its SHA.
+The user reviews/merges manually. No gameplay implementation or publication.
+
+Confirmed: wealth and Standing are independent, including poor noble/royal births;
+dynasty means Asura royal family. Earned nobles have equal rights/duties. Some poor
+households have parental debt: childhood resource effects, a personal decision at
+15, accept/service/refuse routes, housing/relationship consequences for refusal,
+fixed affordable repayments and hardship pauses without compounding interest.
+Nobles across kingdoms gain sponsorship for future service; repeated deliberate
+refusals can escalate through warnings/support suspension to disclosed title loss.
+Adult royals can receive optional political-marriage proposals with real costs.
+
+Asura succession directly involves local nobles/royals: personal allegiance at
+18+, household protection/escape for children. Ariel80% /opposition20%, independent
+of player actions. Defeat offers surrender/prison, escape/capture risk, or lethal
+resistance. Victory brings cash/recognition and lasting crown duties/privileges.
+Political flight means permanent exile: **cannot return to Asura; no pardon**.
+Do not restore the assistant's rejected return-with-pardon recommendation.
+
+The initial builder check surfaced the throne-claim question. User explicitly
+chose: player CAN become ruler; a dynasty claimant leads the opposition's fixed
+20% route; coronation continues the same life with royal income and occasional
+kingdom decisions. These replace the first draft's proposed no-player-monarch
+limit. Updated Stage2 includes a complete crown path, not a cosmetic title.
+
+Selected delivery: 1) Standing/debt, 2) succession/exile and playable ruler,
+3) broader house sponsorship/royal marriage. Exact balance values, prospective
+active-save migration, ancestry/office representation and detailed governance
+budget/stability/loss-of-office mechanics are marked builder proposals for
+full-document approval, not individually confirmed user decisions. The older
+2026-10-28 succession spec now points to the newer superseding rules.
+
+Initial independent builder check and follow-up completed; revised design found
+no remaining material planning question. Inspected complete task diff, source
+constraints and local references. Local-link/whitespace/confirmed-constraint checks
+PASS; `git diff --check` PASS. No application code/config/dependency changes;
+application tests/build/browser QA were not run or claimed. Browser saves intact.
+Final fetch succeeded; branch contains latest origin/main `e7fa05b` as observed.
+PR remains draft because full written design still needs user approval.
+
+Usage observed Nov13 21:12 Bangkok:83% five-hour /40% weekly remaining; resets
+Nov14 00:10:42 /Nov16 19:12:05 Bangkok. No billing/reset action.
+No known design-document or remote delivery blocker. Exact next step: ask the
+user to approve the written design or name a change. After approval, invoke
+`superpowers:writing-plans` to prepare the Stage1 implementation plan; do not
+start game code merely because staged delivery was selected. Recheck Git/fetch/
+usage on resumption. Preserve this branch/PR for follow-up design work; actual
+implementation stages follow their own branch/PR workflow. Do not merge/publish.
+
+Historical checkpoint:
+
 # Scene-edge miniature overlays — fixed for review, 2026-11-12
 
 User reported the tiny left/right animations mismatching the current character.
