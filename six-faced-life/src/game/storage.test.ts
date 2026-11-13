@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { advance, beginLife, choose, createLife } from "./engine";
 import { archiveLife, loadGame, SAVE_KEY, saveGame } from "./storage";
+import type { ExpandedLife } from "./types";
+import { createExpandedLife } from "./expanded/origins";
+import { getExpandedDecision } from "./expanded/events";
+import { finishExpanded } from "./expanded/engine";
 
 function memoryStorage() {
   const values = new Map<string, string>();
@@ -223,5 +227,73 @@ describe("local persistence", () => {
     const twice = archiveLife(once, life);
     expect(twice.archive).toHaveLength(1);
     expect(twice.active?.ending).toEqual(life.ending);
+  });
+});
+
+describe("social adoption in persisted expanded lives", () => {
+  function oldExpanded() {
+    const life = createExpandedLife({ seed: 1 });
+    delete life.expansion.social;
+    delete life.expansion.swords;
+    delete life.expansion.careerPaths;
+    life.phase = "alive";
+    life.age = 30;
+    life.pending = null;
+    return life;
+  }
+
+  it("composes social adoption after sword and career migration without rewriting the raw save", () => {
+    const life = oldExpanded(), storage = memoryStorage();
+    const raw = JSON.stringify({ version: 1, active: life, archive: [] });
+    storage.setItem(SAVE_KEY, raw);
+    const restored = loadGame(storage);
+    expect(restored.error).toBeNull();
+    const active = restored.data.active as ExpandedLife;
+    expect(active.expansion.swords).toBeDefined();
+    expect(active.expansion.careerPaths?.lastWorkYear).toBe(life.expansion.birthYear + 30);
+    expect(active.expansion.social).toMatchObject({ source: "migrated", activatedYear: life.expansion.birthYear + 30, debt: null, royalHouse: null });
+    expect(active.history).toEqual(life.history);
+    expect(active.rng).toBe(life.rng);
+    expect(active.expansion.familyRng).toBe(life.expansion.familyRng);
+    expect(active.expansion.worldSeed).toBe(life.expansion.worldSeed);
+    expect(storage.getItem(SAVE_KEY)).toBe(raw);
+    expect(saveGame(storage, restored.data)).toBe(true);
+    expect(loadGame(storage).data).toEqual(restored.data);
+  });
+
+  it("preserves pending sword compatibility and queued university/grant/service offers", () => {
+    const life = oldExpanded(), storage = memoryStorage();
+    life.pending = "expanded.university";
+    life.expansion.queue = ["expanded.grant", "expanded.service"];
+    const offer = getExpandedDecision(life);
+    expect(offer).toBeTruthy();
+    storage.setItem(SAVE_KEY, JSON.stringify({ version: 1, active: life, archive: [] }));
+    const restored = loadGame(storage);
+    expect(restored.error).toBeNull();
+    const active = restored.data.active as ExpandedLife;
+    expect(getExpandedDecision(active)).toEqual(offer);
+    expect(active.pending).toBe(life.pending);
+    expect(active.expansion.queue).toEqual(life.expansion.queue);
+    expect(active.expansion.swords?.compatibilityDecision).toEqual(offer);
+    expect(active.expansion.social).toBeUndefined();
+    expect(active.expansion.careerPaths).toBeUndefined();
+  });
+
+  it("rejects invalid raw payloads before adoption and leaves storage untouched", () => {
+    for (const malformed of [null, {}, { version: 99 }]) {
+      const life = oldExpanded(), storage = memoryStorage();
+      const raw = JSON.stringify({ version: 1, active: { ...life, expansion: { ...life.expansion, social: malformed } }, archive: [] });
+      storage.setItem(SAVE_KEY, raw);
+      expect(loadGame(storage).error).toBeTruthy();
+      expect(storage.getItem(SAVE_KEY)).toBe(raw);
+    }
+  });
+
+  it("leaves completed active and archived expanded snapshots unchanged", () => {
+    const life = oldExpanded(), storage = memoryStorage();
+    finishExpanded(life, "old age");
+    const save = { version: 1 as const, active: life, archive: [life] };
+    storage.setItem(SAVE_KEY, JSON.stringify(save));
+    expect(loadGame(storage)).toEqual({ data: save, error: null });
   });
 });

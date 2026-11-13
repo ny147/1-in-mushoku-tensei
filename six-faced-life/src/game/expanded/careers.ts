@@ -10,6 +10,13 @@ import { getProgression } from "../progression";
 import { talentMultiplier } from "./genetics";
 import { grantSwordXp, maxSwordXp, swordMeets } from "./sword-state";
 import { careerVacancy, pathIncome, syncCareerNode } from './career-paths';
+
+/** Adopted lives use current legal standing; old outstanding offers keep birth rules. */
+export function nobleFamilyFunds(life: ExpandedLife): number {
+  const x = life.expansion;
+  const status = x.social ? x.standing.status : x.origin.status;
+  return status === "noble" ? x.economy.familyFunds : 0;
+}
 export function careerRequirements(
   l: ExpandedLife,
   role: Occupation,
@@ -59,7 +66,7 @@ export function careerRequirements(
       add("patron", x.origin.patron || x.standing.reputation >= 30 ? 1 : 0, 1);
       add(
         "equipment",
-        l.coins + (x.origin.status === "noble" ? x.economy.familyFunds : 0),
+        l.coins + nobleFamilyFunds(l),
         120,
       );
       break;
@@ -125,8 +132,8 @@ export function appoint(
       return false;
   }
   const family =
-    role === "knight" && x.origin.status === "noble"
-      ? Math.min(cost, x.economy.familyFunds)
+    role === "knight"
+      ? Math.min(cost, nobleFamilyFunds(l))
       : 0;
   x.economy.familyFunds -= family;
   if (!funded) l.coins -= cost - family;

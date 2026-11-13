@@ -13,6 +13,7 @@ import { validateSwordState } from "./expanded/sword-validation";
 import { activateCareerPaths } from './expanded/career-migration';
 import { validateCareerPaths } from './expanded/career-validation';
 import { validateSocialState } from './expanded/social-validation';
+import { activateSocialState } from './expanded/social-migration';
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -364,10 +365,10 @@ export function loadGame(storage: StorageLike): {
           ? save.active.ruleset === "expanded-1"
             ? save.active.phase === "ended"
               ? save.active
-              : activateCareerPaths(migrateSwordState(
+              : activateSocialState(activateCareerPaths(migrateSwordState(
                   migrateTalents(migrateEducationAccess(save.active)),
                   getExpandedDecision(save.active),
-                ))
+                )))
             : migrateLife(save.active)
           : null,
         archive: save.archive.map((l) =>

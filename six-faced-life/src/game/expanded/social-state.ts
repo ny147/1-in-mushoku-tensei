@@ -1,6 +1,7 @@
 import type { ExpandedLife, RegionId } from "../types";
 import { SOCIAL_BIRTH } from "./balance";
 import { draw } from "./random";
+import { worldYear } from "./facts";
 
 export interface HouseAssociation {
   id: "asura-local" | "ranoa-local" | "millis-local" | "asura-royal";
@@ -73,6 +74,13 @@ export function associationForRegion(
     source,
     since,
   };
+}
+
+/** Record the local contact earned by an ordinary noble grant. */
+export function recordNobleAssociation(life: ExpandedLife): void {
+  const social = life.expansion.social;
+  if (!social) return;
+  social.association = associationForRegion(life.region, "earned", worldYear(life));
 }
 
 /** Only new births roll these independent streams; callers never consume them. */

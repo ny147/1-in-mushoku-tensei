@@ -54,7 +54,7 @@ describe("childhood household deductions", () => {
     const l = debtor();
     expect(applyHouseholdDebtYear(l)).toBe(1);
     l.history = [];
-    l.seen = [];
+    l.seen = {};
     l.expansion.facts = [];
     const saved = structuredClone(l);
     expect(applyHouseholdDebtYear(l)).toBe(0);

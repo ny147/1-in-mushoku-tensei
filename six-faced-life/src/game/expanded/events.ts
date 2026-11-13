@@ -31,6 +31,7 @@ import {
   careerRequirements,
   promotionReady,
   promote,
+  nobleFamilyFunds,
 } from "./careers";
 import {
   factionEligible,
@@ -54,6 +55,7 @@ import { worldYear, fact } from "./facts";
 import { draw, clamp } from "./random";
 import { REGIONS } from "../world";
 import { historicalRecord, canServeHistory, serviceRecord } from "./history";
+import { recordNobleAssociation } from "./social-state";
 export const MANUAL = new Set([
   "orsted",
   "hitogami",
@@ -211,9 +213,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
               : role === "adventurer"
                 ? ordinaryEntry("adventurer").starterFee
                 : role === "knight"
-                  ? x.origin.status === "noble"
-                    ? Math.max(0, 120 - x.economy.familyFunds)
-                    : 120
+                  ? Math.max(0, 120 - nobleFamilyFunds(life))
                   : 0,
           disabled:
             careerRequirements(life, role).some((r) => !r.met) ||
@@ -541,6 +541,7 @@ export function applyExpandedChoice(
     x.standing.status = "noble";
     x.origin.patron = true;
     fact(life, "achievement", "noble-grant");
+    if (x.social) recordNobleAssociation(life);
   }
   if (key === "retire" && action === "accept") appoint(life, "retired");
   if (key === "research" && action === "accept") {
