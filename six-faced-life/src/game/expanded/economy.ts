@@ -7,15 +7,21 @@ import { worldYear, fact } from "./facts";
 import { clamp, draw } from "./random";
 import { annualIncomeExpanded } from "./careers";
 import { regionalConflict } from "./history";
+import { applyHouseholdDebtYear, housingSurcharge } from "./parental-debt";
 export interface Risk {
   cause: string;
   chance: number;
 }
-export function applyEconomyYear(life: ExpandedLife): EducationYear {
+export interface EconomyYear extends EducationYear {
+  additionalShelterCosts: number;
+}
+export function applyEconomyYear(life: ExpandedLife): EconomyYear {
   const x = life.expansion,
     e = x.economy,
     year = worldYear(life);
   const income = annualIncomeExpanded(life);
+  const householdDeduction = applyHouseholdDebtYear(life);
+  const additionalShelterCosts = housingSurcharge(life, year);
   const children = x.family.people.filter(
     (p) => p.role === "child" && p.died === null && year - p.born < 18,
   ).length;
@@ -25,7 +31,7 @@ export function applyEconomyYear(life: ExpandedLife): EducationYear {
   const extras =
     children * 4 + spouses * 6 + (life.focus === "explore" ? 4 : 0) + tuition;
   let resources =
-    (life.age < 15 ? e.support : life.coins + income) +
+    (life.age < 15 ? e.support - householdDeduction : life.coins + income) +
     (year <= e.aidUntil ? 12 : 0);
   // Scholarships pay actual necessities, never deposit an allowance in the purse.
   if (x.education.stage === "university" && x.education.scholarship)
@@ -46,12 +52,13 @@ export function applyEconomyYear(life: ExpandedLife): EducationYear {
     return cost - paid;
   };
   e.unmetFood = use(8);
-  e.unmetShelter = use(6);
+  e.unmetShelter = use(6 + additionalShelterCosts);
   e.unmetCare = use(4);
   const unmetExtra = use(extras);
   e.lastIncome = income;
   e.lastExpenses =
-    18 + extras - e.unmetFood - e.unmetShelter - e.unmetCare - unmetExtra;
+    18 + additionalShelterCosts + extras -
+    e.unmetFood - e.unmetShelter - e.unmetCare - unmetExtra;
   if (life.age >= 15) life.coins = clamp(Math.floor(resources), 0, 1_000_000);
   e.peak = Math.max(e.peak, life.coins);
   if (e.unmetFood + e.unmetShelter + e.unmetCare > 0) {
@@ -75,6 +82,7 @@ export function applyEconomyYear(life: ExpandedLife): EducationYear {
       : 0;
   return {
     worldYear: year,
+    additionalShelterCosts,
     earnedIncome: income,
     necessaryEducationCosts: tuition + trainingCost,
     dependantCosts: children * 4 + spouses * 6,
