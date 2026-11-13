@@ -2,6 +2,14 @@
 
 Status: **proposed design, awaiting approval**. No gameplay implementation yet.
 
+**2026-11-13 update:** the [Standing consequences design](2026-11-13-standing-consequences-design.md)
+records the later interview and supersedes conflicting rules below. In particular,
+the new route involves local nobles/royals, gives children household-survival
+choices, offers a final decision after defeat, and makes political exile permanent
+with no return to Asura. An eligible dynasty player can also lead the opposition's
+20% throne route and continue life as ruler. Keep this document as historical context; its neutral
+route and automatic verdict lottery must not override the newer decisions.
+
 ## Confirmed user decisions
 
 - The succession event intrudes on too many lives and lacks meaningful personal
