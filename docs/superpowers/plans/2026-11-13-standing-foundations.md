@@ -16,7 +16,9 @@ existing seeded simulation and localStorage. No new dependencies or services.
 
 **Spec:** [Standing: privileges, burdens, and family consequences](../specs/2026-11-13-standing-consequences-design.md).
 
-**Status:** Plan for review, 2026-11-13; no implementation steps executed.
+**Status:** Implementation authorized, 2026-11-13; execution in progress.
+User approved carrying PR #27 documentation into the separate implementation
+branch `codex/standing-foundations`; no main merge or publication authorized.
 The request to create a plan authorizes this planning follow-up to
 [PR #27](https://github.com/ny147/1-in-mushoku-tensei/pull/27), on
 `codex/standing-impact-design`, base `main`. It does not authorize gameplay
@@ -229,24 +231,24 @@ new births and `validateSocialState(value: unknown, life: ExpandedLife): boolean
 at the completed-life validation layer (like `validateCareerPaths`). All types
 above live in `social-state.ts`; constants live in `balance.ts`.
 
-- [ ] Add failing cases `poor origins exist independently for commoner, noble and
+- [x] Add failing cases `poor origins exist independently for commoner, noble and
   royal births`, `poor births may be debt-free`, `nonpoor births never owe parental
   debt`, `same seed produces same identity`, and `unknown or inconsistent social
   state fails isLife`. Replace the obsolete comfortable-only noble assertion in
   `origins.test.ts`; keep its 10,000-seed validation/race/year checks.
-- [ ] Run `npm test -- src/game/expanded/origins.test.ts src/game/expanded/social-state.test.ts src/game/expanded/social-validation.test.ts`;
+- [x] Run `npm test -- src/game/expanded/origins.test.ts src/game/expanded/social-state.test.ts src/game/expanded/social-validation.test.ts`;
   expect missing-ledger/old-wealth assertions to fail for the intended reasons.
-- [ ] Implement the schema and proposed birth constants. Keep existing ordinary
+- [x] Implement the schema and proposed birth constants. Keep existing ordinary
   noble roll; replace its wealth branch with `weighted(stream, WEALTH[race])`.
   Initialize social state after the actual parents exist. Use dedicated streams
   for royal/debt rolls. Retain current education/patron/legal-status privileges
   equally for poor and rich nobles; give dynasty no free mastery or extra salary.
-- [ ] Validate own keys/enums, years, conservation, living/current versus immutable
+- [x] Validate own keys/enums, years, conservation, living/current versus immutable
   facts, royal eligibility, house-region consistency, contract term/credit bounds
   and parent IDs. Validate missing state as compatibility; reject present `null`,
   unknown version, negative/fractional balances and forged future service credit.
   Include cross-checks for personal decision age ≥15 and closed debt at death.
-- [ ] Rerun focused tests plus `validation.test.ts`; expect PASS. Save/load new
+- [x] Rerun focused tests plus `validation.test.ts`; expect PASS. Save/load new
   lives in both languages and verify neither new stream is copied to any existing
   RNG field. Commit `feat: add independent standing and household debt origins`.
 
@@ -516,12 +518,12 @@ fixtures, logs and browser backups ignored; do not add dependencies/hosting file
 
 | Task | State | Verification / commit |
 | --- | --- | --- |
-| 1 — State/origins/validation | Not started | — |
-| 2 — Migration/nobility parity | Not started | — |
-| 3 — Household/housing economy | Not started | — |
+| 1 — State/origins/validation | Complete | 6683d04; RED→GREEN41/4; task review approved |
+| 2 — Migration/nobility parity | In progress | Focused implementer; independent of household economy |
+| 3 — Household/housing economy | In progress | Separate economy/helper files; no engine edits |
 | 4 — Shared repayment/service | Not started | — |
 | 5 — Manual decisions | Not started | — |
-| 6 — EN/TH presentation/history | Not started | — |
+| 6 — EN/TH presentation/history | In progress | Separate UI/i18n/summary owner; no engine edits |
 | 7 — Release/restore/Watch tests | Not started | — |
 | 8 — Browser/docs/delivery | Not started | — |
 
@@ -530,3 +532,48 @@ Stage1 requirements assigned to tasks; named interfaces and review-focus cases
 cross-checked against current expanded modules. Proposed birth/debt/service/
 housing values and migration policy remain reviewable defaults. Application tests,
 build and browser QA have not been run for this documentation-only planning task.
+
+
+### Execution setup — 2026-11-13
+
+Ruling: carry the three PR27 documentation commits into a new branch from fresh
+origin/main — user explicitly approved after the unmerged-PR blocker was explained;
+original PR27 and main are preserved. New branch codex/standing-foundations,
+base e7fa05b; documentation commits 6e0742d, 2b1ed16, 6c96a36.
+Ruling: use task-scoped implementers/reviewers under subagent-driven-development
+because no execution method was explicitly selected; preserve this plan as the
+single progress ledger and use ignored checkpoints/ for temporary review packages.
+No new worktree or competing checkpoint is needed under repository instructions.
+Baseline npm run build PASS (existing >500kB advisory); baseline npm test PASS493/70 (91.20s).
+Usage start: 69% five-hour /37% weekly remaining, no low-capacity trigger.
+
+Preflight task consistency:
+
+| Task | Check | Result |
+| --- | --- | --- |
+| 1 | Types, origins, strict optional validation | New births only; old absence remains valid |
+| 2 | Migration versus immutable birth facts | No debt/royal inference; safe-point adoption |
+| 3 | Childhood payment versus age15 responsibility | Childhood ends before adult budget begins |
+| 4 | Shared repayment versus service wages | One cap; in-kind service replaces cash |
+| 5 | Manual actions versus queues | Responsibility retained until space; no overwrite |
+| 6 | Current disclosures versus past history | Freeze actual outcomes; no archive rewriting |
+| 7 | Test fixtures versus migration | Capture old absence/queues before migration |
+| 8 | QA/delivery versus browser saves/main | Isolated5174; human merge; no publication |
+
+Preflight shared interfaces (all tasks additionally share Global Constraints):
+
+| Tasks | Shared contract | Finding/ruling |
+| --- | --- | --- |
+| 1→2,3,4,5,6,7 | SocialState / strict validator | Later lifecycle states must validate, including closed/refused |
+| 1→8 | Birth constants in documented behavior | Document authored balance as such |
+| 2→3,4,5,6,7,8 | Active-only ledger adoption | Existing queues resolve before new mechanics |
+| 3→4,5,6,7,8 | Household costs / responsibility / housing | Additional shelter enters the same annual budget |
+| 4→5,6,7,8 | Repayment/service snapshot | No duplicate generic choice debit; freeze start-of-year eligibility |
+| 5→6,7,8 | Manual IDs and persisted actual choices | Activity label exhaustive map must be extended |
+| 6→7,8 | Localized history/outcomes | Use existing narrative fallback; no future stage buttons |
+| 7→8 | Full suite/build and evidence | Browser evidence complements automated restore coverage |
+
+Task1 complete:6683d04; focused41/4 PASS; independent task review approved, no Critical/Important finding. Temporary ended-debtor closure awaits Task4 as planned.
+Ruling: execute Tasks2/3 concurrently with explicit file ownership — Task2 owns engine/storage/events/social-state migration; Task3 owns new parental-debt helper and economy only, so no shared writes. Both consume reviewed Task1 interfaces.
+
+Ruling: Task6 presentation can proceed against reviewed SocialState concurrently; its owner exports actual-outcome helpers for Task5 engine integration and does not edit engine/economy/state. No future stage actions. Task3 annual surcharge field is additionalShelterCosts, matching Task4.

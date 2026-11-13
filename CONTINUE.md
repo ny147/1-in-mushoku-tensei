@@ -1,3 +1,24 @@
+# Standing foundations — implementation in progress, 2026-11-13
+
+User approved implementation of the Stage1 plan, then explicitly approved carrying
+unmerged PR27 design/plan commits into a separate implementation branch.
+Branch `codex/standing-foundations` starts at fetched origin/main e7fa05b;
+carried documentation commits6e0742d,2b1ed16,6c96a36. Do not merge or publish.
+Plan and progress ledger: docs/superpowers/plans/2026-11-13-standing-foundations.md.
+Task1 commit6683d04 adds origins/state/strict validation. Focused41tests/4files
+PASS; independent task review approved. Tasks2migration and3household economy
+are in progress with separate file ownership. Tasks4–8 remain unstarted.
+Baseline npm test493/70 PASS(91.20s), npm run build PASS(existing >500kB advisory).
+No final release verification yet; debt closure at death awaits Task4, so do not
+claim a complete playable feature. Browser/player saves have not been touched.
+Usage at start:69% five-hour/37% weekly remaining, no low-capacity trigger.
+Next: finish Tasks2/3 and their reviews, then shared repayment/service(Task4),
+manual choices(Task5), presentation(Task6), release tests(Task7), browser/docs/PR
+(Task8). Resume from actual Git log and plan ledger, preserving task changes;
+recheck status/fetch/usage. PR27 remains separate; implementation PR not yet created.
+
+Historical checkpoint:
+
 # Standing foundations — implementation plan for review, 2026-11-13
 
 User linked PR #27 and requested an implementation plan. Prepared the detailed
