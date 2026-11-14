@@ -294,10 +294,10 @@ docs/verification/shell-navigation.md. Change implementation only for found defe
 - [x] Obtain an independent scoped review of history/data boundaries and shell
   accessibility after implementation. Resolve material findings and verify affected
   flows. Do not claim the initial 25/40 score improved without a fresh critique.
-- [ ] Update this progress ledger and CONTINUE.md with commit, checks, remaining
+- [x] Update this progress ledger and CONTINUE.md with commit, checks, remaining
   issues, usage/reset observations and exact next step. Review git diff --check,
   all task files against origin/main and status; inspect new files too.
-- [ ] Commit only task-owned files, push the named task branch and create/update
+- [x] Commit only task-owned files, push the named task branch and create/update
   its one PR explicitly targeting main. Fetch before handoff; report upstream
   advancement without automatically merging/rebasing. Draft if required checks
   fail or remain blocked. User merges manually; no publication.
@@ -327,7 +327,8 @@ pure route module's planned interfaces remain unchanged. Use existing ignored
 
 Execution evidence: [verification record](../../verification/shell-navigation.md).
 Source foundation commits7448ad7,17fc13a,e63d355,f4553d8; final reviewed fix and
-documentation delivery follow. Ruling: record archivePreviewHref as navigation
+evidence commit9d3e43e pushed to PR30, confirmed draft pending manual zoom. Final
+fetch includes origin/main e27c2b1; no integration needed. Ruling: record archivePreviewHref as navigation
 metadata so a copied fragment history entry is not mistaken for an immediate
 list predecessor. Ruling: late font-layout correction never refocuses and cancels
 on player interaction, per the independently reproduced review finding.

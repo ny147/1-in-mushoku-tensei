@@ -11,7 +11,10 @@ Back/Forward/reload, paused route returns, latest-life data ownership, archive
 preview/list row+scroll return, storage-load deferral, safe malformed routes,
 short-sidebar scrolling, fitting full title and normal-flow scrollable mobile
 menu. No engine/schema/package/artwork changes. Source foundation commits:
-7448ad7,17fc13a,e63d355,f4553d8. Final fix/delivery commit follows; inspect git log -1.
+7448ad7,17fc13a,e63d355,f4553d8. Final reviewed fix/evidence commit9d3e43e is
+pushed to its own upstream. PR30 is confirmed draft, with implementation title/body.
+Final fetch includes origin/main e27c2b1 (zero behind). This documentation-only
+delivery followup records the final state; inspect git log -1 for its commit.
 
 One independent whole-branch review found late font restoration could steal moved
 focus and an undersized archive-return target. Both fixed in one pass with an
