@@ -1,3 +1,30 @@
+# Ending layout bug fix — verified, delivery in progress, 2026-11-14
+
+User requested review/fix of the ending screenshot. Task branch:
+`codex/fix-retrospective-layout`, based on freshly fetched `origin/main` c0b38ab.
+The full sword panel was incorrectly inside the four-column life-facts grid,
+squeezing XP text and orphaning the career fact. It now follows all four facts
+at full width; shared sword rows use flexible columns and safe text wrapping.
+No gameplay, persistence, stored prose, dependencies or publishing changes.
+
+Verification: npm test695/695 in80files PASS(115.00s); build PASS with existing
+>500kB advisory. Canonical fixture followup9/9 PASS; ending/sword16/16 PASS.
+Browser18+30 PASS EN/TH, desktop/narrow widths320–1280, keyboard disclosure/focus,
+archive/reload data preservation, old/legacy endings and live shared panels.
+No console/page errors or overflow. Independent scoped review: no findings.
+Evidence/limits: docs/verification/ending-layout.md. QA scripts/artifacts ignored
+in six-faced-life/.openai/ending-qa and checkpoints/. Existing5174 server reused;
+player5173, existing Chrome profiles and hosted saves untouched.
+
+Usage observed Nov14 15:45 Bangkok:60%five-hour/94%weekly remaining; resets
+Nov14 18:28:14 /Nov21 13:28:14 Bangkok. No billing/reset action.
+
+Next: review full diff, commit only task files, push the task branch and create
+its PR explicitly targeting main. Record PR/commit delivery below, fetch before
+handoff, and report branch freshness. User merges manually; do not publish.
+
+Historical checkpoint:
+
 # Standing foundations — implemented for review, 2026-11-14
 
 Stage1 plan implemented on `codex/standing-foundations`, ready-for-review PR28 targeting main:
