@@ -288,7 +288,7 @@ button svg {
   display: grid;
   gap: 7px;
 }
-.main-nav > button {
+.main-nav > :is(button, a) {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -301,10 +301,10 @@ button svg {
   font-weight: 500;
   position: relative;
 }
-.main-nav > button:hover {
+.main-nav > :is(button, a):hover {
   background: #e6e9dd;
 }
-.main-nav > button.active {
+.main-nav > :is(button, a).active {
   background: #dfe5d8;
   color: #324f3b;
   font-weight: 600;
@@ -386,7 +386,7 @@ button svg {
   margin-top: auto;
   padding: 45px 11px 0;
 }
-.sidebar-bottom > button {
+.sidebar-bottom > :is(button, a) {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2394,7 +2394,7 @@ button svg {
   .brand span {
     font-size: 10px;
   }
-  .main-nav > button {
+  .main-nav > :is(button, a) {
     font-size: 13px;
     gap: 9px;
     padding: 11px 10px;
@@ -2760,7 +2760,7 @@ button svg {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
-  .main-nav > button {
+  .main-nav > :is(button, a) {
     font-size: 14px;
     padding: 14px 12px;
   }
@@ -3872,7 +3872,7 @@ h2[tabindex="-1"] {
   .sidebar-colophon {
     display: none;
   }
-  .sidebar-bottom > button {
+  .sidebar-bottom > :is(button, a) {
     min-height: 44px;
     font-size: 14px;
     width: 100%;
@@ -4236,5 +4236,5 @@ h2[tabindex="-1"] {
   .time-main .speed-controls { min-width: 0; max-width: 100%; flex-wrap: wrap; }
   .life-record .section-topline { flex-wrap: wrap; }
   .character-rail { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(180px, 45%)), 1fr)); }
-  .main-nav > button { min-width: 0; overflow-wrap: anywhere; }
+  .main-nav > :is(button, a) { min-width: 0; overflow-wrap: anywhere; }
 }
