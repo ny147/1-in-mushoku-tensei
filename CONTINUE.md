@@ -1,3 +1,48 @@
+# App shell UX specification and plan, 2026-11-14
+
+User requested a spec and implementation plan for the review findings. This is a
+documentation followup on existing `codex/ui-navigation-review`, PR30 targeting
+main: https://github.com/ny147/1-in-mushoku-tensei/pull/30
+Current fetched origin/main e27c2b1 is included. Existing updater-generated local
+`.codex/hooks.json` and `.gemini/settings.json` remain untouched/untracked, outside
+the commit. They are known prior-session tool output, not new unrelated app work.
+
+Documents:
+- docs/superpowers/specs/2026-11-14-shell-navigation-design.md
+- docs/superpowers/plans/2026-11-14-shell-navigation.md
+
+Proposed native History API/query routes, working logo/breadcrumb/main-nav links,
+paused return to current life, archive-preview URLs and list focus/scroll return,
+safe invalid-route/load-retry behavior, scrollable short sidebar and fitting full
+brand title. Keep existing theme, simulation and saves. These are detailed author
+proposals for document approval; not individually confirmed user decisions.
+
+Plan has five unstarted tasks: route helpers; browser history/shell links; archive
+return; sidebar/brand/mobile menu; full verification/docs/delivery. Native execution
+is recommended for shared App state, with one independent whole-branch review.
+User has not selected an execution method. Do not begin product implementation.
+
+Independent builder check of written spec: no important unanswered questions or
+contradictions. Author self-review maps every N/L/V acceptance requirement to a
+task and checks interface names, test boundaries and file paths. Local Markdown
+references, placeholders, staged whitespace and the complete task diff were
+checked; no errors found. No application tests, build or new browser QA have been
+run for this planning-only followup. The previous review evidence remains
+historical, with its limits recorded in the snapshot below.
+
+Usage observed Nov14 17:15 Bangkok:41%five-hour/91%weekly remaining; resets
+Nov14 18:28:14 /Nov21 13:28:14 Bangkok. No billing/reset-credit action.
+
+Delivery uses the existing branch/upstream and PR30; inspect git log -1 for the
+spec/plan delivery commit. Next: user reviews spec/plan and chooses execution.
+Before a new implementation task, resolve the two local
+hook files with the user under the clean-start rule; do not delete/stash/stage
+them automatically. Require manual documentation merge or explicit integration
+instructions before creating an implementation branch from fresh origin/main.
+User merges manually. No publication, merge or product behavior change.
+
+Historical checkpoint:
+
 # App shell UX review, 2026-11-14
 
 User requested an impeccable review of sidebar overflow and navigation. Review-only
