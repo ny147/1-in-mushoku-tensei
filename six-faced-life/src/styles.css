@@ -248,13 +248,22 @@ button svg {
   display: flex;
   flex-direction: column;
   z-index: 25;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
 }
+.sidebar > * { flex-shrink: 0; }
 .brand {
   display: flex;
   align-items: center;
   gap: 11px;
   padding: 0 11px;
+  min-width: 0;
+  color: var(--ink);
+  text-decoration: none;
+  min-height: 44px;
 }
+.brand > div { min-width: 0; }
+.sidebar .brand { padding-inline: 0; }
 .brand > svg {
   height: 39px;
   width: 35px;
@@ -267,7 +276,7 @@ button svg {
   font-size: 25px;
   font-weight: 700;
   letter-spacing: -0.035em;
-  white-space: nowrap;
+  white-space: normal;
   line-height: 1.1;
   display: block;
 }
@@ -288,7 +297,7 @@ button svg {
   display: grid;
   gap: 7px;
 }
-.main-nav > button {
+.main-nav > :is(button, a) {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -300,11 +309,14 @@ button svg {
   color: #626b60;
   font-weight: 500;
   position: relative;
+  min-width: 0;
+  min-height: 44px;
+  text-decoration: none;
 }
-.main-nav > button:hover {
+.main-nav > :is(button, a):hover {
   background: #e6e9dd;
 }
-.main-nav > button.active {
+.main-nav > :is(button, a).active {
   background: #dfe5d8;
   color: #324f3b;
   font-weight: 600;
@@ -357,6 +369,7 @@ button svg {
   font-family: var(--serif);
   font-size: 23px;
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 .sidebar-character > p {
   font-size: 13px;
@@ -386,13 +399,15 @@ button svg {
   margin-top: auto;
   padding: 45px 11px 0;
 }
-.sidebar-bottom > button {
+.sidebar-bottom > :is(button, a) {
   display: flex;
   align-items: center;
   gap: 10px;
   color: var(--muted);
   font-size: 13px;
   padding: 10px 0;
+  min-height: 44px;
+  text-decoration: none;
 }
 .sidebar-colophon {
   border-top: 1px solid var(--line);
@@ -423,13 +438,15 @@ button svg {
   min-height: 100vh;
 }
 .topbar {
-  height: 76px;
+  min-height: 76px;
   border-bottom: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 40px;
   gap: 15px;
+  flex-wrap: wrap;
+  padding-block: 10px;
 }
 .breadcrumb {
   display: flex;
@@ -437,7 +454,13 @@ button svg {
   gap: 10px;
   color: var(--muted);
   font-size: 12px;
+  min-width: 0;
 }
+.breadcrumb ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0 10px; margin: 0; padding: 0; list-style: none; }
+.breadcrumb li { display: flex; align-items: center; gap: 10px; min-width: 0; overflow-wrap: anywhere; }
+.breadcrumb :is(a, strong) { display: inline-flex; align-items: center; min-height: 44px; }
+.breadcrumb a { text-underline-offset: 4px; }
+.breadcrumb a:hover { color: var(--green-dark); }
 .breadcrumb strong {
   font-weight: 500;
   color: #465642;
@@ -2023,10 +2046,13 @@ button svg {
   text-align: left;
   padding: 25px 0;
   border-top: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
 }
 .archived-life:hover {
   background: #eef0e6;
 }
+.ending-page > .text-button { min-height: 44px; }
 .archive-seal {
   background: #e4e8da;
   border-radius: 50%;
@@ -2394,7 +2420,7 @@ button svg {
   .brand span {
     font-size: 10px;
   }
-  .main-nav > button {
+  .main-nav > :is(button, a) {
     font-size: 13px;
     gap: 9px;
     padding: 11px 10px;
@@ -2404,7 +2430,8 @@ button svg {
   }
   .topbar {
     padding: 0 25px;
-    height: 69px;
+    min-height: 69px;
+    padding-block: 8px;
   }
   .topbar-actions {
     gap: 15px;
@@ -2739,10 +2766,11 @@ button svg {
   }
   .sidebar {
     display: none;
-    position: absolute;
-    top: 72px;
+    position: static;
+    top: auto;
     bottom: auto;
     width: 100%;
+    max-height: 60dvh;
     padding: 15px 18px 18px;
     border-bottom: 1px solid #ced5c1;
     box-shadow: 0 12px 22px #3c4a2412;
@@ -2760,7 +2788,7 @@ button svg {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
-  .main-nav > button {
+  .main-nav > :is(button, a) {
     font-size: 14px;
     padding: 14px 12px;
   }
@@ -2768,7 +2796,7 @@ button svg {
     margin-left: 0;
   }
   .topbar {
-    height: 58px;
+    min-height: 58px;
     padding: 0 20px;
   }
   .breadcrumb {
@@ -3872,7 +3900,7 @@ h2[tabindex="-1"] {
   .sidebar-colophon {
     display: none;
   }
-  .sidebar-bottom > button {
+  .sidebar-bottom > :is(button, a) {
     min-height: 44px;
     font-size: 14px;
     width: 100%;
@@ -4236,5 +4264,5 @@ h2[tabindex="-1"] {
   .time-main .speed-controls { min-width: 0; max-width: 100%; flex-wrap: wrap; }
   .life-record .section-topline { flex-wrap: wrap; }
   .character-rail { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(180px, 45%)), 1fr)); }
-  .main-nav > button { min-width: 0; overflow-wrap: anywhere; }
+  .main-nav > :is(button, a) { min-width: 0; overflow-wrap: anywhere; }
 }

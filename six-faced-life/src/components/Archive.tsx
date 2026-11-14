@@ -19,6 +19,7 @@ import { translate } from "../i18n/messages";
 import { CAREERS, RACES, REGIONS, rankFor } from "../game/world";
 import { SwordProgress } from "./SwordProgress";
 import { LifeRecord, LifeTimeline } from "./LifeView";
+import { archiveRowId } from '../navigation';
 
 export function Ending({
   life,
@@ -139,12 +140,14 @@ export function Ending({
 
 export function Archive({
   lives,
+  lifeHref,
   onRead,
   onNew,
   hasActive = false,
   saved = true,
 }: {
   lives: Life[];
+  lifeHref: (life: Life) => string;
   onRead: (life: Life) => void;
   onNew: () => void;
   hasActive?: boolean;
@@ -183,10 +186,17 @@ export function Archive({
         )}
       </p>
       {lives.map((life) => (
-        <button
+        <a
           className="archived-life"
+          id={archiveRowId(life.id)}
+          href={lifeHref(life)}
           key={life.id}
-          onClick={() => onRead(life)}
+          onClick={event => {
+            if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+              (event.currentTarget.target && event.currentTarget.target !== '_self')) return;
+            event.preventDefault();
+            onRead(life);
+          }}
         >
           <span className="archive-seal">{life.name.charAt(0)}</span>
           <span>
@@ -211,7 +221,7 @@ export function Archive({
             </small>
           </span>
           <ArrowRight size={20} />
-        </button>
+        </a>
       ))}
       <p className="local-note">
         {t(

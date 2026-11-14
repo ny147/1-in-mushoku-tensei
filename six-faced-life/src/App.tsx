@@ -62,8 +62,10 @@ import { selectSwordStyle } from "./game/engine";
 import { Archive, Ending } from "./components/Archive";
 import { WorldView } from "./components/WorldView";
 import { describeChoice, type ChoiceResult } from "./components/ChoiceOutcome";
+import { routeHref, type Page } from './navigation';
+import { useAppNavigation } from './useAppNavigation';
+import type { MouseEvent as ReactMouseEvent } from 'react';
 
-type Page = "chronicle" | "character" | "world" | "archive" | "new" | "help";
 function focusContent(id: string) {
   const target = document.getElementById(id);
   if (!target) return false;
@@ -83,11 +85,11 @@ function readInitial() {
     };
   }
 }
-function Brand() {
+function Brand({ href, onClick, hasLife }: { href: string; onClick: (event: ReactMouseEvent<HTMLAnchorElement>) => void; hasLife: boolean }) {
   const { t } = useI18n();
 
   return (
-    <div className="brand">
+    <a className="brand" href={href} onClick={onClick} aria-label={t(hasLife ? 'Return to your chronicle' : 'Begin a new life')}>
       <svg viewBox="0 0 40 44" aria-hidden="true">
         <path d="m20 3 16 9v20l-16 9L4 32V12Zm0 0v38M4 12l16 10 16-10M4 32l16-10 16 10" />
         <path d="m12 8 16 28M28 8 12 36" opacity=".4" />
@@ -96,7 +98,7 @@ function Brand() {
         <strong>{t("Six-Faced Life")}</strong>
         <span>{t("A second chance")}</span>
       </div>
-    </div>
+    </a>
   );
 }
 
@@ -113,19 +115,28 @@ export default function App() {
   const [data, setData] = useState<SaveData>(initial.data);
   const [notice, setNotice] = useState(initial.error);
   const [saved, setSaved] = useState(!initial.error);
-  const [page, setPage] = useState<Page>(
-    initial.data.active ? "chronicle" : "new",
-  );
   const [playing, setPlaying] = useState(false);
   const [sceneMotionEnabled,setSceneMotionEnabled]=useState(true);
   const [speed, setSpeed] = useState(1);
   const [auto, setAuto] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [preview, setPreview] = useState<Life | null>(null);
   const [outcome, setOutcome] = useState<ChoiceResult | null>(null);
   const [focusTarget, setFocusTarget] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const [loadFailed, setLoadFailed] = useState(!!initial.error);
+  const navigation = useAppNavigation({
+    hasLife: !!data.active, archiveIds: data.archive.map(value => value.id), loadFailed,
+  }, ({ route: next, changed, focusTarget: target }) => {
+    if (changed) setPlaying(false);
+    setMenuOpen(false);
+    setAnnouncement('');
+    setFocusTarget(target ?? (next.page === 'archive' && next.lifeId ? 'retrospective-heading' : 'page-title'));
+    if (changed) window.scrollTo({ top: 0, behavior: 'instant' });
+  });
+  const page = navigation.route.page;
+  const previewId = navigation.route.page === 'archive' ? navigation.route.lifeId : undefined;
+  const preview = navigation.route.page === 'archive'
+    ? data.archive.find(value => value.id === previewId) ?? null : null;
   const menuButton = useRef<HTMLButtonElement>(null);
   const dirty = useRef(false);
   const lastSave = useRef(0);
@@ -184,7 +195,6 @@ export default function App() {
       setLoadFailed(false);
       setSaved(true);
       setPlaying(false);
-      navigate(result.data.active ? "chronicle" : "new");
       return;
     }
     if (persistLatest()) {
@@ -225,7 +235,7 @@ export default function App() {
   }, [data, life]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, [page, life?.phase]);
+  }, [life?.phase]);
   useEffect(() => {
     if (!focusTarget) return;
     if (focusContent(focusTarget)) setFocusTarget(null);
@@ -319,14 +329,17 @@ export default function App() {
     return () => window.removeEventListener("keydown", onKey);
   }, [life?.phase, page, menuOpen]);
 
-  function navigate(next: Page) {
-    setAnnouncement("");
+  function navigate(next: Page, options: {lifeId?: string; replace?: boolean; focusTarget?: string} = {}) {
     if (next === "new" && life) setDraftLanguage(preferredLanguage);
-    setPage(next);
-    setMenuOpen(false);
-    setPreview(null);
-    setFocusTarget("page-title");
-    window.scrollTo({ top: 0, behavior: "instant" });
+    navigation.navigate(next === 'archive' ? {page: next, lifeId: options.lifeId} : {page: next}, options);
+  }
+  const hrefFor = (next: Page, lifeId?: string) => routeHref(next === 'archive' ? {page: next, lifeId} : {page: next}, new URL(window.location.href));
+  function followLink(event: ReactMouseEvent<HTMLAnchorElement>, next: Page, lifeId?: string) {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
+      (event.currentTarget.target && event.currentTarget.target !== '_self') || event.currentTarget.hasAttribute('download')) return;
+    event.preventDefault();
+    if (preview && next === 'archive' && !lifeId) { navigation.returnToArchive(); return; }
+    navigate(next, {lifeId});
   }
   function startNew(
     name: string,
@@ -344,7 +357,7 @@ export default function App() {
     setPlaying(false);
     setOutcome(null);
     setAnnouncement("");
-    navigate("chronicle");
+    navigate("chronicle", {replace: true});
   }
   function selectChoice(id: string) {
     const current = dataRef.current.active;
@@ -374,8 +387,7 @@ export default function App() {
     updateLife(() => next);
   };
   function openSpellbook() {
-    navigate("character");
-    setFocusTarget("spellbook-heading");
+    navigate("character", {focusTarget: 'spellbook-heading'});
   }
   const navItems: { id: Page; label: string; icon: typeof BookOpen }[] = [
     { id: "chronicle", label: "Your chronicle", icon: BookOpen },
@@ -406,7 +418,7 @@ export default function App() {
           {t(announcement)}
         </div>
         <div className="mobile-top">
-          <Brand />
+          <Brand hasLife={!!life} href={hrefFor(life ? 'chronicle' : 'new')} onClick={event => followLink(event, life ? 'chronicle' : 'new')} />
           <button
             className="icon-button"
             aria-label={t(menuOpen ? "Close navigation" : "Open navigation")}
@@ -422,21 +434,22 @@ export default function App() {
           id="site-navigation"
           className={`sidebar ${menuOpen ? "menu-open" : ""}`}
         >
-          <Brand />
+          <Brand hasLife={!!life} href={hrefFor(life ? 'chronicle' : 'new')} onClick={event => followLink(event, life ? 'chronicle' : 'new')} />
           <div className="sidebar-rule" />
           <nav className="main-nav" aria-label={t("Main navigation")}>
             {navItems.map(({ id, label, icon: Icon }) => (
-              <button
+              <a
                 key={id}
+                href={hrefFor(id === 'chronicle' && !life ? 'new' : id)}
                 className={
                   page === id || (id === "chronicle" && page === "new")
                     ? "active"
                     : ""
                 }
-                onClick={() =>
-                  navigate(id === "chronicle" && !life ? "new" : id)
+                onClick={event =>
+                  followLink(event, id === "chronicle" && !life ? "new" : id)
                 }
-                aria-current={page === id ? "page" : undefined}
+                aria-current={page === id || (page === 'new' && id === 'chronicle') ? "page" : undefined}
               >
                 <Icon size={18} strokeWidth={1.6} />
                 {t(label)}
@@ -444,7 +457,7 @@ export default function App() {
                 {id === "archive" && data.archive.length > 0 && (
                   <span className="nav-count">{data.archive.length}</span>
                 )}
-              </button>
+              </a>
             ))}
           </nav>
           {life && (
@@ -471,10 +484,10 @@ export default function App() {
             </div>
           )}
           <div className="sidebar-bottom">
-            <button onClick={() => navigate("help")}>
+            <a href={hrefFor('help')} onClick={event => followLink(event, 'help')} aria-current={page === 'help' ? 'page' : undefined}>
               <CircleHelp size={17} />
               {t("How to play")}
-            </button>
+            </a>
             <div className="sidebar-colophon">
               <Leaf size={19} strokeWidth={1.2} />
               <p>
@@ -488,11 +501,12 @@ export default function App() {
         </aside>
         <main id="main-content" className="main-content" tabIndex={-1}>
           <header className="topbar">
-            <div className="breadcrumb">
-              <span>{t("The Six-Faced World")}</span>
-              <ChevronRight size={13} />
-              <strong>
-                {t(
+            <nav className="breadcrumb" aria-label={t('Breadcrumb')}>
+              <ol>
+              {page !== 'chronicle' && page !== 'new' && <li><a href={hrefFor(life ? 'chronicle' : 'new')} onClick={event => followLink(event, life ? 'chronicle' : 'new')}>{t(life ? 'Your chronicle' : 'A new beginning')}</a><ChevronRight size={13} aria-hidden="true" /></li>}
+              {preview && <li><a href={hrefFor('archive')} onClick={event => followLink(event, 'archive')}>{t('Past lives')}</a><ChevronRight size={13} aria-hidden="true" /></li>}
+              <li><strong aria-current="page">
+                {preview ? `${preview.name} ${preview.surname}` : t(
                   page === "new" ||
                     (life?.phase === "birth" && page === "chronicle")
                     ? "A new beginning"
@@ -500,8 +514,9 @@ export default function App() {
                       ? "How to play"
                       : navItems.find((n) => n.id === page)?.label,
                 )}
-              </strong>
-            </div>
+              </strong></li>
+              </ol>
+            </nav>
             <div className="topbar-actions">
               <span
                 className={`save-indicator ${saved ? "" : "unsaved"}`}
@@ -521,6 +536,7 @@ export default function App() {
               )}
             </div>
           </header>
+          {navigation.notice && <div className="notice" role="alert"><p>{t(navigation.notice)}</p><button className="icon-button" aria-label={t('Dismiss message')} onClick={navigation.dismissNotice}><X size={17} /></button></div>}
           {notice && !loadFailed && (
             <div className="notice" role="alert">
               <p>{t(notice)}</p>
@@ -726,19 +742,17 @@ export default function App() {
                   life={preview}
                   onNew={() => navigate("new")}
                   onBack={() => {
-                    setPreview(null);
-                    setFocusTarget("page-title");
+                    navigation.returnToArchive();
                   }}
                 />
               ) : (
                 <Archive
+                  lifeHref={value => hrefFor('archive', value.id)}
                   saved={saved}
                   hasActive={!!life && life.phase !== "ended"}
                   lives={data.archive}
                   onRead={(value) => {
-                    setAnnouncement("");
-                    setPreview(value);
-                    setFocusTarget("retrospective-heading");
+                    navigate('archive', {lifeId: value.id});
                   }}
                   onNew={() =>
                     navigate(

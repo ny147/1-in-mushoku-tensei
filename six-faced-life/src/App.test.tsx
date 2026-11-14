@@ -167,7 +167,7 @@ it("keeps a live ending still across the chronicle boundary and archive preview"
   expect(loadGame(window.localStorage).data.active?.phase).toBe("ended");
   expect(container.querySelector('.pixel-scene')?.getAttribute('data-clip')).toBe('ending');
   expect(container.querySelector('.pixel-layer[style*="pixel-frames"]')).toBeNull();
-  fireEvent.click(screen.getByRole("button", { name: "Past lives 1" }));
+  fireEvent.click(screen.getByRole("link", { name: "Past lives 1" }));
   expect(container.querySelector('.pixel-scene')).toBeNull();
 });
 
@@ -206,6 +206,7 @@ it("keeps expanded allegiance decisions manual even when watch mode finds a free
 });
 
 beforeEach(() => {
+  window.history.replaceState({}, '', '/');
   window.localStorage.clear();
   vi.spyOn(window, "scrollTo").mockImplementation(() => {});
 });
@@ -344,7 +345,7 @@ describe("clear next actions and recovery", () => {
   it("focuses new page content after navigation", () => {
     startPending();
     render(<App />);
-    fireEvent.click(screen.getByRole("button", { name: "How to play" }));
+    fireEvent.click(screen.getByRole("link", { name: "How to play" }));
     expect(document.activeElement).toBe(
       screen.getByRole("heading", { name: "A little guidance." }),
     );

@@ -6,6 +6,7 @@ import {
   render,
   screen,
   within,
+  waitFor,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
@@ -13,6 +14,7 @@ import { beginLife, createLife, finishLife } from "./game/engine";
 import { loadGame, saveGame, SAVE_KEY } from "./game/storage";
 
 beforeEach(() => {
+  window.history.replaceState({}, '', '/');
   window.localStorage.clear();
   document.documentElement.lang = "en";
   vi.spyOn(window, "scrollTo").mockImplementation(() => {});
@@ -68,7 +70,7 @@ describe("new-life language ownership", () => {
       "ชีวิตที่ผ่านมา",
       "วิธีเล่น",
     ]) {
-      fireEvent.click(screen.getByRole("button", { name: label }));
+      fireEvent.click(screen.getByRole("link", { name: label }));
       audit();
     }
   });
@@ -226,7 +228,7 @@ describe("new-life language ownership", () => {
     ).toBe("th");
   });
 
-  it("uses an archived life's language and restores the active language on return", () => {
+  it("uses an archived life's language and restores the active language on return", async () => {
     const archived = createLife({ ruleset: 'legacy-1',
       seed: 2,
       language: "th",
@@ -242,9 +244,9 @@ describe("new-life language ownership", () => {
       archive: [archived],
     });
     render(<App />);
-    fireEvent.click(screen.getByRole("button", { name: /Past lives/ }));
+    fireEvent.click(screen.getByRole("link", { name: /Past lives/ }));
     expect(screen.getByText("ไทย")).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: /ThaiRecord/ }));
+    fireEvent.click(screen.getByRole("link", { name: /ThaiRecord/ }));
     expect(document.documentElement.lang).toBe("th");
     expect(
       screen.getByText("หลังฤดูกาลตลอดหนึ่งชีวิต คุณจากไปด้วยวัยชรา"),
@@ -252,7 +254,7 @@ describe("new-life language ownership", () => {
     fireEvent.click(
       screen.getByRole("button", { name: "กลับสู่ชีวิตที่ผ่านมา" }),
     );
-    expect(document.documentElement.lang).toBe("en");
+    await waitFor(() => expect(document.documentElement.lang).toBe("en"));
   });
 
   it("clears a prior-language live announcement when opening another life's retrospective", () => {
@@ -277,8 +279,8 @@ describe("new-life language ownership", () => {
     expect(screen.getByRole("status", { name: "" }).textContent).toContain(
       "You keep your secret",
     );
-    fireEvent.click(screen.getByRole("button", { name: /Past lives/ }));
-    fireEvent.click(screen.getByRole("button", { name: /ThaiRecord/ }));
+    fireEvent.click(screen.getByRole("link", { name: /Past lives/ }));
+    fireEvent.click(screen.getByRole("link", { name: /ThaiRecord/ }));
     expect(screen.getByRole("status", { name: "" }).textContent).toBe("");
   });
 
@@ -348,11 +350,11 @@ describe("new-life language ownership", () => {
     );
     expect(document.activeElement?.id).toBe("spellbook-heading");
     expect(screen.getByRole("heading", { name: "ตำราเวทของคุณ" })).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: "โลกกว้าง" }));
+    fireEvent.click(screen.getByRole("link", { name: "โลกกว้าง" }));
     expect(
       screen.getByRole("navigation", { name: "ภูมิภาคของโลก" }),
     ).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: "วิธีเล่น" }));
+    fireEvent.click(screen.getByRole("link", { name: "วิธีเล่น" }));
     expect(screen.getByText("คุณมีโอกาสใช้ชีวิตอีกครั้ง")).toBeTruthy();
     act(() => {
       fireEvent.keyDown(document.body, { code: "Space", key: " " });

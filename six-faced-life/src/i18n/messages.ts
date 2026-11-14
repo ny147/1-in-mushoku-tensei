@@ -3,6 +3,9 @@ import { domainText } from "./world";
 import { NARRATIVE_TH } from "./narrative-th";
 
 export const UI_TH: Record<string, string> = {
+  'Breadcrumb': 'เส้นทางนำทาง',
+  'This past life is no longer available on this device.': 'ไม่พบชีวิตที่ผ่านมานี้ในอุปกรณ์นี้แล้ว',
+  'This section could not be opened. Try the link again.': 'เปิดหน้านี้ไม่ได้ โปรดลองกดลิงก์อีกครั้ง',
   Unwritten: "ยังไม่ได้เขียน",
   "A memory": "ความทรงจำ",
   "You are born in {region}, into {background}. Beyond a small window, a whole world carries on. You have been here before. Just not here.":
