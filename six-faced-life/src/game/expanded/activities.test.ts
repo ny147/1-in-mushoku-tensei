@@ -12,6 +12,8 @@ import { canAutoChoose } from "../simulation";
 import { expandedDecisionText } from "../../i18n/expanded";
 function adult() {
   const l = createExpandedLife({ seed: 2 });
+  // Existing activity fixtures exercise debt-free adults; responsibility has its own gate tests.
+  delete l.expansion.social;
   l.phase = "alive";
   l.age = 35;
   l.coins = 200;

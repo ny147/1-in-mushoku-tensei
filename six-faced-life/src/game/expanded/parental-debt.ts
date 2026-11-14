@@ -1,6 +1,46 @@
 import type { ExpandedLife, RegionId } from "../types";
 import { PARENTAL_DEBT } from "./balance";
 import { worldYear } from "./facts";
+import { appoint } from "./careers";
+import { clamp } from "./random";
+
+/** Only this voluntary transition turns household liability into personal debt. */
+export function acceptParentalDebt(life: ExpandedLife, route: "instalments" | "service" | "refuse"): boolean {
+  if (!["instalments", "service", "refuse"].includes(route) || !parentalResponsibilityDue(life)) return false;
+  const social = life.expansion.social!, debt = social.debt!, year = worldYear(life);
+  if (debt.service !== null) return false;
+  const quote = route === "service" ? quoteDebtService(life) : null;
+  if (route === "service" && !quote) return false;
+  debt.decisionYear = year;
+  debt.status = route === "instalments" ? "accepted" : route === "service" ? "service" : "refused";
+  debt.pauseReason = route === "service" ? "service" : "none";
+  if (route === "refuse") {
+    const h = social.household;
+    h.housing = "security-lost"; h.housingLossYear = year;
+    h.affectedParentIds = life.expansion.family.people.filter(p =>
+      p.role === "parent" && h.parentIds.includes(p.id) && p.died === null && p.home === h.home,
+    ).map(p => p.id);
+    if (h.affectedParentIds.length) {
+      h.relationship = PARENTAL_DEBT.refusalRelationship;
+      life.stats.bonds = clamp(life.stats.bonds - PARENTAL_DEBT.refusalBonds);
+    }
+  } else if (quote) {
+    debt.service = {acceptedBalance: quote.balance, region: quote.region, startedYear: year,
+      requiredYears: quote.requiredYears, completedYears: 0, lastYear: year, lastCreditYear: null,
+      endedYear: null, endReason: null};
+    // Existing study is retained even if it currently prevents appointment/service.
+    if (life.expansion.career.role !== "laborer") appoint(life, "laborer");
+  }
+  return true;
+}
+
+export function exitDebtService(life: ExpandedLife): boolean {
+  const debt = life.expansion.social?.debt, service = debt?.service;
+  if (life.phase !== "alive" || life.age < PARENTAL_DEBT.personalAge || !debt || debt.status !== "service" || debt.balance <= 0 || !service || service.endedYear !== null) return false;
+  debt.status = "accepted"; debt.pauseReason = "none";
+  service.endedYear = worldYear(life); service.endReason = "exit";
+  return true;
+}
 
 /** Returns support withheld this year; the child's purse and reserves are separate. */
 export function applyHouseholdDebtYear(life: ExpandedLife): number {

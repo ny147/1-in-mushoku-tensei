@@ -97,6 +97,7 @@ export function isLife(v: unknown): v is Life {
       (typeof x.optionalActivity !== "string" ||
         x.optionalActivity !== v.pending ||
         ![
+          "debt-service-exit",
           "career",
           'career-path', 'career-work',
           "training",
