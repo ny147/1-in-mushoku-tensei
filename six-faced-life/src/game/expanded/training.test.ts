@@ -16,6 +16,7 @@ import { advance } from "../engine";
 import { isLife, loadGame } from "../storage";
 const adult = () => {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Adult training compatibility fixture; childhood was not played.
   l.phase = "alive";
   l.age = 20;
   l.deathAge = 100;

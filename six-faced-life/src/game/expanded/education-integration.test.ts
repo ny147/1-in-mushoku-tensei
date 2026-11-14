@@ -22,6 +22,7 @@ describe("education full flows and endings", () => {
     (role) => {
       for (const coins of [0, 400]) {
         let l = createExpandedLife({ seed: 1 });
+        delete l.expansion.social; // Existing adult farmer; no unplayed household responsibility route.
         l.phase = "alive";
         l.age = 20;
         l.pending = null;
@@ -82,6 +83,7 @@ describe("education full flows and endings", () => {
   });
   it("stores actual completed training and closed loan totals in both languages once", () => {
     let l = createExpandedLife({ seed: 1 });
+    delete l.expansion.social; // Adult education-only archive compatibility fixture.
     l.phase = "alive";
     l.age = 20;
     l.pending = null;

@@ -10,6 +10,7 @@ import { applyTrainingYear, enrollTraining, quoteTraining } from "./training";
 
 function adult() {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Adult career fixture predates household responsibility decisions.
   l.age = 25;
   l.phase = "alive";
   l.pending = null;

@@ -13,6 +13,7 @@ import { enrollTraining, quoteTraining } from "./training";
 
 function worker(node: "laborer" | "farmhand" | "trade-assistant" = "farmhand") {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Existing adult worker without a retrospective household commitment.
   l.age = 30;
   l.phase = "alive";
   l.pending = null;

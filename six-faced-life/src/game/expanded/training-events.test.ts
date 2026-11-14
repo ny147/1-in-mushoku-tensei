@@ -6,6 +6,7 @@ import { canAutoChoose } from "../simulation";
 import { expandedDecisionText, expandedEntryText } from "../../i18n/expanded";
 const adult = () => {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Adult training compatibility fixture; childhood was not played.
   l.phase = "alive";
   l.age = 20;
   l.coins = 0;

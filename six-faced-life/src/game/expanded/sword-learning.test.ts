@@ -11,6 +11,7 @@ import { applyCareerYear, careerRequirements } from "./careers";
 import { titleEligible } from "./politics";
 const adult = () => {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Adult sword-learning compatibility fixture; childhood was not played.
   l.phase = "alive";
   l.age = 30;
   l.pending = null;

@@ -16,6 +16,7 @@ import { activateCareerPaths } from './career-migration';
 
 function qualified() {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Qualified adult compatibility fixture, without an unplayed childhood liability.
   l.phase = "alive";
   l.age = 25;
   l.pending = null;
