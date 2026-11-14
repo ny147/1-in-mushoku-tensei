@@ -2,13 +2,17 @@ import { describe, expect, it } from "vitest";
 import { createExpandedLife } from "./origins";
 import { quoteDebtService, debtServiceYear, creditDebtServiceYear } from "./parental-debt";
 import { worldYear } from "./facts";
-import { annualIncomeExpanded } from "./careers";
+import { annualIncomeExpanded, appoint } from "./careers";
 import { applyEconomyYear } from "./economy";
 import { enterCareerNode } from "./career-paths";
 import { careerProject, applyCareerProject } from "./career-work";
 import { advanceExpanded, finishExpanded } from "./engine";
 import { validateSocialState } from "./social-validation";
 import { enrollTraining, quoteTraining } from "./training";
+import { getExpandedDecision, applyExpandedChoice } from "./events";
+import { applySwordApproach, swordApproach } from "./sword-events";
+import { allocateSwordStyle } from "./sword-state";
+import { chooseExpanded } from "./engine";
 
 function servant() {
   const l = Array.from({ length: 100 }, (_, seed) => createExpandedLife({ seed })).find(l => l.expansion.social?.debt)!;
@@ -21,6 +25,33 @@ function servant() {
   return l;
 }
 describe("elapsed creditor service years", () => {
+  it("keeps wage and project replacement after this year's credit has been recorded", () => {
+    const l = servant(); l.age++;
+    creditDebtServiceYear(l, debtServiceYear(l, worldYear(l)));
+    expect(debtServiceYear(l, worldYear(l)).eligible).toBe(true);
+    expect(annualIncomeExpanded(l)).toBe(0);
+    expect(careerProject(l, "risk")).toBeNull();
+  });
+  it.each(["assignment", "service"] as const)("rejects competing %s cash assignments and sword rewards, including stale saved actions", event => {
+    const l = servant(); l.age++; l.pending = `expanded.${event}`;
+    l.expansion.politics.faction = "orsted";
+    l.expansion.history.push({ year: worldYear(l), code: "conflict", region: l.region, locality: l.expansion.origin.locality, exposure: "civilian" });
+    l.expansion.serviceContext = { year: worldYear(l), code: "conflict", region: l.region, locality: l.expansion.origin.locality };
+    allocateSwordStyle(l, "north-god");
+    l.expansion.swords!.tracks["north-god"].xp = 110;
+    const decision = getExpandedDecision(l)!;
+    expect(decision).not.toBeNull();
+    expect(decision.choices.filter(c => !c.id.endsWith(".later")).every(c => c.disabled)).toBe(true);
+    expect(swordApproach(l, event)).toBeNull();
+    const before = structuredClone(l);
+    expect(chooseExpanded(l, `expanded.${event}.accept`)).toBe(l);
+    applyExpandedChoice(l, `expanded.${event}.accept`);
+    applyExpandedChoice(l, `expanded.${event}.north-god`);
+    applySwordApproach(l, event, "north-god");
+    expect(l).toEqual(before);
+    l.expansion.swords!.compatibilityDecision = { ...decision, choices: decision.choices.map(c => ({ ...c, disabled: false })) };
+    expect(getExpandedDecision(l)!.choices.find(c => c.id.endsWith(".accept"))!.disabled).toBe(true);
+  });
   it("quotes without RNG, excludes acceptance year and caps12/12/10 credit", () => {
     const l = servant(), d = l.expansion.social!.debt!, before = structuredClone(l);
     expect(quoteDebtService(l)).toEqual({ balance: 34, region: l.region, requiredYears: 3, annualCredit: 12 });
@@ -54,9 +85,11 @@ describe("elapsed creditor service years", () => {
   it("covers actual dependants in kind without depositing spare necessities", () => {
     const l = servant(); l.age++;
     l.expansion.family.people.push({ ...l.expansion.family.people[0], id: "dependent", role: "child", born: worldYear(l) - 1, died: null });
+    l.expansion.family.people.push({ ...l.expansion.family.people[0], id: "dependent-spouse", role: "spouse", died: null });
+    l.expansion.family.marriages.push({ person: "dependent-spouse", start: worldYear(l) - 1, end: null, reason: null });
     const y = debtServiceYear(l, worldYear(l));
-    expect(y.support).toBe(22); applyEconomyYear(l, y);
-    expect(l.coins).toBe(20); expect(l.expansion.economy.lastExpenses).toBe(22);
+    expect(y.support).toBe(28); applyEconomyYear(l, y);
+    expect(l.coins).toBe(20); expect(l.expansion.economy.lastExpenses).toBe(28);
   });
   it("blocks projects at quote and execution and preserves RNG", () => {
     const l = servant(); l.age++; const before = structuredClone(l);
@@ -73,6 +106,88 @@ describe("elapsed creditor service years", () => {
     expect(l.expansion.standing.service).toBe(0);
     expect(l.expansion.social!.debt!.servicePaid).toBe(12);
     expect(l.coins).toBe(20);
+  });
+  it("retains the health snapshot when rest restores eligibility during the year", () => {
+    const l = servant(); l.stats.health = 19; l.focus = "rest";
+    const n = advanceExpanded(l, "year");
+    expect(n.stats.health).toBeGreaterThan(20);
+    expect(n.expansion.economy.lastIncome).toBe(18);
+    expect(n.coins).toBe(20);
+    expect(n.expansion.social!.debt!.servicePaid).toBe(0);
+  });
+  it("retains eligible support and credit when work lowers health during the year", () => {
+    const l = servant(); l.stats.health = 20;
+    const n = advanceExpanded(l, "year");
+    expect(n.stats.health).toBeLessThan(20);
+    expect(n.expansion.economy).toMatchObject({ lastIncome: 0, unmetFood: 0, unmetShelter: 0, unmetCare: 0 });
+    expect(n.coins).toBe(20);
+    expect(n.expansion.social!.debt!.servicePaid).toBe(12);
+  });
+  it("retains support in the capped final year and resumes ordinary wages next year", () => {
+    let l = servant();
+    // A higher ordinary pay floor must never change quoted service compensation.
+    l.expansion.careerPaths!.payFloor.laborer = 58;
+    l.expansion.career.records.laborer.level = 3;
+    for (const total of [12, 24, 34]) {
+      l.pending = null; l.expansion.queue = []; l = advanceExpanded(l, "year");
+      expect(l.phase).toBe("alive"); expect(l.coins).toBe(20);
+      expect(l.expansion.economy.lastIncome).toBe(0);
+      expect(l.expansion.social!.debt!.servicePaid).toBe(total);
+    }
+    expect(l.expansion.social!.debt!.status).toBe("settled");
+    expect(annualIncomeExpanded(l)).toBe(0);
+    expect(careerProject(l, "risk")).toBeNull();
+    l.pending = null; l.expansion.queue = []; l = advanceExpanded(l, "year");
+    expect(l.expansion.economy.lastIncome).toBe(64);
+    expect(l.coins).toBe(66);
+  });
+  it("credits only the appointed laborer role and preserves previous earned work", () => {
+    let l = servant();
+    expect(enterCareerNode(l, "farmhand")).toBe(true);
+    l.expansion.careerPaths!.work.farming = { years: 7, units: 10, milestones: 2 };
+    l.expansion.career.records.farmer.years = 7;
+    expect(appoint(l, "laborer")).toBe(true);
+    l = advanceExpanded(l, "year");
+    expect(l.expansion.career.records.farmer.years).toBe(7);
+    expect(l.expansion.career.records.laborer.years).toBe(1);
+    expect(l.expansion.careerPaths!.work.farming).toEqual({ years: 7, units: 10, milestones: 2 });
+    expect(l.expansion.careerPaths!.work.everyday).toEqual({ years: 1, units: 2, milestones: 0 });
+    expect(l.expansion.training!.records.laborer.units).toBe(0);
+    expect(l.expansion.standing.service).toBe(0);
+  });
+  it("retains completed year's work after early exit instead of enabling another cash project", () => {
+    const l = servant(); l.age++;
+    creditDebtServiceYear(l, debtServiceYear(l, worldYear(l)));
+    const d = l.expansion.social!.debt!;
+    d.status = "accepted"; d.service!.endedYear = worldYear(l); d.service!.endReason = "exit";
+    expect(l.expansion.careerPaths!.lastProjectYear).toBe(worldYear(l));
+    expect(careerProject(l, "risk")).toBeNull();
+    expect(debtServiceYear(l, worldYear(l))).toMatchObject({ eligible: false, pauseReason: "ended" });
+    expect(d.servicePaid).toBe(12); expect(d.balance).toBe(22);
+    l.age++;
+    expect(annualIncomeExpanded(l)).toBeGreaterThan(0);
+    expect(careerProject(l, "risk")).not.toBeNull();
+  });
+  it("does not consume a paused year's project opportunity on exit", () => {
+    const l = servant(); l.age++; l.stats.health = 19;
+    const marker = l.expansion.careerPaths!.lastProjectYear;
+    creditDebtServiceYear(l, debtServiceYear(l, worldYear(l)));
+    expect(l.expansion.careerPaths!.lastProjectYear).toBe(marker);
+    const d = l.expansion.social!.debt!;
+    d.status = "accepted"; d.service!.endedYear = worldYear(l); d.service!.endReason = "exit";
+    expect(careerProject(l, "risk")).not.toBeNull();
+    expect(annualIncomeExpanded(l)).toBe(24);
+  });
+  it("does not credit the year of death and never attaches debt to a child", () => {
+    const l = servant(); l.age++; creditDebtServiceYear(l, debtServiceYear(l, worldYear(l)));
+    l.expansion.family.people.push({ ...l.expansion.family.people[0], id: "child-death", role: "child", born: worldYear(l) - 1, died: null });
+    const child = structuredClone(l.expansion.family.people.at(-1));
+    l.deathAge = l.age + 1;
+    const n = advanceExpanded(l, "year");
+    expect(n.phase).toBe("ended");
+    expect(n.expansion.social!.debt).toMatchObject({ servicePaid: 12, balance: 0, closedUnpaid: 22, status: "closed" });
+    expect(n.expansion.family.people.at(-1)).toEqual(child);
+    expect(validateSocialState(n.expansion.social, n)).toBe(true);
   });
   it("full-time study finishing this year retains the paused service snapshot", () => {
     let l = servant(); l.expansion.economy.familyFunds = 100;

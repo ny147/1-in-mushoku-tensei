@@ -72,7 +72,7 @@ export function debtServiceYear(life: ExpandedLife, year: number): DebtServiceYe
   const x = life.expansion, d = x.social?.debt, s = d?.service;
   let pauseReason: DebtServiceYear["pauseReason"] = "none";
   if (life.phase !== "alive" || !d || !s || d.status !== "service" || s.endedYear !== null) pauseReason = "ended";
-  else if (life.age < PARENTAL_DEBT.personalAge || year <= s.startedYear || year <= s.lastYear) pauseReason = "not-started";
+  else if (life.age < PARENTAL_DEBT.personalAge || year <= s.startedYear) pauseReason = "not-started";
   else if (life.stats.health < PARENTAL_DEBT.serviceHealth) pauseReason = "health";
   else if (x.education.stage === "university" || x.training?.active && !x.training.paused && x.training.mode === "full-time") pauseReason = "study";
   else if (life.region !== s.region) pauseReason = "region";
@@ -81,6 +81,12 @@ export function debtServiceYear(life: ExpandedLife, year: number): DebtServiceYe
   const dependants = x.family.people.filter(p => p.role === "child" && p.died === null && year - p.born < 18).length * 4 + x.family.marriages.filter(m => m.end === null).length * 6;
   return { year, eligible, pauseReason, support: eligible ? PARENTAL_DEBT.serviceBasicSupport + dependants : 0, credit: eligible ? Math.min(PARENTAL_DEBT.annualServiceCredit, d!.balance) : 0 };
 }
+/** Completed final-year labor still replaces cash wages until the next year. */
+export function creditorServiceReplacesWork(life: ExpandedLife, year: number): boolean {
+  const service = life.expansion.social?.debt?.service;
+  return debtServiceYear(life, year).eligible ||
+    (service?.endReason === "completed" && service.endedYear === year);
+}
 export function creditDebtServiceYear(life: ExpandedLife, year: DebtServiceYear): void {
   const d = life.expansion.social?.debt, s = d?.service;
   if (life.phase !== "alive" || !d || !s || d.status !== "service" || s.endedYear !== null || year.year !== worldYear(life) || year.year <= s.startedYear || year.year <= s.lastYear) return;
@@ -88,6 +94,9 @@ export function creditDebtServiceYear(life: ExpandedLife, year: DebtServiceYear)
   if (!year.eligible) return;
   const credit = Math.min(d.balance, year.credit, PARENTAL_DEBT.annualServiceCredit);
   d.balance -= credit; d.servicePaid += credit; s.completedYears++;
+  // This year's labor is already committed, including after a subsequent exit.
+  if (life.expansion.careerPaths)
+    life.expansion.careerPaths.lastProjectYear = Math.max(life.expansion.careerPaths.lastProjectYear, year.year);
   if (d.balance === 0) {
     d.status = "settled"; d.pauseReason = "none";
     s.endedYear = year.year; s.endReason = "completed";

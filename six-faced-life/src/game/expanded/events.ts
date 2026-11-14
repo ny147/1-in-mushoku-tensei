@@ -56,6 +56,7 @@ import { draw, clamp } from "./random";
 import { REGIONS } from "../world";
 import { historicalRecord, canServeHistory, serviceRecord } from "./history";
 import { recordNobleAssociation } from "./social-state";
+import { creditorServiceReplacesWork } from "./parental-debt";
 export const MANUAL = new Set([
   "orsted",
   "hitogami",
@@ -69,7 +70,11 @@ export const MANUAL = new Set([
 export function getExpandedDecision(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
   const saved = life.expansion.swords?.compatibilityDecision;
-  if (saved?.id === life.pending) return saved;
+  if (saved?.id === life.pending) {
+    if (["expanded.service", "expanded.assignment"].includes(saved.id) && creditorServiceReplacesWork(life, worldYear(life)))
+      return { ...saved, choices: saved.choices.map(c => c.id.endsWith(".later") ? c : { ...c, disabled: true }) };
+    return saved;
+  }
   const career=careerDecision(life);
   if(career)return career;
   const sword = swordDecision(life);
@@ -334,6 +339,8 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
   }
   if (life.age < 18)
     choices = choices.filter((c) => !c.id.endsWith(".service"));
+  if ((key === "service" || key === "assignment") && creditorServiceReplacesWork(life, y))
+    choices = choices.map(c => c.id.endsWith(".later") ? c : { ...c, disabled: true });
   if (["succession", "conflict"].includes(key) && !canServeHistory(life, key))
     choices = choices.filter((c) => !c.id.endsWith(".service"));
   if (y < x.birthYear) return null;
@@ -400,6 +407,7 @@ export function applyExpandedChoice(
   const [, key, action] = id.split("."),
     x = life.expansion,
     y = worldYear(life);
+  if ((key === "service" || key === "assignment") && action !== "later" && creditorServiceReplacesWork(life, y)) return null;
   if ((key === "service" || key === "assignment") && isSwordStyle(action))
     return applySwordApproach(life, key, action);
   const queue = (event: string) => {

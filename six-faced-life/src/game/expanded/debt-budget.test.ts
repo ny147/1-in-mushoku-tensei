@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createExpandedLife } from "./origins";
 import { repayDebtsYear } from "./debt-budget";
-import { quoteEducation, reserveEducation, consumeEducation } from "./education-finance";
+import { quoteEducation, reserveEducation, consumeEducation, allocateEducationRepayment, repayEducationYear } from "./education-finance";
 import { worldYear } from "./facts";
 
 function debtor() {
@@ -40,5 +40,25 @@ describe("one affordable annual debt budget", () => {
     const l = debtor(); l.expansion.finance!.lastYear = worldYear(l);
     repayDebtsYear(l, { ...year, worldYear: worldYear(l) });
     expect(l.coins).toBe(100); expect(l.expansion.social!.debt!.lastRepaymentYear).toBe(worldYear(l));
+  });
+  it("does not pay education again when only the parental guard was already processed", () => {
+    const l = debtor(); l.expansion.social!.debt!.lastRepaymentYear = worldYear(l);
+    repayDebtsYear(l, { ...year, worldYear: worldYear(l) });
+    expect(l.coins).toBe(100); expect(l.expansion.finance!.lastYear).toBe(worldYear(l));
+    expect(l.expansion.finance!.lastRepayment).toBe(0);
+  });
+  it("allocates consumed principal within the explicit budget and actual purse", () => {
+    const l = debtor(); l.coins = 2;
+    expect(allocateEducationRepayment(l, 5)).toBe(2);
+    expect(l.coins).toBe(0); expect(l.expansion.finance!.purposes.mage!.balance).toBe(6);
+    l.coins = 100;
+    expect(allocateEducationRepayment(l, 100)).toBe(1);
+    expect(l.coins).toBe(99); expect(l.expansion.finance!.purposes.mage!.reserved.loan).toBe(5);
+  });
+  it("retains the absent-ledger wrapper's complete state and random streams", () => {
+    const l = debtor(); delete l.expansion.social; const old = structuredClone(l);
+    const y = { ...year, worldYear: worldYear(l), additionalShelterCosts: 4 };
+    repayDebtsYear(l, y); repayEducationYear(old, y);
+    expect(l).toEqual(old);
   });
 });
