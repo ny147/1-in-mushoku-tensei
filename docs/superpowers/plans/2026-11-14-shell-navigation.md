@@ -15,9 +15,9 @@ Vitest4.1.12 and React Testing Library; no new dependency.
 
 **Spec:** [App navigation and sidebar usability design](../specs/2026-11-14-shell-navigation-design.md).
 
-**Status:** Proposed execution plan, not started. The user requested both spec
-and plan; this contingent plan is prepared for joint review without treating the
-newly written spec as approved. No execution method has been selected.
+**Status:** Approved for native implementation, 2026-11-14. User requested
+implementation, then explicitly authorized keeping the two local updater hook
+files untouched/uncommitted and continuing the existing branch and PR30.
 
 ## Global Constraints
 
@@ -306,10 +306,10 @@ docs/verification/shell-navigation.md. Change implementation only for found defe
 
 | Task | Status | Evidence |
 | --- | --- | --- |
-| 1 Route helpers | Not started | Planning only |
-| 2 Shell/history | Not started | Planning only |
-| 3 Archive return | Not started | Planning only |
-| 4 Sidebar/brand | Not started | Planning only |
+| 1 Route helpers | Complete | 16 boundary tests RED -> GREEN, commit7448ad7 |
+| 2 Shell/history | Complete | 7 integration tests RED -> GREEN; focused64/64, commit17fc13a |
+| 3 Archive return | Complete | Metadata/archive RED -> GREEN; focused74/74; TypeScript/Vite build pass |
+| 4 Sidebar/brand | In progress | Prior rendered800x545 failure reproduced in review |
 | 5 Verification/delivery | Not started | Planning only |
 
 Coverage: N1/N2 -> Task2; N3/N5 -> Tasks1-3; N4 -> Task3; N6 -> Tasks2-3;
@@ -320,4 +320,7 @@ tasks. Layout uses rendered verification rather than jsdom CSS assertions.
 Recommended execution after approval: **native**, because the history, focus,
 playback and archive tasks share App state and benefit from one implementer
 maintaining that context. Use one independent whole-branch review at the end.
-The user may instead choose subagent-driven execution. Neither has started.
+User authorized native execution on the existing branch. Ruling: keep browser
+adapter effects in useAppNavigation.ts to avoid expanding App's large body; the
+pure route module's planned interfaces remain unchanged. Use existing ignored
+.openai/navigation-qa for logs rather than adding ignore/worktree configuration.

@@ -134,8 +134,9 @@ export default function App() {
     if (changed) window.scrollTo({ top: 0, behavior: 'instant' });
   });
   const page = navigation.route.page;
+  const previewId = navigation.route.page === 'archive' ? navigation.route.lifeId : undefined;
   const preview = navigation.route.page === 'archive'
-    ? data.archive.find(value => value.id === navigation.route.lifeId) ?? null : null;
+    ? data.archive.find(value => value.id === previewId) ?? null : null;
   const menuButton = useRef<HTMLButtonElement>(null);
   const dirty = useRef(false);
   const lastSave = useRef(0);
@@ -234,7 +235,7 @@ export default function App() {
   }, [data, life]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-  }, [page, life?.phase]);
+  }, [life?.phase]);
   useEffect(() => {
     if (!focusTarget) return;
     if (focusContent(focusTarget)) setFocusTarget(null);
@@ -337,6 +338,7 @@ export default function App() {
     if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey ||
       (event.currentTarget.target && event.currentTarget.target !== '_self') || event.currentTarget.hasAttribute('download')) return;
     event.preventDefault();
+    if (preview && next === 'archive' && !lifeId) { navigation.returnToArchive(); return; }
     navigate(next, {lifeId});
   }
   function startNew(
@@ -740,11 +742,12 @@ export default function App() {
                   life={preview}
                   onNew={() => navigate("new")}
                   onBack={() => {
-                    navigate('archive');
+                    navigation.returnToArchive();
                   }}
                 />
               ) : (
                 <Archive
+                  lifeHref={value => hrefFor('archive', value.id)}
                   saved={saved}
                   hasActive={!!life && life.phase !== "ended"}
                   lives={data.archive}

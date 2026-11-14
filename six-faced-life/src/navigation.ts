@@ -33,3 +33,30 @@ export function resolveRoute(url: URL, context: NavigationContext): RouteResolut
 export function sameRoute(a: AppRoute, b: AppRoute): boolean {
   return a.page === b.page && (a.page !== 'archive' || b.page !== 'archive' || a.lifeId === b.lifeId);
 }
+
+export type NavigationEntry = {
+  version: 1; entryId: string; archiveScrollY?: number; archiveLifeId?: string;
+  archiveReturnEntryId?: string;
+};
+function object(value: unknown): value is Record<string, unknown> {
+  return !!value && typeof value === 'object' && !Array.isArray(value);
+}
+export function readNavigationEntry(state: unknown): NavigationEntry | null {
+  const entry = object(state) ? state.sflNavigation : null;
+  if (!object(entry) || entry.version !== 1 || typeof entry.entryId !== 'string' || !entry.entryId) return null;
+  if (entry.archiveScrollY !== undefined && (typeof entry.archiveScrollY !== 'number' || !Number.isFinite(entry.archiveScrollY) || entry.archiveScrollY < 0)) return null;
+  if (entry.archiveLifeId !== undefined && typeof entry.archiveLifeId !== 'string') return null;
+  if (entry.archiveReturnEntryId !== undefined && (typeof entry.archiveReturnEntryId !== 'string' || !entry.archiveReturnEntryId)) return null;
+  return {
+    version: 1, entryId: entry.entryId,
+    ...(entry.archiveScrollY !== undefined ? {archiveScrollY: entry.archiveScrollY as number} : {}),
+    ...(entry.archiveLifeId !== undefined ? {archiveLifeId: entry.archiveLifeId as string} : {}),
+    ...(entry.archiveReturnEntryId !== undefined ? {archiveReturnEntryId: entry.archiveReturnEntryId as string} : {}),
+  };
+}
+export function mergeNavigationEntry(state: unknown, entry: NavigationEntry): Record<string, unknown> {
+  return { ...(object(state) ? state : {}), sflNavigation: entry };
+}
+export function archiveRowId(lifeId: string): string {
+  return 'archive-life-' + Array.from(lifeId, character => character.codePointAt(0)!.toString(16)).join('-');
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { resolveRoute, routeHref, sameRoute } from './navigation';
+import { resolveRoute, routeHref, sameRoute, readNavigationEntry, mergeNavigationEntry, archiveRowId } from './navigation';
 
 const context = { hasLife: true, archiveIds: ['old / ชีวิต'], loadFailed: false };
 const url = (query = '') => new URL(`https://example.test/play${query}`);
@@ -46,5 +46,19 @@ describe('navigation URLs', () => {
   it('compares sections and selected previews separately', () => {
     expect(sameRoute({ page: 'archive', lifeId: 'one' }, { page: 'archive', lifeId: 'two' })).toBe(false);
     expect(sameRoute({ page: 'world' }, { page: 'world' })).toBe(true);
+  });
+});
+
+describe('navigation entry boundaries', () => {
+  it.each([null, [], {}, {sflNavigation: {version: 2, entryId: 'one'}}, {sflNavigation: {version: 1, entryId: 'one', archiveScrollY: -1}}, {sflNavigation: {version: 1, entryId: 'one', archiveScrollY: Infinity}}])('rejects malformed metadata %j', state => {
+    expect(readNavigationEntry(state)).toBeNull();
+  });
+  it('preserves unrelated object state and serializes only known navigation fields', () => {
+    const entry = { version: 1 as const, entryId: 'one', archiveScrollY: 50, archiveLifeId: 'old' };
+    const state = mergeNavigationEntry({ otherApp: 42, sflNavigation: { life: { coins: 900 } } }, entry);
+    expect(state).toEqual({otherApp: 42, sflNavigation: entry});
+    expect(readNavigationEntry(state)).toEqual(entry);
+    expect(archiveRowId('old / ชีวิต')).not.toBe(archiveRowId('old_ / ชีวิต'));
+    expect(archiveRowId('old / ชีวิต')).not.toMatch(/\s/);
   });
 });

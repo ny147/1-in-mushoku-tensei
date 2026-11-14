@@ -6,6 +6,7 @@ import {
   render,
   screen,
   within,
+  waitFor,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
@@ -227,7 +228,7 @@ describe("new-life language ownership", () => {
     ).toBe("th");
   });
 
-  it("uses an archived life's language and restores the active language on return", () => {
+  it("uses an archived life's language and restores the active language on return", async () => {
     const archived = createLife({ ruleset: 'legacy-1',
       seed: 2,
       language: "th",
@@ -245,7 +246,7 @@ describe("new-life language ownership", () => {
     render(<App />);
     fireEvent.click(screen.getByRole("link", { name: /Past lives/ }));
     expect(screen.getByText("ไทย")).toBeTruthy();
-    fireEvent.click(screen.getByRole("button", { name: /ThaiRecord/ }));
+    fireEvent.click(screen.getByRole("link", { name: /ThaiRecord/ }));
     expect(document.documentElement.lang).toBe("th");
     expect(
       screen.getByText("หลังฤดูกาลตลอดหนึ่งชีวิต คุณจากไปด้วยวัยชรา"),
@@ -253,7 +254,7 @@ describe("new-life language ownership", () => {
     fireEvent.click(
       screen.getByRole("button", { name: "กลับสู่ชีวิตที่ผ่านมา" }),
     );
-    expect(document.documentElement.lang).toBe("en");
+    await waitFor(() => expect(document.documentElement.lang).toBe("en"));
   });
 
   it("clears a prior-language live announcement when opening another life's retrospective", () => {
@@ -279,7 +280,7 @@ describe("new-life language ownership", () => {
       "You keep your secret",
     );
     fireEvent.click(screen.getByRole("link", { name: /Past lives/ }));
-    fireEvent.click(screen.getByRole("button", { name: /ThaiRecord/ }));
+    fireEvent.click(screen.getByRole("link", { name: /ThaiRecord/ }));
     expect(screen.getByRole("status", { name: "" }).textContent).toBe("");
   });
 
