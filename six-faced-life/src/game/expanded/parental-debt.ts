@@ -107,6 +107,12 @@ export function quoteDebtService(life: ExpandedLife): DebtServiceQuote | null {
   if (life.phase !== "alive" || life.age < PARENTAL_DEBT.personalAge || !s || !d || d.balance <= 0 || ["refused", "closed", "settled"].includes(d.status)) return null;
   return { balance: d.balance, region: s.household.home, requiredYears: Math.ceil(d.balance / PARENTAL_DEBT.annualServiceCredit), annualCredit: PARENTAL_DEBT.annualServiceCredit };
 }
+/** Quoted in-kind necessities, shared with each eligible year's accounting. */
+export function debtServiceSupport(life: ExpandedLife, year: number): number {
+  const family = life.expansion.family;
+  const dependants = family.people.filter(p => p.role === "child" && p.died === null && year - p.born < 18).length * 4 + family.marriages.filter(m => m.end === null).length * 6;
+  return PARENTAL_DEBT.serviceBasicSupport + dependants;
+}
 /** Read-only snapshot retained throughout the annual accounting cycle. */
 export function debtServiceYear(life: ExpandedLife, year: number): DebtServiceYear {
   const x = life.expansion, d = x.social?.debt, s = d?.service;
@@ -118,8 +124,7 @@ export function debtServiceYear(life: ExpandedLife, year: number): DebtServiceYe
   else if (life.region !== s.region) pauseReason = "region";
   else if (x.career.role !== "laborer") pauseReason = "occupation";
   const eligible = pauseReason === "none";
-  const dependants = x.family.people.filter(p => p.role === "child" && p.died === null && year - p.born < 18).length * 4 + x.family.marriages.filter(m => m.end === null).length * 6;
-  return { year, eligible, pauseReason, support: eligible ? PARENTAL_DEBT.serviceBasicSupport + dependants : 0, credit: eligible ? Math.min(PARENTAL_DEBT.annualServiceCredit, d!.balance) : 0 };
+  return { year, eligible, pauseReason, support: eligible ? debtServiceSupport(life, year) : 0, credit: eligible ? Math.min(PARENTAL_DEBT.annualServiceCredit, d!.balance) : 0 };
 }
 /** Actual credited labor stays committed through later fitness/job changes or exit. */
 export function creditorServiceReplacesWork(life: ExpandedLife, year: number): boolean {

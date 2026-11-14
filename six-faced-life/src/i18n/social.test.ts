@@ -43,6 +43,103 @@ function household(): ExpandedLife {
   return l;
 }
 describe("standing and obligations in both languages", () => {
+  it.each(["en", "th"] as const)(
+    "quotes the original service region, actual in-kind necessities and early exit before acceptance (%s)",
+    (lang) => {
+      const l = household();
+      l.expansion.social!.household.home = "asura";
+      l.region = "millis";
+      l.expansion.family.people = l.expansion.family.people.filter(
+        (p) => p.role === "parent",
+      );
+      l.expansion.family.marriages = [];
+      const noDependants = socialEffects(l, "service", lang);
+      expect(noDependants).toContain(
+        lang === "en" ? "Asura Kingdom" : "อาณาจักรอัสรา",
+      );
+      expect(noDependants).not.toContain(
+        lang === "en" ? "Holy Country of Millis" : "ศาสนจักรมิลิส",
+      );
+      expect(noDependants).toContain(
+        lang === "en"
+          ? "18 silver of basic necessities + 0 silver of dependant necessities"
+          : "ปัจจัยจำเป็นพื้นฐานมูลค่า 18 เหรียญเงิน + ปัจจัยจำเป็นของผู้พึ่งพามูลค่า 0 เหรียญเงิน",
+      );
+      const year = l.expansion.birthYear + l.age;
+      l.expansion.family.people.push(
+        {
+          ...l.expansion.family.people[0],
+          id: "child",
+          role: "child",
+          born: year - 1,
+          died: null,
+        },
+        {
+          ...l.expansion.family.people[0],
+          id: "adult",
+          role: "child",
+          born: year - 18,
+          died: null,
+        },
+        {
+          ...l.expansion.family.people[0],
+          id: "dead",
+          role: "child",
+          born: year - 1,
+          died: year,
+        },
+      );
+      l.expansion.family.marriages.push(
+        { person: "partner", start: year, end: null, reason: null },
+        { person: "former", start: year - 2, end: year - 1, reason: "divorce" },
+      );
+      const before = structuredClone(l);
+      const quote = socialEffects(l, "service", lang);
+      expect(quote).toContain(
+        lang === "en"
+          ? "18 silver of basic necessities + 10 silver of dependant necessities"
+          : "ปัจจัยจำเป็นพื้นฐานมูลค่า 18 เหรียญเงิน + ปัจจัยจำเป็นของผู้พึ่งพามูลค่า 10 เหรียญเงิน",
+      );
+      for (const term of lang === "en"
+        ? [
+            "3 eligible years",
+            "12 silver debt credit/year",
+            "in kind",
+            "no cash",
+            "Early exit preserves earned credit",
+            "unpaid balance becomes affordable instalments",
+            "no exit fee",
+          ]
+        : [
+            "3 ปี",
+            "12 เหรียญเงิน",
+            "เป็นสิ่งของและบริการ",
+            "ไม่มีเงินสด",
+            "ออกก่อนครบสัญญายังคงเครดิตที่ได้",
+            "หนี้ที่ยังไม่ชำระเปลี่ยนเป็นผ่อนตามกำลัง",
+            "ไม่มีค่าธรรมเนียมออกจากสัญญา",
+          ])
+        expect(quote).toContain(term);
+      expect(l).toEqual(before);
+    },
+  );
+  it.each(["en", "th"] as const)(
+    "names the original refusal surcharge region while the player lives away (%s)",
+    (lang) => {
+      const l = household();
+      l.expansion.social!.household.home = "asura";
+      l.region = "millis";
+      const quote = socialEffects(l, "refuse", lang);
+      expect(quote).toContain(
+        lang === "en"
+          ? "only while living in Asura Kingdom"
+          : "เฉพาะเมื่ออยู่ในอาณาจักรอัสรา",
+      );
+      expect(quote).not.toContain(
+        lang === "en" ? "only while living here" : "เฉพาะเมื่ออยู่ที่นี่",
+      );
+    },
+  );
   it("round-trips a long bilingual outcome within narrative parameter limits", () => {
     const a = household();
     a.expansion.family.people

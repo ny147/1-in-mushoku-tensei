@@ -4,6 +4,10 @@ import { worldYear } from "../game/expanded/facts";
 import { REGIONS } from "../game/world";
 import { domainText } from "./world";
 import { moneyText } from "./money";
+import {
+  debtServiceSupport,
+  quoteDebtService,
+} from "../game/expanded/parental-debt";
 
 export interface SocialPresentation {
   birthRank: string;
@@ -218,7 +222,11 @@ export function socialEffects(
       "ไม่มีบันทึกหนี้ครอบครัว",
     );
   const m = moneyText(d.balance, language),
-    year = worldYear(life);
+    year = worldYear(life),
+    home = domainText(
+      language,
+      REGIONS[life.expansion.social!.household.home].name,
+    );
   if (action === "refuse") {
     const parents = livingParents(life),
       names = parents.map((p) => p.name).join(", "),
@@ -227,16 +235,30 @@ export function socialEffects(
         : 0;
     return words(
       language,
-      `No personal debt. Household liability ${m} remains. Tenancy security is lost; shelter +${PARENTAL_DEBT.refusalHousingCost} silver/year in K${year + 1}–K${year + PARENTAL_DEBT.refusalHousingYears} only while living here. ${parents.length} living parents affected${names ? `: ${names}` : ""}; household relationship ${life.expansion.social!.household.relationship} → ${parents.length ? PARENTAL_DEBT.refusalRelationship : life.expansion.social!.household.relationship}. Bonds −${bonds}. No personal savings or nonexistent assets are seized.`,
-      `ไม่รับเป็นหนี้ส่วนตัว หนี้ครัวเรือน ${m} ยังอยู่ เสียหลักประกันที่อยู่ ค่าที่อยู่เพิ่ม ${PARENTAL_DEBT.refusalHousingCost} เหรียญเงินต่อปีใน K${year + 1}–K${year + PARENTAL_DEBT.refusalHousingYears} เฉพาะเมื่ออยู่ที่นี่ บิดามารดาที่ยังอยู่ในครัวเรือนได้รับผล ${parents.length} คน${names ? `: ${names}` : ""} ความสัมพันธ์ครัวเรือน ${life.expansion.social!.household.relationship} → ${parents.length ? PARENTAL_DEBT.refusalRelationship : life.expansion.social!.household.relationship} ความผูกพัน −${bonds} ไม่ยึดเงินออมส่วนตัวหรือทรัพย์สินที่ไม่มีจริง`,
+      `No personal debt. Household liability ${m} remains. Tenancy security is lost; shelter +${PARENTAL_DEBT.refusalHousingCost} silver/year in K${year + 1}–K${year + PARENTAL_DEBT.refusalHousingYears} only while living in ${home}. ${parents.length} living parents affected${names ? `: ${names}` : ""}; household relationship ${life.expansion.social!.household.relationship} → ${parents.length ? PARENTAL_DEBT.refusalRelationship : life.expansion.social!.household.relationship}. Bonds −${bonds}. No personal savings or nonexistent assets are seized.`,
+      `ไม่รับเป็นหนี้ส่วนตัว หนี้ครัวเรือน ${m} ยังอยู่ เสียหลักประกันที่อยู่ ค่าที่อยู่เพิ่ม ${PARENTAL_DEBT.refusalHousingCost} เหรียญเงินต่อปีใน K${year + 1}–K${year + PARENTAL_DEBT.refusalHousingYears} เฉพาะเมื่ออยู่ใน${home} บิดามารดาที่ยังอยู่ในครัวเรือนได้รับผล ${parents.length} คน${names ? `: ${names}` : ""} ความสัมพันธ์ครัวเรือน ${life.expansion.social!.household.relationship} → ${parents.length ? PARENTAL_DEBT.refusalRelationship : life.expansion.social!.household.relationship} ความผูกพัน −${bonds} ไม่ยึดเงินออมส่วนตัวหรือทรัพย์สินที่ไม่มีจริง`,
     );
   }
-  if (action === "service")
+  if (action === "service") {
+    const quote = quoteDebtService(life);
+    if (!quote)
+      return words(
+        language,
+        "No creditor-service contract available.",
+        "ไม่มีสัญญาทำงานใช้หนี้ที่รับได้",
+      );
+    const region = domainText(language, REGIONS[quote.region].name),
+      basic = moneyText(PARENTAL_DEBT.serviceBasicSupport, language),
+      dependants = moneyText(
+        debtServiceSupport(life, year) - PARENTAL_DEBT.serviceBasicSupport,
+        language,
+      );
     return words(
       language,
-      `Accept ${m} personally. ${Math.ceil(d.balance / PARENTAL_DEBT.annualServiceCredit)} eligible years at up to ${PARENTAL_DEBT.annualServiceCredit} silver debt credit/year, final credit capped. Local laborer work; necessities replace cash wages. Study, illness, relocation or changing jobs pauses service.`,
-      `รับหนี้ ${m} เป็นส่วนตัว ทำงานที่เข้าเงื่อนไข ${Math.ceil(d.balance / PARENTAL_DEBT.annualServiceCredit)} ปี ลดหนี้สูงสุดปีละ ${PARENTAL_DEBT.annualServiceCredit} เหรียญเงิน ปีสุดท้ายไม่เกินหนี้ที่เหลือ ทำงานกรรมกรในท้องถิ่น รับปัจจัยจำเป็นแทนค่าจ้าง การเรียน เจ็บป่วย ย้ายถิ่นหรือเปลี่ยนงานพักสัญญา`,
+      `Accept ${m} personally. ${quote.requiredYears} eligible years at up to ${quote.annualCredit} silver debt credit/year, final credit capped. Laborer work in ${region}. Per eligible year: ${basic} of basic necessities + ${dependants} of dependant necessities at your current household size, supplied in kind; no cash wages or stipend. Credit starts in the next eligible elapsed year, not on acceptance. Study, illness, relocation or changing jobs pauses service. Early exit preserves earned credit; the unpaid balance becomes affordable instalments, with no exit fee.`,
+      `รับหนี้ ${m} เป็นส่วนตัว ทำงานที่เข้าเงื่อนไข ${quote.requiredYears} ปี ลดหนี้สูงสุดปีละ ${quote.annualCredit} เหรียญเงิน ปีสุดท้ายไม่เกินหนี้ที่เหลือ ทำงานกรรมกรใน${region} ต่อปีที่เข้าเงื่อนไข: ปัจจัยจำเป็นพื้นฐานมูลค่า ${basic} + ปัจจัยจำเป็นของผู้พึ่งพามูลค่า ${dependants} ตามขนาดครัวเรือนปัจจุบัน จัดให้เป็นสิ่งของและบริการ ไม่มีเงินสดเป็นค่าจ้างหรือเบี้ยเลี้ยง เริ่มได้เครดิตในปีที่ผ่านไปและเข้าเงื่อนไขถัดไป ไม่ใช่ทันทีที่รับสัญญา การเรียน เจ็บป่วย ย้ายถิ่นหรือเปลี่ยนงานพักสัญญา ออกก่อนครบสัญญายังคงเครดิตที่ได้ หนี้ที่ยังไม่ชำระเปลี่ยนเป็นผ่อนตามกำลัง ไม่มีค่าธรรมเนียมออกจากสัญญา`,
     );
+  }
   if (action === "exit")
     return words(
       language,
