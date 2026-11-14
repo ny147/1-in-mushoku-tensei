@@ -1,3 +1,94 @@
+# App shell UX specification and plan, 2026-11-14
+
+User requested a spec and implementation plan for the review findings. This is a
+documentation followup on existing `codex/ui-navigation-review`, PR30 targeting
+main: https://github.com/ny147/1-in-mushoku-tensei/pull/30
+Current fetched origin/main e27c2b1 is included. Existing updater-generated local
+`.codex/hooks.json` and `.gemini/settings.json` remain untouched/untracked, outside
+the commit. They are known prior-session tool output, not new unrelated app work.
+
+Documents:
+- docs/superpowers/specs/2026-11-14-shell-navigation-design.md
+- docs/superpowers/plans/2026-11-14-shell-navigation.md
+
+Proposed native History API/query routes, working logo/breadcrumb/main-nav links,
+paused return to current life, archive-preview URLs and list focus/scroll return,
+safe invalid-route/load-retry behavior, scrollable short sidebar and fitting full
+brand title. Keep existing theme, simulation and saves. These are detailed author
+proposals for document approval; not individually confirmed user decisions.
+
+Plan has five unstarted tasks: route helpers; browser history/shell links; archive
+return; sidebar/brand/mobile menu; full verification/docs/delivery. Native execution
+is recommended for shared App state, with one independent whole-branch review.
+User has not selected an execution method. Do not begin product implementation.
+
+Independent builder check of written spec: no important unanswered questions or
+contradictions. Author self-review maps every N/L/V acceptance requirement to a
+task and checks interface names, test boundaries and file paths. Local Markdown
+references, placeholders, staged whitespace and the complete task diff were
+checked; no errors found. No application tests, build or new browser QA have been
+run for this planning-only followup. The previous review evidence remains
+historical, with its limits recorded in the snapshot below.
+
+Usage observed Nov14 17:15 Bangkok:41%five-hour/91%weekly remaining; resets
+Nov14 18:28:14 /Nov21 13:28:14 Bangkok. No billing/reset-credit action.
+
+Delivery uses the existing branch/upstream and PR30; inspect git log -1 for the
+spec/plan delivery commit. Next: user reviews spec/plan and chooses execution.
+Before a new implementation task, resolve the two local
+hook files with the user under the clean-start rule; do not delete/stash/stage
+them automatically. Require manual documentation merge or explicit integration
+instructions before creating an implementation branch from fresh origin/main.
+User merges manually. No publication, merge or product behavior change.
+
+Historical checkpoint:
+
+# App shell UX review, 2026-11-14
+
+User requested an impeccable review of sidebar overflow and navigation. Review-only
+branch `codex/ui-navigation-review` starts from freshly fetched origin/main e27c2b1
+(PR29 is now merged upstream). No application behavior, styles, saves, dependencies
+or publishing changes. The review snapshot/backlog is:
+`six-faced-life/.impeccable/critique/2026-11-14T10-07-29Z__src-app-tsx.md`.
+
+Findings: P1 navigation has no URL/history integration and browser Back exits;
+logo/breadcrumb are noninteractive. P1 fixed sidebar makes Help unreachable in a
+short window. P2 tablet brand exceeds the sidebar boundary. Scoped score25/40;
+two P1 issues, no P0. Proposed fixes are recommendations, not implemented decisions.
+
+Evidence: independent bundled detector on App.tsx/LifeView.tsx returned zero
+findings (exit0); browser reproduced Back -> about:blank, brand x191 beyond sidebar
+x184, Help y684-725 below a545px viewport. Thai character fits at390px, menu opens
+and Escape closes it; console capture returned no warnings/errors. Source and
+screenshots inspected. See snapshot for exact scope/limits. No application tests
+or build run for this documentation-only review. Existing Vite5174 reused; created
+a disposable Thai age-zero fixture on previously empty5174. It remains there.
+Player5173/hosted saves untouched; viewport override reset; no new server.
+Browser API is read-only for evaluation, so no detector injection/overlays.
+
+User approved Impeccable's update notice. `npx impeccable skills update` completed
+managed user installations to4.9.0 and engine0.1.23. This review used already-read
+3.5.0 instructions. Updater reported the older `~/.codex/skills/impeccable` copy is
+unmanaged and remains; do not silently delete it. It also created local untracked
+`.codex/hooks.json` and `.gemini/settings.json`; inspected these as hook configuration
+and leave them local, excluded from the task commit. No app package files changed.
+
+Usage observed Nov14 17:06 Bangkok:50%five-hour/92%weekly remaining; resets
+Nov14 18:28:14 /Nov21 13:28:14 Bangkok. No billing/reset-credit action.
+
+Delivery: report/checkpoint commit `c6a9718` pushed with its own branch upstream.
+PR30 explicitly targets main: https://github.com/ny147/1-in-mushoku-tensei/pull/30
+The documentation-only delivery followup records this link; inspect git log -1
+for its commit. Full staged task diff reviewed, including new snapshot; whitespace
+check passed. Final fetch verified origin/main e27c2b1 is included (zero behind).
+Only the updater's two inspected local hook files remain untracked and uncommitted.
+The user merges manually; do not merge/publish. Review task is complete; no UI
+fix is claimed. Next implementation should address navigation, short-height
+sidebar, then brand fitting, followed by desktop/mobile, keyboard, history and
+isolated-save checks. This review does not authorize a broader visual redesign.
+
+Historical checkpoint:
+
 # Ending layout bug fix — verified for review, 2026-11-14
 
 User requested review/fix of the ending screenshot. Task branch:
