@@ -108,6 +108,27 @@ components:
 
 # Design System: Six-Faced Life
 
+## Shell navigation and compact layouts
+
+The brand is a full-name home link to the current chronicle (new-life setup when
+absent). Main navigation and Help retain their existing appearance as real links,
+with visible focus,44px targets and aria-current. Breadcrumbs use an ordered list
+inside a named navigation landmark; ancestors link to current life/archive and
+the current item remains text. Breadcrumb rows wrap instead of hiding return paths.
+
+Desktop/tablet sidebars scroll vertically and their sections do not shrink out of
+reach. Brand text has flexible width beside a fixed-size icon; the full title can
+occupy two lines without clipping. Long character names wrap. The mobile menu is
+in normal flow below the actual header, with a bounded scrolling region rather
+than a72px absolute-position assumption. Palette, fonts and artwork are unchanged.
+
+Routes restore heading focus on ordinary transitions. Archive return restores the
+specific row and list position; one bounded font-layout correction never takes
+focus again and is cancelled when the player interacts. The retrospective return
+control has a44px minimum height. No new decorative motion is introduced.
+See [verification](../docs/verification/shell-navigation.md) for actual results and
+the outstanding real200% zoom acceptance check.
+
 Standing and household obligations use a native disclosure beside existing life
 facts. It starts open on the birth record and stays compact in the chronicle.
 Separate labels show birth rank/wealth, current standing, royal ancestry, usable

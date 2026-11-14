@@ -1,9 +1,10 @@
 # App navigation and sidebar usability design
 
-**Status:** Proposed specification for review, 2026-11-14. The user requested a
-spec and implementation plan after the UX review. No application implementation
-is authorized by this document alone. Detailed behavior below is the author's
-recommended approach, not a claim that each detail was individually approved.
+**Status:** Approved for implementation, 2026-11-14, by the user's implementation
+request and explicit authorization to continue the existing task branch/PR while
+preserving local updater hooks. Implemented for review; real200% browser zoom
+acceptance remains pending in the verification record. Earlier proposal wording
+below records design reasoning rather than a separate approval for every detail.
 
 **Related:** [UX review](../../../six-faced-life/.impeccable/critique/2026-11-14T10-07-29Z__src-app-tsx.md),
 [product](../../../six-faced-life/PRODUCT.md), [design system](../../../six-faced-life/DESIGN.md).
@@ -43,8 +44,8 @@ save-schema migration or deployment is in scope. Back must never rewind a life.
 3. **React-state navigation plus an in-app Back button.** Smallest patch, but
    leaves browser history, direct links and reload inconsistent. Rejected.
 
-These are assessed alternatives. The user has not separately selected one;
-the accompanying plan assumes recommendation 1, pending document approval.
+These are assessed alternatives. Implementation follows recommendation1 under
+the user's approval of the spec/plan and native execution.
 
 ## URL and route contract
 
@@ -225,4 +226,4 @@ are future checks, not results of this documentation task.
 
 Open implementation review choices: the exact two-line title break and minimal
 CSS arrangement for the mobile header/menu. Neither may weaken the criteria above.
-Approve this specification and its proposed defaults before product code begins.
+The user approved this specification before product implementation began.

@@ -1,3 +1,53 @@
+# App shell navigation implemented, manual zoom check pending, 2026-11-14
+
+User approved spec/plan implementation and explicitly authorized continuing
+`codex/ui-navigation-review`/PR30 while leaving updater-generated `.codex/hooks.json`
+and `.gemini/settings.json` untouched/uncommitted. These remain local only.
+PR30 targets main: https://github.com/ny147/1-in-mushoku-tensei/pull/30
+No merge/deployment/publication authorized. User merges manually.
+
+Implemented canonical view/life query URLs, real section/logo/breadcrumb links,
+Back/Forward/reload, paused route returns, latest-life data ownership, archive
+preview/list row+scroll return, storage-load deferral, safe malformed routes,
+short-sidebar scrolling, fitting full title and normal-flow scrollable mobile
+menu. No engine/schema/package/artwork changes. Source foundation commits:
+7448ad7,17fc13a,e63d355,f4553d8. Final fix/delivery commit follows; inspect git log -1.
+
+One independent whole-branch review found late font restoration could steal moved
+focus and an undersized archive-return target. Both fixed in one pass with an
+observed RED->GREEN regression and44px target; scoped rereview returned ready
+subject to verification. Final npm test733/733 in82files PASS(88.46s), npm run build
+PASS(TypeScript/Vite, existing >500kB advisory, JS837.11kB). Focused79/79 PASS.
+Evidence/limits: docs/verification/shell-navigation.md. Existing plan ledger updated.
+
+Browser:33 actual width checks EN/TH/long names320–1440 passed brand/overflow;
+short sidebar Help reachable, Back/Forward/reload/brand/current life/native new
+tab/menu Escape+Enter, archive row focus/scroll, direct-preview return, invalid
+URLs, unreadable-save repair/retry, no-life and exact save fingerprints checked.
+No warnings/errors captured. Screenshot/logs/fixture page ignored under
+six-faced-life/.openai/navigation-qa/. QA localhost5174 save restored to originally
+empty; prior127.0.0.1:5174 disposable Mira life only read. Player5173 and hosted
+saves untouched. QA Vite stopped, viewport reset. npm's stripped port argument
+briefly started Vite5173; stopped without opening it, then used direct Vite5174.
+
+Remaining required acceptance: real200% browser zoom, including enlarged mobile
+header/menu and short-sidebar keyboard reachability. Connected browser gives
+viewport controls, not a verified real-zoom control; native inventory has no QA
+window. Do not substitute viewport simulation for this check. PR30 stays draft
+until a human runs and records it. Code is implemented; full acceptance not yet
+verified. No screen-reader or native reduced-motion preference audit is claimed.
+
+Usage observed Nov14 19:38 Bangkok:47%five-hour/82%weekly remaining; resets
+Nov14 23:57:14 /Nov21 13:28:14 Bangkok. No billing/reset-credit action.
+
+Next: on a separate QA origin/profile, set actual Chrome zoom200%, inspect title,
+sidebar Help by Tab, and phone menu/header fit+scroll, reset zoom and record result
+in docs/verification/shell-navigation.md and the existing plan ledger. If no defect,
+mark PR30 ready. Required app checks already pass; rerun only if code changes.
+Preserve current branch and local hook files. Never merge, auto-merge or publish.
+
+Historical checkpoint:
+
 # App shell UX specification and plan, 2026-11-14
 
 User requested a spec and implementation plan for the review findings. This is a

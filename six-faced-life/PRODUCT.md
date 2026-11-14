@@ -12,6 +12,21 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
+- Sections use browser history and query URLs (`view`, plus `life` for a completed
+  retrospective). Back/Forward changes the view using the latest saved/in-memory
+  life; it never rewinds a choice or restores an older active life. Reload opens
+  the requested section paused. Links refer to this browser's origin-specific
+  data, not a shareable cloud save. Invalid/missing preview links recover visibly.
+- The brand returns to the current chronicle, or new-life setup with no life.
+  Breadcrumb ancestors, main navigation and Help are keyboard-operable links.
+  Leaving the chronicle pauses time; returning stays paused until Play. Archived
+  previews restore the list row/scroll when returning from a known list entry;
+  directly opened previews return safely to the list. Storage recovery retains a
+  requested preview until the save can be read successfully.
+- Sidebar content scrolls in short windows; the full brand title may wrap at
+  compact sizes. The phone disclosure menu follows the actual header height and
+  can scroll. Existing game rules, save format and browser-local ownership remain.
+
 - Wealth, present noble standing and Asura royal ancestry are distinct. New poor
   nobles/royals retain ordinary noble access; earned titles give the same funding
   rights while preserving birth history and actual qualification/funding gates.

@@ -104,24 +104,24 @@ helpers are pure; no window, storage, timers or simulation randomness.
 **Interfaces:** Consumes URL and NavigationContext above. Produces all shared
 interfaces above; resolveRoute validates exact archive IDs only after loading.
 
-- [ ] Write failing unit cases using URL('https://example.test/play?...#main-content'):
+- [x] Write failing unit cases using URL('https://example.test/play?...#main-content'):
   bare root resolves chronicle with hasLife=true, new with false; six explicit
   sections round-trip; archive IDs with spaces/slashes/non-ASCII round-trip
   through URLSearchParams; unrelated query keys, pathname and hash survive.
-- [ ] Add assertions: unknown/empty/duplicate view uses default; life outside
+- [x] Add assertions: unknown/empty/duplicate view uses default; life outside
   archive is removed; empty/duplicate/missing archive ID resolves list with
   missing-archive notice. Missing life key on an ordinary archive list is valid
   with no notice. Explicit no-life character stays character.
-- [ ] Add load-failure assertions: valid requested archive ID survives with
+- [x] Add load-failure assertions: valid requested archive ID survives with
   loadFailed=true and archiveIds=[]; resolving after recovery opens it if present
   or falls back once if absent. Chronicle remains requested until recovery can
   determine whether a life exists. No helper mutates context or URL input.
-- [ ] Run `npm test -- src/navigation.test.ts`; confirm the intended missing
+- [x] Run `npm test -- src/navigation.test.ts`; confirm the intended missing
   module/export or behavioral assertions fail, not unrelated setup errors.
-- [ ] Implement exact helper signatures above and the specification's route
+- [x] Implement exact helper signatures above and the specification's route
   table. Use URLSearchParams for encoding; do not add an ID regex/length limit.
-- [ ] Run `npm test -- src/navigation.test.ts`; all added cases must pass.
-- [ ] Commit only navigation.ts/navigation.test.ts with an explicit file list.
+- [x] Run `npm test -- src/navigation.test.ts`; all added cases must pass.
+- [x] Commit only navigation.ts/navigation.test.ts with an explicit file list.
 
 ### Task 2: Browser history and working shell destinations (N1-N3, N5-N6)
 
@@ -133,55 +133,55 @@ preview are derived from it plus validated data. Its internal entry point is
 `navigate(next: Page, options?: { lifeId?: string; replace?: boolean; focusTarget?: string }): void`.
 Expose no new game API. Archive calls are completed in Task3.
 
-- [ ] Add failing integration tests named `restores URL section on mount and
+- [x] Add failing integration tests named `restores URL section on mount and
   reload`, `pushes once and applies popstate without pushing`, `does not duplicate
   current destination`, and `keeps latest life when navigating history`.
   Assert URL, heading, active aria-current, menu closure and focus. For popstate
   in jsdom, replaceState to the reached URL then dispatch PopStateEvent inside
   act; test real Back/Forward in Task5. Assert pushState call counts explicitly.
-- [ ] Add `pauses when leaving chronicle and never resumes through history`:
+- [x] Add `pauses when leaving chronicle and never resumes through history`:
   start playing a seeded alive save, enter Character, advance fake timers, return
   and advance timers again. Persisted age/RNG/history/pending remain equal to the
   snapshot at departure; Play is shown. Add the same boundary with a manual-only
   pending choice and Watch enabled. Test actual chosen/focus/study data surviving
   Back/Forward, rather than only comparing a never-mutated fixture.
-- [ ] Add `keeps save recovery route until retry succeeds`, `reports history
+- [x] Add `keeps save recovery route until retry succeeds`, `reports history
   write failure without changing the current view`, and `does not treat skip
   fragment as a route change`. Assert no automatic replacement of unreadable
   localStorage. Stub a one-shot history exception and confirm the error is visible
   and a subsequent link activation can recover without loops.
-- [ ] Add link tests: brand href points to chronicle/new as appropriate;
+- [x] Add link tests: brand href points to chronicle/new as appropriate;
   breadcrumb ancestor is a link, current item is text with aria-current; Help and
   main nav are anchors; normal click intercepts, Ctrl/Meta/middle/targeted new-tab
   activation is not prevented. Include Enter and visible focus in browser QA.
-- [ ] Add `new-life history never recreates or restores an old active life`:
+- [x] Add `new-life history never recreates or restores an old active life`:
   entering form does nothing; actual creation replaces its route entry, keeps
   latest data through old chronicle entries, and preserves existing confirmation.
   This test may create/replace only its jsdom fixture, never player storage.
-- [ ] Run `npm test -- src/navigation.test.tsx`; confirm meaningful RED.
-- [ ] Replace mutable page/preview with one route. Add initial replaceState and
+- [x] Run `npm test -- src/navigation.test.tsx`; confirm meaningful RED.
+- [x] Replace mutable page/preview with one route. Add initial replaceState and
   popstate reconciliation with listener cleanup; only navigate() pushes. Merge
   object history state under the versioned namespace reserved for Task3. Resolve
   routes again after successful load retry or active/archive changes; do not
   push on those data-driven corrections or simulation ticks.
-- [ ] Implement link interception only for an unmodified primary same-origin
+- [x] Implement link interception only for an unmodified primary same-origin
   same-tab click. Keep real href values. Add semantic breadcrumb list and brand
   action labels from the spec; preserve existing desktop/mobile rendering and
   44px focusable target treatment. Extend existing button selectors to anchors
   where needed; avoid a blanket all-anchor reset.
-- [ ] Connect transitions to existing focus/outcome handling and pause rules.
+- [x] Connect transitions to existing focus/outcome handling and pause rules.
   Replace openSpellbook's two-step focus with navigate('character',
   {focusTarget:'spellbook-heading'}). A same-route fragment event does nothing;
   same-section activation closes the menu/focuses the heading without a push.
-- [ ] Add explicit localized messages: `This past life is no longer available on
+- [x] Add explicit localized messages: `This past life is no longer available on
   this device.` / `ไม่พบชีวิตที่ผ่านมานี้ในอุปกรณ์นี้แล้ว`; `This section could not
   be opened. Try the link again.` / `เปิดหน้านี้ไม่ได้ โปรดลองกดลิงก์อีกครั้ง`.
   Use the existing recovery/notice vocabulary without replacing storage alerts.
-- [ ] Update existing App/language tests only where controls intentionally become
+- [x] Update existing App/language tests only where controls intentionally become
   links. Reset test URL using history.replaceState({}, '', '/') in each App-mount
   suite's setup and ensure cleanup removes listeners. Do not clear history with
   repeated back(), weaken existing assertions or rewrite gameplay fixtures.
-- [ ] Run `npm test -- src/navigation.test.ts src/navigation.test.tsx src/App.test.tsx src/language.test.tsx`;
+- [x] Run `npm test -- src/navigation.test.ts src/navigation.test.tsx src/App.test.tsx src/language.test.tsx`;
   all cases pass. Confirm the existing storage/manual-choice/hidden-tab checks
   still make their original assertions. Commit task-owned files explicitly.
 
@@ -209,29 +209,29 @@ RNG. Archive receives `lifeHref: (life: Life) => string` and
 App owns `returnToArchive(): void`, used by both return controls. The control in
 Ending may remain a button because it performs contextual return, not a fixed URL.
 
-- [ ] Add failing metadata tests: null/array/malformed/unknown-version state is
+- [x] Add failing metadata tests: null/array/malformed/unknown-version state is
   unavailable; finite nonnegative scroll only; unknown top-level fields preserved;
   no Life object serialized; distinct encoded IDs produce distinct safe row IDs.
-- [ ] Add integration tests: list row opens matching preview URL and language;
+- [x] Add integration tests: list row opens matching preview URL and language;
   Back restores row focus with preventScroll and clamped saved Y; Forward reopens
   preview; direct-open return replaces list rather than invoking external Back;
   preview reload retains proven list provenance. Missing row/preview produces
   heading focus and one localized missing-life notice, not a focus exception.
-- [ ] Add latest-data/immutability tests: inspect an English archive from a Thai
+- [x] Add latest-data/immutability tests: inspect an English archive from a Thai
   active life, return, then traverse history after a real active-life choice.
   Deep-compare archive snapshots and latest active save with their expected values;
   preview navigation must not rearchive, migrate or change language preference.
-- [ ] Run `npm test -- src/navigation.test.ts src/navigation.test.tsx`; confirm RED.
-- [ ] Implement metadata validation/merge, row IDs and App preview lookup from
+- [x] Run `npm test -- src/navigation.test.ts src/navigation.test.tsx`; confirm RED.
+- [x] Implement metadata validation/merge, row IDs and App preview lookup from
   route. Save list position before push; record predecessor only on a plain
   in-tab list->preview activation. Reload reads its validated marker. A direct
   link/new tab has no predecessor. returnToArchive uses Back only for proven
   immediate list provenance, otherwise replaces the preview entry with the list.
-- [ ] Restore list scroll/focus after commit/layout. Use a bounded layout-settling
+- [x] Restore list scroll/focus after commit/layout. Use a bounded layout-settling
   strategy with cleanup; clamp to available height. Do not add a global scroll
   framework or continuously refocus on save/age changes. Retain native link and
   existing scene-still behavior for archived endings.
-- [ ] Run `npm test -- src/navigation.test.ts src/navigation.test.tsx src/App.test.tsx src/language.test.tsx`;
+- [x] Run `npm test -- src/navigation.test.ts src/navigation.test.tsx src/App.test.tsx src/language.test.tsx`;
   all pass. Real native scroll/history acceptance remains Task5. Commit explicit
   task files.
 
@@ -244,16 +244,16 @@ for changed semantic/menu behavior; do not assert CSS implementation strings.
 **Interfaces:** Consumes the semantic links from Task2. Keep existing IDs,
 aria-controls, expanded state and Escape-to-toggle behavior.
 
-- [ ] On isolated port5174 capture the original failing 800x545 sidebar bounds
+- [x] On isolated port5174 capture the original failing 800x545 sidebar bounds
   and title bounds, plus a phone menu with enlarged text. Record expected checks:
   last control can be scrolled into view; title/icon fit the content box; menu
   begins after actual header and can scroll to its last item. Reuse prior evidence
   if the exact failures still reproduce; do not repeatedly generate artifacts.
-- [ ] Add vertical sidebar scrolling and nonshrinking content at desktop/tablet.
+- [x] Add vertical sidebar scrolling and nonshrinking content at desktop/tablet.
   Fit the brand via min-width:0 text and a nonshrinking icon; allow a full readable
   two-line title. Preserve widths, main offset, fonts and palette. Remove conflicting
   nowrap rules where necessary rather than stacking another invisible workaround.
-- [ ] Make the mobile menu follow actual header height and fit available viewport
+- [x] Make the mobile menu follow actual header height and fit available viewport
   height, with scrolling. Choose minimal normal-flow or equivalent measured-height
   positioning that satisfies the spec. Keep the menu nonmodal and all 44px targets.
 - [ ] Check desktop/tablet and phone keyboard flow: Tab reaches every destination
@@ -262,7 +262,7 @@ aria-controls, expanded state and Escape-to-toggle behavior.
 - [ ] Inspect each L2 width, short heights and real 200% browser zoom. Compare
   brand rectangles against sidebar/header content bounds, not only document
   scrollWidth. Confirm no horizontal overflow, clipping or menu/header overlap.
-- [ ] Run the focused navigation/App/language tests; commit CSS and any directly
+- [x] Run the focused navigation/App/language tests; commit CSS and any directly
   necessary shell changes. Record actual visual results in Task5's evidence file.
 
 ### Task 5: Full verification, documentation and delivery
@@ -272,7 +272,7 @@ docs/verification/shell-navigation.md. Change implementation only for found defe
 
 **Interfaces:** Consumes all previous tasks; no additional product API.
 
-- [ ] Recheck usage. Run `npm test` and inspect all results, then `npm run build`
+- [x] Recheck usage. Run `npm test` and inspect all results, then `npm run build`
   and inspect TypeScript/Vite output. Fix required failures. No nonexistent lint,
   typecheck or test:e2e script is required or claimed.
 - [ ] Execute N1-N6 and L1-L3/V1 from the spec in a separate QA browser context
@@ -287,11 +287,11 @@ docs/verification/shell-navigation.md. Change implementation only for found defe
   and reduced-motion behavior. Record exact viewport dimensions, actual check
   results, evidence paths and any unavailable screen-reader/zoom checks honestly.
   One full suite/build is enough unless later changes justify rerunning them.
-- [ ] Update product/design documents with implemented route, pause, breadcrumb
+- [x] Update product/design documents with implemented route, pause, breadcrumb
   and scroll behavior. Update the existing design.json only if its represented
   foundation/component previews changed; preserve its inventory. Do not silently
   rewrite unrelated stale sidecar entries reported by the skill updater.
-- [ ] Obtain an independent scoped review of history/data boundaries and shell
+- [x] Obtain an independent scoped review of history/data boundaries and shell
   accessibility after implementation. Resolve material findings and verify affected
   flows. Do not claim the initial 25/40 score improved without a fresh critique.
 - [ ] Update this progress ledger and CONTINUE.md with commit, checks, remaining
@@ -309,8 +309,8 @@ docs/verification/shell-navigation.md. Change implementation only for found defe
 | 1 Route helpers | Complete | 16 boundary tests RED -> GREEN, commit7448ad7 |
 | 2 Shell/history | Complete | 7 integration tests RED -> GREEN; focused64/64, commit17fc13a |
 | 3 Archive return | Complete | Metadata/archive RED -> GREEN; focused74/74; TypeScript/Vite build pass |
-| 4 Sidebar/brand | In progress | Prior rendered800x545 failure reproduced in review |
-| 5 Verification/delivery | Not started | Planning only |
+| 4 Sidebar/brand | Implemented; zoom acceptance pending |33 measured EN/TH width checks, short windows, native menu/keyboard checks pass; real200% remains |
+| 5 Verification/delivery | Local checks complete; draft delivery |Final733/733 tests, TypeScript/Vite pass, independent review clean after fix; manual real200% required |
 
 Coverage: N1/N2 -> Task2; N3/N5 -> Tasks1-3; N4 -> Task3; N6 -> Tasks2-3;
 L1/L2/L3 -> Task4; V1 and complete acceptance -> Task5. All five Review Focus
@@ -324,3 +324,16 @@ User authorized native execution on the existing branch. Ruling: keep browser
 adapter effects in useAppNavigation.ts to avoid expanding App's large body; the
 pure route module's planned interfaces remain unchanged. Use existing ignored
 .openai/navigation-qa for logs rather than adding ignore/worktree configuration.
+
+Execution evidence: [verification record](../../verification/shell-navigation.md).
+Source foundation commits7448ad7,17fc13a,e63d355,f4553d8; final reviewed fix and
+documentation delivery follow. Ruling: record archivePreviewHref as navigation
+metadata so a copied fragment history entry is not mistaken for an immediate
+list predecessor. Ruling: late font-layout correction never refocuses and cancels
+on player interaction, per the independently reproduced review finding.
+
+Task4/5 unchecked verification steps are intentionally retained where they include
+real200% zoom. The connected browser supplies viewport overrides without a verified
+real-zoom control and has no native targetable QA window. PR30 must remain draft
+until this manual check is recorded; code implementation is complete, acceptance
+is not yet fully verified. No screen-reader/OS-preference audit is claimed.

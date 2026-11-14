@@ -2052,6 +2052,7 @@ button svg {
 .archived-life:hover {
   background: #eef0e6;
 }
+.ending-page > .text-button { min-height: 44px; }
 .archive-seal {
   background: #e4e8da;
   border-radius: 50%;

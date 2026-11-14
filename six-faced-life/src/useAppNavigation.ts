@@ -46,35 +46,69 @@ export function useAppNavigation(
     restoration.current?.();
     let cancelled = false;
     let frame = 0;
+    let restored = false;
+    let restoredY = 0;
+    let restoredElement: HTMLElement | null = null;
+    let fontsSettled = !document.fonts;
+    const inputEvents = [
+      "pointerdown",
+      "wheel",
+      "touchstart",
+      "keydown",
+    ] as const;
+    const removeListeners = () => {
+      for (const event of inputEvents)
+        window.removeEventListener(event, cancel);
+      window.removeEventListener("focusin", onFocus);
+      window.removeEventListener("scroll", onScroll);
+    };
+    const cancel = () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+      removeListeners();
+    };
+    const onFocus = (event: FocusEvent) => {
+      if (restored && event.target !== restoredElement) cancel();
+    };
+    const onScroll = () => {
+      if (restored && Math.abs(window.scrollY - restoredY) > 1) cancel();
+    };
+    for (const event of inputEvents)
+      window.addEventListener(event, cancel, { passive: true });
+    window.addEventListener("focusin", onFocus);
+    window.addEventListener("scroll", onScroll, { passive: true });
     const restore = () => {
       if (cancelled) return;
       const row = entry.archiveLifeId
         ? document.getElementById(archiveRowId(entry.archiveLifeId))
         : null;
-      (row ?? document.getElementById("page-title"))?.focus({
-        preventScroll: true,
-      });
+      // Late font correction adjusts layout only, never takes focus again.
+      if (!restored) {
+        restoredElement = row ?? document.getElementById("page-title");
+        restoredElement?.focus({ preventScroll: true });
+      }
       const max = Math.max(
         0,
         document.documentElement.scrollHeight - window.innerHeight,
       );
+      restoredY = Math.min(entry.archiveScrollY ?? 0, max);
       window.scrollTo({
-        top: Math.min(entry.archiveScrollY ?? 0, max),
+        top: restoredY,
         behavior: "instant",
       });
+      restored = true;
+      if (fontsSettled) removeListeners();
     };
     frame = requestAnimationFrame(restore);
     // One bounded correction if self-hosted fonts finish after the initial layout.
     document.fonts?.ready.then(() => {
+      fontsSettled = true;
       if (!cancelled) {
         cancelAnimationFrame(frame);
         frame = requestAnimationFrame(restore);
       }
     });
-    restoration.current = () => {
-      cancelled = true;
-      cancelAnimationFrame(frame);
-    };
+    restoration.current = cancel;
   }, []);
 
   const apply = useCallback(

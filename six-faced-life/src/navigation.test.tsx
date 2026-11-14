@@ -40,6 +40,49 @@ beforeEach(() => {
 });
 
 describe("archive return navigation", () => {
+  it("does not steal focus or scroll when fonts finish after the player moves", async () => {
+    let finishFonts!: () => void;
+    const fontsReady = new Promise<void>((resolve) => {
+      finishFonts = resolve;
+    });
+    const originalFonts = Object.getOwnPropertyDescriptor(document, "fonts");
+    Object.defineProperty(document, "fonts", {
+      configurable: true,
+      value: { ready: fontsReady },
+    });
+    try {
+      const { old } = archiveFixture();
+      render(<App />);
+      fireEvent.click(mainNav("Past lives 1"));
+      fireEvent.click(screen.getByRole("link", { name: /OldRecord/ }));
+      pop("/?view=archive", {
+        sflNavigation: {
+          version: 1,
+          entryId: "saved-list",
+          archiveScrollY: 120,
+          archiveLifeId: old.id,
+        },
+      });
+      await act(async () => {
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+      });
+      const other = mainNav("Your character");
+      other.focus();
+      fireEvent.wheel(window);
+      vi.mocked(window.scrollTo).mockClear();
+      await act(async () => {
+        finishFonts();
+        await fontsReady;
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+      });
+      expect(document.activeElement).toBe(other);
+      expect(window.scrollTo).not.toHaveBeenCalled();
+    } finally {
+      if (originalFonts)
+        Object.defineProperty(document, "fonts", originalFonts);
+      else delete (document as unknown as Record<string, unknown>).fonts;
+    }
+  });
   function archiveFixture() {
     const live = seed();
     const old = createLife({
