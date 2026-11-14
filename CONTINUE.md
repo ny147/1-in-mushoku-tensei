@@ -1,3 +1,44 @@
+# App shell UX review, 2026-11-14
+
+User requested an impeccable review of sidebar overflow and navigation. Review-only
+branch `codex/ui-navigation-review` starts from freshly fetched origin/main e27c2b1
+(PR29 is now merged upstream). No application behavior, styles, saves, dependencies
+or publishing changes. The review snapshot/backlog is:
+`six-faced-life/.impeccable/critique/2026-11-14T10-07-29Z__src-app-tsx.md`.
+
+Findings: P1 navigation has no URL/history integration and browser Back exits;
+logo/breadcrumb are noninteractive. P1 fixed sidebar makes Help unreachable in a
+short window. P2 tablet brand exceeds the sidebar boundary. Scoped score25/40;
+two P1 issues, no P0. Proposed fixes are recommendations, not implemented decisions.
+
+Evidence: independent bundled detector on App.tsx/LifeView.tsx returned zero
+findings (exit0); browser reproduced Back -> about:blank, brand x191 beyond sidebar
+x184, Help y684-725 below a545px viewport. Thai character fits at390px, menu opens
+and Escape closes it; console capture returned no warnings/errors. Source and
+screenshots inspected. See snapshot for exact scope/limits. No application tests
+or build run for this documentation-only review. Existing Vite5174 reused; created
+a disposable Thai age-zero fixture on previously empty5174. It remains there.
+Player5173/hosted saves untouched; viewport override reset; no new server.
+Browser API is read-only for evaluation, so no detector injection/overlays.
+
+User approved Impeccable's update notice. `npx impeccable skills update` completed
+managed user installations to4.9.0 and engine0.1.23. This review used already-read
+3.5.0 instructions. Updater reported the older `~/.codex/skills/impeccable` copy is
+unmanaged and remains; do not silently delete it. It also created local untracked
+`.codex/hooks.json` and `.gemini/settings.json`; inspected these as hook configuration
+and leave them local, excluded from the task commit. No app package files changed.
+
+Usage observed Nov14 17:06 Bangkok:50%five-hour/92%weekly remaining; resets
+Nov14 18:28:14 /Nov21 13:28:14 Bangkok. No billing/reset-credit action.
+
+Delivery in progress: commit/push only this checkpoint and the critique snapshot,
+then create a PR explicitly targeting main. The user merges manually; do not
+merge/publish. Next implementation should address navigation, short-height sidebar,
+then brand fitting, followed by desktop/mobile, keyboard, history and isolated-save
+checks. This review does not authorize a broader visual redesign.
+
+Historical checkpoint:
+
 # Ending layout bug fix — verified for review, 2026-11-14
 
 User requested review/fix of the ending screenshot. Task branch:
