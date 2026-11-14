@@ -27,6 +27,11 @@ import { queueReadySwordTrial } from "./sword-events";
 import { activateCareerPaths } from './career-migration';
 import { creditCareerWork } from './career-work';
 import { careerChoiceOutcome } from '../../i18n/careers';
+import { activateSocialState } from './social-migration';
+import { debtServiceYear, creditDebtServiceYear, closeParentalDebt, parentalResponsibilityDue } from "./parental-debt";
+import { repayDebtsYear } from "./debt-budget";
+import { LIMITS } from "./balance";
+import { socialChoiceMessage, socialChoiceOutcome } from "../../i18n/social";
 function syncLearning(life: ExpandedLife, magicXp = 0) {
   life.progression = getProgression(life);
   const track = life.progression.magic[life.progression.specialization];
@@ -46,12 +51,27 @@ function syncLearning(life: ExpandedLife, magicXp = 0) {
   );
 }
 
+const historicalDecisions = new Set(["expanded.calamity", "expanded.succession", "expanded.conflict"]);
+function queueResponsibility(life: ExpandedLife) {
+  const q = life.expansion.queue;
+  // Preserve each existing offer, but never duplicate responsibility on restoration.
+  life.expansion.queue = [...new Set(q)].filter(id => id !== "expanded.parental-debt");
+  if (!parentalResponsibilityDue(life) || life.pending === "expanded.parental-debt" || life.expansion.queue.length >= LIMITS.queue) return;
+  let index = 0;
+  while (historicalDecisions.has(life.expansion.queue[index])) index++;
+  life.expansion.queue.splice(index, 0, "expanded.parental-debt");
+}
 function drain(life: ExpandedLife) {
   life.pending = null;
-  while (life.expansion.queue.length) {
+  queueResponsibility(life);
+  // A full queue retains the due ledger; presenting it consumes no queue slot.
+  if (parentalResponsibilityDue(life) && !historicalDecisions.has(life.expansion.queue[0]) && !life.expansion.queue.includes("expanded.parental-debt"))
+    life.pending = "expanded.parental-debt";
+  while (!life.pending && life.expansion.queue.length) {
     life.pending = life.expansion.queue.shift()!;
-    if (getExpandedDecision(life)) break;
+    if (getExpandedDecision(life)) { queueResponsibility(life); break; }
     life.pending = null;
+    queueResponsibility(life);
   }
   if (life.pending) life.seen[life.pending] = life.age;
 }
@@ -67,6 +87,7 @@ export function beginExpanded(life: ExpandedLife): ExpandedLife {
 export function finishExpanded(life: ExpandedLife, cause: string) {
   if (life.phase === "ended") return;
   closeEducationDebt(life);
+  closeParentalDebt(life);
   life.phase = "ended";
   life.pending = null;
   life.expansion.queue = [];
@@ -151,6 +172,13 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     record.text=careerOutcome;
     record.message={key:'expanded.career-choice',params:{titleTh:educationText?.label??c.label,textTh:careerChoiceOutcome(life,next,id,'th')??careerOutcome}};
   }
+  const socialMessage = socialChoiceMessage(life, next, id, c.label,
+    decision?.localized?.choices[id]?.label ?? c.label);
+  if (socialMessage) {
+    const record = next.history[next.history.length - 1];
+    record.text = socialChoiceOutcome(life, next, id, "en")!;
+    record.message = socialMessage;
+  }
   if (cause)
     next.history[next.history.length - 1].message = {
       key: "expanded.fatal-choice",
@@ -168,7 +196,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   }
   queueReadySwordTrial(next);
   drain(next);
-  return activateCareerPaths(next);
+  return activateSocialState(activateCareerPaths(next));
 }
 export function setFocusExpanded(
   life: ExpandedLife,
@@ -195,6 +223,7 @@ export function setFocusExpanded(
 }
 function year(life: ExpandedLife) {
   life.age++;
+  const serviceYear = debtServiceYear(life, worldYear(life));
   life.progress = 0;
   const focus = FOCUSES[life.focus];
   for (const [k, v] of Object.entries(focus.effects))
@@ -208,7 +237,7 @@ function year(life: ExpandedLife) {
   grantSwordXp(life, (focus.sword ?? 0) * trainingMultiplier(life, "sword"));
   syncLearning(life, (focus.magic ?? 0) * trainingMultiplier(life, "magic"));
   const attendingFullTime = fullTimeTraining(life);
-  const annualEconomy = applyEconomyYear(life);
+  const annualEconomy = applyEconomyYear(life, serviceYear);
   life.stats.health = clamp(
     life.stats.health - 0.8 - (life.age > life.deathAge * 0.7 ? 1.2 : 0),
   );
@@ -291,7 +320,9 @@ function year(life: ExpandedLife) {
     };
     due.push("expanded.training-placement");
   }
-  repayEducationYear(life, annualEconomy);
+  if (life.expansion.social) repayDebtsYear(life, annualEconomy);
+  else repayEducationYear(life, annualEconomy);
+  creditDebtServiceYear(life, serviceYear);
   life.expansion.queue = due;
   queueReadySwordTrial(life);
   drain(life);
@@ -310,7 +341,11 @@ export function advanceExpanded(
 ): ExpandedLife {
   if (life.phase !== "alive" || life.pending) return life;
   if (mode === "tick" && (!Number.isFinite(delta) || delta <= 0)) return life;
-  const next = structuredClone(activateCareerPaths(life));
+  const next = structuredClone(activateSocialState(activateCareerPaths(life)));
+  if (parentalResponsibilityDue(next)) {
+    drain(next);
+    return next;
+  }
   if (mode === "tick") {
     creditSwordMentorship(next, Math.min(0.25, delta, 1 - next.progress));
     next.progress += Math.min(0.25, delta);

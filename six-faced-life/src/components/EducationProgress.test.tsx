@@ -22,6 +22,7 @@ afterEach(() => {
 });
 it("enrolls through the visible quote and immediately saves the manual choice", () => {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Existing adult training save without a newly due household decision.
   l.phase = "alive";
   l.age = 20;
   l.coins = 0;

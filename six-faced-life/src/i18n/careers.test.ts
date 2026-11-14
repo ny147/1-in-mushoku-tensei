@@ -9,6 +9,7 @@ import { expandedEntryText } from './expanded';
 describe("career localization", () => {
   it.each(['en','th'] as const)('stores a real %s project outcome readable in both languages',language=>{
     let l=createExpandedLife({seed:1,language});l.phase='alive';l.pending=null;l.age=25;l.stats.health=90;l.coins=100;l.expansion.economy.peak=100;
+    delete l.expansion.social; // Existing adult project compatibility fixture skips childhood decisions.
     enterCareerNode(l,'farmhand');l=openExpandedActivity(l,'career-work');l=chooseExpanded(l,'expanded.career-work.safe');
     const e=l.history.at(-1)!;
     expect(expandedEntryText(e,'en')?.text).toContain('Work completed');

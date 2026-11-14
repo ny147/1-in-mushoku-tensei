@@ -9,6 +9,7 @@ import { generateGenetics as initialGenetics } from "./genetics";
 import { ensureEducationAccess } from "./education-access-state";
 import { emptySwordState, syncSwordCompatibility } from './sword-state';
 import { emptyCareerPaths } from './career-state';
+import { createSocialState } from './social-state';
 export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
   const base = legacyBirth(options);
   const stream = { rng: (base.seed ^ 0xa71c09ef) >>> 0 };
@@ -33,12 +34,7 @@ export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
     millis: { human: 0.04, dwarf: 0.01 },
   };
   const noble = draw(stream) < (nobleChance[region]?.[race] ?? 0);
-  const wealth = noble
-    ? weighted(stream, [
-        ["comfortable", 80],
-        ["extreme", 20],
-      ] as const)
-    : weighted(stream, WEALTH[race]);
+  const wealth = weighted(stream, WEALTH[race]);
   const locality =
     region === "asura"
       ? weighted(stream, [
@@ -188,5 +184,6 @@ export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
   ensureEducationAccess(life);
   syncSwordCompatibility(life);
   life.expansion.careerPaths=emptyCareerPaths(life.expansion.birthYear);
+  life.expansion.social=createSocialState(life);
   return life;
 }

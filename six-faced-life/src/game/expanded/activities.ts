@@ -3,8 +3,11 @@ import { worldYear } from "./facts";
 import { getExpandedDecision } from "./events";
 import { activateCareerPaths } from './career-migration';
 import { careerWorkAvailable } from './career-events';
+import { debtServiceExitAvailable } from './social-events';
+import { parentalResponsibilityDue } from './parental-debt';
 
 export const ACTIVITIES = [
+  "debt-service-exit",
   "career",
   'career-work',
   "training",
@@ -18,9 +21,10 @@ export const ACTIVITIES = [
 ] as const;
 export type Activity = (typeof ACTIVITIES)[number];
 export function activityAvailable(l: ExpandedLife, key: Activity): boolean {
-  if (l.phase !== "alive" || l.pending || l.expansion.queue.length)
+  if (l.phase !== "alive" || l.pending || l.expansion.queue.length || parentalResponsibilityDue(l))
     return false;
   switch (key) {
+    case "debt-service-exit": return debtServiceExitAvailable(l);
     case 'career-work':return l.age>=15 && careerWorkAvailable(l);
     case "training":
     case "career":

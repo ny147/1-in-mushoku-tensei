@@ -1,3 +1,166 @@
+# Standing foundations — implemented for review, 2026-11-14
+
+Stage1 plan implemented on `codex/standing-foundations`, ready-for-review PR28 targeting main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/28
+User explicitly approved carrying PR27 design/plan commits into this separate
+branch. Base e7fa05b; main preserved. User merges manually; no publication.
+Final implementation1132b5e, release tests5f8579f/211f964; documentation delivery
+commit follows (inspect git log -1). Plan and evidence:
+- docs/superpowers/plans/2026-11-13-standing-foundations.md
+- docs/verification/standing-foundations.md
+
+Built independent wealth/noble/royal identity, strict optional social records and
+prospective migration, earned-noble funding parity, childhood household payments,
+manual age15 accept/service/refuse, real housing consequences, one shared annual
+education/parental repayment cap, paused creditor service with actual in-kind
+support/credit and explicit exit, EN/TH actual outcomes and completed records.
+Existing pending decisions/queues/RNG/reserves/legacy/archive facts preserved.
+Succession/rulership and sponsorship/marriage remain later stages, not implemented.
+
+Final verification: npm test693/693 in80files PASS(100.86s); npm run build PASS,
+TypeScript/Vite, existing >500kB advisory(JS829.34kB). Browser main23+matrix31
+PASS54, zero console/page/resource errors or overflow, widths1280/390/320 EN/TH.
+Actual all3choices manual inWatch, Enter/focus, immediate save/reload, exit/credit,
+shared repayments,12/12/10credit/zero wages, study pause, housing22/22/22/18 checked.
+Final extra assertions verify displayed0salary during each credited year and
+required region/support/no-exit-fee quote terms. Desktop/Thai/creditedpay screenshots
+visually inspected. All browsers fresh temporary contexts on5174; QA save restored,
+player5173/existing Chrome profiles/hosted saves untouched. No OS/screenreader/full
+reduced-motion audit claimed; recovery/hidden-tab coverage is automated.
+
+Whole-source review found two Important UI findings; one fixwave1132b5e resolved
+pay display and preaccept contract terms (plus refusal region wording), RED→GREEN
+and scoped independent rereview approved. No remaining required finding known.
+Earlier40fullsuite fixture failures resolved with explicit adult compatibility
+fixtures and actual dynamic bilingual catalogue tests; no assertions weakened.
+
+Usage observed Nov14 13:39 Bangkok:78%five-hour/97%weekly remaining; resets
+Nov14 18:28:14 /Nov21 13:28:14 Bangkok. No automatic billing/reset action.
+Ignored QA scripts/runtime/artifacts remain .openai/standing-qa and checkpoints/;
+source dependency/lockfiles/hosting metadata unchanged. Isolated Vite5174 remains
+running. Prior credits interruption is historical; resumed checks above completed.
+
+Delivery: implementation/source1132b5e and documentation1ed99cc pushed to own
+upstream origin/codex/standing-foundations; local/remote HEAD matched. Final fetch
+succeeded, latest origin/main e7fa05b included (zero behind). GitHub test/build/
+config-validation job132364867826 passed on1ed99cc; PR28 marked ready only after
+all current checks passed. This documentation-only followup records the handoff;
+CI may rerun on it, with no application-code changes.
+
+Next: human PR28 review/manual merge after current CI. All Stage1 tasks complete;
+no uncommitted source work or known required finding. Preserve branch; do not
+merge automatically, enable auto-merge, delete it or publish. For later followups
+check actualstatus/fetch/usage and continue this PR while open. Later stages need
+their own reviewed plans. Do not repeat completed implementation.
+
+Historical checkpoint:
+
+# Standing foundations — implementation plan for review, 2026-11-13
+
+User linked PR #27 and requested an implementation plan. Prepared the detailed
+Stage 1 plan at `docs/superpowers/plans/2026-11-13-standing-foundations.md`, plus
+the Stage 2/3 delivery roadmap. This authorizes planning, not application code;
+the design's explicitly proposed balance/compatibility/governance choices remain
+proposals. All eight execution tasks are unstarted. No gameplay or publication.
+
+Continue this documentation follow-up on the existing clean-start branch
+`codex/standing-impact-design`, PR #27 targeting main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/27
+Starting HEAD `6544ec4`; freshly fetched origin/main `e7fa05b`. Inspect
+`git log -1 --oneline` for the plan/checkpoint delivery commit. User merges manually.
+
+Plan covers versioned social identity, independent wealth, strict validation,
+prospective active-save migration, earned nobility, childhood household costs,
+age-15 accept/service/refuse choices, shared education/parental repayment budget,
+real creditor work/housing consequences, EN/TH actual history, save/Watch tests,
+isolated browser QA and code-stage PR delivery. Exact royal/debt frequencies,
+48-silver liability, 12-silver annual service credit, bounded housing cost and
+education-first repayment allocation are reviewable builder defaults, not
+separately confirmed user decisions. No new Continue button. Later Stage 2 keeps
+permanent no-pardon exile and the complete 20% opposition claimant/ruler route;
+Stage 3 adds sponsorship/marriage after its own detailed plan and review.
+
+Self-review mapped Stage 1 requirements to tasks and checked current source
+paths/interfaces, queue bounds, annual work bonus, final-year service pay,
+source-aware education reserves, parent/property facts and migration composition.
+Plan header, eight unexecuted tasks, existing source paths, local document links,
+key constraints and documentation whitespace checks PASS. `git diff --check`
+PASS. Complete task diff reviewed, including the new plan; final fetch succeeded
+and current origin/main `e7fa05b` is included (zero behind). No known planning
+blocker. Application tests/build/browser QA are unnecessary for this documentation-
+only change and have not been run. Browser saves remain untouched. Git delivery
+uses this existing branch/PR; verify remote head matches the delivery commit.
+
+Usage observed Nov13 21:26 Bangkok: 75% five-hour /38% weekly remaining;
+resets Nov14 00:10:43 /Nov16 19:12:06 Bangkok. No billing/reset action.
+Next: review the written design and Stage 1 plan/defaults, then choose execution
+method. Native execution is recommended for the coupled accounting/queue work.
+Before actual code, recheck usage/status/fetch and require PR27's manual merge
+or explicit integration instructions, then start a clean Stage 1 branch from
+fresh origin/main with its own implementation PR. Do not merge or publish.
+
+Historical checkpoint:
+
+# Standing consequences — design awaiting approval, 2026-11-13
+
+User requested a design discussion using grill-me and i-have-adhd. ADHD output
+preferences remain active until the user says to stop. We interviewed one decision
+at a time, inspected existing behavior, and wrote the agreed staged design:
+`docs/superpowers/specs/2026-11-13-standing-consequences-design.md`.
+Task branch `codex/standing-impact-design`, based on fresh origin/main `e7fa05b`.
+Design commit `9b5d224` is pushed in draft PR #27, explicitly targeting main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/27
+This checkpoint commit follows it; inspect `git log -2 --oneline` for its SHA.
+The user reviews/merges manually. No gameplay implementation or publication.
+
+Confirmed: wealth and Standing are independent, including poor noble/royal births;
+dynasty means Asura royal family. Earned nobles have equal rights/duties. Some poor
+households have parental debt: childhood resource effects, a personal decision at
+15, accept/service/refuse routes, housing/relationship consequences for refusal,
+fixed affordable repayments and hardship pauses without compounding interest.
+Nobles across kingdoms gain sponsorship for future service; repeated deliberate
+refusals can escalate through warnings/support suspension to disclosed title loss.
+Adult royals can receive optional political-marriage proposals with real costs.
+
+Asura succession directly involves local nobles/royals: personal allegiance at
+18+, household protection/escape for children. Ariel80% /opposition20%, independent
+of player actions. Defeat offers surrender/prison, escape/capture risk, or lethal
+resistance. Victory brings cash/recognition and lasting crown duties/privileges.
+Political flight means permanent exile: **cannot return to Asura; no pardon**.
+Do not restore the assistant's rejected return-with-pardon recommendation.
+
+The initial builder check surfaced the throne-claim question. User explicitly
+chose: player CAN become ruler; a dynasty claimant leads the opposition's fixed
+20% route; coronation continues the same life with royal income and occasional
+kingdom decisions. These replace the first draft's proposed no-player-monarch
+limit. Updated Stage2 includes a complete crown path, not a cosmetic title.
+
+Selected delivery: 1) Standing/debt, 2) succession/exile and playable ruler,
+3) broader house sponsorship/royal marriage. Exact balance values, prospective
+active-save migration, ancestry/office representation and detailed governance
+budget/stability/loss-of-office mechanics are marked builder proposals for
+full-document approval, not individually confirmed user decisions. The older
+2026-10-28 succession spec now points to the newer superseding rules.
+
+Initial independent builder check and follow-up completed; revised design found
+no remaining material planning question. Inspected complete task diff, source
+constraints and local references. Local-link/whitespace/confirmed-constraint checks
+PASS; `git diff --check` PASS. No application code/config/dependency changes;
+application tests/build/browser QA were not run or claimed. Browser saves intact.
+Final fetch succeeded; branch contains latest origin/main `e7fa05b` as observed.
+PR remains draft because full written design still needs user approval.
+
+Usage observed Nov13 21:12 Bangkok:83% five-hour /40% weekly remaining; resets
+Nov14 00:10:42 /Nov16 19:12:05 Bangkok. No billing/reset action.
+No known design-document or remote delivery blocker. Exact next step: ask the
+user to approve the written design or name a change. After approval, invoke
+`superpowers:writing-plans` to prepare the Stage1 implementation plan; do not
+start game code merely because staged delivery was selected. Recheck Git/fetch/
+usage on resumption. Preserve this branch/PR for follow-up design work; actual
+implementation stages follow their own branch/PR workflow. Do not merge/publish.
+
+Historical checkpoint:
+
 # Scene-edge miniature overlays — fixed for review, 2026-11-12
 
 User reported the tiny left/right animations mismatching the current character.

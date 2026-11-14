@@ -1,16 +1,15 @@
 import type { ExpandedLife } from "../game/types";
 import { useI18n } from "../i18n/context";
 import { CAREER_NODES, CAREER_PATHS } from "../game/expanded/career-catalogue";
-import {
-  careerNode,
-  pathIncome,
-  pathRequirements,
-} from "../game/expanded/career-paths";
+import { careerNode, pathRequirements } from "../game/expanded/career-paths";
 import { careerNodeText, careerPathText } from "../i18n/careers";
 import { currentRequirementText } from "../i18n/current-requirements";
 import { expandedLabel } from "../i18n/expanded";
 import { moneyText } from "../i18n/money";
 import { educationRequirements } from "../game/expanded/education";
+import { careerIncomeExpanded } from "../game/expanded/careers";
+import { creditorServiceReplacesWork } from "../game/expanded/parental-debt";
+import { worldYear } from "../game/expanded/facts";
 
 export function CareerPaths({ life }: { life: ExpandedLife }) {
   const { language } = useI18n(),
@@ -23,6 +22,10 @@ export function CareerPaths({ life }: { life: ExpandedLife }) {
     : [];
   const training =
     x.training?.active && !x.training.paused && x.training.mode === "full-time";
+  const serviceWork = creditorServiceReplacesWork(life, worldYear(life));
+  const acceptingService =
+    x.social?.debt?.status === "service" &&
+    x.social.debt.service?.startedYear === worldYear(life);
   const requirements = (rows: ReturnType<typeof pathRequirements>) => (
     <ul className="requirement-list">
       {rows.map((r, i) => (
@@ -45,9 +48,24 @@ export function CareerPaths({ life }: { life: ExpandedLife }) {
           : expandedLabel(x.career.role, language)}
       </h3>
       <p className="career-path-pay">
-        {moneyText(pathIncome(life), language)}{" "}
+        {moneyText(careerIncomeExpanded(life), language)}{" "}
         {th ? "ต่อปี ก่อนหักค่าใช้จ่าย" : "per year before living costs"}
       </p>
+      {serviceWork ? (
+        <p>
+          {th
+            ? "ทำงานใช้หนี้: ปัจจัยจำเป็นแทนค่าจ้างเงินสดในปีทำงานใช้หนี้นี้"
+            : "Creditor service: necessities replace cash wages for this service year."}
+        </p>
+      ) : (
+        acceptingService && (
+          <p>
+            {th
+              ? "แสดงอัตราค่าจ้างงานปกติ สัญญาทำงานใช้หนี้เริ่มนับในปีที่ผ่านไปและเข้าเงื่อนไขถัดไป โดยให้ปัจจัยจำเป็นแทนค่าจ้างเงินสด การรับสัญญาตอนนี้ยังไม่ให้เครดิตทำงานใช้หนี้"
+              : "Ordinary annual rate shown; creditor service starts with the next eligible elapsed year. Necessities then replace cash wages; accepting now grants no service credit."}
+          </p>
+        )
+      )}
       {training && (
         <p>
           {th

@@ -10,6 +10,7 @@ import { quoteTraining, enrollTraining, applyTrainingYear } from "./training";
 
 function ready(talent: "magic" | "sword" | "academic" | "none" = "none") {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Age-jump compatibility fixture; no simulated childhood debt decision.
   l.phase = "alive";
   l.age = 20;
   l.pending = null;

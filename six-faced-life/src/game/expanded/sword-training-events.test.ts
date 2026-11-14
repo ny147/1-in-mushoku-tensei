@@ -9,6 +9,7 @@ import { canAutoChoose } from "../simulation";
 import { loadGame } from "../storage";
 const training = () => {
   const l = createExpandedLife({ seed: 1 });
+  delete l.expansion.social; // Adult mentorship compatibility fixture; childhood was not played.
   l.phase = "alive";
   l.age = 30;
   l.pending = null;

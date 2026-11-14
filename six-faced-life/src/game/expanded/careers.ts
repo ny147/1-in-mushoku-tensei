@@ -10,6 +10,14 @@ import { getProgression } from "../progression";
 import { talentMultiplier } from "./genetics";
 import { grantSwordXp, maxSwordXp, swordMeets } from "./sword-state";
 import { careerVacancy, pathIncome, syncCareerNode } from './career-paths';
+import { creditorServiceReplacesWork } from "./parental-debt";
+
+/** Adopted lives use current legal standing; old outstanding offers keep birth rules. */
+export function nobleFamilyFunds(life: ExpandedLife): number {
+  const x = life.expansion;
+  const status = x.social ? x.standing.status : x.origin.status;
+  return status === "noble" ? x.economy.familyFunds : 0;
+}
 export function careerRequirements(
   l: ExpandedLife,
   role: Occupation,
@@ -59,7 +67,7 @@ export function careerRequirements(
       add("patron", x.origin.patron || x.standing.reputation >= 30 ? 1 : 0, 1);
       add(
         "equipment",
-        l.coins + (x.origin.status === "noble" ? x.economy.familyFunds : 0),
+        l.coins + nobleFamilyFunds(l),
         120,
       );
       break;
@@ -125,8 +133,8 @@ export function appoint(
       return false;
   }
   const family =
-    role === "knight" && x.origin.status === "noble"
-      ? Math.min(cost, x.economy.familyFunds)
+    role === "knight"
+      ? Math.min(cost, nobleFamilyFunds(l))
       : 0;
   x.economy.familyFunds -= family;
   if (!funded) l.coins -= cost - family;
@@ -153,7 +161,8 @@ export function appoint(
   syncCareerNode(l);
   return true;
 }
-export function careerIncomeExpanded(l: ExpandedLife): number {
+export function careerIncomeExpanded(l: ExpandedLife, creditorService = creditorServiceReplacesWork(l, worldYear(l))): number {
+  if (creditorService) return 0;
   if(l.expansion.careerPaths)return pathIncome(l);
   const t = l.expansion.training;
   if (t?.active && !t.paused && t.mode === "full-time") return 24;
@@ -164,12 +173,13 @@ export function careerIncomeExpanded(l: ExpandedLife): number {
   );
 }
 /** Annual earnings before necessities, shared by accounting and choice feedback. */
-export function annualIncomeExpanded(l: ExpandedLife): number {
+export function annualIncomeExpanded(l: ExpandedLife, creditorService = creditorServiceReplacesWork(l, worldYear(l))): number {
+  if (creditorService) return 0;
   if (l.age < 15 || l.expansion.education.stage === "university") return 0;
   const t = l.expansion.training;
   if (t?.active && !t.paused && t.mode === "full-time") return 24;
   return (
-    careerIncomeExpanded(l) +
+    careerIncomeExpanded(l, creditorService) +
     (l.focus === "work" && PAY[l.expansion.career.role] > 0 ? 6 : 0)
   );
 }

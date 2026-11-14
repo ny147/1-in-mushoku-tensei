@@ -141,6 +141,10 @@ export function EducationProgress({
           </p>
         )}
         <p>{th ? "ไม่มีดอกเบี้ย ชำระ 10% ของรายได้ส่วนเกินหลังปัจจัยจำเป็นในแต่ละปี (อย่างน้อย 1 เหรียญเงินเมื่อจ่ายไหว) พักชำระเมื่อเดือดร้อนหรือเรียนมหาวิทยาลัย ไม่หักเงินออมเดิม" : "Interest-free. Repay 10% of positive annual earned surplus after necessities (at least 1 silver when affordable). Paused during hardship or university. Saved wealth is not taken."}</p>
+        {life.expansion.social && <>
+          <p>{th ? 'ใช้งบชำระรายปีร่วมกันเพียงก้อนเดียว ชำระเงินกู้การศึกษาตามลำดับก่อน แล้วจึงชำระหนี้ครอบครัวที่รับเป็นหนี้ส่วนตัว ไม่ใช้รายได้ส่วนเกินซ้ำ' : 'One shared annual repayment budget covers education loans first in their existing order, then accepted parental debt. The same surplus is never spent twice.'}</p>
+          <p>{th ? 'ไม่รวมหนี้ครัวเรือนที่ยังไม่ได้รับผิดหรือที่ปฏิเสธแล้วในยอดหนี้ส่วนตัว รายละเอียดอยู่ในฐานันดรและภาระครัวเรือน' : 'Household liability is excluded from personal debt unless voluntarily accepted. See Standing and household obligations for its separate balance and service record.'}</p>
+        </>}
       </details>
     </section>
   );

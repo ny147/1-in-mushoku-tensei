@@ -120,6 +120,7 @@ describe("effect presentation boundaries", () => {
   });
   it("reports training enrollment, debt and restored-pending previews from real state", () => {
     const l = createExpandedLife({ seed: 1 });
+    delete l.expansion.social; // Adult education compatibility offer, independent of household debt.
     l.phase = "alive";
     l.age = 18;
     l.pending = "expanded.training";

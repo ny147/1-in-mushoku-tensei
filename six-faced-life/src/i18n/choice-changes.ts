@@ -353,6 +353,15 @@ function expandedChanges(
       0,
     );
   delta("Education debt", "หนี้การศึกษา", debt(before), debt(after), true);
+  const socialA=a.social,socialB=b.social;
+  if(socialA&&socialB){
+    const personal=(l:ExpandedLife)=>{const d=l.expansion.social?.debt;return d&&(d.status==='accepted'||d.status==='service')?d.balance:0;};
+    delta('Personal parental debt','หนี้ครอบครัวที่รับเป็นหนี้ส่วนตัว',personal(before),personal(after),true);
+    delta('Parental debt service credit','เครดิตทำงานใช้หนี้ครอบครัว',socialA.debt?.servicePaid??0,socialB.debt?.servicePaid??0,true);
+    delta('Household relationship','ความสัมพันธ์ครัวเรือน',socialA.household.relationship,socialB.household.relationship);
+    if(socialA.debt?.status!==socialB.debt?.status)changes.push(text(`Parental debt responsibility → ${socialB.debt?.status??'none'}`,`การรับผิดหนี้ครอบครัว → ${{household:'หนี้ครัวเรือน',accepted:'รับผ่อนชำระ',service:'ทำงานใช้หนี้',refused:'ปฏิเสธ',settled:'ชำระครบ',closed:'ปิดเมื่อสิ้นชีวิต'}[socialB.debt?.status??'closed']}`));
+    if(socialA.household.housing!==socialB.household.housing)changes.push(text('Household tenancy security lost','ครัวเรือนเสียหลักประกันที่อยู่'));
+  }
   if (a.training?.active !== b.training?.active)
     changes.push(
       text(

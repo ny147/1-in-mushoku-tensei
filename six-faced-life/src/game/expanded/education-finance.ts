@@ -29,6 +29,8 @@ export interface EducationYear {
   dependantCosts: number;
   universityAttendance: boolean;
   unmetNeeds: boolean;
+  additionalShelterCosts?: number;
+  creditorService?: boolean;
 }
 const components = [
   "admission",
@@ -147,22 +149,31 @@ export function repayEducationYear(l: ExpandedLife, y: EducationYear): void {
       y.earnedIncome - 18 - y.dependantCosts - y.necessaryEducationCosts,
     ),
   );
-  let budget = Math.min(
+  const budget = Math.min(
     l.coins,
     surplus,
     surplus > 0 ? Math.max(1, Math.floor(surplus * 0.1)) : 0,
   );
+  allocateEducationRepayment(l, budget);
+  f.pauseReason = surplus > 0 ? "none" : "no-surplus";
+}
+/** Consumed principal only; provider-held loan reserves are never repayable cash. */
+export function allocateEducationRepayment(l: ExpandedLife, budget: number): number {
+  const f = l.expansion.finance;
+  if (!f) return 0;
+  let remaining = Math.min(Math.max(0, Math.floor(budget)), l.coins);
+  const available = remaining;
   for (const purpose of [...ORDINARY_ROLES, "university"] as const) {
     const r = f.purposes[purpose];
     if (!r) continue;
-    const payment = Math.min(budget, r.balance - r.reserved.loan);
+    const payment = Math.min(remaining, Math.max(0, r.balance - r.reserved.loan));
     r.balance -= payment;
     r.repaid += payment;
-    budget -= payment;
+    remaining -= payment;
     l.coins -= payment;
     f.lastRepayment += payment;
   }
-  f.pauseReason = surplus > 0 ? "none" : "no-surplus";
+  return available - remaining;
 }
 export function closeEducationDebt(l: ExpandedLife): void {
   const f = l.expansion.finance;

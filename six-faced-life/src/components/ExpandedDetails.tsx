@@ -14,6 +14,7 @@ import { educationRequirements } from "../game/expanded/education";
 import { OCCUPATIONS } from "../game/expanded/balance";
 import { descendantCounts } from "../game/expanded/family";
 import { CareerPaths } from './CareerPaths';
+import { StandingDetails } from './StandingDetails';
 
 export function ExpandedDetails({
   life,
@@ -69,6 +70,7 @@ export function ExpandedDetails({
           <dd>{label(x.education.stage)}</dd>
         </div>
       </dl>
+      <StandingDetails life={life} birth={birth}/>
       {!birth && <p>{talentAssessmentText(life, language)}</p>}
       {life.race === "superd" && (
         <p className="expanded-warning">

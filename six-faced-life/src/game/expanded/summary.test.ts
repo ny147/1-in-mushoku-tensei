@@ -7,6 +7,14 @@ import { createLife } from '../legacy/engine';
 import { enterCareerNode } from './career-paths';
 import { activateCareerPaths } from './career-migration';
 describe('factual immutable retrospectives',()=>{
+  it('adds factual identity and household liability only to newly built snapshots',()=>{
+    const l=createExpandedLife({seed:1});l.expansion.origin.status='commoner';l.expansion.standing.status='noble';l.expansion.social!.royalHouse=null;
+    const s=buildSummary(l),identity=s.sections.find(s=>s.key==='identity')!;
+    expect(identity.en).toContain('Birth rank: Commoner');expect(identity.en).toContain('Current legal standing: Noble');expect(identity.th).toContain('ฐานันดรปัจจุบัน');
+    expect(s.sections.find(s=>s.key==='legacy')!.en).toContain('Parental liability');
+    delete l.expansion.social;expect(buildSummary(l).sections.find(s=>s.key==='identity')!.en).not.toContain('Royal ancestry');
+    expect(s.sections.find(s=>s.key==='identity')!.en).toBe(identity.en);
+  });
   it('records actual new titles and inherited recognition without invented requests',()=>{
     const old=createExpandedLife({seed:1});delete old.expansion.careerPaths;old.age=30;old.phase='alive';old.pending=null;
     old.expansion.career.role='adventurer';old.expansion.career.records.adventurer.level=2;

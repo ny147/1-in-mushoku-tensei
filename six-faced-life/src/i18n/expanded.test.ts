@@ -6,10 +6,32 @@ import {
 } from "./expanded";
 import { EXPANDED_EVENT_IDS } from "../game/expanded/balance";
 import { createExpandedLife } from "../game/expanded/origins";
-import { getDecision, choose } from "../game/engine";
+import { getDecision, choose, openActivity } from "../game/engine";
 describe("expanded bilingual catalogue", () => {
   it("provides original Thai titles, bodies, options and outcomes for every registered event", () => {
     for (const id of EXPANDED_EVENT_IDS) {
+      if (id === "parental-debt" || id === "debt-service-exit") {
+        const responsibility = createExpandedLife({ seed: 1 });
+        expect(responsibility.expansion.social?.debt).toBeTruthy();
+        responsibility.phase = "alive";
+        responsibility.age = 15;
+        responsibility.pending = "expanded.parental-debt";
+        const life = id === "parental-debt" ? responsibility :
+          openActivity(choose(responsibility, "expanded.parental-debt.service"), "debt-service-exit");
+        const decision = getDecision(life)!;
+        expect(decision, id).toBeTruthy();
+        expect(decision.id).toBe(`expanded.${id}`);
+        const translated = expandedDecisionText(decision, "th");
+        expect(translated.title).toMatch(/[ก-๙]/);
+        expect(translated.text).toMatch(/[ก-๙]/);
+        expect(translated.choices.map(c => c.id)).toEqual(decision.choices.map(c => c.id));
+        for (const choice of translated.choices) {
+          expect(choice.label).toMatch(/[ก-๙]/);
+          expect(choice.description).toMatch(/[ก-๙]/);
+          expect(choice.outcome).toMatch(/[ก-๙]/);
+        }
+        continue;
+      }
       const copy = EXPANDED_COPY[id];
       expect(copy, id).toBeDefined();
       expect(copy.title[1]).toMatch(/[ก-๙]/);

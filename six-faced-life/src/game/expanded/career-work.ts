@@ -5,6 +5,7 @@ import { worldYear, fact } from "./facts";
 import { draw, clamp } from "./random";
 import { grantSwordXp } from "./sword-state";
 import { talentMultiplier } from "./genetics";
+import { creditorServiceReplacesWork } from "./parental-debt";
 export type CareerProjectKind = "safe" | "risk" | "research";
 export interface CareerProjectQuote {
   branch: CareerBranchId;
@@ -80,6 +81,7 @@ export function careerProject(
     !["safe", "risk", "research"].includes(kind) ||
     l.phase !== "alive" ||
     l.age < 15 ||
+    creditorServiceReplacesWork(l, worldYear(l)) ||
     l.expansion.education.stage === "university" ||
     s.lastProjectYear >= worldYear(l) ||
     (t?.active && !t.paused && t.mode === "full-time")

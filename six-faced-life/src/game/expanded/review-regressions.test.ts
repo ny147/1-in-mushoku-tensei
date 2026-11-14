@@ -9,6 +9,7 @@ import { finishLife } from "../engine";
 import { emptyCareerPaths } from './career-state';
 export function adult() {
   const l = createExpandedLife({ seed: 2 });
+  delete l.expansion.social; // Historical compatibility fixture rewrites birth year and skips childhood.
   const shift = 400 - l.expansion.birthYear;
   for (const p of l.expansion.family.people) p.born += shift;
   l.expansion.birthYear = 400;

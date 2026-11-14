@@ -6,6 +6,7 @@ import {
 } from "../game/expanded/activities";
 import { useI18n } from "../i18n/context";
 const names: Record<Activity, [string, string]> = {
+  "debt-service-exit": ["Review creditor service", "ทบทวนสัญญาทำงานใช้หนี้"],
   career: ["Browse careers", "ดูอาชีพ"],
   'career-work':['Career work','งานประจำสายอาชีพ'],
   training: ["Career training", "ฝึกอาชีพ"],

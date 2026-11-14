@@ -856,6 +856,12 @@ export function expandedEntryText(
 ): { title: string; text: string } | null {
   const key = entry.message?.key;
   if (!key?.startsWith("expanded.")) return null;
+  if(key==='expanded.social-choice') {
+    const p=entry.message?.params;
+    const prefix=language==='th'?'textTh':'textEn';
+    const text=Array.from({length:10},(_,i)=>p?.[i===0?prefix:`${prefix}${i}`]??'').join('');
+    return {title:String((language==='th'?p?.titleTh:p?.titleEn)??entry.title),text:text||entry.text};
+  }
   if(key==='expanded.career-choice')return language==='th'?{title:String(entry.message?.params?.titleTh??entry.title),text:String(entry.message?.params?.textTh??entry.text)}:{title:entry.title,text:entry.text};
   if (key === "expanded.education-choice" && language === "th")
     return {
@@ -896,10 +902,10 @@ export function expandedEntryText(
       text: expandedLabel(entry.text, language),
     };
   return {
-    title: copy?.title[i] ?? "บันทึกการตัดสินใจ",
+    title: copy?.title[i] ?? entry.title,
     text:
       copy?.text[i] ??
-      "การตัดสินใจและผลที่เกิดขึ้นจริงได้รับการบันทึกไว้ในรายละเอียดชีวิต",
+      entry.text,
   };
 }
 

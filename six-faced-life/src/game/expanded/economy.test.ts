@@ -109,3 +109,111 @@ describe("material needs and actual danger", () => {
     expect(risk).toBeLessThan(0.135);
   });
 });
+
+describe("household debt annual accounting", () => {
+  function household() {
+    for (let seed = 0; seed < 100; seed++) {
+      const l = createExpandedLife({ seed });
+      if (!l.expansion.social?.debt) continue;
+      l.phase = "alive";
+      l.pending = null;
+      l.age = 1;
+      l.focus = "balanced";
+      l.coins = 37;
+      l.expansion.economy.support = 10;
+      l.expansion.economy.aidUntil = 0;
+      return l;
+    }
+    throw Error("expected a poor indebted household");
+  }
+  it.each<[number, boolean, number, number, number, number]>([
+    [10, false, 5, 4, 9, 47],
+    [8, false, 6, 4, 8, 48],
+    [10, true, 0, 0, 18, 47],
+    [0, true, 2, 4, 12, 48],
+  ])(
+    "uses support %s and aid %s for actual necessities after the household deduction",
+    (support, aid, shelter, care, expenses, balance) => {
+      const l = household();
+      l.expansion.economy.support = support;
+      if (aid) l.expansion.economy.aidUntil = l.expansion.birthYear + 1;
+      const finance = structuredClone(l.expansion.finance);
+      applyEconomyYear(l);
+      expect(l.expansion.economy).toMatchObject({
+        support,
+        unmetFood: 0,
+        unmetShelter: shelter,
+        unmetCare: care,
+        lastExpenses: expenses,
+      });
+      expect(l.expansion.social!.debt!.balance).toBe(balance);
+      expect(l.coins).toBe(37);
+      expect(l.expansion.finance).toEqual(finance);
+    },
+  );
+  it.each([
+    [420, 0, 0, 4, 14],
+    [421, 4, 4, 4, 14],
+    [423, 4, 4, 4, 14],
+    [424, 0, 0, 4, 14],
+  ])(
+    "charges actual refusal shelter in K%s before care and reports its annual cost",
+    (year, cost, shelter, care, expenses) => {
+      const l = household();
+      l.expansion.birthYear = 400;
+      l.age = year - 400;
+      l.coins = 14;
+      l.expansion.career.role = "child";
+      l.expansion.economy.assets = 29;
+      l.expansion.economy.familyFunds = 91;
+      const s = l.expansion.social!;
+      s.household.housing = "security-lost";
+      s.household.housingLossYear = 420;
+      s.debt!.status = "refused";
+      s.debt!.decisionYear = 420;
+      const annual = applyEconomyYear(l);
+      expect(l.expansion.economy).toMatchObject({
+        unmetFood: 0,
+        unmetShelter: shelter,
+        unmetCare: care,
+        lastExpenses: expenses,
+        assets: 29,
+        familyFunds: 91,
+      });
+      expect(annual).toMatchObject({ additionalShelterCosts: cost });
+      expect(l.expansion.social!.debt!.balance).toBe(48);
+      expect(l.coins).toBe(0);
+    },
+  );
+  it("pays housing before optional costs and leaves unrelated savings and property intact", () => {
+    const l = household();
+    l.expansion.birthYear = 400;
+    l.age = 21;
+    l.coins = 23;
+    l.focus = "explore";
+    l.expansion.career.role = "child";
+    l.expansion.economy.assets = 29;
+    l.expansion.economy.familyFunds = 91;
+    const s = l.expansion.social!;
+    s.household.housing = "security-lost";
+    s.household.housingLossYear = 420;
+    s.debt!.status = "refused";
+    s.debt!.decisionYear = 420;
+    const annual = applyEconomyYear(l);
+    expect(l.expansion.economy).toMatchObject({
+      unmetFood: 0, unmetShelter: 0, unmetCare: 0, lastExpenses: 23,
+      assets: 29, familyFunds: 91,
+    });
+    expect(annual.unmetNeeds).toBe(true);
+    expect(l.coins).toBe(0);
+  });
+  it("retains the absent-ledger childhood resource flow", () => {
+    const l = household();
+    delete l.expansion.social;
+    applyEconomyYear(l);
+    expect(l.expansion.economy).toMatchObject({
+      unmetFood: 0, unmetShelter: 4, unmetCare: 4, lastExpenses: 10,
+    });
+    expect(l.coins).toBe(37);
+  });
+});

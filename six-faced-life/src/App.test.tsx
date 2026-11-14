@@ -9,14 +9,134 @@ import {
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
-import { beginLife, choose, createLife } from "./game/engine";
+import { beginLife, choose, createLife, openActivity } from "./game/engine";
 import { loadGame, saveGame, SAVE_KEY } from "./game/storage";
 import { createExpandedLife } from "./game/expanded/origins";
 import { enterCareerNode } from './game/expanded/career-paths';
+import type { ExpandedLife } from "./game/types";
+
+function responsibilitySave(): ExpandedLife {
+  for (let seed = 0; seed < 100; seed++) {
+    const life = createExpandedLife({ seed, language: "en" });
+    if (!life.expansion.social?.debt) continue;
+    life.phase = "alive";
+    life.age = 15;
+    life.pending = "expanded.parental-debt";
+    life.stats.health = 100;
+    return life;
+  }
+  throw Error("Missing seeded household debt");
+}
+
+describe("manual household responsibility persistence", () => {
+  it("keeps a malformed household ledger intact through visible load retries and recovers from the repaired save", () => {
+    const life = responsibilitySave();
+    const invalid = structuredClone(life);
+    invalid.expansion.social!.debt!.balance--;
+    const raw = JSON.stringify({ version: 1, active: invalid, archive: [] });
+    window.localStorage.setItem(SAVE_KEY, raw);
+    render(<App />);
+    expect(screen.getByRole("alert")).toBeTruthy();
+    fireEvent.click(screen.getByRole("button", { name: "Retry loading" }));
+    expect(window.localStorage.getItem(SAVE_KEY)).toBe(raw);
+    expect(screen.getByRole("alert")).toBeTruthy();
+    saveGame(window.localStorage, { version: 1, active: life, archive: [] });
+    fireEvent.click(screen.getByRole("button", { name: "Retry loading" }));
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(screen.getByRole("heading", { name: "Household debt responsibility" })).toBeTruthy();
+    expect(loadGame(window.localStorage).data.active).toEqual(life);
+  });
+
+  it.each([
+    ["Accept affordable instalments", "accepted"],
+    ["Accept creditor service", "service"],
+    ["Refuse personal responsibility", "refused"],
+  ])("holds Watch, saves %s immediately, and reloads paused", (label, status) => {
+    vi.useFakeTimers();
+    const life = responsibilitySave();
+    saveGame(window.localStorage, { version: 1, active: life, archive: [] });
+    const view = render(<App />);
+    fireEvent.click(screen.getByRole("checkbox", { name: "Watch mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Play time" }));
+    act(() => vi.advanceTimersByTime(2200));
+    expect(loadGame(window.localStorage).data.active).toEqual(life);
+    const hidden = vi.spyOn(document, "hidden", "get").mockReturnValue(true);
+    fireEvent(document, new Event("visibilitychange"));
+    act(() => vi.advanceTimersByTime(2200));
+    expect(loadGame(window.localStorage).data.active).toEqual(life);
+    hidden.mockReturnValue(false);
+    fireEvent(document, new Event("visibilitychange"));
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${label}`) }));
+    const chosen = loadGame(window.localStorage).data.active as ExpandedLife;
+    expect(chosen.expansion.social!.debt!.status).toBe(status);
+    expect(chosen.expansion.social!.debt!.decisionYear).toBe(life.expansion.birthYear + 15);
+    expect(chosen.coins).toBe(life.coins);
+    expect(chosen.age).toBe(15);
+    expect(chosen.history.length).toBe(life.history.length + 1);
+    view.unmount();
+    render(<App />);
+    expect(screen.getByRole("button", { name: "Play time" })).toBeTruthy();
+    act(() => vi.advanceTimersByTime(5000));
+    expect(loadGame(window.localStorage).data.active).toEqual(chosen);
+  });
+
+  it.each([
+    ["Keep the service contract", "service"],
+    ["Exit service; keep earned credit", "accepted"],
+  ])("keeps saved service review manual and persists %s", (label, status) => {
+    vi.useFakeTimers();
+    const accepted = choose(responsibilitySave(), "expanded.parental-debt.service");
+    const review = openActivity(accepted, "debt-service-exit") as ExpandedLife;
+    expect(review.pending).toBe("expanded.debt-service-exit");
+    saveGame(window.localStorage, { version: 1, active: review, archive: [] });
+    render(<App />);
+    fireEvent.click(screen.getByRole("checkbox", { name: "Watch mode" }));
+    fireEvent.click(screen.getByRole("button", { name: "Play time" }));
+    act(() => vi.advanceTimersByTime(2200));
+    expect(loadGame(window.localStorage).data.active).toEqual(review);
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(`^${label}`) }));
+    const saved = loadGame(window.localStorage).data.active as ExpandedLife;
+    expect(saved.expansion.social!.debt!.status).toBe(status);
+    expect(saved.expansion.social!.debt!.balance).toBe(48);
+    expect(saved.age).toBe(review.age);
+    expect(saved.pending).toBeNull();
+  });
+
+  it("retries the actual refused route after a failed write without applying the family strike twice", () => {
+    vi.useFakeTimers();
+    const life = responsibilitySave();
+    saveGame(window.localStorage, { version: 1, active: life, archive: [] });
+    const raw = window.localStorage.getItem(SAVE_KEY);
+    const view = render(<App />);
+    let blocked = true;
+    const setItem = Storage.prototype.setItem;
+    vi.spyOn(Storage.prototype, "setItem").mockImplementation(function (this: Storage, key, value) {
+      if (blocked) throw new DOMException("Full", "QuotaExceededError");
+      setItem.call(this, key, value);
+    });
+    fireEvent.click(screen.getByRole("button", { name: /^Refuse personal responsibility/ }));
+    expect(screen.getByRole("alert").textContent).toMatch(/not been saved/i);
+    expect(window.localStorage.getItem(SAVE_KEY)).toBe(raw);
+    fireEvent.click(screen.getByRole("button", { name: "Retry save" }));
+    expect(window.localStorage.getItem(SAVE_KEY)).toBe(raw);
+    blocked = false;
+    fireEvent.click(screen.getByRole("button", { name: "Retry save" }));
+    const saved = loadGame(window.localStorage).data.active as ExpandedLife;
+    expect(saved.expansion.social!.debt!.status).toBe("refused");
+    expect(saved.stats.bonds).toBe(Math.max(0, life.stats.bonds - 8));
+    expect(saved.history.length).toBe(life.history.length + 1);
+    expect(screen.queryByRole("alert")).toBeNull();
+    view.unmount();
+    render(<App />);
+    act(() => vi.advanceTimersByTime(5000));
+    expect(loadGame(window.localStorage).data.active).toEqual(saved);
+  });
+});
 
 it('keeps a career project manual in Watch mode and persists its exact cost immediately',()=>{
   vi.useFakeTimers();
   const l=createExpandedLife({seed:1});l.phase='alive';l.age=25;l.pending=null;l.stats.health=90;
+  delete l.expansion.social; // Existing adult without a retrospective household obligation.
   l.coins=200;l.expansion.economy.peak=200;enterCareerNode(l,'farmhand');
   saveGame(window.localStorage,{version:1,active:l,archive:[]});render(<App/>);
   fireEvent.click(screen.getByRole('checkbox',{name:'Watch mode'}));
@@ -93,6 +213,7 @@ beforeEach(() => {
 describe("clear next actions and recovery", () => {
   it("opens optional careers and keeps the manual browser after reload", () => {
     const l = createExpandedLife({ seed: 2 });
+    delete l.expansion.social;
     l.phase = "alive";
     l.age = 35;
     l.coins = 200;
@@ -124,6 +245,7 @@ describe("clear next actions and recovery", () => {
   it("keeps a voluntarily opened legendary challenge manual in Watch mode and permits declining it", () => {
     vi.useFakeTimers();
     const l = createExpandedLife({ seed: 2 });
+    delete l.expansion.social;
     l.phase = "alive";
     l.age = 35;
     saveGame(window.localStorage, { version: 1, active: l, archive: [] });

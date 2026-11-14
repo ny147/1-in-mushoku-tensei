@@ -26,6 +26,7 @@ import {
 import { currentRequirementText } from "../../i18n/current-requirements";
 import { moneyText } from "../../i18n/money";
 import { worldYear } from "./facts";
+import { nobleFamilyFunds } from "./careers";
 
 export function careerDecision(l: ExpandedLife): Decision | null {
   const s = l.expansion.careerPaths,
@@ -126,10 +127,7 @@ export function careerDecision(l: ExpandedLife): Decision | null {
               : n.occupation === "knight"
                 ? Math.max(
                     0,
-                    120 -
-                      (l.expansion.origin.status === "noble"
-                        ? l.expansion.economy.familyFunds
-                        : 0),
+                    120 - nobleFamilyFunds(l),
                   )
                 : 0;
       option(

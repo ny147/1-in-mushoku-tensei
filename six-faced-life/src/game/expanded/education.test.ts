@@ -10,6 +10,7 @@ import {
 describe("education access and funded progress", () => {
   it("offers an ordinary livelihood immediately when university attendance ends", () => {
     const l = createExpandedLife({ seed: 1 });
+    delete l.expansion.social; // Existing student compatibility fixture skips childhood decisions.
     l.phase = "alive";
     l.age = 20;
     l.coins = 500;
