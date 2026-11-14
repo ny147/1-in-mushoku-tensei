@@ -1,6 +1,6 @@
 # Standing foundations — implemented for review, 2026-11-14
 
-Stage1 plan implemented on `codex/standing-foundations`, draft PR28 targeting main:
+Stage1 plan implemented on `codex/standing-foundations`, ready-for-review PR28 targeting main:
 https://github.com/ny147/1-in-mushoku-tensei/pull/28
 User explicitly approved carrying PR27 design/plan commits into this separate
 branch. Base e7fa05b; main preserved. User merges manually; no publication.
@@ -40,12 +40,18 @@ Ignored QA scripts/runtime/artifacts remain .openai/standing-qa and checkpoints/
 source dependency/lockfiles/hosting metadata unchanged. Isolated Vite5174 remains
 running. Prior credits interruption is historical; resumed checks above completed.
 
-Next: finish/verify task-branch push and PR28 readiness after final documentation
-commit; inspect actual remote HEAD if GitHTTP response times out (earlier pushes
-arrived despite clienttimeout). Fetch before handoff, report if behind main without
-automatic integration. Then human PR review/manual merge after CI; preserve branch.
-For later code followups recheck actualstatus/fetch/usage, continue this branch/PR
-while open. Do not restart completed tasks, merge automatically or publish.
+Delivery: implementation/source1132b5e and documentation1ed99cc pushed to own
+upstream origin/codex/standing-foundations; local/remote HEAD matched. Final fetch
+succeeded, latest origin/main e7fa05b included (zero behind). GitHub test/build/
+config-validation job132364867826 passed on1ed99cc; PR28 marked ready only after
+all current checks passed. This documentation-only followup records the handoff;
+CI may rerun on it, with no application-code changes.
+
+Next: human PR28 review/manual merge after current CI. All Stage1 tasks complete;
+no uncommitted source work or known required finding. Preserve branch; do not
+merge automatically, enable auto-merge, delete it or publish. For later followups
+check actualstatus/fetch/usage and continue this PR while open. Later stages need
+their own reviewed plans. Do not repeat completed implementation.
 
 Historical checkpoint:
 

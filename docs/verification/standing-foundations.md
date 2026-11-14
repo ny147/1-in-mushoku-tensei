@@ -107,5 +107,9 @@ keyboard, screen-reader, reduced-motion or hidden-operating-system-tab audit.
 Browser storage failure/recovery and the broader illness/relocation/job-change,
 migration and archive boundaries were not manually injected in this browser run;
 their automated test evidence must be reported separately. No production publish
-or upload occurred. Final full-suite/build and source review passed as recorded above. Git freshness
-and human review remain delivery checks; the user merges the PR manually.
+or upload occurred. Final full-suite/build and source review passed as recorded above. Branch freshness
+was verified against origin/main e7fa05b; code/docs1ed99cc reached the matching
+remote branch. [GitHub CI](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/43567646381/job/132364867826)
+passed test/build/config validation on1ed99cc, and PR28 was marked ready for human
+review. This documentation-only handoff may start another CI run. The user merges
+the PR manually; no publication or automatic merge was performed.

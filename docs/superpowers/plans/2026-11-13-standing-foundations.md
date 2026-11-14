@@ -16,7 +16,7 @@ existing seeded simulation and localStorage. No new dependencies or services.
 
 **Spec:** [Standing: privileges, burdens, and family consequences](../specs/2026-11-13-standing-consequences-design.md).
 
-**Status:** Implementation authorized, 2026-11-13; execution in progress.
+**Status:** Implemented and verified for human review, 2026-11-14.
 User approved carrying PR #27 documentation into the separate implementation
 branch `codex/standing-foundations`; no main merge or publication authorized.
 Historical planning context: the request to create a plan authorized a follow-up to
@@ -509,7 +509,7 @@ fixtures, logs and browser backups ignored; do not add dependencies/hosting file
   against `origin/main`, then commit task-owned docs/evidence. Fetch/prune before
   final handoff (retry OpenSSL on Schannel credential error); stop/report failure.
   Report if `origin/main` advanced; do not integrate it automatically.
-- [ ] Push explicitly `git push -u origin codex/standing-foundations`; create/update
+- [x] Push explicitly `git push -u origin codex/standing-foundations`; create/update
   that stage's PR with base `main`. Keep draft if checks are failing/blocked;
   otherwise mark ready for human review. Link the PR, report checks/limitations,
   and state that the user merges manually. Do not merge, auto-merge, delete the
@@ -526,7 +526,7 @@ fixtures, logs and browser backups ignored; do not add dependencies/hosting file
 | 5 — Manual decisions | Complete | f4addb0; focused79/5 +TS PASS; independent review approved |
 | 6 — EN/TH presentation/history | Complete | 19ecb74 +f4addb0 hook; scoped review approved; browser birth/adult probes clean |
 | 7 — Release/restore/Watch tests | Complete | 5f8579f +211f964; final693/80 PASS |
-| 8 — Browser/docs/delivery | Verification complete; delivery pending | Finalbuild PASS; browser54/54; source review fixes1132b5e approved |
+| 8 — Browser/docs/delivery | Complete | 1ed99cc pushed; CI PASS; PR28 marked ready for manual review |
 
 Planning self-review: stages and confirmed ages/odds mapped to the design;
 Stage1 requirements assigned to tasks; named interfaces and review-focus cases
@@ -704,3 +704,15 @@ React/presentation checks: pure derived reads, stable keys/native controls, exis
 focus/order/fonts/palette, no rendering RNG or new effect-driven persistence.
 Source package/lockfiles and hosting metadata unchanged. Artifacts ignored.
 Evidence: docs/verification/standing-foundations.md. No later stages or publication.
+
+### Delivery complete — 2026-11-14
+
+Implementation/source1132b5e and documentation1ed99cc pushed explicitly with own
+upstream to origin/codex/standing-foundations. Remote HEAD matched local; final
+fetch succeeded, branch contains latest origin/main e7fa05b (zero behind).
+GitHub test/build/config-validation job132364867826 passed on1ed99cc; PR28 base
+main marked ready via API after all checks passed. No merge/auto-merge/branch
+deletion/publication. This documentation-only followup records the observed handoff;
+its new CI run may start normally, without changing verified application code.
+Next: user reviews PR28 and merges manually after current checks. All Stage1
+execution tasks complete; later-stage plans/code remain separate future work.
