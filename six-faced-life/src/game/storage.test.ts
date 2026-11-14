@@ -297,3 +297,84 @@ describe("social adoption in persisted expanded lives", () => {
     expect(loadGame(storage)).toEqual({ data: save, error: null });
   });
 });
+
+describe("household debt storage recovery boundaries", () => {
+  function debtor() {
+    for (let seed = 0; seed < 100; seed++) {
+      const life = createExpandedLife({ seed });
+      if (!life.expansion.social?.debt) continue;
+      life.phase = "alive";
+      life.age = 15;
+      life.pending = "expanded.parental-debt";
+      return life;
+    }
+    throw Error("Missing indebted poor birth");
+  }
+
+  it.each<[string, (life: ExpandedLife) => void]>([
+    ["unknown ledger version", l => { l.expansion.social!.version = 99 as 1; }],
+    ["broken conservation", l => { l.expansion.social!.debt!.balance--; }],
+    ["unknown household parent", l => { l.expansion.social!.household.parentIds = ["unrecorded-parent"]; }],
+    ["future childhood collection", l => { l.expansion.social!.debt!.lastChildhoodYear = l.expansion.birthYear + 15; }],
+    ["decision before age fifteen", l => {
+      const d = l.expansion.social!.debt!;
+      d.status = "accepted"; d.decisionYear = l.expansion.birthYear + 14;
+      l.pending = null;
+    }],
+    ["missing required balance", l => { Reflect.deleteProperty(l.expansion.social!.debt!, "balance"); }],
+    ["null ledger", l => { Reflect.set(l.expansion, "social", null); }],
+  ])("preserves unreadable raw bytes for %s on every load attempt", (_label, corrupt) => {
+    const life = debtor();
+    corrupt(life);
+    const storage = memoryStorage();
+    const raw = JSON.stringify({ version: 1, active: life, archive: [] });
+    storage.setItem(SAVE_KEY, raw);
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const result = loadGame(storage);
+      expect(result.error).toBeTruthy();
+      expect(result.data.active).toBeNull();
+      expect(storage.getItem(SAVE_KEY)).toBe(raw);
+    }
+  });
+
+  it("accepts the absent optional credit marker but rejects malformed contracts or forged earned credit", () => {
+    const life = choose(debtor(), "expanded.parental-debt.service") as ExpandedLife;
+    const service = life.expansion.social!.debt!.service!;
+    expect(service.lastCreditYear).toBeNull();
+    const storage = memoryStorage();
+    delete service.lastCreditYear;
+    expect(saveGame(storage, { version: 1, active: life, archive: [] })).toBe(true);
+    const restored = loadGame(storage);
+    expect(restored.error).toBeNull();
+    expect(restored.data.active).toEqual(life);
+    for (const mutate of [
+      (l: ExpandedLife) => { l.expansion.social!.debt!.service!.lastCreditYear = l.expansion.birthYear + 15; },
+      (l: ExpandedLife) => {
+        const d = l.expansion.social!.debt!;
+        d.servicePaid = 12; d.balance = 36;
+      },
+      (l: ExpandedLife) => { Reflect.set(l.expansion.social!.debt!, "service", null); },
+    ]) {
+      const invalid = structuredClone(life);
+      mutate(invalid);
+      const raw = JSON.stringify({ version: 1, active: invalid, archive: [] });
+      storage.setItem(SAVE_KEY, raw);
+      expect(loadGame(storage).error).toBeTruthy();
+      expect(storage.getItem(SAVE_KEY)).toBe(raw);
+    }
+  });
+
+  it("rejects corrupted archived debt before migrating a valid old active life", () => {
+    const ended = choose(debtor(), "expanded.parental-debt.accept") as ExpandedLife;
+    finishExpanded(ended, "aging");
+    ended.expansion.social!.debt!.closedUnpaid--;
+    const oldActive = debtor();
+    delete oldActive.expansion.social;
+    oldActive.pending = null;
+    const storage = memoryStorage();
+    const raw = JSON.stringify({ version: 1, active: oldActive, archive: [ended] });
+    storage.setItem(SAVE_KEY, raw);
+    expect(loadGame(storage).error).toBeTruthy();
+    expect(storage.getItem(SAVE_KEY)).toBe(raw);
+  });
+});
