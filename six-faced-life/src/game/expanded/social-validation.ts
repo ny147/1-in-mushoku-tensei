@@ -265,6 +265,7 @@ export function validateSocialState(
       "lastYear",
       "endedYear",
       "endReason",
+      ...(Object.hasOwn(t, "lastCreditYear") ? ["lastCreditYear"] : []),
     ]) ||
     !int(t.acceptedBalance, 1) ||
     t.acceptedBalance !== d.initial - d.childhoodPaid ||
@@ -284,6 +285,11 @@ export function validateSocialState(
       )
   )
     return false;
+  if (Object.hasOwn(t, "lastCreditYear") && (
+    t.completedYears === 0
+      ? t.lastCreditYear !== null
+      : !int(t.lastCreditYear, t.startedYear + t.completedYears, t.lastYear)
+  )) return false;
   if (t.endedYear === null)
     return (
       t.endReason === null &&
@@ -304,6 +310,7 @@ export function validateSocialState(
       t.completedYears === t.requiredYears &&
       d.personalPaid === 0 &&
       d.closedUnpaid === 0 &&
+      (!Object.hasOwn(t, "lastCreditYear") || t.lastCreditYear === t.endedYear) &&
       t.endedYear === t.lastYear
     );
   if (t.completedYears >= t.requiredYears) return false;

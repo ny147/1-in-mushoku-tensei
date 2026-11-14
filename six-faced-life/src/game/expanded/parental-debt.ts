@@ -81,10 +81,11 @@ export function debtServiceYear(life: ExpandedLife, year: number): DebtServiceYe
   const dependants = x.family.people.filter(p => p.role === "child" && p.died === null && year - p.born < 18).length * 4 + x.family.marriages.filter(m => m.end === null).length * 6;
   return { year, eligible, pauseReason, support: eligible ? PARENTAL_DEBT.serviceBasicSupport + dependants : 0, credit: eligible ? Math.min(PARENTAL_DEBT.annualServiceCredit, d!.balance) : 0 };
 }
-/** Completed final-year labor still replaces cash wages until the next year. */
+/** Actual credited labor stays committed through later fitness/job changes or exit. */
 export function creditorServiceReplacesWork(life: ExpandedLife, year: number): boolean {
   const service = life.expansion.social?.debt?.service;
   return debtServiceYear(life, year).eligible ||
+    service?.lastCreditYear === year ||
     (service?.endReason === "completed" && service.endedYear === year);
 }
 export function creditDebtServiceYear(life: ExpandedLife, year: DebtServiceYear): void {
@@ -94,6 +95,7 @@ export function creditDebtServiceYear(life: ExpandedLife, year: DebtServiceYear)
   if (!year.eligible) return;
   const credit = Math.min(d.balance, year.credit, PARENTAL_DEBT.annualServiceCredit);
   d.balance -= credit; d.servicePaid += credit; s.completedYears++;
+  s.lastCreditYear = year.year;
   // This year's labor is already committed, including after a subsequent exit.
   if (life.expansion.careerPaths)
     life.expansion.careerPaths.lastProjectYear = Math.max(life.expansion.careerPaths.lastProjectYear, year.year);

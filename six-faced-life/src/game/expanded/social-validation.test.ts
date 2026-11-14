@@ -42,6 +42,27 @@ function serviceLife() {
   return l;
 }
 describe("strict social ledger validation", () => {
+  it("accepts optional last-credit facts without inventing them in older ledgers", () => {
+    const l = serviceLife(), d = l.expansion.social!.debt!, t = d.service!;
+    expect(validateSocialState(l.expansion.social, l)).toBe(true);
+    expect(Object.hasOwn(t, "lastCreditYear")).toBe(false);
+    Object.assign(t, { lastCreditYear: l.expansion.birthYear + 17 });
+    expect(validateSocialState(l.expansion.social, l)).toBe(true);
+    Object.assign(t, { completedYears: 0, lastYear: t.startedYear, lastCreditYear: null });
+    d.balance = 48; d.servicePaid = 0;
+    expect(validateSocialState(l.expansion.social, l)).toBe(true);
+  });
+  it.each([null, undefined, "417", 417.5, -1, 9999])("rejects inconsistent present last-credit value %s", value => {
+    const l = serviceLife(); Object.assign(l.expansion.social!.debt!.service!, { lastCreditYear: value });
+    expect(validateSocialState(l.expansion.social, l)).toBe(false);
+  });
+  it("requires a real last credit to follow acceptance and fit completed service years", () => {
+    const l = serviceLife(), t = l.expansion.social!.debt!.service!;
+    for (const lastCreditYear of [t.startedYear, t.startedYear + 1, t.lastYear + 1]) {
+      Object.assign(t, { lastCreditYear });
+      expect(validateSocialState(l.expansion.social, l)).toBe(false);
+    }
+  });
   it("rejects personal payments whose annual guard predates acceptance", () => {
     const l = adult(),
       d = l.expansion.social!.debt!,

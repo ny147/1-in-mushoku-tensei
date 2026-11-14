@@ -24,6 +24,8 @@ export interface DebtService {
   requiredYears: number;
   completedYears: number;
   lastYear: number;
+  /** Missing only in pre-field saves; null means no service year credited yet. */
+  lastCreditYear?: number | null;
   endedYear: number | null;
   endReason: "completed" | "exit" | "death" | null;
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createExpandedLife } from "./origins";
-import { quoteDebtService, debtServiceYear, creditDebtServiceYear } from "./parental-debt";
+import { quoteDebtService, debtServiceYear, creditDebtServiceYear, creditorServiceReplacesWork } from "./parental-debt";
 import { worldYear } from "./facts";
 import { annualIncomeExpanded, appoint } from "./careers";
 import { applyEconomyYear } from "./economy";
@@ -25,6 +25,28 @@ function servant() {
   return l;
 }
 describe("elapsed creditor service years", () => {
+  it.each(["assignment", "service"] as const)("retains credited work through annual health loss and rejects %s rewards", event => {
+    let l = servant(); l.stats.health = 20;
+    l = advanceExpanded(l, "year");
+    expect(l.stats.health).toBeLessThan(20);
+    expect(l.expansion.social!.debt!.servicePaid).toBe(12);
+    expect(l.expansion.social!.debt!.service!.lastCreditYear).toBe(worldYear(l));
+    expect(annualIncomeExpanded(l)).toBe(0);
+    expect(creditorServiceReplacesWork(l, worldYear(l))).toBe(true);
+    l.pending = `expanded.${event}`; l.expansion.politics.faction = "orsted";
+    l.expansion.history.push({ year: worldYear(l), code: "conflict", region: l.region, locality: l.expansion.origin.locality, exposure: "civilian" });
+    l.expansion.serviceContext = { year: worldYear(l), code: "conflict", region: l.region, locality: l.expansion.origin.locality };
+    allocateSwordStyle(l, "north-god"); l.expansion.swords!.tracks["north-god"].xp = 110;
+    expect(getExpandedDecision(l)!.choices.filter(c => !c.id.endsWith(".later")).every(c => c.disabled)).toBe(true);
+    expect(swordApproach(l, event)).toBeNull();
+    const before = structuredClone(l);
+    expect(chooseExpanded(l, `expanded.${event}.accept`)).toBe(l);
+    applyExpandedChoice(l, `expanded.${event}.accept`);
+    applySwordApproach(l, event, "north-god");
+    expect(l).toEqual(before);
+    l.region = l.region === "asura" ? "ranoa" : "asura"; l.expansion.career.role = "farmer";
+    expect(creditorServiceReplacesWork(l, worldYear(l))).toBe(true);
+  });
   it("keeps wage and project replacement after this year's credit has been recorded", () => {
     const l = servant(); l.age++;
     creditDebtServiceYear(l, debtServiceYear(l, worldYear(l)));
@@ -170,8 +192,10 @@ describe("elapsed creditor service years", () => {
   });
   it("does not consume a paused year's project opportunity on exit", () => {
     const l = servant(); l.age++; l.stats.health = 19;
+    l.expansion.social!.debt!.service!.lastCreditYear = null;
     const marker = l.expansion.careerPaths!.lastProjectYear;
     creditDebtServiceYear(l, debtServiceYear(l, worldYear(l)));
+    expect(l.expansion.social!.debt!.service!.lastCreditYear).toBeNull();
     expect(l.expansion.careerPaths!.lastProjectYear).toBe(marker);
     const d = l.expansion.social!.debt!;
     d.status = "accepted"; d.service!.endedYear = worldYear(l); d.service!.endReason = "exit";
