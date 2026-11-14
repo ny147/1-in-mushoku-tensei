@@ -2147,6 +2147,9 @@ button svg {
   font-size: 10px;
   color: #656d59;
 }
+.ending-letter > .sword-progress {
+  text-align: start;
+}
 .ending-saved {
   display: flex;
   justify-content: center;
@@ -4133,7 +4136,14 @@ h2[tabindex="-1"] {
   border: 1px solid var(--line);
   border-radius: 5px;
 }
-.sword-progress .detail-list div { flex-wrap: wrap; gap: 4px 12px; }
+.sword-progress .detail-list > div {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4px 12px;
+}
+.sword-progress .detail-list dt,
+.sword-progress .detail-list dd {
+  overflow-wrap: anywhere;
+}
 .sword-progress p { overflow-wrap: anywhere; }
 
 /* Character reading order follows the same document sequence at every width. */

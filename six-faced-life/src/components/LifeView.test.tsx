@@ -34,6 +34,39 @@ describe("completed life presentation", () => {
 import { CharacterView } from "./LifeView";
 import { createExpandedLife } from "../game/expanded/origins";
 import { LanguageProvider } from "../i18n/context";
+
+it.each(["en", "th"] as const)(
+  "reads all compact %s ending facts before the detailed sword records",
+  (language) => {
+    const life = createExpandedLife({ seed: 32, language });
+    life.phase = "ended";
+    life.age = 71;
+    life.pending = null;
+    life.ending = { cause: "aging", legacy: "A full life" };
+    life.expansion.swords!.selected = "sword-god";
+    life.expansion.swords!.tracks["sword-god"] = { xp: 475, cap: 2 };
+    render(
+      <LanguageProvider language={language}>
+        <Ending life={life} onNew={() => {}} />
+      </LanguageProvider>,
+    );
+    const swordHeading = screen.getByRole("heading", {
+      name: language === "en" ? "Sword styles" : "วิชาดาบสามรูปแบบ",
+    });
+    for (const label of language === "en"
+      ? ["Your last home", "Magic rank", "Sword rank", "One part of your story"]
+      : ["บ้านหลังสุดท้าย", "ระดับเวทมนตร์", "ระดับวิชาดาบ", "ส่วนหนึ่งในเรื่องราวของคุณ"]) {
+      expect(
+        screen.getByText(label).compareDocumentPosition(swordHeading) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    }
+    expect(screen.getByText(/475 XP/)).toBeTruthy();
+    expect(screen.getAllByText(/0 XP/)).toHaveLength(2);
+    expect(screen.queryByRole("combobox")).toBeNull();
+  },
+);
+
 it.each(["en", "th"] as const)("presents %s condition before background, training, family and spellbook", language=>{
  const l=createExpandedLife({seed:1,language});l.phase="alive";
  const {container}=render(<LanguageProvider language={language}><CharacterView life={l} onStudyChange={()=>{}} onSwordStyle={()=>{}}/></LanguageProvider>);

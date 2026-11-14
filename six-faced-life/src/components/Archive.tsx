@@ -71,9 +71,6 @@ export function Ending({
           {t("But this life was yours, and it mattered.")}
         </p>
         <div className="legacy-grid">
-          {life.ruleset === "expanded-1" && life.expansion.swords && (
-            <SwordProgress life={life} />
-          )}
           <div>
             <MapPin size={18} />
             <strong>{t(REGIONS[life.region].short)}</strong>
@@ -109,6 +106,9 @@ export function Ending({
             <span>{t("One part of your story")}</span>
           </div>
         </div>
+        {life.ruleset === "expanded-1" && life.expansion.swords && (
+          <SwordProgress life={life} />
+        )}
         <span className="ending-saved">
           <BookOpen size={14} />
           {t(

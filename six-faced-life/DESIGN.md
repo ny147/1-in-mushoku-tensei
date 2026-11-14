@@ -348,6 +348,11 @@ For UI changes, inspect desktop and narrow phone layouts, keyboard operation, ex
 
 The chronicle rail and character view use the same compact Sword styles section: three factual rank/XP rows, a labeled native Practice style select, and explicit decision-lock text. Paid mentorship shows the paid fee, eligible-year progress, paused reason and manual trial readiness. Teacher quotes and bilingual trials reuse the existing decision/outcome panels and keyboard outcome focus. Completed records show factual per-style ranks and actual mentorship years. Existing paper/ink tokens, fonts, mobile order and reduced-motion rules remain.
 
+The ending and archived ending keep their four compact life facts together. The
+read-only Sword styles section follows at full width, with start-aligned records
+and the existing native advancement disclosure. Shared sword rows use two flexible
+columns so English/Thai names and rank/XP values can wrap within narrow panels.
+
 ## Pixel life scene
 
 Regional backdrops stay still. Omit the old miniature walker and flag overlays:
