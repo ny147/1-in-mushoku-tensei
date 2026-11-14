@@ -12,6 +12,20 @@ The user chose a story and progression expansion on 2026-10-24. The current game
 
 ## Current behavior
 
+- Wealth, present noble standing and Asura royal ancestry are distinct. New poor
+  nobles/royals retain ordinary noble access; earned titles give the same funding
+  rights while preserving birth history and actual qualification/funding gates.
+- Some new poor households have parental liability. Childhood support payments
+  remain separate from the child's purse; at 15, manual accept/service/refuse
+  choices disclose real family, shelter and financial consequences. Accepted debt
+  shares one affordable annual budget with education loans and has hardship pauses
+  without interest. Creditor service replaces cash wages with necessities and debt
+  credit, retains pauses/earned credit, and offers explicit fee-free exit.
+- English/Thai standing disclosures and actual stored choice outcomes distinguish
+  household from personal debt. Consequential choices stay manual in Watch mode;
+  pending choices and source-aware education reserves survive reload. Existing
+  lives acquire no invented liabilities/royal ancestry; old snapshots stay factual.
+
 - Expanded lives keep separate Sword God, Water God and North God XP and ranks.
   Select one to practice from age five; switch freely between decisions. Jobs
   use a single qualified learned style; events use the selected style. Courses

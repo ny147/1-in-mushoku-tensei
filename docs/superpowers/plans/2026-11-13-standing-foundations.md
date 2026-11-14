@@ -19,11 +19,12 @@ existing seeded simulation and localStorage. No new dependencies or services.
 **Status:** Implementation authorized, 2026-11-13; execution in progress.
 User approved carrying PR #27 documentation into the separate implementation
 branch `codex/standing-foundations`; no main merge or publication authorized.
-The request to create a plan authorizes this planning follow-up to
+Historical planning context: the request to create a plan authorized a follow-up to
 [PR #27](https://github.com/ny147/1-in-mushoku-tensei/pull/27), on
-`codex/standing-impact-design`, base `main`. It does not authorize gameplay
-implementation or make the design's builder proposals confirmed interview answers.
-Balance and compatibility choices below remain proposals until plan review.
+`codex/standing-impact-design`, base `main`. The subsequent user request approved
+Stage 1 implementation, followed by explicit authorization to carry those documents
+into this separate implementation branch. Stage 1 defaults below are the implemented
+plan choices; later-stage builder proposals remain distinct from interview answers.
 
 ## Global Constraints
 
@@ -337,25 +338,25 @@ Its `pauseReason` is `'none' | 'health' | 'study' | 'region' | 'occupation' |
 Snapshot eligibility before annual training/career/family changes; the same
 snapshot drives in-kind support, wage replacement and subsequent debt credit.
 
-- [ ] Write failing accounting cases: income58/basic18 gives surplus40 and cap4;
+- [x] Write failing accounting cases: income58/basic18 gives surplus40 and cap4;
   education eligible balance3 plus parental balance10 pays3+1 with coins reduced4.
   With purse2 pay only2; with zero surplus, unmet needs, university or service pay0.
   Additional housing4 reduces that surplus/cap. Reserved education loan5 is not
   repayable or spendable. A second call for the same year changes nothing.
-- [ ] Write failing service cases: accepted balance34 quotes three years; eligible
+- [x] Write failing service cases: accepted balance34 quotes three years; eligible
   years credit12/12/10 with no cash wage; acceptance-year credit0. Dependants are
   covered in kind; health19, university, full-time study, other region/job pause
   both service support and credit. Part-time coursework consumes its own funding
   and progresses once; service is not a free course/guard-service completion.
-- [ ] Run `npm test -- src/game/expanded/debt-budget.test.ts src/game/expanded/parental-debt.test.ts src/game/expanded/education-finance.test.ts`;
+- [x] Run `npm test -- src/game/expanded/debt-budget.test.ts src/game/expanded/parental-debt.test.ts src/game/expanded/education-finance.test.ts`;
   inspect intended failures.
-- [ ] Preserve `repayEducationYear()` as the old compatibility wrapper. For social
+- [x] Preserve `repayEducationYear()` as the old compatibility wrapper. For social
   lives call `repayDebtsYear()` once at the existing annual repayment position.
   Compute `surplus=max(0,floor(earnedIncome-18-dependantCosts-necessaryEducationCosts-
   additionalShelterCosts))`; cap to purse, surplus and `max(1,floor(surplus*0.1))`
   only when surplus>0. Honor both ledgers' annual guards; update both even when
   payment pauses. Never recompute another full cap for the second creditor.
-- [ ] For eligible service years replace ordinary wages with zero cash income
+- [x] For eligible service years replace ordinary wages with zero cash income
   and the in-kind necessities before economy spends. Retain one laborer work
   record only; no parallel previous-role work, cash projects or assignment reward
   while serving. Read-only income/finance displays must describe that replacement.
@@ -365,7 +366,7 @@ snapshot drives in-kind support, wage replacement and subsequent debt credit.
   A completion year's support remains funded, with ordinary wages resuming next
   year. A death before year completion grants no credit; close remaining balance
   through `finishExpanded()` before summary, preserving all payments/history.
-- [ ] Rerun focused tests and training/university/career-work regressions. Assert
+- [x] Rerun focused tests and training/university/career-work regressions. Assert
   early exit/death retain credit and never transfer debt to children. Commit
   `feat: share affordable repayments and implement creditor service`.
 
@@ -385,30 +386,30 @@ Use event IDs `expanded.parental-debt`, `expanded.debt-service-exit`; choice IDs
 `expanded.debt-service-exit.confirm`, `.keep`. Return false/no mutation for stale
 or ineligible actions; domain transitions recheck eligibility independently of UI.
 
-- [ ] Add failing flows for all three routes through `getExpandedDecision()` and
+- [x] Add failing flows for all three routes through `getExpandedDecision()` and
   public `choose()`; `canAutoChoose()` must be false. Acceptance transfers only
   the remaining quoted balance; refusal leaves personal liability0; choosing
   twice has no effect. No route takes a generic `Choice.cost` then debits again.
-- [ ] Test age14→15 alongside work/university and a history event: retain history
+- [x] Test age14→15 alongside work/university and a history event: retain history
   priority, insert debt responsibility immediately before age15 work/university,
   and deduplicate the queue. If another choice exists, preserve it until resolved;
   due state survives reload. Never recreate responsibility after refusal/settlement.
   Respect the existing 16-entry queue bound: if full, leave responsibility due in
   its ledger and enqueue at the next drain with space, before new spending offers.
-- [ ] Test parents dead, parents elsewhere, family compaction, and zero assets:
+- [x] Test parents dead, parents elsewhere, family compaction, and zero assets:
   resolve affected IDs from real records, never fabricate a parent or apply bonds
   loss twice. Test zero balance, stale contract quotes and service acceptance while
   study is active. Entry must disclose paused status, not silently cancel education.
-- [ ] Run `npm test -- src/game/expanded/social-events.test.ts src/game/expanded/activities.test.ts`;
+- [x] Run `npm test -- src/game/expanded/social-events.test.ts src/game/expanded/activities.test.ts`;
   inspect intended failures.
-- [ ] Register dispatch/valid IDs and `requiresManual: true`. Implement exact
+- [x] Register dispatch/valid IDs and `requiresManual: true`. Implement exact
   route consequences, snapshot affected household members, and show costs/terms
   before each choice. Add an optional activity to review/exit an active service
   contract; confirm unpaid balance and already-earned credit before exit. Guard
   work/projects and saved actions at execution as well as menu construction.
   Use activity key `debt-service-exit` and add its EN/TH label to the exhaustive
   `Record<Activity, ...>` in `OptionalActivities.tsx`; opening it is read-only.
-- [ ] Rerun focused tests including blocked Watch choice and non-overwriting of
+- [x] Rerun focused tests including blocked Watch choice and non-overwriting of
   unrelated pending choices. Commit `feat: add manual parental debt choices`.
 
 ## Task 6: Bilingual identity, debt disclosures and factual completed records
@@ -427,27 +428,27 @@ SocialPresentation` in `i18n/social.ts` (import `Language` from `game/types.ts`)
 `socialChoiceOutcome(before: ExpandedLife, after: ExpandedLife, choiceId: string,
 language: Language): string | null` for actual outcomes and history.
 
-- [ ] Add failing EN/TH cases for poor noble, poor royal, earned noble with debt,
+- [x] Add failing EN/TH cases for poor noble, poor royal, earned noble with debt,
   child household liability, accepted instalments, paused/completed service and
   refusal. Assert birth versus present standing, ancestral house versus office,
   outstanding personal versus household debt, last repayment and remaining term.
-- [ ] Test Effects and actual outcomes for capped final service credit, bonds
+- [x] Test Effects and actual outcomes for capped final service credit, bonds
   already at floor, absent parents and the housing expiry. Saved history must
   retain actual amounts/affected people after future balances change; do not
   reconstruct the past from current debt. Preserve original English fallback for
   unknown old narrative references.
-- [ ] Run `npm test -- src/i18n/social.test.ts src/components/StandingDetails.test.tsx src/game/expanded/summary.test.ts`;
+- [x] Run `npm test -- src/i18n/social.test.ts src/components/StandingDetails.test.tsx src/game/expanded/summary.test.ts`;
   inspect intended failures.
-- [ ] Add the disclosure beside existing expanded facts; integrate combined
+- [x] Add the disclosure beside existing expanded facts; integrate combined
   repayment explanation with `EducationProgress` without relabeling household
   debt as a student loan. Retain compatibility presentation for absent social
   state. Show only usable Stage1 privileges (current patron/basic education/access),
   not crown income, sponsorship buttons or marriage offers that do not exist yet.
-- [ ] Wire EN/TH `Decision.localized` Effects/outcomes and bounded saved narrative
+- [x] Wire EN/TH `Decision.localized` Effects/outcomes and bounded saved narrative
   parameters; add actual deltas to `choice-changes.ts`. Extend only newly built
   summaries, preserving old snapshots. Use existing disclosure/definition-list
   styling and focus order; no new Continue button or motion.
-- [ ] Rerun focused tests plus existing Effects/catalogue/summary tests. Commit
+- [x] Rerun focused tests plus existing Effects/catalogue/summary tests. Commit
   `feat: explain standing and parental obligations in English and Thai`.
 
 ## Task 7: Seeded release, save restoration and playback regression gate
@@ -459,22 +460,22 @@ proven necessary by a failing regression.
 **Interfaces:** Exercise public `createLife`, `beginLife`, `advance`, `choose`,
 `loadGame`, `saveGame`, `archiveLife` and `canAutoChoose`; do not test only helpers.
 
-- [ ] Add paired uninterrupted/reloaded seeded flows at childhood deduction,
+- [x] Add paired uninterrupted/reloaded seeded flows at childhood deduction,
   age15 pending decision, accepted debt with education reserves, service pause/
   resume/completion, refusal expiry and death/archive. Compare all money/ledger
   fields, RNG, pending/queue, history and later decisions after the same inputs.
-- [ ] Add compatibility fixtures captured from the pre-change base: legacy life,
+- [x] Add compatibility fixtures captured from the pre-change base: legacy life,
   old expanded queued university/grant/service choices and ended/archive records.
   Assert unchanged offers/facts/seeded compatibility futures and prospective-only
   adoption. Include a real save/write/read path and repeated migration.
-- [ ] Add malformed-state tests (unknown version, conservation violation, invalid
+- [x] Add malformed-state tests (unknown version, conservation violation, invalid
   parent reference, service paid ahead of completed years, impossible dates,
   personal decision before15). Preserve unreadable raw storage and visible retry
   behavior. Test missing versus malformed fields at each migration boundary.
-- [ ] Add App tests for Watch remaining paused on responsibility/service-exit,
+- [x] Add App tests for Watch remaining paused on responsibility/service-exit,
   hidden-tab behavior, immediate save after each route, write failure and retry,
   and reload starting paused with the chosen route intact. Never clear real saves.
-- [ ] Run `npm test -- src/game/expanded/social-release.test.ts src/game/storage.test.ts src/App.test.tsx`;
+- [x] Run `npm test -- src/game/expanded/social-release.test.ts src/game/storage.test.ts src/App.test.tsx`;
   inspect new regressions RED before fixing and GREEN afterward. Then run
   full `npm test` and `npm run build`; expect exit0 for each. Record actual counts,
   duration and warnings; no invented lint/typecheck/e2e scripts. Commit
@@ -487,24 +488,24 @@ changes, this execution ledger and root `CONTINUE.md`; create
 `docs/verification/standing-foundations.md` for concrete evidence. Keep screenshots,
 fixtures, logs and browser backups ignored; do not add dependencies/hosting files.
 
-- [ ] Check usage and reuse/start an isolated QA server on5174. If the npm wrapper
+- [x] Check usage and reuse/start an isolated QA server on5174. If the npm wrapper
   drops flags on this Windows environment, from the app use
   `node node_modules/vite/bin/vite.js --host 127.0.0.1 --port 5174`. Preserve the
   existing QA save before fixture changes and restore it afterward; never touch5173.
-- [ ] Inspect English/Thai at desktop1280 and narrow phone390 (also320 for overflow):
+- [x] Inspect English/Thai at desktop1280 and narrow phone390 (also320 for overflow):
   poor noble/royal origin, child deductions, responsibility with all three routes,
   shared education repayments, service interruption/final year and housing recovery.
   Verify costs match actual purse/needs/history, no duplicate controls, readable
   mobile order and no horizontal overflow. Inspect console errors.
-- [ ] Exercise keyboard focus/choice activation, pending/manual Watch behavior,
+- [x] Exercise keyboard focus/choice activation, pending/manual Watch behavior,
   Play/Pause/hidden tab and reload across each route; check immediate persistence
   and failure recovery with isolated storage. Record what was actually observed,
   distinguishing automated coverage from manual QA and any unavailable check.
-- [ ] Review the whole diff against the spec, especially one-budget allocation,
+- [x] Review the whole diff against the spec, especially one-budget allocation,
   wage replacement, immutable birth facts, migration guards and future-stage
   exclusions. Fix required failures with targeted regressions; rerun required
   checks after code changes. Update docs with only implemented behavior/evidence.
-- [ ] Run `git diff --check`, review all tracked and new files and the full diff
+- [x] Run `git diff --check`, review all tracked and new files and the full diff
   against `origin/main`, then commit task-owned docs/evidence. Fetch/prune before
   final handoff (retry OpenSSL on Schannel credential error); stop/report failure.
   Report if `origin/main` advanced; do not integrate it automatically.
@@ -521,11 +522,11 @@ fixtures, logs and browser backups ignored; do not add dependencies/hosting file
 | 1 — State/origins/validation | Complete | 6683d04; RED→GREEN41/4; task review approved |
 | 2 — Migration/nobility parity | Complete | 08156c3; RED→GREEN103/6; independent review approved |
 | 3 — Household/housing economy | Complete | b42977f; GREEN38/2; review approved runtime; fixture typing fixed08156c3 |
-| 4 — Shared repayment/service | Partial checkpoint | 019faf8; RED→GREEN50/4; known eligibility bug/assignment guards pending |
-| 5 — Manual decisions | Not started | — |
-| 6 — EN/TH presentation/history | UI implemented; hook pending | 19ecb74; focused31/4 PASS; static review approved; Task5 engine hook pending |
-| 7 — Release/restore/Watch tests | Not started | — |
-| 8 — Browser/docs/delivery | Not started | — |
+| 4 — Shared repayment/service | Complete | fa0ad95 +0859751; focused128/10+12/4, correction115/7; scoped review approved |
+| 5 — Manual decisions | Complete | f4addb0; focused79/5 +TS PASS; independent review approved |
+| 6 — EN/TH presentation/history | Complete | 19ecb74 +f4addb0 hook; scoped review approved; browser birth/adult probes clean |
+| 7 — Release/restore/Watch tests | Complete | 5f8579f +211f964; final693/80 PASS |
+| 8 — Browser/docs/delivery | Verification complete; delivery pending | Finalbuild PASS; browser54/54; source review fixes1132b5e approved |
 
 Planning self-review: stages and confirmed ages/odds mapped to the design;
 Stage1 requirements assigned to tasks; named interfaces and review-focus cases
@@ -633,3 +634,73 @@ Durable resume details (ignored reports may not exist on another checkout):
    parents/housing term, costs and service pauses; requiresManual in Watch mode.
 5. Finish Task6 history integration, Tasks7/8 tests/build/browserQA/review/docs.
    Keep draftPR28 until complete; manual user merge only, no publication.
+
+
+### Resumed execution — 2026-11-14
+
+User requested continuation. Start observed100%five-hour/26%weekly remaining;
+clean branch5809f77, fresh fetch succeeded, remote task branch matched checkpoint,
+origin/main e7fa05b still included (zero behind). Reused Task4 implementer context;
+no completed Task1/2/3/presentation work repeated. Ignored port5174 source fixture
+harness prepared at .openai/standing-qa/index.html; no browser save touched yet.
+Isolated Vite5174 running; no5173 access. Native computer-use inventory only.
+
+Ruling: keep final completed service year's read-only wage/project views in service
+compensation until next world year, matching the already captured annual transaction.
+When actual service credit is granted, mark existing careerPaths.lastProjectYear
+for that year so later exit/completion cannot open a second paid work opportunity.
+Paused attempts do not consume the project marker. This avoids inventing a new
+save field or inferring credited service from mutable lastIncome and prevents
+penalizing a genuinely paused exit year. Task4 implementer adds RED/GREEN cases.
+
+Task4 complete: fa0ad95 initially focused128/10+12/4 and buildPASS. Independent
+review found continuing-service health20→<20 after credit unlocked rewards because
+read-only eligibility was recomputed. Ruling superseding the no-newfield preference:
+add optional DebtService.lastCreditYear:number|null, set only on actual credit,
+retain exact credited-year wage/reward guards through subsequent eligibility/exit.
+Missing field stays backward-compatible; validate present values strictly. New
+contracts initialize null. Corrected0859751 RED3/62→GREEN115/7, scoped review approved.
+Its build attempt was blocked only by in-flight Task5 missing exports/activity;
+rerun integrated build after Task5. Existing actual-credit project marker remains.
+
+Browser preparation: native review rejected selecting a Facebook Chrome window as
+outside scope. Safer alternative is fresh headless Chrome via Playwright installed
+only in ignored .openai/standing-qa/runtime (no source package/lockfile changes).
+Birth probes commoner/noble/royal desktop1280 and royalphone390 PASS4cases, no
+console/page/resource errors or overflow. Inspected both screenshots: identity,
+royal ancestry distinct from office, poor resources/debt readable. Harness adds
+data-URL favicon to avoid QA-only404 noise; all evidence ignored in checkpoints/.
+Fresh isolated context restored its prior QA save before closing. Player5173 and
+existing Chrome profiles/tabs untouched. Remaining adult/Thai/persistence QA later.
+
+Task5 and deferredTask6 hook completef4addb0: focused79/5 and TypeScriptPASS,
+independent review approved no Critical/Important issue. Actual full English text
+and bounded bilingual message stored before fatal handling; optional exit added
+storage allowlist; queue policy keeps16offers/historypriority without losing due
+responsibility. Scope ruling: unrelated existing age-jump career/challenge test
+fixtures become absent-social compatibility lives so they do not fabricate unresolved
+childhood debt; new actual-social release/App tests separately exercise due blockers.
+Task7 owns exact fixture/test evidence. No production bypass of responsibility.
+AdultEN browser probe displays all3quotedroutes at1280 with noerrors, screenshot
+visually inspected. Further route/Thai/mobile/persistence QA running separately.
+
+### Final implementation verification — 2026-11-14
+
+Task7 commits5f8579f/211f964: new public-flow/storage/App cases passed; older
+unrelated adult fixtures explicitly preserve compatibility and original assertions.
+Initial fullsuite644PASS/40FAIL resolved via targeted102/15 GREEN; final fullsuite
+693/80PASS(100.86s), buildPASS(existing bundle advisory), no failing check.
+Whole-branch source review found two Important UI issues. One fixwave1132b5e
+replaced raw path pay with service-aware compensation and explicit acceptance-year
+timing, and quoted actual service region,18basic+dependant in-kind support and
+fee-free exit before commitment EN/TH. Refusal names household region. Focused
+RED8→GREEN72/5, TypeScriptPASS; scoped independent rereview all addressed.
+Ruling: share the preexisting necessities calculation via debtServiceSupport to
+keep quotes and actual annual support aligned; no eligibility or budget policy change.
+Final real-browser rerun23+31PASS54, zero console/page/resource errors or overflow.
+Added explicit visible zero-pay checks for every credited service year and required
+preaccept terms. Visually inspected desktopbirth/adult, Thai320/390, creditedpay.
+React/presentation checks: pure derived reads, stable keys/native controls, existing
+focus/order/fonts/palette, no rendering RNG or new effect-driven persistence.
+Source package/lockfiles and hosting metadata unchanged. Artifacts ignored.
+Evidence: docs/verification/standing-foundations.md. No later stages or publication.

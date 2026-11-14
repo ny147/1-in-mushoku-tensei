@@ -1,6 +1,10 @@
 # Standing: privileges, burdens, and family consequences
 
-Status: **design for user review; no gameplay implementation yet**.
+Status: **Stage 1 approved for implementation by the later user request**.
+Stage 1 is implemented on `codex/standing-foundations` for PR #28 review; its
+verification and remaining handoff state are recorded in the
+[implementation plan](../plans/2026-11-13-standing-foundations.md).
+Stages 2 and 3 remain design proposals, with no gameplay implementation here.
 Date: 2026-11-13. Task branch: `codex/standing-impact-design`.
 
 ## Intent and scope
@@ -12,7 +16,7 @@ disadvantages should have several playable responses and a possible recovery.
 
 This document records the Standing interview and selected staged approach. It
 supersedes conflicting proposals in the [earlier Asura succession design](2026-10-28-asura-succession-paths-design.md).
-Neither document describes implemented gameplay. Existing historical outcomes,
+The later implementation plan records Stage 1 delivery. Existing historical outcomes,
 completed lives, and compatibility paths must remain factual for their ruleset.
 New story content and probabilities are authored game design, not canon claims.
 

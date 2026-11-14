@@ -108,6 +108,20 @@ components:
 
 # Design System: Six-Faced Life
 
+Standing and household obligations use a native disclosure beside existing life
+facts. It starts open on the birth record and stays compact in the chronicle.
+Separate labels show birth rank/wealth, current standing, royal ancestry, usable
+house access, housing, household liability and personal repayment commitments.
+Long housing/debt facts span the fact grid; phones retain a single reading column.
+The disclosure summary keeps a 44px target and existing keyboard focus treatment.
+No new colors, fonts, artwork or motion are introduced.
+
+Parental-debt choices reuse manual chronicle cards with accurate English/Thai
+terms before commitment. Outcomes show actual liability, payments, service credit,
+affected parents and housing years; saved bilingual text preserves those facts
+after balances change. Service explains supplied necessities versus cash wages.
+Results use existing time controls, with no added continuation button.
+
 Completed talent assessments display the saved score and identified magical,
 academic or swordsmanship talent, including its +25% learning bonus, as plain
 text in life details and Natural aptitude. Unassessed

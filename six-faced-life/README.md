@@ -44,6 +44,33 @@ npm run dev -- --port 5174
 
 ## Playing
 
+New expanded lives roll family wealth independently of noble standing, including
+poor nobles and rare Asura royal relatives. **Standing and household obligations**
+separates birth facts, present legal standing, royal ancestry, house access and debt.
+Earned nobles have the same ordinary funding access as born nobles; qualifications
+and actual family funds still apply.
+
+Some new poor households owe a fixed 48-silver parental liability. During ages
+1–14, at most 1 silver/year comes from household support, preserving a support
+floor of 9; the child's purse and education reserves are untouched. From 15, a
+manual decision offers affordable instalments, a quoted creditor-service term,
+or refusal. Refusal leaves personal debt at zero, records affected living parents,
+and can add 4 silver/year to local shelter costs for the next three years.
+
+Accepted parental debt and education loans share one 10% earned-surplus repayment
+budget after necessities, dependants and education; education loans are paid first.
+Hardship and university pause payments, with no interest. Creditor service gives
+up to 12 silver of debt credit per eligible year and supplies necessities instead
+of cash wages. Study, illness, moving or changing jobs can pause service. Reviewing
+or exiting the contract is manual; exit retains credit and leaves the unpaid
+balance on instalments without fees. Debt closes at death without passing to
+children. These amounts and birth frequencies are authored game balance.
+
+Existing active expanded lives adopt only prospective standing facts after their
+pending choices clear, without invented royal ancestry, parental debt or past
+payments. Legacy lives and completed snapshots retain their recorded rules/facts.
+Succession/rulership and sponsorship/political marriage remain later stages.
+
 Expanded sword practice has three retained styles: Sword God, Water God and North
 God. A native **Practice style** selector shows each track and locks during pending
 or queued choices. Practice opens at five; **Seek a sword mentor** opens at eight.
