@@ -1,4 +1,4 @@
-# Ending layout bug fix — verified, delivery in progress, 2026-11-14
+# Ending layout bug fix — verified for review, 2026-11-14
 
 User requested review/fix of the ending screenshot. Task branch:
 `codex/fix-retrospective-layout`, based on freshly fetched `origin/main` c0b38ab.
@@ -19,9 +19,17 @@ player5173, existing Chrome profiles and hosted saves untouched.
 Usage observed Nov14 15:45 Bangkok:60%five-hour/94%weekly remaining; resets
 Nov14 18:28:14 /Nov21 13:28:14 Bangkok. No billing/reset action.
 
-Next: review full diff, commit only task files, push the task branch and create
-its PR explicitly targeting main. Record PR/commit delivery below, fetch before
-handoff, and report branch freshness. User merges manually; do not publish.
+Delivery: implementation and evidence committed as5afd809, pushed to its own
+upstream origin/codex/fix-retrospective-layout. PR29 explicitly targets main:
+https://github.com/ny147/1-in-mushoku-tensei/pull/29
+This documentation-only delivery followup records the PR. Inspect git log -1
+for its commit. Final fetch verified origin/main c0b38ab is included; no upstream
+integration was needed. Local required checks pass; remote CI may still be running.
+
+Next: human PR29 review/manual merge after current CI. All requested fix work is
+complete. Preserve the branch; do not merge automatically, enable auto-merge,
+delete it or publish. For followups recheck actual Git/usage state and continue
+this PR while it remains open.
 
 Historical checkpoint:
 
