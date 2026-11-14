@@ -31,11 +31,16 @@ and leave them local, excluded from the task commit. No app package files change
 Usage observed Nov14 17:06 Bangkok:50%five-hour/92%weekly remaining; resets
 Nov14 18:28:14 /Nov21 13:28:14 Bangkok. No billing/reset-credit action.
 
-Delivery in progress: commit/push only this checkpoint and the critique snapshot,
-then create a PR explicitly targeting main. The user merges manually; do not
-merge/publish. Next implementation should address navigation, short-height sidebar,
-then brand fitting, followed by desktop/mobile, keyboard, history and isolated-save
-checks. This review does not authorize a broader visual redesign.
+Delivery: report/checkpoint commit `c6a9718` pushed with its own branch upstream.
+PR30 explicitly targets main: https://github.com/ny147/1-in-mushoku-tensei/pull/30
+The documentation-only delivery followup records this link; inspect git log -1
+for its commit. Full staged task diff reviewed, including new snapshot; whitespace
+check passed. Final fetch verified origin/main e27c2b1 is included (zero behind).
+Only the updater's two inspected local hook files remain untracked and uncommitted.
+The user merges manually; do not merge/publish. Review task is complete; no UI
+fix is claimed. Next implementation should address navigation, short-height
+sidebar, then brand fitting, followed by desktop/mobile, keyboard, history and
+isolated-save checks. This review does not authorize a broader visual redesign.
 
 Historical checkpoint:
 
