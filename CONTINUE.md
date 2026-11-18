@@ -2,6 +2,7 @@
 
 Implemented all five [PR #31 proposals](https://github.com/ny147/1-in-mushoku-tensei/pull/31)
 on `codex/player-experience` from `origin/main` at `2846da4`.
+Implementation commit `b27a354` is in [PR #32](https://github.com/ny147/1-in-mushoku-tensei/pull/32), targeting `main`.
 The [implementation plan](docs/superpowers/plans/2026-11-18-player-experience.md)
 tracks birth, playback guidance, optional activities, saving and the mobile World
 selector. This branch incorporates the specification and product direction.
