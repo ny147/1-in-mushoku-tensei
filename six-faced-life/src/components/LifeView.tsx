@@ -324,12 +324,12 @@ export function DecisionPanel({
   life,
   onChoose,
   outcome,
-  automatic = false,
+  decisionGuidance = "Time will stay paused after you choose.",
 }: {
   life: Life;
   onChoose: (id: string) => void;
   outcome?: ChoiceResult | null;
-  automatic?: boolean;
+  decisionGuidance?: string;
 }) {
   const { t } = useI18n();
 
@@ -367,6 +367,10 @@ export function DecisionPanel({
         {t(decision.title)}
       </h2>
       <p className="decision-narrative">{t(decision.text)}</p>
+      <p className="decision-note" aria-live="polite">
+        <span className="tiny-dot" />
+        {t(decisionGuidance)}
+      </p>
       <div className="choices">
         {decision.choices.map((choice) => {
           const cost = choice.cost ?? 0;
@@ -405,14 +409,6 @@ export function DecisionPanel({
           );
         })}
       </div>
-      <p className="decision-note">
-        <span className="tiny-dot" />
-        {t(
-          automatic
-            ? "Watch mode will choose an affordable option without a danger marker. Pause to decide yourself."
-            : "Time pauses while you decide. There is no need to rush.",
-        )}
-      </p>
     </section>
   );
 }
@@ -586,7 +582,8 @@ export function LifeView({
   onChoose,
   onStudyChange,
   outcome,
-  automatic,
+  decisionGuidance,
+  onReviewDecision,
   onSpellbook,
   onActivity,
   onSwordStyle,
@@ -597,7 +594,8 @@ export function LifeView({
   onChoose: (id: string) => void;
   onStudyChange: (school: MagicSchool) => void;
   outcome?: ChoiceResult | null;
-  automatic?: boolean;
+  decisionGuidance?: string;
+  onReviewDecision?: () => void;
   onSpellbook?: () => void;
   onActivity?: (key: Activity) => void;
   onSwordStyle?: (style: SwordStyle) => void;
@@ -662,11 +660,11 @@ export function LifeView({
           life={life}
           onChoose={onChoose}
           outcome={outcome}
-          automatic={automatic}
+          decisionGuidance={decisionGuidance}
         />
         <FocusPicker life={life} onFocus={onFocus} />
         {life.ruleset === "expanded-1" && onActivity && (
-          <OptionalActivities life={life} onOpen={onActivity} />
+          <OptionalActivities life={life} onOpen={onActivity} onReviewDecision={onReviewDecision} />
         )}
         {life.ruleset === "expanded-1" && <ExpandedDetails life={life} />}
         <LifeRecord life={life} />

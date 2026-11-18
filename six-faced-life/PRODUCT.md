@@ -32,7 +32,7 @@ Players read and act on a desktop or phone. They choose English or Thai for each
 
 - The [original design specification](../docs/superpowers/specs/2026-10-23-six-faced-life-design.md) records the approved premise and first-release scope. The current behavior below records later decisions.
 - The [simulation tests](src/game/engine.test.ts) give reproducible examples of life progression. The [UX verification record](../docs/verification/uxui-refinements.md) documents checks of the rendered game.
-- The [player experience review](../docs/superpowers/specs/2026-11-18-player-experience.md) records observed friction and proposed changes. Its acceptance cases describe future implementation work.
+- The [player experience review](../docs/superpowers/specs/2026-11-18-player-experience.md) records the original observations, design decisions and acceptance cases.
 
 ## Product Principles
 
@@ -41,6 +41,23 @@ Players read and act on a desktop or phone. They choose English or Thai for each
 - **Protect continuity.** Preserve the character’s language, history and pending decision when the player returns or the save format changes.
 
 ## Current behavior
+
+- The birth record places the chronicle action before the origins and household
+  disclosure. It keeps identity, known aptitude or assessment state, and any
+  immediate survival, material or household liability warning in view.
+- While a choice blocks time, the chronicle and transport explain what Play or
+  Pause will do when decisions are resolved. Watch describes automatic selection
+  when an eligible option exists. Manual choices and chained decisions still
+  wait for the player where required.
+- Optional activities lead with actions that can be opened. Future opportunities
+  explain their opening conditions, and creditor-service review appears for an
+  active contract. A pending decision offers a jump back to the choice.
+- Empty setup explains browser-local saving. Replacement setup names the saved
+  unfinished life when possible and still requires confirmation. Storage failures
+  show a retry action.
+- On phones, a native World region selector sits above the description and moves
+  the marker on the map. Desktop uses the map and region list. The home label
+  follows the character’s residence.
 
 - Sections use browser history and query URLs (`view`, plus `life` for a completed
   retrospective). Back/Forward changes the view using the latest saved/in-memory

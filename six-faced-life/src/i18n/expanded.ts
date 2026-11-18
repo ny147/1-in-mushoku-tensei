@@ -468,8 +468,8 @@ export const EXPANDED_COPY: Record<string, EventCopy> = {
   challenge: event(
     ["A challenge among the Seven Great Powers", "ท้าชิงตำแหน่งเจ็ดมหาอำนาจ"],
     [
-      "Only positions five to seven are attainable, after K430. Mastery and renown permit a dangerous challenge; they never guarantee victory.",
-      "หลังปี K430 คุณอาจท้าชิงได้เฉพาะอันดับห้าถึงเจ็ด ความเชี่ยวชาญและชื่อเสียงเปิดโอกาสให้ท้าประลองที่อันตราย แต่ไม่รับประกันชัยชนะ",
+      "After K430, you can challenge for positions five to seven. The challenge requires 2,000 combat experience, instruction level 5, reputation 90, and three distinct major contributions. Victory is uncertain.",
+      "หลังปี K430 คุณอาจท้าชิงได้เฉพาะอันดับห้าถึงเจ็ด ต้องมีประสบการณ์ต่อสู้ 2,000 ระดับการสอน 5 ชื่อเสียง 90 และผลงานสำคัญต่างกัน 3 รายการ ชัยชนะยังไม่แน่นอน",
     ],
     { later },
   ),

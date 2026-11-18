@@ -13,6 +13,7 @@ export function WorldMap({
   compact?: boolean;
 }) {
   const { t } = useI18n();
+  const region = REGIONS[selected];
 
   return (
     <div className={`world-map ${compact ? "compact-map" : ""}`}>
@@ -82,18 +83,14 @@ export function WorldMap({
           </g>
         )}
       </svg>
-      {Object.entries(REGIONS).map(([id, region]) =>
-        compact ? (
-          id === selected && (
-            <span
-              key={id}
-              className="map-dot"
-              style={{ left: `${region.x}%`, top: `${region.y}%` }}
-            >
-              <MapPin size={19} />
-            </span>
-          )
-        ) : (
+      <span
+        className={compact ? "map-dot" : "map-dot mobile-map-dot"}
+        style={{ left: `${region.x}%`, top: `${region.y}%` }}
+        aria-hidden="true"
+      >
+        <MapPin size={19} />
+      </span>
+      {!compact && Object.entries(REGIONS).map(([id, region]) => (
           <button
             key={id}
             type="button"
@@ -106,8 +103,7 @@ export function WorldMap({
             <span className="map-location-dot" />
             {t(region.short)}
           </button>
-        ),
-      )}
+      ))}
     </div>
   );
 }

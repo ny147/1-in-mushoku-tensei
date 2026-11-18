@@ -8,8 +8,39 @@ export const UI_TH: Record<string, string> = {
   'This section could not be opened. Try the link again.': 'เปิดหน้านี้ไม่ได้ โปรดลองกดลิงก์อีกครั้ง',
   Unwritten: "ยังไม่ได้เขียน",
   "A memory": "ความทรงจำ",
-  "You are born in {region}, into {background}. Beyond a small window, a whole world carries on. You have been here before. Just not here.":
-    "คุณเกิดใน{region} ใน{background} พ้นหน้าต่างเล็กออกไป โลกทั้งใบยังดำเนินต่อ คุณเคยมาแล้ว เพียงไม่ใช่ที่นี่",
+  "You are born in {region}.": "คุณเกิดใน{region}",
+  "Family resources": "ทรัพยากรครอบครัว",
+  "Not assessed": "ยังไม่ได้ประเมิน",
+  "Origins and household": "ชาติกำเนิดและครัวเรือน",
+  "Extreme survival start: about 90% of Superd die before age 15 under typical starting conditions. Protection and care improve the odds.":
+    "จุดเริ่มต้นที่เสี่ยงอย่างยิ่ง: ในสภาพเริ่มต้นทั่วไป สเปิร์ดราว 90% เสียชีวิตก่อนอายุ 15 ปี ความคุ้มครองและการดูแลช่วยเพิ่มโอกาสรอด",
+  "Your family starts with a household liability of {amount}.":
+    "ครอบครัวของคุณมีหนี้ครัวเรือนตั้งแต่เริ่มต้น {amount}",
+  "Time will resume once your decisions are resolved.": "เวลาจะเดินต่อเมื่อคุณตัดสินใจครบแล้ว",
+  "Time will stay paused after you choose.": "เวลาจะยังหยุดอยู่หลังจากคุณเลือก",
+  "Your life will be saved in this browser.": "ชีวิตของคุณจะถูกบันทึกในเบราว์เซอร์นี้",
+  "Your unfinished life is saved in this browser.": "บันทึกชีวิตที่ยังเล่นอยู่เก็บไว้ในเบราว์เซอร์นี้",
+  "{name} is saved in this browser.": "บันทึกชีวิตของ {name} อยู่ในเบราว์เซอร์นี้",
+  "Your saved lives could not be loaded.": "โหลดบันทึกชีวิตไม่ได้",
+  "Load failed": "โหลดไม่สำเร็จ",
+  "Optional activities": "กิจกรรมที่เลือกทำได้",
+  "Later opportunities": "โอกาสในอนาคต",
+  "Finish the current decision before opening another activity.":
+    "ตัดสินใจเรื่องที่รออยู่ก่อนเปิดกิจกรรมใหม่",
+  "Continue your chronicle to resolve upcoming decisions before opening an activity.":
+    "เล่นต่อในบันทึกชีวิตเพื่อจัดการเรื่องที่กำลังจะมาถึงก่อนเปิดกิจกรรม",
+  "Time pauses while you review. Opening an activity lets you check what its offers require before you commit.":
+    "เวลาหยุดขณะดูรายละเอียด เปิดกิจกรรมเพื่อดูเงื่อนไขของแต่ละข้อเสนอก่อนตัดสินใจ",
+  "Your creditor-service contract": "สัญญาทำงานใช้หนี้ของคุณ",
+  "Opens at age {age}.": "เปิดเมื่ออายุ {age} ปี",
+  "Hold a career position with work available this year.":
+    "ต้องมีตำแหน่งงานที่มีงานให้ทำในปีนี้",
+  "You’re already attending university.": "คุณกำลังเรียนมหาวิทยาลัยอยู่",
+  "Requires age {age} and year K{year} or later.": "ต้องมีอายุอย่างน้อย {age} ปี และอยู่ในปี K{year} หรือหลังจากนั้น",
+  "Explore a region": "เลือกภูมิภาคเพื่อสำรวจ",
+  "Choose a region on the map or in the list": "เลือกภูมิภาคบนแผนที่หรือจากรายการ",
+  "Geography is simplified. Birth weights reflect game balance.":
+    "แผนที่ย่อรายละเอียดภูมิประเทศ โอกาสเกิดในแต่ละภูมิภาคกำหนดตามสมดุลเกม",
   moment: "ช่วงเวลา",
   moments: "ช่วงเวลา",
   spell: "เวท",
@@ -42,12 +73,12 @@ export const UI_TH: Record<string, string> = {
   "N ↑": "เหนือ ↑",
   "Lives are stored only in this browser":
     "บันทึกชีวิตเก็บไว้ในเบราว์เซอร์นี้เท่านั้น",
-  "Saved on this device": "บันทึกในอุปกรณ์นี้แล้ว",
+  "Saved in this browser": "บันทึกในเบราว์เซอร์นี้แล้ว",
   "Not saved": "ยังไม่ได้บันทึก",
   "New life": "ชีวิตใหม่",
   "Dismiss message": "ปิดข้อความ",
-  "Your latest progress is saved on this device.":
-    "บันทึกความคืบหน้าล่าสุดในอุปกรณ์นี้แล้ว",
+  "Your latest progress is saved in this browser.":
+    "บันทึกความคืบหน้าล่าสุดในเบราว์เซอร์นี้แล้ว",
   "Local storage is unavailable. You can play, but this browser will not keep your story when you close it.":
     "พื้นที่เก็บข้อมูลใช้ไม่ได้ คุณยังเล่นต่อได้ แต่เบราว์เซอร์นี้จะไม่เก็บเรื่องราวหลังปิดหน้า",
   "Your saved chronicle could not be opened. It has been left untouched. You can begin a new life, or try again in a browser with local storage enabled.":

@@ -20,32 +20,52 @@ export const ACTIVITIES = [
   "challenge",
 ] as const;
 export type Activity = (typeof ACTIVITIES)[number];
-export function activityAvailable(l: ExpandedLife, key: Activity): boolean {
-  if (l.phase !== "alive" || l.pending || l.expansion.queue.length || parentalResponsibilityDue(l))
-    return false;
-  switch (key) {
-    case "debt-service-exit": return debtServiceExitAvailable(l);
-    case 'career-work':return l.age>=15 && careerWorkAvailable(l);
-    case "training":
-    case "career":
-      return l.age >= 15;
-    case "instruction":
-    case "sword-mentor":
-    case "assessment":
-      return l.age >= 8;
-    case "university":
-      return (
-        l.age >= 15 &&
-        !["university", "graduated"].includes(l.expansion.education.stage)
-      );
-    case "travel":
-    case "courtship":
-      return l.age >= 18;
-    case "challenge":
-      return l.age >= 18 && worldYear(l) > 430;
-    default:
-      return false;
+const minimumAge: Record<Activity, number> = {
+  "debt-service-exit": 15,
+  career: 15,
+  "career-work": 15,
+  training: 15,
+  instruction: 8,
+  "sword-mentor": 8,
+  assessment: 8,
+  university: 15,
+  travel: 18,
+  courtship: 18,
+  challenge: 18,
+};
+
+export function activitiesBlock(life: ExpandedLife) {
+  if (life.phase !== "alive") return "inactive";
+  if (life.pending) return "pending";
+  if (life.expansion.queue.length || parentalResponsibilityDue(life)) return "queued";
+  return null;
+}
+
+export function activityOpening(life: ExpandedLife, key: Activity) {
+  if (key === "debt-service-exit" && !debtServiceExitAvailable(life)) {
+    return { kind: "irrelevant" } as const;
   }
+  const age = minimumAge[key];
+  if (key === "challenge" && worldYear(life) < 431) {
+    return { kind: "challenge-window", age, year: 431 } as const;
+  }
+  if (life.age < age) return { kind: "age", age } as const;
+  switch (key) {
+    case "career-work":
+      if (!careerWorkAvailable(life)) return { kind: "career-work" } as const;
+      break;
+    case "university": {
+      const { stage } = life.expansion.education;
+      if (stage === "graduated") return { kind: "irrelevant" } as const;
+      if (stage === "university") return { kind: "enrolled" } as const;
+      break;
+    }
+  }
+  return { kind: "available" } as const;
+}
+
+export function activityAvailable(life: ExpandedLife, key: Activity): boolean {
+  return !activitiesBlock(life) && activityOpening(life, key).kind === "available";
 }
 export function openExpandedActivity(
   l: ExpandedLife,

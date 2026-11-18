@@ -14,15 +14,15 @@ export function WorldView({ life }: { life: Life | null }) {
     <div className="world-page page-enter">
       <div className="world-intro">
         <p>{t("Six regions. Countless possible lives.")}</p>
-        <span>
-          <Compass size={15} />
-          {t("Select a place to discover it")}
+        <span className="world-desktop-hint">
+          <Compass size={15} aria-hidden="true" />
+          {t("Choose a region on the map or in the list")}
         </span>
       </div>
       <WorldMap selected={selected} onSelect={setSelected} />
       <p className="map-caption">
         {t(
-          "An illustrated regional guide. Geography is simplified; birth weights are game balance. Choose a region from the list below to read about it.",
+          "Geography is simplified. Birth weights reflect game balance.",
         )}
       </p>
       <div className="world-below">
@@ -43,6 +43,20 @@ export function WorldView({ life }: { life: Life | null }) {
           ))}
         </nav>
         <section className="region-detail">
+          <div className="region-picker">
+            <label htmlFor="world-region">{t("Explore a region")}</label>
+            <select
+              id="world-region"
+              value={selected}
+              onChange={(event) => setSelected(event.target.value as RegionId)}
+            >
+              {Object.entries(REGIONS).map(([id, region]) => (
+                <option key={id} value={id}>
+                  {t(region.name)}{life?.region === id ? ` · ${t("Your home")}` : ""}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="region-title">
             <Mountain size={25} strokeWidth={1.2} />
             <h2>{t(region.name)}</h2>

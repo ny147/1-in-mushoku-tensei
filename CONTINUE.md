@@ -1,4 +1,26 @@
-# Player experience review and change specification, 2026-11-18
+# Player experience improvements, 2026-11-18
+
+Implemented all five [PR #31 proposals](https://github.com/ny147/1-in-mushoku-tensei/pull/31)
+on `codex/player-experience` from `origin/main` at `2846da4`.
+The [implementation plan](docs/superpowers/plans/2026-11-18-player-experience.md)
+tracks birth, playback guidance, optional activities, saving and the mobile World
+selector. This branch incorporates the specification and product direction.
+
+Verification on Node 22.16.0 passed. `npm test` passed 743 tests in 83 files.
+`npm run build` passed with Vite's bundle-size warning. Isolated Chromium QA
+used port 5174 and checked English and Thai, birth through first choice,
+keyboard focus and disclosure, normal and exceptional origins, Watch mode,
+save replacement and failure recovery, and all six regions. The ordinary birth
+action ended at y=770 in a 390 × 844 viewport. The Thai maximum-length birth
+name fit at 320 CSS pixels. Actual 200% Chromium tab zoom yielded a 640 CSS
+pixel viewport from 1280 and showed no horizontal overflow in World or the
+chronicle. No browser console errors were observed in those checks.
+
+The two untracked local settings files were stashed at the user's request
+under “Local Codex and Gemini settings before PR 31 implementation.”
+The user reviews and merges manually.
+
+## Player experience review and change specification, 2026-11-18
 
 In the follow-up Impeccable Init interview, the user confirmed that story leads
 and progression details appear when relevant to a choice. The updated

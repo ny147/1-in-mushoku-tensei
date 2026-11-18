@@ -309,7 +309,7 @@ describe("new-life language ownership", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: "เริ่มชีวิตใหม่" }));
     expect(loadGame(window.localStorage).data.active?.language).toBe("th");
-    expect(screen.getByText("บันทึกในอุปกรณ์นี้แล้ว")).toBeTruthy();
+    expect(screen.getByText("บันทึกในเบราว์เซอร์นี้แล้ว")).toBeTruthy();
     expect(screen.queryByRole("alert")).toBeNull();
   });
 

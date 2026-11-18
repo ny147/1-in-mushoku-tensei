@@ -410,7 +410,7 @@ describe("clear next actions and recovery", () => {
     expect(restored.focus).toBe("bonds");
     expect(restored.stats.knowledge).toBe(life.stats.knowledge + 8);
     expect(screen.queryByRole("alert")).toBeNull();
-    expect(screen.getByText("Saved on this device")).toBeTruthy();
+    expect(screen.getByText("Saved in this browser")).toBeTruthy();
   });
 
   it("retries loading without overwriting unreadable data with an empty game", () => {
