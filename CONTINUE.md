@@ -1,4 +1,17 @@
-# App shell navigation implemented, manual zoom check pending, 2026-11-14
+# Player experience review and change specification, 2026-11-18
+
+Branch `codex/player-experience-spec` starts at `2846da4` (PR #30 merged).
+The user authorized leaving the two untracked tool directories untouched.
+The [change spec](docs/superpowers/specs/2026-11-18-player-experience.md)
+records five proposals with acceptance cases. Independent review, source
+detection and desktop/phone inspection are complete. Impeccable also saved
+its local snapshot in the app's ignored critique directory. The spec contains
+the shareable findings and score. Only documentation changed. The next step is human
+review of the proposed birth, playback, activities, save and map changes.
+Application tests and production build were outside this documentation check.
+The previous real-zoom limitation is recorded below.
+
+## App shell navigation implemented, manual zoom check pending, 2026-11-14
 
 User approved spec/plan implementation and explicitly authorized continuing
 `codex/ui-navigation-review`/PR30 while leaving updater-generated `.codex/hooks.json`
