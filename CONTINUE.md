@@ -1,5 +1,10 @@
 # Player experience review and change specification, 2026-11-18
 
+In the follow-up Impeccable Init interview, the user confirmed that story leads
+and progression details appear when relevant to a choice. The updated
+[product brief](six-faced-life/PRODUCT.md) records this decision. The user left
+the workflow for future landing pages and showcases open on a per-project basis.
+
 Branch `codex/player-experience-spec` starts at `2846da4` (PR #30 merged).
 The user authorized leaving the two untracked tool directories untouched.
 The [change spec](docs/superpowers/specs/2026-11-18-player-experience.md)
