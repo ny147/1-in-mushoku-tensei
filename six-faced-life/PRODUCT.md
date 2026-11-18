@@ -1,6 +1,16 @@
 # Six-Faced Life
 
+<!-- impeccable:product-schema 1 -->
+
+## Platform
+
+web
+
+## Product Purpose
+
 A single-player browser life simulator inspired by 1 in 8 Billion, in the world of Mushoku Tensei. The original protagonist is reincarnated with memories of a previous life. Players experience random family circumstances, train, make consequential choices, live to an ending, and begin another life.
+
+## Users
 
 Audience: fans who want a thoughtful, replayable second-life story on desktop or phone. First release in English. Original narrative, character names, code, and artwork; setting references acknowledge the original series. Fantasy probabilities are authored balance, not canon statistics.
 
@@ -9,6 +19,26 @@ Approved visual commitment: warm parchment, dark ink, restrained green/gold acce
 Browser-local saves and archive. No account, multiplayer, payments, or AI backend. React, TypeScript, Vite; pure seeded simulation. The [original approved specification](../docs/superpowers/specs/2026-10-23-six-faced-life-design.md) records the first release; the implemented expansion below and current user decisions supersede its earlier proposals.
 
 The user chose a story and progression expansion on 2026-10-24. The current game has 55 authored events, five separate magic study tracks and 30 spells, and experience/reputation-based promotion paths for five working vocations. Study/career requirements are visible in the existing training/character interface. Older saves migrate without resetting the life or its pending decision. The user authorized automatic task commits, branch pushes and PR delivery, then switched from Cloudflare to Vercel on 2026-10-25. GitHub Actions checks PRs; Vercel's native Git integration runs the tests and production build independently before publishing main. No deployment API token is needed in GitHub. Migration PR #5 is merged, the project is imported, and the game is live at [six-faced-life.vercel.app](https://six-faced-life.vercel.app); the first hosted release passed tests/build and isolated browser smoke checks. Browser-local saves remain origin-specific. Sites publishing remains outside this request.
+
+## Positioning
+
+Each playthrough follows an original character who remembers a previous life but starts with a new family, birthplace and set of gifts. A choice about study, work or family changes that particular life. The chronicle records what happened, and the archive lets players revisit a completed life after beginning another.
+
+## Operating Context
+
+Players read and act on a desktop or phone. They choose English or Thai for each new life. A returning player opens the same browser profile and site address to continue. Time starts paused on reload. The chronicle brings the player back to the current decision, while the character and world views provide detail for planning.
+
+## Evidence on Hand
+
+- The [original design specification](../docs/superpowers/specs/2026-10-23-six-faced-life-design.md) records the approved premise and first-release scope. The current behavior below records later decisions.
+- The [simulation tests](src/game/engine.test.ts) give reproducible examples of life progression. The [UX verification record](../docs/verification/uxui-refinements.md) documents checks of the rendered game.
+- The [player experience review](../docs/superpowers/specs/2026-11-18-player-experience.md) records observed friction and proposed changes. Its acceptance cases describe future implementation work.
+
+## Product Principles
+
+- **Lead with the story.** Introduce the event in the character’s life first. Reveal progression details when they help the player decide. For a lesson with a fee, show the fee and relevant learning effects alongside the choice, before the player commits.
+- **Show the consequence.** After a choice, show what actually happened to this character and record the outcome in their chronicle.
+- **Protect continuity.** Preserve the character’s language, history and pending decision when the player returns or the save format changes.
 
 ## Current behavior
 
