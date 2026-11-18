@@ -1,6 +1,16 @@
 # Six-Faced Life
 
+<!-- impeccable:product-schema 1 -->
+
+## Platform
+
+web
+
+## Product Purpose
+
 A single-player browser life simulator inspired by 1 in 8 Billion, in the world of Mushoku Tensei. The original protagonist is reincarnated with memories of a previous life. Players experience random family circumstances, train, make consequential choices, live to an ending, and begin another life.
+
+## Users
 
 Audience: fans who want a thoughtful, replayable second-life story on desktop or phone. First release in English. Original narrative, character names, code, and artwork; setting references acknowledge the original series. Fantasy probabilities are authored balance, not canon statistics.
 
@@ -10,7 +20,44 @@ Browser-local saves and archive. No account, multiplayer, payments, or AI backen
 
 The user chose a story and progression expansion on 2026-10-24. The current game has 55 authored events, five separate magic study tracks and 30 spells, and experience/reputation-based promotion paths for five working vocations. Study/career requirements are visible in the existing training/character interface. Older saves migrate without resetting the life or its pending decision. The user authorized automatic task commits, branch pushes and PR delivery, then switched from Cloudflare to Vercel on 2026-10-25. GitHub Actions checks PRs; Vercel's native Git integration runs the tests and production build independently before publishing main. No deployment API token is needed in GitHub. Migration PR #5 is merged, the project is imported, and the game is live at [six-faced-life.vercel.app](https://six-faced-life.vercel.app); the first hosted release passed tests/build and isolated browser smoke checks. Browser-local saves remain origin-specific. Sites publishing remains outside this request.
 
+## Positioning
+
+Each playthrough follows an original character who remembers a previous life but starts with a new family, birthplace and set of gifts. A choice about study, work or family changes that particular life. The chronicle records what happened, and the archive lets players revisit a completed life after beginning another.
+
+## Operating Context
+
+Players read and act on a desktop or phone. They choose English or Thai for each new life. A returning player opens the same browser profile and site address to continue. Time starts paused on reload. The chronicle brings the player back to the current decision, while the character and world views provide detail for planning.
+
+## Evidence on Hand
+
+- The [original design specification](../docs/superpowers/specs/2026-10-23-six-faced-life-design.md) records the approved premise and first-release scope. The current behavior below records later decisions.
+- The [simulation tests](src/game/engine.test.ts) give reproducible examples of life progression. The [UX verification record](../docs/verification/uxui-refinements.md) documents checks of the rendered game.
+- The [player experience review](../docs/superpowers/specs/2026-11-18-player-experience.md) records the original observations, design decisions and acceptance cases.
+
+## Product Principles
+
+- **Lead with the story.** Introduce the event in the character’s life first. Reveal progression details when they help the player decide. For a lesson with a fee, show the fee and relevant learning effects alongside the choice, before the player commits.
+- **Show the consequence.** After a choice, show what actually happened to this character and record the outcome in their chronicle.
+- **Protect continuity.** Preserve the character’s language, history and pending decision when the player returns or the save format changes.
+
 ## Current behavior
+
+- The birth record places the chronicle action before the origins and household
+  disclosure. It keeps identity, known aptitude or assessment state, and any
+  immediate survival, material or household liability warning in view.
+- While a choice blocks time, the chronicle and transport explain what Play or
+  Pause will do when decisions are resolved. Watch describes automatic selection
+  when an eligible option exists. Manual choices and chained decisions still
+  wait for the player where required.
+- Optional activities lead with actions that can be opened. Future opportunities
+  explain their opening conditions, and creditor-service review appears for an
+  active contract. A pending decision offers a jump back to the choice.
+- Empty setup explains browser-local saving. Replacement setup names the saved
+  unfinished life when possible and still requires confirmation. Storage failures
+  show a retry action.
+- On phones, a native World region selector sits above the description and moves
+  the marker on the map. Desktop uses the map and region list. The home label
+  follows the character’s residence.
 
 - Sections use browser history and query URLs (`view`, plus `life` for a completed
   retrospective). Back/Forward changes the view using the latest saved/in-memory

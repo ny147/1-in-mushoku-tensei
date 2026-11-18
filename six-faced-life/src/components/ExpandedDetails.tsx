@@ -16,6 +16,36 @@ import { descendantCounts } from "../game/expanded/family";
 import { CareerPaths } from './CareerPaths';
 import { StandingDetails } from './StandingDetails';
 
+export function OriginWarnings({ life, birth = false }: { life: ExpandedLife; birth?: boolean }) {
+  const { t, language } = useI18n();
+  const debt = life.expansion.social?.debt;
+  const needs = materialNeeds(life);
+  const householdLiability = birth && debt?.status === "household" && debt.balance > 0;
+  if (life.race !== "superd" && !needs.length && !householdLiability) return null;
+
+  return (
+    <div className="origin-warnings">
+      {life.race === "superd" && (
+        <p className="expanded-warning">
+          {t("Extreme survival start: about 90% of Superd die before age 15 under typical starting conditions. Protection and care improve the odds.")}
+        </p>
+      )}
+      {needs.map((need) => (
+        <p className="expanded-warning" key={need}>
+          {expandedLabel(need, language)}
+        </p>
+      ))}
+      {householdLiability && (
+        <p className="expanded-warning">
+          {t("Your family starts with a household liability of {amount}.", {
+            amount: moneyText(debt.balance, language),
+          })}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function ExpandedDetails({
   life,
   birth = false,
@@ -45,10 +75,12 @@ export function ExpandedDetails({
         K{worldYear(life)} · {th ? "อายุ" : "Age"} {life.age}
       </p>
       <dl className="expanded-facts">
-        <div>
-          <dt>{th ? "ทรัพยากรครอบครัว" : "Family resources"}</dt>
-          <dd>{label(x.origin.wealth)}</dd>
-        </div>
+        {!birth && (
+          <div>
+            <dt>{th ? "ทรัพยากรครอบครัว" : "Family resources"}</dt>
+            <dd>{label(x.origin.wealth)}</dd>
+          </div>
+        )}
         <div>
           <dt>{th ? "ฐานะ" : "Standing"}</dt>
           <dd>{label(x.standing.status)}</dd>
@@ -72,18 +104,7 @@ export function ExpandedDetails({
       </dl>
       <StandingDetails life={life} birth={birth}/>
       {!birth && <p>{talentAssessmentText(life, language)}</p>}
-      {life.race === "superd" && (
-        <p className="expanded-warning">
-          {th
-            ? "จุดเริ่มต้นที่เสี่ยงอย่างยิ่ง: ภายใต้สภาพเริ่มต้นทั่วไป สเปิร์ดราว 90% เสียชีวิตก่อนอายุ 15 ปี นี่คือเป้าหมายสมดุลประชากร ไม่ใช่ชะตาที่กำหนดไว้ ความคุ้มครองและการดูแลช่วยเพิ่มโอกาสรอด"
-            : "Extreme survival start: about 90% of Superd die before age 15 under typical starting conditions. This population balance target does not predetermine your life. Protection and care improve the odds."}
-        </p>
-      )}
-      {materialNeeds(life).map((need) => (
-        <p className="expanded-warning" key={need}>
-          {label(need)}
-        </p>
-      ))}
+      {!birth && <OriginWarnings life={life} />}
       {x.education.probation && (
         <p className="expanded-warning">
           {th

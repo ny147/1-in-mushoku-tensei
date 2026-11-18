@@ -1,14 +1,15 @@
 import type { ExpandedLife } from "../game/types";
 import {
   ACTIVITIES,
-  activityAvailable,
+  activitiesBlock,
+  activityOpening,
   type Activity,
 } from "../game/expanded/activities";
 import { useI18n } from "../i18n/context";
 const names: Record<Activity, [string, string]> = {
   "debt-service-exit": ["Review creditor service", "ทบทวนสัญญาทำงานใช้หนี้"],
   career: ["Browse careers", "ดูอาชีพ"],
-  'career-work':['Career work','งานประจำสายอาชีพ'],
+  "career-work": ["Career work", "งานประจำสายอาชีพ"],
   training: ["Career training", "ฝึกอาชีพ"],
   instruction: ["Seek instruction", "หาผู้สอน"],
   "sword-mentor": ["Seek a sword mentor", "หาอาจารย์ดาบ"],
@@ -21,47 +22,87 @@ const names: Record<Activity, [string, string]> = {
 export function OptionalActivities({
   life,
   onOpen,
+  onReviewDecision,
 }: {
   life: ExpandedLife;
   onOpen: (key: Activity) => void;
+  onReviewDecision?: () => void;
 }) {
-  const { language } = useI18n(),
-    th = language === "th";
-  if (life.phase !== "alive" || life.age < 8) return null;
+  const { language, t } = useI18n();
+  const block = activitiesBlock(life);
+  if (block === "inactive") return null;
+  const opportunities = block ? [] : ACTIVITIES.map((key) => ({
+    key,
+    opening: activityOpening(life, key),
+  }));
+  const available = opportunities.filter(({ key, opening }) =>
+    opening.kind === "available" && key !== "debt-service-exit",
+  );
+  const canReviewContract = opportunities.some(({ key, opening }) =>
+    key === "debt-service-exit" && opening.kind === "available",
+  );
+  const later = opportunities.filter(({ opening }) =>
+    opening.kind !== "available" && opening.kind !== "irrelevant",
+  );
+  const name = (key: Activity) => names[key][language === "th" ? 1 : 0];
+
   return (
     <details className="optional-activities">
-      <summary>{th ? "กิจกรรมที่เลือกทำได้" : "Optional activities"}</summary>
-      <p>
-        {life.pending
-          ? th
-            ? "ตัดสินใจเรื่องที่รออยู่ก่อนเปิดกิจกรรมใหม่"
-            : "Finish the current decision before opening another activity."
-          : th
-            ? "เลือกเรื่องที่ต้องการทำได้เอง เวลาไม่เดินขณะตรวจสอบทางเลือก การเปิดดูไม่ผูกมัดให้ทำ"
-            : "Choose what to pursue. Time pauses while you review; opening an activity does not commit you."}
-      </p>
-      <div className="activity-buttons">
-        {ACTIVITIES.map((key) => (
-          <button
-            className="button secondary"
-            key={key}
-            disabled={!activityAvailable(life, key)}
-            onClick={() => onOpen(key)}
-          >
-            {names[key][th ? 1 : 0]}
+      <summary>{t("Optional activities")}</summary>
+      {block === "pending" && (
+        <>
+          <p>{t("Finish the current decision before opening another activity.")}</p>
+          {onReviewDecision && (
+            <button type="button" className="button secondary" onClick={onReviewDecision}>
+              {t("Review choices")}
+            </button>
+          )}
+        </>
+      )}
+      {block === "queued" && (
+        <p>{t("Continue your chronicle to resolve upcoming decisions before opening an activity.")}</p>
+      )}
+      {available.length > 0 && (
+        <>
+          <p>{t("Time pauses while you review. Opening an activity lets you check what its offers require before you commit.")}</p>
+          <div className="activity-buttons">
+            {available.map(({ key }) => (
+              <button type="button" className="button secondary" key={key} onClick={() => onOpen(key)}>
+                {name(key)}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+      {canReviewContract && (
+        <div className="activity-contract">
+          <p>{t("Your creditor-service contract")}</p>
+          <button type="button" className="button secondary" onClick={() => onOpen("debt-service-exit")}>
+            {name("debt-service-exit")}
           </button>
-        ))}
-      </div>
-      <p>
-        {th
-          ? "การประเมินและหาผู้สอนเริ่มอายุ 8 ปี งานและมหาวิทยาลัยเริ่มอายุ 15 ปี การย้ายถิ่นและทำความรู้จักเริ่มอายุ 18 ปี คุณสมบัติและค่าใช้จ่ายยังมีผล งานทั่วไปที่คุณสมบัติครบรับเข้าแน่นอน งานเกียรติยศยังต้องรอตำแหน่งว่าง"
-          : "Assessment and instruction open at 8; careers and university at 15; travel and meeting people at 18. Qualifications and costs apply; ordinary qualified applicants get guaranteed entry. Prestige retains vacancies."}
-      </p>
-      <p>
-        {th
-          ? "การท้าชิงเป็นกิจกรรมสมัครใจสำหรับผู้ใหญ่หลังปี K430 เฉพาะอันดับ 5–7 ต้องมีประสบการณ์ต่อสู้ 2,000 ระดับการสอน 5 ชื่อเสียง 90 และผลงานสำคัญ 3 รายการ ไม่มีการเริ่มประลองให้อัตโนมัติ"
-          : "Legendary challenges are voluntary, for adults after K430, positions 5–7 only. They require 2,000 combat experience, instruction level 5, reputation 90 and three major contributions. A fight never starts automatically."}
-      </p>
+        </div>
+      )}
+      {later.length > 0 && (
+        <details className="later-activities">
+          <summary>{t("Later opportunities")}</summary>
+          <ul>
+            {later.map(({ key, opening }) => (
+              <li key={key}>
+                <strong>{name(key)}</strong>
+                <span>
+                  {opening.kind === "age" && t("Opens at age {age}.", { age: opening.age })}
+                  {opening.kind === "career-work" && t("Hold a career position with work available this year.")}
+                  {opening.kind === "enrolled" && t("You’re already attending university.")}
+                  {opening.kind === "challenge-window" && t("Requires age {age} and year K{year} or later.", {
+                    age: opening.age,
+                    year: opening.year,
+                  })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
     </details>
   );
 }

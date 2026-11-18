@@ -1685,26 +1685,12 @@ button svg {
   margin-top: 6px;
   font-size: 12px;
 }
-.opening-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  padding-top: 21px;
-  margin-top: 25px;
-  border-top: 1px solid #e7e8db;
-  color: #666f54;
-}
-.opening-note > p {
-  font-size: 11px;
-  line-height: 1.7;
-  color: #676f5b;
-}
-.opening-note > p > span {
-  color: #696d5d;
-  font-size: 10px;
-}
-.opening-note > svg {
-  margin-top: 1px;
+.setup-save-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+  margin-top: 14px;
+  overflow-wrap: anywhere;
 }
 .inline-warning {
   margin-top: 15px;
@@ -1760,6 +1746,7 @@ button svg {
   font-family: var(--serif);
   font-size: 38px;
   margin: 28px 0 12px;
+  overflow-wrap: anywhere;
 }
 .birth-paper > p:not(.birth-subtitle) {
   font-size: 14px;
@@ -1770,11 +1757,11 @@ button svg {
 }
 .birth-details {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 86px), 1fr));
+  gap: 12px;
   text-align: left;
-  padding: 23px 0;
-  margin: 23px 0;
+  padding: 14px 0;
+  margin: 16px 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -1793,11 +1780,38 @@ button svg {
   gap: 6px;
   font-size: 12px;
   color: #736a44;
-  margin: 21px 0;
+  margin: 10px 0;
+}
+.memory-seal svg {
+  flex-shrink: 0;
+}
+.birth-paper .origin-warnings {
+  margin-block: 14px;
+  text-align: start;
+  overflow-wrap: anywhere;
+}
+.origin-warnings > p + p {
+  margin-top: 6px;
 }
 .birth-paper > .button {
-  min-width: 240px;
+  width: min(100%, 240px);
+  min-height: 44px;
   justify-content: space-between;
+  white-space: normal;
+}
+.birth-origins {
+  margin-top: 14px;
+  text-align: start;
+}
+.birth-origins > summary {
+  min-height: 44px;
+  padding-block: 12px;
+  cursor: pointer;
+  color: var(--green);
+  font-weight: 600;
+}
+.birth-origins > .expanded-details {
+  margin-block: 0;
 }
 .character-page,
 .world-page,
@@ -1937,6 +1951,10 @@ button svg {
   display: grid;
   align-content: start;
   gap: 5px;
+}
+.region-picker,
+.mobile-map-dot {
+  display: none;
 }
 .region-list > button {
   display: flex;
@@ -2555,12 +2573,6 @@ button svg {
   .new-life {
     grid-template-columns: 0.9fr 1fr;
   }
-  .opening-note {
-    gap: 6px;
-  }
-  .opening-note > p {
-    font-size: 10px;
-  }
   .opening-art {
     min-height: 610px;
   }
@@ -2673,9 +2685,6 @@ button svg {
   }
   .opening-description {
     font-size: 14px;
-  }
-  .opening-note > p {
-    font-size: 11px;
   }
   .opening-copy form {
     margin-top: 24px;
@@ -3135,9 +3144,6 @@ button svg {
     min-height: 45px;
     margin-top: 24px;
   }
-  .opening-note {
-    margin-top: 24px;
-  }
   .birth-illustration {
     height: 150px;
   }
@@ -3171,7 +3177,6 @@ button svg {
     font-size: 10px;
   }
   .birth-paper > .button {
-    min-width: 220px;
     font-size: 13px;
   }
   .character-passport {
@@ -4002,12 +4007,34 @@ h2[tabindex="-1"] {
     width: 100%;
     justify-content: center;
   }
-  .world-page .map-location {
+  .world-page .map-location,
+  .world-intro > .world-desktop-hint,
+  .world-below > .region-list {
     display: none;
   }
-  .region-list > button {
+  .world-page .mobile-map-dot {
+    display: block;
+    color: var(--green);
+    filter: drop-shadow(0 1px 1px #fdfcf7);
+  }
+  .region-picker {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .region-picker label {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .region-picker select {
+    width: 100%;
     min-height: 44px;
-    font-size: 13px;
+    padding: 8px 12px;
+    font: inherit;
+    color: var(--green);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 5px;
   }
   .record-entry p {
     font-size: 13px;
@@ -4035,6 +4062,25 @@ h2[tabindex="-1"] {
 .optional-activities p { color: var(--muted); line-height: 1.6; overflow-wrap: anywhere; }
 .activity-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-block: 16px; }
 .activity-buttons button { min-height: 44px; white-space: normal; }
+.activity-contract {
+  margin-block: 16px;
+  padding-block: 12px;
+  border-block: 1px solid var(--line);
+}
+.activity-contract > .button { margin-top: 8px; }
+.later-activities { margin-top: 8px; }
+.later-activities ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.later-activities li > span {
+  display: block;
+  color: var(--muted);
+  line-height: 1.6;
+}
 .expanded-details,
 .retrospective {
   margin-block: 24px;

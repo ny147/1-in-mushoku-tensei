@@ -1,4 +1,45 @@
-# App shell navigation implemented, manual zoom check pending, 2026-11-14
+# Player experience improvements, 2026-11-18
+
+Implemented all five [PR #31 proposals](https://github.com/ny147/1-in-mushoku-tensei/pull/31)
+on `codex/player-experience` from `origin/main` at `2846da4`.
+Implementation commit `b27a354` is in [PR #32](https://github.com/ny147/1-in-mushoku-tensei/pull/32), targeting `main`.
+The [implementation plan](docs/superpowers/plans/2026-11-18-player-experience.md)
+tracks birth, playback guidance, optional activities, saving and the mobile World
+selector. This branch incorporates the specification and product direction.
+
+Verification on Node 22.16.0 passed. `npm test` passed 743 tests in 83 files.
+`npm run build` passed with Vite's bundle-size warning. Isolated Chromium QA
+used port 5174 and checked English and Thai, birth through first choice,
+keyboard focus and disclosure, normal and exceptional origins, Watch mode,
+save replacement and failure recovery, and all six regions. The ordinary birth
+action ended at y=770 in a 390 × 844 viewport. The Thai maximum-length birth
+name fit at 320 CSS pixels. Actual 200% Chromium tab zoom yielded a 640 CSS
+pixel viewport from 1280 and showed no horizontal overflow in World or the
+chronicle. No browser console errors were observed in those checks.
+
+The two untracked local settings files were stashed at the user's request
+under “Local Codex and Gemini settings before PR 31 implementation.”
+The user reviews and merges manually.
+
+## Player experience review and change specification, 2026-11-18
+
+In the follow-up Impeccable Init interview, the user confirmed that story leads
+and progression details appear when relevant to a choice. The updated
+[product brief](six-faced-life/PRODUCT.md) records this decision. The user left
+the workflow for future landing pages and showcases open on a per-project basis.
+
+Branch `codex/player-experience-spec` starts at `2846da4` (PR #30 merged).
+The user authorized leaving the two untracked tool directories untouched.
+The [change spec](docs/superpowers/specs/2026-11-18-player-experience.md)
+records five proposals with acceptance cases. Independent review, source
+detection and desktop/phone inspection are complete. Impeccable also saved
+its local snapshot in the app's ignored critique directory. The spec contains
+the shareable findings and score. Only documentation changed. The next step is human
+review of the proposed birth, playback, activities, save and map changes.
+Application tests and production build were outside this documentation check.
+The previous real-zoom limitation is recorded below.
+
+## App shell navigation implemented, manual zoom check pending, 2026-11-14
 
 User approved spec/plan implementation and explicitly authorized continuing
 `codex/ui-navigation-review`/PR30 while leaving updater-generated `.codex/hooks.json`

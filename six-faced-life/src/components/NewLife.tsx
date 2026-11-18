@@ -1,9 +1,8 @@
 import { useI18n } from "../i18n/context";
-import { ExpandedDetails } from "./ExpandedDetails";
+import { ExpandedDetails, OriginWarnings } from "./ExpandedDetails";
 import { expandedLabel } from "../i18n/expanded";
 import {
   ArrowRight,
-  BookOpen,
   Dices,
   Leaf,
   MapPin,
@@ -16,20 +15,21 @@ import { Landscape } from "./Landscape";
 
 export function NewLife({
   onCreate,
-  hasActive,
+  activeName,
   onCancel,
   saved = true,
   language = "en",
   onLanguageChange,
 }: {
   onCreate: (name: string, region?: RegionId, language?: Language) => void;
-  hasActive: boolean;
+  activeName?: string;
   onCancel: () => void;
   saved?: boolean;
   language?: Language;
   onLanguageChange?: (language: Language) => void;
 }) {
   const { t } = useI18n();
+  const hasActive = activeName !== undefined;
 
   const [name, setName] = useState("");
   const [region, setRegion] = useState("");
@@ -127,6 +127,15 @@ export function NewLife({
             <Dices size={16} />{" "}
             {t(" Your family, race, and gifts are drawn by fate.")}
           </p>
+          {saved && (
+            <p className="setup-save-note">
+              {activeName
+                ? t("{name} is saved in this browser.", { name: activeName })
+                : t(hasActive
+                  ? "Your unfinished life is saved in this browser."
+                  : "Your life will be saved in this browser.")}
+            </p>
+          )}
           {replace && (
             <div className="inline-warning" role="alert">
               {t(
@@ -153,20 +162,6 @@ export function NewLife({
             </button>
           )}
         </form>
-        <div className="opening-note">
-          <BookOpen size={18} />
-          <p>
-            {t("An entire lifetime, one choice at a time.")}
-            <br />
-            <span>
-              {t(
-                saved
-                  ? "Progress is saved only in this browser."
-                  : "Saving is unavailable. Keep this tab open to keep playing.",
-              )}
-            </span>
-          </p>
-        </div>
       </div>
     </div>
   );
@@ -179,7 +174,9 @@ export function BirthRecord({
   life: Life;
   onBegin: () => void;
 }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
+  const region = t(REGIONS[life.birthRegion].name);
+  const birthplace = language === "en" ? `the ${region.replace(/^The /, "")}` : region;
 
   return (
     <section className="birth-record page-enter">
@@ -198,60 +195,52 @@ export function BirthRecord({
           {life.name} {life.surname}
         </div>
         <p>
-          {t(
-            "You are born in {region}, into {background}. Beyond a small window, a whole world carries on. You have been here before. Just not here.",
-            {
-              region: t(REGIONS[life.birthRegion].name),
-              background:
-                life.ruleset === "expanded-1"
-                  ? expandedLabel(
-                      life.expansion.origin.wealth,
-                      life.language ?? "en",
-                    )
-                  : t(life.background.toLowerCase()),
-            },
-          )}
+          {t("You are born in {region}.", {
+            region: birthplace,
+          })}
         </p>
+        <div className="memory-seal">
+          <Sparkles size={17} aria-hidden="true" />
+          <span>{t("You carry memories of a previous life.")}</span>
+        </div>
         <dl className="birth-details">
           <div>
             <dt>{t("Race")}</dt>
             <dd>{t(RACES[life.race].name)}</dd>
           </div>
-          <div>
-            <dt>{t("Birthplace")}</dt>
-            <dd>{t(REGIONS[life.birthRegion].short)}</dd>
-          </div>
-          <div>
-            <dt>{t("Family")}</dt>
-            <dd>
-              {life.ruleset === "expanded-1"
-                ? expandedLabel(
-                    life.expansion.origin.wealth,
-                    life.language ?? "en",
-                  )
-                : t(life.background.replace("A ", ""))}
-            </dd>
-          </div>
+          {life.ruleset === "expanded-1" && (
+            <div>
+              <dt>{t("Family resources")}</dt>
+              <dd>{expandedLabel(life.expansion.origin.wealth, language)}</dd>
+            </div>
+          )}
           <div>
             <dt>{t("A natural gift")}</dt>
             <dd>
               {life.ruleset === "expanded-1"
-                ? life.language === "th"
-                  ? "ยังไม่ได้ประเมิน"
-                  : "Not assessed"
+                ? t("Not assessed")
                 : t(life.aptitude)}
             </dd>
           </div>
         </dl>
-        {life.ruleset === "expanded-1" && <ExpandedDetails life={life} birth />}
-        <div className="memory-seal">
-          <Sparkles size={17} />
-          <span>{t("You carry memories of a previous life.")}</span>
-        </div>
-        <button className="button primary" onClick={onBegin}>
+        {life.ruleset === "expanded-1" && <OriginWarnings life={life} birth />}
+        <button className="button primary" type="button" onClick={onBegin}>
           {t("Open my chronicle")}
           <ArrowRight size={18} />
         </button>
+        <details className="birth-origins">
+          <summary>{t("Origins and household")}</summary>
+          {life.ruleset === "expanded-1" ? (
+            <ExpandedDetails life={life} birth />
+          ) : (
+            <dl className="expanded-facts">
+              <div>
+                <dt>{t("Family")}</dt>
+                <dd>{t(life.background.replace("A ", ""))}</dd>
+              </div>
+            </dl>
+          )}
+        </details>
       </div>
     </section>
   );

@@ -85,6 +85,13 @@ function readInitial() {
     };
   }
 }
+function watchChoice(life: Life) {
+  if (!canAutoChoose(life)) return undefined;
+  return getDecision(life)?.choices.find(
+    (choice) => !choice.disabled && (choice.cost ?? 0) <= life.coins && !choice.risk,
+  );
+}
+
 function Brand({ href, onClick, hasLife }: { href: string; onClick: (event: ReactMouseEvent<HTMLAnchorElement>) => void; hasLife: boolean }) {
   const { t } = useI18n();
 
@@ -200,7 +207,7 @@ export default function App() {
     if (persistLatest()) {
       setLoadFailed(false);
       setNotice(null);
-      setAnnouncement(t("Your latest progress is saved on this device."));
+      setAnnouncement(t("Your latest progress is saved in this browser."));
     }
   }
 
@@ -294,11 +301,8 @@ export default function App() {
     const timer = window.setInterval(
       () =>
         updateLife((current) => {
-          if (!current || document.hidden || !canAutoChoose(current))
-            return current;
-          const option = getDecision(current)?.choices.find(
-            (c) => !c.disabled && (c.cost ?? 0) <= current.coins && !c.risk,
-          );
+          if (!current || document.hidden) return current;
+          const option = watchChoice(current);
           return option ? choose(current, option.id) : current;
         }),
       1000,
@@ -402,6 +406,17 @@ export default function App() {
     help: "A little guidance.",
   };
   const showTime = page === "chronicle" && life?.phase === "alive" && !preview;
+  const watchingDecision =
+    !!life?.pending && playing && auto && !!watchChoice(life);
+  const decisionGuidance = watchingDecision
+    ? "Watch mode will choose an affordable option without a danger marker. Pause to decide yourself."
+    : playing
+      ? "Time will resume once your decisions are resolved."
+      : "Time will stay paused after you choose.";
+  const activeName = life && life.phase !== "ended"
+    ? `${life.name} ${life.surname}`.trim()
+    : undefined;
+  const reviewDecision = () => focusContent("decision-heading");
 
   return (
     <LanguageProvider language={language}>
@@ -518,13 +533,15 @@ export default function App() {
               </ol>
             </nav>
             <div className="topbar-actions">
-              <span
-                className={`save-indicator ${saved ? "" : "unsaved"}`}
-                title={t("Lives are stored only in this browser")}
-              >
-                {saved ? <Check size={13} /> : <VolumeX size={13} />}
-                {t(saved ? "Saved on this device" : "Not saved")}
-              </span>
+              {(!saved || (page !== "new" && (life || data.archive.length > 0))) && (
+                <span
+                  className={`save-indicator ${saved ? "" : "unsaved"}`}
+                  title={t("Lives are stored only in this browser")}
+                >
+                  {saved ? <Check size={13} /> : <VolumeX size={13} />}
+                  {t(saved ? "Saved in this browser" : loadFailed && !dirty.current ? "Load failed" : "Not saved")}
+                </span>
+              )}
               {page !== "new" && (
                 <button
                   className="button new-life-button"
@@ -552,7 +569,9 @@ export default function App() {
           {!saved && (
             <div className="save-recovery" role="alert">
               <div>
-                <strong>{t("Your progress has not been saved.")}</strong>
+                <strong>{t(loadFailed && !dirty.current
+                  ? "Your saved lives could not be loaded."
+                  : "Your progress has not been saved.")}</strong>
                 <p>
                   {t(
                     loadFailed && !dirty.current
@@ -614,7 +633,7 @@ export default function App() {
                     <strong>
                       {t(
                         life.pending
-                          ? auto && playing && canAutoChoose(life)
+                          ? watchingDecision
                             ? "Watch mode is choosing for you"
                             : "A choice is waiting for you"
                           : playing
@@ -625,9 +644,7 @@ export default function App() {
                     <p>
                       {t(
                         life.pending
-                          ? auto && playing && canAutoChoose(life)
-                            ? "An affordable option without a danger marker will be chosen automatically. Pause or turn Watch mode off to decide yourself."
-                            : "Choose an option in your story before time can move on."
+                          ? decisionGuidance
                           : "Continue to the next decision, advance up to one year, or press Play to let time pass.",
                       )}
                     </p>
@@ -635,7 +652,7 @@ export default function App() {
                   {life.pending && (
                     <button
                       className="button"
-                      onClick={() => focusContent("decision-heading")}
+                      onClick={reviewDecision}
                     >
                       {t("Review choices")}
                     </button>
@@ -727,7 +744,7 @@ export default function App() {
                 language={draftLanguage}
                 onLanguageChange={setDraftLanguage}
                 saved={saved}
-                hasActive={!!life && life.phase !== "ended"}
+                activeName={activeName}
                 onCreate={startNew}
                 onCancel={() => navigate("chronicle")}
               />
@@ -821,7 +838,8 @@ export default function App() {
                   )
                 }
                 outcome={outcome?.lifeId === life.id ? outcome : null}
-                automatic={auto && playing && canAutoChoose(life)}
+                decisionGuidance={decisionGuidance}
+                onReviewDecision={reviewDecision}
                 onSpellbook={openSpellbook}
               />
             ) : (
@@ -829,7 +847,6 @@ export default function App() {
                 language={draftLanguage}
                 onLanguageChange={setDraftLanguage}
                 saved={saved}
-                hasActive={false}
                 onCreate={startNew}
                 onCancel={() => {}}
               />
