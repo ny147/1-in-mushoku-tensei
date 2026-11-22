@@ -143,6 +143,14 @@ conflicts and post-K430 continuation are original game material. Faction allegia
 marriage, dangerous service and legendary challenges require manual decisions even
 in Watch mode. Only Seven Great Powers positions 5–7 are attainable after K430.
 
+Orsted's organization recruits in K425–K430 and Hitogami's apostles in K417–K430.
+To qualify, be at least 18, have no faction, choose **Develop a friendship** in
+**The people beside you**, and reach 100 magic XP, 100 XP in one sword style, or
+20 standing reputation. Each eligible faction has a 17.5% chance to offer
+allegiance in a year open to random events. Random events are at least three
+years apart. Accepting sets your side for that life. Defection leaves you
+unaffiliated, and any later offer can only come from your former faction.
+
 Family details retain adult marriages, separations, widowhood, individual children,
 social ties and later descendants. Traits are generated once and inherited;
 unobserved latent genetics are not revealed by the interface or retrospective.

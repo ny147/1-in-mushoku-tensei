@@ -35,7 +35,8 @@ import {
   nobleFamilyFunds,
 } from "./careers";
 import {
-  factionEligible,
+  allegianceAllows,
+  qualifiesForFactionOffer,
   acceptFaction,
   refuseFaction,
   defect,
@@ -69,6 +70,22 @@ export const MANUAL = new Set([
   "assignment",
 ]);
 export function getExpandedDecision(life: ExpandedLife): Decision | null {
+  const decision = getExpandedDecisionSnapshot(life);
+  if (!decision) return null;
+  const key = decision.id.slice(9);
+  if ((key !== "orsted" && key !== "hitogami") || allegianceAllows(life, key))
+    return decision;
+  // A rival offer saved under earlier rules can still be dismissed.
+  return {
+    ...decision,
+    choices: decision.choices.map((choice) =>
+      choice.id === `${decision.id}.accept` ? { ...choice, disabled: true } : choice,
+    ),
+  };
+}
+
+// Sword migration stores and validates the original decision payload.
+export function getExpandedDecisionSnapshot(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
   const social = socialDecision(life);
   if (social) return social;
@@ -89,7 +106,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
   if (!copy) return null;
   const x = life.expansion,
     y = worldYear(life);
-  if ((key === "orsted" || key === "hitogami") && !factionEligible(life, key))
+  if ((key === "orsted" || key === "hitogami") && !qualifiesForFactionOffer(life, key))
     return null;
   if (
     [

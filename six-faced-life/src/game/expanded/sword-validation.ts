@@ -6,7 +6,7 @@ import {
   SWORD_XP,
   type SwordState,
 } from "./sword-state";
-import { getExpandedDecision } from "./events";
+import { getExpandedDecisionSnapshot } from "./events";
 const obj = (v: unknown): v is Record<string, unknown> =>
   !!v && typeof v === "object" && !Array.isArray(v);
 const num = (v: unknown, min = 0, max = 1_000_000): v is number =>
@@ -97,7 +97,7 @@ export function validateSwordState(value: unknown, l: ExpandedLife): boolean {
       return false;
     old.expansion.study = s.compatibilityStudy!;
     delete old.expansion.swords;
-    const canonical = getExpandedDecision(old);
+    const canonical = getExpandedDecisionSnapshot(old);
     if (
       !canonical ||
       JSON.stringify(canonical) !== JSON.stringify(s.compatibilityDecision)
