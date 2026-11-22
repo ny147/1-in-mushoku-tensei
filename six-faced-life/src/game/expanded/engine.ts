@@ -281,9 +281,12 @@ function year(life: ExpandedLife) {
   if (life.expansion.education.stage === "university")
     due.push("expanded.school-year");
   if (!due.length && life.age - life.expansion.lastRandom >= 3) {
-    const orsted = factionEligible(life, "orsted") && draw(life) < 0.02;
-    const hitogami = factionEligible(life, "hitogami") && draw(life) < 0.02;
-    if (draw(life) < 0.25) {
+    const factionOfferChance = 0.175;
+    const orstedLimit = factionEligible(life, "orsted") ? factionOfferChance : 0;
+    const hitogamiLimit =
+      orstedLimit + (factionEligible(life, "hitogami") ? factionOfferChance : 0);
+    const roll = draw(life);
+    if (roll < hitogamiLimit + 0.25) {
       const x = life.expansion;
       let pool =
         life.age < 8
@@ -301,9 +304,9 @@ function year(life: ExpandedLife) {
         if (x.genetics.signs && !x.genetics.discovered) pool.push("discovery");
       }
       if (life.age >= RACES[life.race].lifespan * 0.6) pool.push("retire");
-      const event = orsted
+      const event = roll < orstedLimit
         ? "orsted"
-        : hitogami
+        : roll < hitogamiLimit
           ? "hitogami"
           : pool[Math.floor(draw(life) * pool.length)];
       due.push(`expanded.${event}`);

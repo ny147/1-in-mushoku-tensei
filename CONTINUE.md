@@ -1,3 +1,19 @@
+# Faction recruitment rate, 2026-11-22
+
+On `codex/faction-recruitment-rate`, Orsted's organization and Hitogami's
+apostles each have a 17.5% chance to make an offer in an eligible random-event
+year. The two offers share one roll with ordinary events, which retain a 25%
+chance on that roll. The calendar windows, eligibility requirements, spacing
+between random events, and manual allegiance choices still apply.
+
+The new 2,000-roll regression failed on the previous implementation and passed
+with the new rates. `npm test` passed 744 tests in 83 files. `npm run build`
+passed with Vite's existing chunk-size warning. Isolated Chromium at port 5184
+verified the K430 Orsted offer at 1280 px and the K427 Hitogami offer at 390 px
+using seed 6. Watch mode paused for both, pending offers survived reload, and
+keyboard acceptance or refusal persisted after reload. There was no horizontal
+overflow or console error in either browser run.
+
 # Player experience improvements, 2026-11-18
 
 Implemented all five [PR #31 proposals](https://github.com/ny147/1-in-mushoku-tensei/pull/31)

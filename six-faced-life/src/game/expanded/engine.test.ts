@@ -50,6 +50,28 @@ describe("expanded annual transactions", () => {
       expect(canAutoChoose(life)).toBe(false);
     }
   });
+  it("offers each eligible faction in 15–20% of seeded random-event years", () => {
+    const life = ready();
+    if (life.ruleset !== "expanded-1") throw Error("expanded");
+    life.expansion.birthYear = 400;
+    life.age = 25;
+    life.coins = 500;
+    life.training.magicXp = 100;
+    life.expansion.politics.contact = true;
+
+    const sampleSize = 2000;
+    const offers = { orsted: 0, hitogami: 0 };
+    for (let rng = 0; rng < sampleSize; rng++) {
+      const next = advance({ ...life, rng }, "year");
+      if (next.pending === "expanded.orsted") offers.orsted++;
+      if (next.pending === "expanded.hitogami") offers.hitogami++;
+    }
+
+    for (const count of Object.values(offers)) {
+      expect(count / sampleSize).toBeGreaterThanOrEqual(0.15);
+      expect(count / sampleSize).toBeLessThanOrEqual(0.20);
+    }
+  });
   it("handles birth-year history after the first memory before any annual tick", () => {
     const life = createExpandedLife({ seed: 1 });
     life.expansion.birthYear = 417;
