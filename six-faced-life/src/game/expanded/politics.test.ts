@@ -10,6 +10,42 @@ describe('optional allegiances and exceptional titles',()=>{
     l.age=28;expect(factionEligible(l,'hitogami')).toBe(true);expect(acceptFaction(l,'hitogami')).toBe(true);expect(factionEligible(l,'orsted')).toBe(false);
     defect(l);expect(l.expansion.politics.faction).toBeNull();expect(l.expansion.politics.pursuitUntil).toBe(428);
   });
+  it.each([
+    ['orsted', 'hitogami'],
+    ['hitogami', 'orsted'],
+  ] as const)('lets a former %s member return but bars joining %s', (original, rival) => {
+    const life = createExpandedLife({ seed: 2 });
+    life.age = 425 - life.expansion.birthYear;
+    life.training.magicXp = 100;
+    life.expansion.politics.contact = true;
+
+    refuseFaction(life, rival);
+    expect(acceptFaction(life, original)).toBe(true);
+    defect(life);
+    life.age += 3;
+    expect(factionEligible(life, original)).toBe(false);
+    life.age += 2;
+
+    expect(factionEligible(life, rival)).toBe(false);
+    expect(acceptFaction(life, rival)).toBe(false);
+    expect(acceptFaction(life, original)).toBe(true);
+  });
+  it('uses the most recent allegiance for a save that already switched sides', () => {
+    const life = createExpandedLife({ seed: 2 });
+    life.age = 430 - life.expansion.birthYear;
+    life.training.magicXp = 100;
+    life.expansion.politics.contact = true;
+    life.expansion.politics.records = [
+      { year: 417, code: 'joined-hitogami' },
+      { year: 420, code: 'defected' },
+      { year: 425, code: 'joined-orsted' },
+      { year: 425, code: 'defected' },
+    ];
+    life.expansion.politics.pursuitUntil = 428;
+
+    expect(factionEligible(life, 'hitogami')).toBe(false);
+    expect(factionEligible(life, 'orsted')).toBe(true);
+  });
   it('excludes positions 1–4 even with maximum power and preserves title history',()=>{
     const l=createExpandedLife({seed:1});l.expansion.birthYear=400;l.age=31;l.training.swordXp=4000;l.training.swordCap=6;l.expansion.standing.reputation=100;l.expansion.standing.feats=['rescue','service','research'];
     allocateSwordStyle(l,'sword-god'); l.expansion.swords!.tracks['sword-god']={xp:4000,cap:6}; syncSwordCompatibility(l);

@@ -798,6 +798,26 @@ export function describeCareerRequirements(
       );
   return `${vacancy ? (th ? "มีตำแหน่งว่างปีนี้" : "Vacancy this year") : th ? "ไม่มีตำแหน่งว่างปีนี้ ลองตรวจสอบอีกครั้งปีหน้า" : "No vacancy this year. Check again next year"}. ${missing.length ? (th ? "ยังต้องมี: " : "Still needed: ") + missing.join("; ") : th ? "คุณสมบัติครบ" : "Qualifications met"}.`;
 }
+function factionDecisionNarrative(decision: Decision, text: string, language: Language): string {
+  const th = language === "th";
+  if (decision.id === "expanded.defect") {
+    const note = th
+      ? "หลังถอนตัว หากได้รับข้อเสนออีกครั้ง คุณจะกลับไปเข้าร่วมได้เฉพาะฝ่ายเดิม"
+      : "After leaving, you can only rejoin the side you served.";
+    return `${text} ${note}`;
+  }
+  if (decision.id !== "expanded.orsted" && decision.id !== "expanded.hitogami") return text;
+  if (decision.choices.some((choice) => choice.id === `${decision.id}.accept` && choice.disabled)) {
+    return th
+      ? "พันธะเดิมทำให้คุณเข้าร่วมได้เฉพาะฝ่ายที่เคยรับใช้ ปฏิเสธข้อเสนอนี้เพื่อดำเนินต่อ"
+      : "Your past allegiance restricts you to your former faction. Decline this offer to continue.";
+  }
+  const note = th
+    ? "เมื่อรับข้อเสนอแล้ว ฝ่ายที่คุณเลือกจะเป็นฝ่ายเดียวที่คุณเข้าร่วมได้ตลอดชีวิตนี้"
+    : "Accepting makes this the only faction you can join in this life.";
+  return `${text} ${note}`;
+}
+
 export function expandedDecisionText(
   d: Decision,
   language: Language,
@@ -812,11 +832,13 @@ export function expandedDecisionText(
     };
   const key = d.id.slice(9),
     copy = EXPANDED_COPY[key];
-  if (!copy || language === "en") return d;
+  if (!copy) return d;
+  const text = factionDecisionNarrative(d, language === "th" ? copy.text[1] : d.text, language);
+  if (language === "en") return text === d.text ? d : { ...d, text };
   return {
     ...d,
     title: copy.title[1],
-    text: copy.text[1],
+    text,
     kind: "ชีวิต",
     choices: d.choices.map((c) => {
       const action = c.id.split(".")[2],

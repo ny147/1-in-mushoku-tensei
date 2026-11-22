@@ -4,6 +4,9 @@ import { fact, worldYear } from "./facts";
 import { draw, clamp } from "./random";
 import { maxSwordXp, selectedSwordTrack, swordMeets } from "./sword-state";
 export function factionEligible(l: ExpandedLife, faction: Faction) {
+  return qualifiesForFactionOffer(l, faction) && allegianceAllows(l, faction);
+}
+export function qualifiesForFactionOffer(l: ExpandedLife, faction: Faction) {
   const x = l.expansion,
     y = worldYear(l);
   return (
@@ -17,6 +20,17 @@ export function factionEligible(l: ExpandedLife, faction: Faction) {
     y - (x.politics.refused[faction] ?? -100) >= 5 &&
     y > x.politics.pursuitUntil
   );
+}
+export function allegianceAllows(l: ExpandedLife, faction: Faction): boolean {
+  const politics = l.expansion.politics;
+  if (politics.faction) return politics.faction === faction;
+  // Recruitment ends by K430, before allegiance records can age out of this ledger.
+  for (let i = politics.records.length - 1; i >= 0; i--) {
+    const { code } = politics.records[i];
+    if (code === "joined-orsted" || code === "joined-hitogami")
+      return code === `joined-${faction}`;
+  }
+  return true;
 }
 function politicalRecord(l: ExpandedLife, code: string) {
   const x = l.expansion;

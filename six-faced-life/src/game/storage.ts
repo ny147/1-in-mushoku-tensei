@@ -5,7 +5,7 @@ import { isProgression, migrateLife } from "./progression";
 import { validateExpansion } from "./expanded/validation";
 import { validEventId } from "./expanded/balance";
 import { encodeSave, decodeSave } from "./storage-codec";
-import { getExpandedDecision } from "./expanded/events";
+import { getExpandedDecision, getExpandedDecisionSnapshot } from "./expanded/events";
 import { migrateEducationAccess } from "./expanded/education-access-state";
 import { migrateTalents } from "./expanded/genetics";
 import { migrateSwordState } from "./expanded/sword-migration";
@@ -368,7 +368,7 @@ export function loadGame(storage: StorageLike): {
               ? save.active
               : activateSocialState(activateCareerPaths(migrateSwordState(
                   migrateTalents(migrateEducationAccess(save.active)),
-                  getExpandedDecision(save.active),
+                   getExpandedDecisionSnapshot(save.active),
                 )))
             : migrateLife(save.active)
           : null,

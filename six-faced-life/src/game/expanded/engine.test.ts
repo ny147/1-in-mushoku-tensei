@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { advance, beginLife, choose, createLife, getDecision } from "../engine";
 import { createExpandedLife } from "./origins";
 import { canAutoChoose } from "../simulation";
-import { isLife } from "../storage";
+import { isLife, loadGame } from "../storage";
+import { migrateSwordState } from "./sword-migration";
 const ready = () =>
   choose(
     beginLife(createExpandedLife({ seed: 42 })),
@@ -71,6 +72,38 @@ describe("expanded annual transactions", () => {
       expect(count / sampleSize).toBeGreaterThanOrEqual(0.15);
       expect(count / sampleSize).toBeLessThanOrEqual(0.20);
     }
+  });
+  it.each(["current", "pre-sword", "captured"])("allows a %s saved rival offer to be declined after reload", (saveVersion) => {
+    let life = createExpandedLife({ seed: 2 });
+    delete life.expansion.social;
+    life.phase = "alive";
+    life.age = 429 - life.expansion.birthYear;
+    life.training.magicXp = 100;
+    life.expansion.politics.contact = true;
+    life.pending = "expanded.orsted";
+    if (saveVersion !== "current") delete life.expansion.swords;
+    if (saveVersion === "captured") life = migrateSwordState(life, getDecision(life));
+    life.expansion.politics.records = [
+      { year: 420, code: "joined-hitogami" },
+      { year: 424, code: "defected" },
+    ];
+    life.expansion.politics.pursuitUntil = 427;
+
+    const loaded = loadGame({
+      getItem: () => JSON.stringify({ version: 1, active: life, archive: [] }),
+      setItem: () => {},
+    });
+    expect(loaded.error).toBeNull();
+    const restored = loaded.data.active;
+    if (restored?.ruleset !== "expanded-1") throw Error("expanded");
+    expect(getDecision(restored)?.choices).toEqual([
+      expect.objectContaining({ id: "expanded.orsted.accept", disabled: true }),
+      expect.objectContaining({ id: "expanded.orsted.refuse" }),
+    ]);
+    expect(choose(restored, "expanded.orsted.accept")).toBe(restored);
+    const declined = choose(restored, "expanded.orsted.refuse");
+    expect(declined.pending).toBeNull();
+    expect(isLife(declined)).toBe(true);
   });
   it("handles birth-year history after the first memory before any annual tick", () => {
     const life = createExpandedLife({ seed: 1 });

@@ -1,6 +1,7 @@
-# Faction recruitment rate, 2026-11-22
+# Faction recruitment and allegiance, 2026-11-22
 
-On `codex/faction-recruitment-rate`, Orsted's organization and Hitogami's
+In [PR #33](https://github.com/ny147/1-in-mushoku-tensei/pull/33) on
+`codex/faction-recruitment-rate`, Orsted's organization and Hitogami's
 apostles each have a 17.5% chance to make an offer in an eligible random-event
 year. The two offers share one roll with ordinary events, which retain a 25%
 chance on that roll. The calendar windows, eligibility requirements, spacing
@@ -13,6 +14,17 @@ verified the K430 Orsted offer at 1280 px and the K427 Hitogami offer at 390 px
 using seed 6. Watch mode paused for both, pending offers survived reload, and
 keyboard acceptance or refusal persisted after reload. There was no horizontal
 overflow or console error in either browser run.
+
+The allegiance follow-up makes acceptance commit the life to one side.
+Defection ends membership, and later recruitment is limited to the former side
+after the existing pursuit period. Older lives that switched sides use the last
+recorded allegiance. An old pending rival offer remains available to decline.
+
+The full suite passed 750 tests in 83 files. The production build passed with
+the existing Vite chunk-size warning. Isolated Chromium on port 5184 verified
+joining and defecting through the English desktop decision panels and dismissing
+a saved rival offer through the Thai mobile panel. Keyboard choices and resulting
+state survived reload, with no horizontal overflow or console errors.
 
 # Player experience improvements, 2026-11-18
 
