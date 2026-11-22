@@ -3,6 +3,16 @@ import { createExpandedLife } from './origins';
 import { isLife, loadGame, SAVE_KEY } from '../storage';
 
 describe('expanded origins and validation', () => {
+  it('rolls Superd for about one in five Demon Continent births', () => {
+    const births = 2_000;
+    let superd = 0;
+    for (let seed = 0; seed < births; seed++) {
+      if (createExpandedLife({ seed, region: 'demon' }).race === 'superd') superd++;
+    }
+    expect(superd / births).toBeGreaterThan(0.17);
+    expect(superd / births).toBeLessThan(0.23);
+  });
+
   it('creates stable independent streams and coherent unequal births over 10,000 seeds', () => {
     const years = new Set<number>(); const counts: Record<string, number> = {};
     let superd = 0; let noble = 0;

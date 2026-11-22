@@ -18,9 +18,9 @@ export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
   const pool =
     region === "demon"
       ? ([
-          ["migurd", 65],
-          ["dwarf", 30],
-          ["superd", 5],
+          ["migurd", 55],
+          ["dwarf", 25],
+          ["superd", 20],
         ] as const)
       : REGIONS[region].races
           .filter((r) => r !== "migurd")
