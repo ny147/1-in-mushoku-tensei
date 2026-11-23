@@ -1,3 +1,14 @@
+# Asura succession crisis — Stage 2 plan for review, 2026-11-23
+
+The [Stage 2 implementation plan](docs/superpowers/plans/2026-11-23-asura-succession.md)
+is on `codex/asura-succession-plan`, based on merged main at `ff0ad57`.
+It covers K424 allegiance, household survival, K425 resolution, capture,
+permanent exile, court service and continued life as ruler. Its eligibility
+cutoff, personal risks, prices, sentence and governance values are proposals.
+All seven implementation tasks await review. The next step is user review of
+the plan before a separate gameplay implementation branch. This delivery
+changes documentation only.
+
 # Superd birth odds, 2026-11-22
 
 New Demon Continent protagonists roll 55% Migurd, 25% dwarf, and 20% Superd.
