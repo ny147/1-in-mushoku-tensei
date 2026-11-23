@@ -1,3 +1,16 @@
+# Superd birth odds, 2026-11-22
+
+New Demon Continent protagonists roll 55% Migurd, 25% dwarf, and 20% Superd.
+Letting fate choose the birthplace gives about a 1.8% overall Superd chance.
+The change is on `codex/superd-birth-odds`, targeting `main` for manual review.
+
+The 2,000-seed Demon Continent regression failed on the old odds and passed
+with the new pool. `npm test` passed 751 tests in 83 files. `npm run build`
+passed with Vite's existing chunk-size warning. Isolated Chromium on port 5188
+verified explicit and randomly selected Demon Continent starts, plus an Asura
+start, at desktop and mobile widths. The birth results survived reload. The
+checked layouts had no horizontal overflow or console errors.
+
 # Faction recruitment and allegiance, 2026-11-22
 
 In [PR #33](https://github.com/ny147/1-in-mushoku-tensei/pull/33) on

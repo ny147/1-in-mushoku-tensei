@@ -86,8 +86,10 @@ style once. Completed snapshots stay unchanged. No storage-key change is needed.
 New lives use **expanded-1**. Birth years range uniformly from K397 to K427;
 age and world year appear together. Family wealth and noble status affect
 resources and access, while occupation, affiliation and exceptional titles remain
-separate. Migurd and Superd protagonists begin on the Demon Continent; migration
-and children born at the family's actual home remain possible. Superd is an
+separate. Migurd and Superd protagonists begin on the Demon Continent, where
+new lives roll 55% Migurd, 25% dwarf, and 20% Superd. Letting fate pick the
+birthplace gives an overall Superd chance of about 1.8%. Migration and children
+born at the family's actual home remain possible. Superd is an
 explicit extreme-survival start: approximately 90% mortality before 15 under the
 documented typical policy, improved by protection and care. These are authored
 game-balance choices, not setting statistics.
