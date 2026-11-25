@@ -10,7 +10,13 @@
 
 **Spec:** [Standing consequences, Stage 2](../specs/2026-11-13-standing-consequences-design.md#stage-2-asura-succession-defeat-captivity-and-permanent-exile). [Stage 1 delivery and stage boundaries](2026-11-13-standing-foundations.md#delivery-sequence-and-scope).
 
-**Status:** Proposed for review against merged main at `ff0ad57`. All implementation tasks are pending.
+**Status:** Approved and implemented on the existing PR #35 branch from `ff0ad57`. See the [checkpoint](../../../CONTINUE.md) for verification and handoff.
+
+## Implementation record
+
+- Historical news for a post-K425 birth records the year the protagonist heard it. The copy keeps the actual accession dated K425. This preserves the existing validation boundary on events before birth.
+- While in office, the ruler cannot relocate away from Asura. Abdication restores ordinary relocation and livelihood options.
+- The full suite passed 778 tests and the production build passed. Isolated Chromium checked household flight, surrender and a governing decision across English and Thai at mobile and desktop widths.
 
 ## What the player experiences
 

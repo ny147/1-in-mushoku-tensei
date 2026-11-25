@@ -43,7 +43,9 @@ export function CareerPaths({ life }: { life: ExpandedLife }) {
         <p className="career-path-label">{careerPathText(n.path, language)}</p>
       )}
       <h3>
-        {n
+        {x.succession?.court.office?.endYear === null
+          ? th ? "ผู้ครองอัสรา" : "Ruler of Asura"
+          : n
           ? careerNodeText(n.id, language)
           : expandedLabel(x.career.role, language)}
       </h3>

@@ -1,0 +1,55 @@
+import { expect, it } from "vitest";
+import { advanceCourtYear, nextCourtDecision, newCourtState, validCourtState } from "./crown-service";
+import { accede, advanceGovernanceYear, applyGovernanceChoice, closeOffice, governanceDecision, isRuler, nextGovernanceDecision } from "./governance";
+import { annualIncomeExpanded } from "./careers";
+import { createExpandedLife } from "./origins";
+import { chooseExpanded } from "./engine";
+
+it("keeps public funds separate, alternates decisions, and records a single reign", () => {
+  const l = createExpandedLife({seed: 4});
+  l.phase = "alive";
+  l.age = 425 - l.expansion.birthYear;
+  Object.assign(l.expansion, {succession: {...l.expansion.succession, court: newCourtState()}});
+  const coins = l.coins;
+  accede(l);
+  const office = l.expansion.succession!.court.office!;
+  expect(annualIncomeExpanded(l)).toBe(0);
+  l.age++; advanceGovernanceYear(l); advanceGovernanceYear(l);
+  expect(annualIncomeExpanded(l)).toBe(60);
+  expect(office.treasury).toBe(40);
+  l.age++; advanceGovernanceYear(l); l.pending = nextGovernanceDecision(l);
+  expect(l.pending).toBe("expanded.govern-relief");
+  expect(applyGovernanceChoice(l, l.pending + ".conserve")).toBe(true);
+  expect(applyGovernanceChoice(l, l.pending + ".conserve")).toBe(false);
+  l.age++; advanceCourtYear(l); advanceGovernanceYear(l);
+  expect(nextCourtDecision(l)).toBeNull();
+  l.age++; advanceGovernanceYear(l); l.pending = nextGovernanceDecision(l);
+  expect(office.treasury).toBe(60);
+  expect(l.pending).toBe("expanded.govern-dispute");
+  expect(applyGovernanceChoice(l, l.pending + ".impose")).toBe(true);
+  l.pending = nextGovernanceDecision(l);
+  expect(l.pending).toBe("expanded.govern-crisis");
+  office.treasury = 14;
+  expect(governanceDecision(l)?.choices.find(c => c.id.endsWith(".reconcile"))?.disabled).toBe(true);
+  expect(applyGovernanceChoice(l, l.pending + ".abdicate")).toBe(true);
+  closeOffice(l, "death"); accede(l);
+  expect(isRuler(l)).toBe(false);
+  expect(office.endYear).toBe(429);
+  expect(office.endReason).toBe("abdication");
+  expect(l.coins).toBe(coins);
+  expect(validCourtState(l.expansion.succession!.court,l)).toBe(true);
+});
+
+it("applies a manual governing choice through the normal engine entry point", () => {
+  const life = createExpandedLife({seed: 6, region: "asura"});
+  life.phase = "alive";
+  life.age = 425 - life.expansion.birthYear;
+  accede(life);
+  life.age += 2;
+  advanceGovernanceYear(life);
+  life.pending = nextGovernanceDecision(life);
+  const governed = chooseExpanded(life, "expanded.govern-relief.fund");
+  expect(governed.pending).toBeNull();
+  expect(governed.expansion.succession?.court.office).toMatchObject({treasury: 25, stability: 3});
+  expect(governed.coins).toBe(life.coins);
+});

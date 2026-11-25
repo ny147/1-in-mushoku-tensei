@@ -7,6 +7,7 @@ import {
 } from "../game/expanded/activities";
 import { useI18n } from "../i18n/context";
 const names: Record<Activity, [string, string]> = {
+  "crown-petition": ["Petition for household relief", "ยื่นคำร้องขอเงินช่วยเหลือครัวเรือน"],
   "debt-service-exit": ["Review creditor service", "ทบทวนสัญญาทำงานใช้หนี้"],
   career: ["Browse careers", "ดูอาชีพ"],
   "career-work": ["Career work", "งานประจำสายอาชีพ"],
@@ -49,6 +50,9 @@ export function OptionalActivities({
   return (
     <details className="optional-activities">
       <summary>{t("Optional activities")}</summary>
+      {block === "custody" && <p>{language === "th"
+        ? `ระหว่างถูกคุมขัง กิจกรรมจะเปิดอีกครั้งเมื่อสิ้นรอบปี K${life.expansion.succession!.restrictions.custody!.releaseYear}`
+        : `Activities resume after your release at the end of K${life.expansion.succession!.restrictions.custody!.releaseYear}.`}</p>}
       {block === "pending" && (
         <>
           <p>{t("Finish the current decision before opening another activity.")}</p>

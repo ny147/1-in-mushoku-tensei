@@ -1,5 +1,9 @@
 import { trainingDecision, applyTrainingChoice } from "./training-events";
 import { socialDecision, applySocialChoice } from "./social-events";
+import { crisisDecision, applyCrisisChoice } from "./succession-events";
+import { restrictionDecision, restrictDestinations, applyRestrictionChoice } from "./succession-restrictions";
+import { courtDecision, applyCourtChoice } from "./crown-service";
+import { governanceDecision, applyGovernanceChoice } from "./governance";
 import { careerProject, applyCareerProject } from './career-work';
 import { careerDecision, applyCareerChoice } from './career-events';
 import {
@@ -74,7 +78,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
   if (!decision) return null;
   const key = decision.id.slice(9);
   if ((key !== "orsted" && key !== "hitogami") || allegianceAllows(life, key))
-    return decision;
+    return restrictDestinations(life, decision);
   // A rival offer saved under earlier rules can still be dismissed.
   return {
     ...decision,
@@ -87,6 +91,10 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
 // Sword migration stores and validates the original decision payload.
 export function getExpandedDecisionSnapshot(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
+  if (life.expansion.succession) {
+    const political = restrictionDecision(life) ?? crisisDecision(life) ?? courtDecision(life) ?? governanceDecision(life);
+    if (political) return political;
+  }
   const social = socialDecision(life);
   if (social) return social;
   const saved = life.expansion.swords?.compatibilityDecision;
@@ -421,6 +429,20 @@ export function applyExpandedChoice(
   life: ExpandedLife,
   id: string,
 ): string | null {
+  if (life.expansion.succession) {
+    if (applyRestrictionChoice(life, id)) return null;
+    if (id.startsWith("expanded.asura-")) return applyCrisisChoice(life, id);
+    if (id.startsWith("expanded.crown-") || id.startsWith("expanded.govern-")) {
+      const previous = life.pending;
+      life.pending = id.slice(0, id.lastIndexOf("."));
+      try {
+        applyCourtChoice(life, id) || applyGovernanceChoice(life, id);
+      } finally {
+        life.pending = previous;
+      }
+      return null;
+    }
+  }
   if (applySocialChoice(life, id)) return null;
   if(applyCareerChoice(life,id))return null;
   if (applySwordChoice(life, id)) return null;

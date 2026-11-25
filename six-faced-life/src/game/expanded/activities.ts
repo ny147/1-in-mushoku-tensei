@@ -1,12 +1,16 @@
 import type { ExpandedLife } from "../types";
 import { worldYear } from "./facts";
 import { getExpandedDecision } from "./events";
+import { inCustody } from "./succession-restrictions";
 import { activateCareerPaths } from './career-migration';
 import { careerWorkAvailable } from './career-events';
 import { debtServiceExitAvailable } from './social-events';
 import { parentalResponsibilityDue } from './parental-debt';
+import { canPetition, isCourtServiceYear } from './crown-service';
+import { isRuler } from './governance';
 
 export const ACTIVITIES = [
+  "crown-petition",
   "debt-service-exit",
   "career",
   'career-work',
@@ -21,6 +25,7 @@ export const ACTIVITIES = [
 ] as const;
 export type Activity = (typeof ACTIVITIES)[number];
 const minimumAge: Record<Activity, number> = {
+  "crown-petition": 0,
   "debt-service-exit": 15,
   career: 15,
   "career-work": 15,
@@ -36,12 +41,18 @@ const minimumAge: Record<Activity, number> = {
 
 export function activitiesBlock(life: ExpandedLife) {
   if (life.phase !== "alive") return "inactive";
+  if (inCustody(life)) return "custody";
   if (life.pending) return "pending";
   if (life.expansion.queue.length || parentalResponsibilityDue(life)) return "queued";
   return null;
 }
 
 export function activityOpening(life: ExpandedLife, key: Activity) {
+  if (key === "crown-petition" && !canPetition(life)) return { kind: "irrelevant" } as const;
+  if (key === "travel" && isRuler(life)) return { kind: "irrelevant" } as const;
+  if ((isRuler(life) || isCourtServiceYear(life)) &&
+    ["career", "career-work", "training", "instruction", "sword-mentor", "university"].includes(key))
+    return { kind: "irrelevant" } as const;
   if (key === "debt-service-exit" && !debtServiceExitAvailable(life)) {
     return { kind: "irrelevant" } as const;
   }

@@ -29,6 +29,7 @@ export function adult() {
 describe("independent review regressions", () => {
   it("revalidates a queued service assignment after travel and reload", () => {
     const l = adult();
+    delete l.expansion.succession; // Saved before the playable succession.
     l.age = 24;
     l.region = "asura";
     l.expansion.origin.locality = "capital";
@@ -67,6 +68,7 @@ describe("independent review regressions", () => {
   });
   it("keeps remote historical news out of military service and attributes aid to its actual event", () => {
     const l = adult();
+    delete l.expansion.succession;
     l.age = 24;
     l.expansion.processedYear = 423;
     l.region = "ranoa";

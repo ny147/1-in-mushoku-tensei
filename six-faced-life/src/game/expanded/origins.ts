@@ -10,6 +10,7 @@ import { ensureEducationAccess } from "./education-access-state";
 import { emptySwordState, syncSwordCompatibility } from './sword-state';
 import { emptyCareerPaths } from './career-state';
 import { createSocialState } from './social-state';
+import { newSuccessionState } from "./succession-state";
 export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
   const base = legacyBirth(options);
   const stream = { rng: (base.seed ^ 0xa71c09ef) >>> 0 };
@@ -86,6 +87,7 @@ export function createExpandedLife(options: LifeOptions = {}): ExpandedLife {
       version: 1,
       birthYear,
       worldSeed,
+      succession: newSuccessionState(worldSeed),
       familyRng,
       nextId: 1,
       origin: {

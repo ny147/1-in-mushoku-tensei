@@ -8,6 +8,7 @@ import {
 import type { ExpandedLife } from "../types";
 import { ensureEducationAccess } from "./education-access-state";
 import { fact } from "./facts";
+import { canRelocate, inCustody } from "./succession-restrictions";
 import { clamp } from "./random";
 import { getProgression } from "../progression";
 import { syncCareerNode } from './career-paths';
@@ -87,6 +88,7 @@ export function enrollUniversity(
     e = x.education;
   if (
     life.phase !== "alive" ||
+    !canRelocate(life, "ranoa") ||
     x.training?.active ||
     ["university", "graduated"].includes(e.stage) ||
     educationRequirements(life).some((r) => r.id !== "funding" && !r.met)
@@ -125,7 +127,7 @@ export function enrollUniversity(
 }
 export function applyEducationYear(life: ExpandedLife) {
   const e = life.expansion.education;
-  if (e.stage !== "university") return;
+  if (e.stage !== "university" || inCustody(life)) return;
   const successful =
     ["study", "magic"].includes(life.focus) &&
     (life.training.magicXp - e.previousXp >= 9 ||

@@ -2,10 +2,13 @@ import { consumeEducation } from "./education-finance";
 import { ordinaryEntry } from "./career-access";
 import type { EducationYear } from "./education-finance";
 import type { ExpandedLife } from "../types";
+import { inCustody } from "./succession-restrictions";
 import { HAZARDS } from "./balance";
 import { worldYear, fact } from "./facts";
 import { clamp, draw } from "./random";
 import { annualIncomeExpanded } from "./careers";
+import { isRuler } from "./governance";
+import { isCourtServiceYear } from "./crown-service";
 import { regionalConflict } from "./history";
 import { applyHouseholdDebtYear, housingSurcharge, debtServiceYear, type DebtServiceYear } from "./parental-debt";
 export interface Risk {
@@ -19,15 +22,41 @@ export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = 
   const x = life.expansion,
     e = x.economy,
     year = worldYear(life);
-  const income = annualIncomeExpanded(life, service.eligible);
-  const householdDeduction = applyHouseholdDebtYear(life);
-  const additionalShelterCosts = housingSurcharge(life, year);
   const children = x.family.people.filter(
     (p) => p.role === "child" && p.died === null && year - p.born < 18,
   ).length;
   const spouses = x.family.marriages.filter((m) => m.end === null).length;
-  const tuition =
-    x.education.stage === "university" && !x.education.scholarship ? 40 : 0;
+  const dependantCosts = children * 4 + spouses * 6;
+  if (inCustody(life)) {
+    const custody = x.succession!.restrictions.custody!;
+    if (custody.lastSettlement < year && year <= custody.releaseYear) {
+      const paid = Math.min(life.coins, dependantCosts);
+      life.coins -= paid;
+      custody.unmetDependants += dependantCosts - paid;
+      custody.lastSettlement = year;
+      e.lastIncome = 0;
+      e.lastExpenses = paid;
+      e.unmetFood = e.unmetShelter = e.unmetCare = 0;
+      if (x.finance) {
+        x.finance.lastYear = year;
+        x.finance.lastRepayment = 0;
+        x.finance.pauseReason = "hardship";
+      }
+      if (x.social?.debt) {
+        x.social.debt.lastRepaymentYear = year;
+        x.social.debt.lastRepayment = 0;
+        x.social.debt.pauseReason = "hardship";
+      }
+      if (paid < dependantCosts) fact(life, "need", "custody-dependants", String(year), dependantCosts - paid);
+    }
+    return {worldYear: year, creditorService:false, additionalShelterCosts:0, earnedIncome:0,
+      necessaryEducationCosts:0, dependantCosts, universityAttendance:false, unmetNeeds:e.lastExpenses < dependantCosts};
+  }
+  const income = annualIncomeExpanded(life, service.eligible);
+  const householdDeduction = applyHouseholdDebtYear(life);
+  const additionalShelterCosts = housingSurcharge(life, year);
+  const attending = x.education.stage === "university" && !isRuler(life);
+  const tuition = attending && !x.education.scholarship ? 40 : 0;
   const extras =
     children * 4 + spouses * 6 + (life.focus === "explore" ? 4 : 0) + tuition;
   let resources =
@@ -35,9 +64,9 @@ export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = 
     (year <= e.aidUntil ? 12 : 0);
   if (service.eligible) resources += service.support;
   // Scholarships pay actual necessities, never deposit an allowance in the purse.
-  if (x.education.stage === "university" && x.education.scholarship)
+  if (attending && x.education.scholarship)
     resources += 18;
-  if (x.education.stage === "university" && !x.education.scholarship) {
+  if (attending && !x.education.scholarship) {
     let grant = Math.min(58, x.education.budget);
     if (
       x.finance?.purposes.university &&
@@ -88,7 +117,7 @@ export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = 
     earnedIncome: income,
     necessaryEducationCosts: tuition + trainingCost,
     dependantCosts: children * 4 + spouses * 6,
-    universityAttendance: x.education.stage === "university",
+    universityAttendance: attending,
     unmetNeeds: e.unmetFood + e.unmetShelter + e.unmetCare + unmetExtra > 0,
   };
 }
@@ -117,12 +146,12 @@ export function survivalRisks(life: ExpandedLife): Risk[] {
         (life.stats.health < 35 ? 2 : 1) *
         (life.focus === "rest" ? 0.7 : 1),
     },
-    { cause: "unsafe-work", chance: e.unsafeWork ? HAZARDS.unsafe : 0 },
+    { cause: "unsafe-work", chance: e.unsafeWork && !inCustody(life) && !isRuler(life) && !isCourtServiceYear(life) ? HAZARDS.unsafe : 0 },
     {
       cause: "violence",
       chance: violence * (year <= e.protectionUntil ? 0.5 : 1),
     },
-    { cause: "travel", chance: year <= e.travelUntil ? HAZARDS.travel : 0 },
+    { cause: "travel", chance: !inCustody(life) && year <= e.travelUntil ? HAZARDS.travel : 0 },
   ];
 }
 export function checkSurvival(life: ExpandedLife): string | null {
