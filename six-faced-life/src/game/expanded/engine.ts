@@ -28,6 +28,11 @@ import { activateCareerPaths } from './career-migration';
 import { creditCareerWork } from './career-work';
 import { careerChoiceOutcome } from '../../i18n/careers';
 import { activateSocialState } from './social-migration';
+import { activateSuccession } from "./succession-state";
+import { crisisChoiceOutcome, dueCrisisDecision } from "./succession-events";
+import { inCustody, settleCustodyRelease } from "./succession-restrictions";
+import { advanceCourtYear, nextCourtDecision, isCourtServiceYear } from "./crown-service";
+import { isRuler, closeOffice, advanceGovernanceYear, nextGovernanceDecision } from "./governance";
 import { debtServiceYear, creditDebtServiceYear, closeParentalDebt, parentalResponsibilityDue } from "./parental-debt";
 import { repayDebtsYear } from "./debt-budget";
 import { LIMITS } from "./balance";
@@ -63,6 +68,12 @@ function queueResponsibility(life: ExpandedLife) {
 }
 function drain(life: ExpandedLife) {
   life.pending = null;
+  const political = dueCrisisDecision(life) ?? nextGovernanceDecision(life) ?? nextCourtDecision(life);
+  if (political) {
+    life.pending = political;
+    life.seen[political] = life.age;
+    return;
+  }
   queueResponsibility(life);
   // A full queue retains the due ledger; presenting it consumes no queue slot.
   if (parentalResponsibilityDue(life) && !historicalDecisions.has(life.expansion.queue[0]) && !life.expansion.queue.includes("expanded.parental-debt"))
@@ -86,6 +97,7 @@ export function beginExpanded(life: ExpandedLife): ExpandedLife {
 }
 export function finishExpanded(life: ExpandedLife, cause: string) {
   if (life.phase === "ended") return;
+  if (isRuler(life)) closeOffice(life, "death");
   closeEducationDebt(life);
   closeParentalDebt(life);
   life.phase = "ended";
@@ -179,7 +191,16 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     record.text = socialChoiceOutcome(life, next, id, "en")!;
     record.message = socialMessage;
   }
-  if (cause)
+  const politicalOutcome = crisisChoiceOutcome(next, id);
+  if (politicalOutcome) {
+    const record = next.history[next.history.length - 1];
+    record.text = politicalOutcome.en;
+    record.message = {
+      key: "expanded.career-choice",
+      params: {titleTh: educationText?.label ?? c.label, textTh: politicalOutcome.th},
+    };
+  }
+  if (cause && !politicalOutcome)
     next.history[next.history.length - 1].message = {
       key: "expanded.fatal-choice",
       params: { cause },
@@ -194,16 +215,16 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     finishExpanded(next, "violence");
     return next;
   }
-  queueReadySwordTrial(next);
+  if (!inCustody(next) && !isRuler(next)) queueReadySwordTrial(next);
   drain(next);
-  return activateSocialState(activateCareerPaths(next));
+  return activateSuccession(activateSocialState(activateCareerPaths(next)));
 }
 export function setFocusExpanded(
   life: ExpandedLife,
   focus: Focus,
 ): ExpandedLife {
   if (
-    life.phase !== "alive" ||
+    life.phase !== "alive" || inCustody(life) ||
     !Object.hasOwn(FOCUSES, focus) ||
     life.age < FOCUSES[focus].minAge
   )
@@ -225,6 +246,19 @@ function year(life: ExpandedLife) {
   life.age++;
   const serviceYear = debtServiceYear(life, worldYear(life));
   life.progress = 0;
+  if (inCustody(life)) {
+    applyEconomyYear(life, serviceYear);
+    life.expansion.processedYear = worldYear(life);
+    life.stats.health = clamp(life.stats.health - 0.8 - (life.age > life.deathAge * 0.7 ? 1.2 : 0));
+    applyFamilyYear(life);
+    const cause = checkSurvival(life);
+    if (cause) return finishExpanded(life, cause);
+    const history = applyHistoryYear(life);
+    settleCustodyRelease(life);
+    life.expansion.queue = history;
+    drain(life);
+    return;
+  }
   const focus = FOCUSES[life.focus];
   for (const [k, v] of Object.entries(focus.effects))
     life.stats[k as keyof typeof life.stats] = clamp(
@@ -241,7 +275,9 @@ function year(life: ExpandedLife) {
   life.stats.health = clamp(
     life.stats.health - 0.8 - (life.age > life.deathAge * 0.7 ? 1.2 : 0),
   );
-  applyTrainingYear(life);
+  const governing = isRuler(life);
+  const courtService = isCourtServiceYear(life);
+  if (!governing) applyTrainingYear(life);
   life.expansion.processedYear = worldYear(life);
   const cause = checkSurvival(life);
   if (cause) {
@@ -249,10 +285,12 @@ function year(life: ExpandedLife) {
     return;
   }
   const attending = life.expansion.education.stage === "university";
-  applyEducationYear(life);
+  if (!governing) applyEducationYear(life);
   const priorRole = life.expansion.career.role;
-  applyCareerYear(life, attendingFullTime || attending);
-  creditCareerWork(life,worldYear(life),{fullTime:attendingFullTime,university:attending});
+  if (!governing && !courtService) {
+    applyCareerYear(life, attendingFullTime || attending);
+    creditCareerWork(life,worldYear(life),{fullTime:attendingFullTime,university:attending});
+  }
   applyFamilyYear(life);
   applyPoliticalYear(life);
   if (
@@ -262,6 +300,8 @@ function year(life: ExpandedLife) {
   )
     life.expansion.genetics.signs = true;
   const due: string[] = applyHistoryYear(life);
+  advanceCourtYear(life);
+  advanceGovernanceYear(life);
   if (attending && life.expansion.education.stage !== "university")
     due.push("expanded.work");
   if (
@@ -278,7 +318,7 @@ function year(life: ExpandedLife) {
   if (life.age === 5) due.push("expanded.practice");
   if (life.age === 8) due.push("expanded.assessment");
   if (life.age === 15) due.push("expanded.work", "expanded.university");
-  if (life.expansion.education.stage === "university")
+  if (!governing && life.expansion.education.stage === "university")
     due.push("expanded.school-year");
   if (!due.length && life.age - life.expansion.lastRandom >= 3) {
     const factionOfferChance = 0.175;
@@ -327,7 +367,7 @@ function year(life: ExpandedLife) {
   else repayEducationYear(life, annualEconomy);
   creditDebtServiceYear(life, serviceYear);
   life.expansion.queue = due;
-  queueReadySwordTrial(life);
+  if (!governing) queueReadySwordTrial(life);
   drain(life);
   if (!life.pending)
     entry(
@@ -344,22 +384,22 @@ export function advanceExpanded(
 ): ExpandedLife {
   if (life.phase !== "alive" || life.pending) return life;
   if (mode === "tick" && (!Number.isFinite(delta) || delta <= 0)) return life;
-  const next = structuredClone(activateSocialState(activateCareerPaths(life)));
+  const next = structuredClone(activateSuccession(activateSocialState(activateCareerPaths(life))));
   if (parentalResponsibilityDue(next)) {
     drain(next);
     return next;
   }
   if (mode === "tick") {
-    creditSwordMentorship(next, Math.min(0.25, delta, 1 - next.progress));
+    if (!inCustody(next) && !isRuler(next)) creditSwordMentorship(next, Math.min(0.25, delta, 1 - next.progress));
     next.progress += Math.min(0.25, delta);
     if (next.progress >= 1 - 1e-9) year(next);
     else {
-      queueReadySwordTrial(next);
+      if (!inCustody(next) && !isRuler(next)) queueReadySwordTrial(next);
       if (next.expansion.queue.length) drain(next);
     }
   } else
     for (let i = 0; i < (mode === "year" ? 1 : 12); i++) {
-      creditSwordMentorship(next, 1 - next.progress);
+      if (!inCustody(next) && !isRuler(next)) creditSwordMentorship(next, 1 - next.progress);
       year(next);
       if (next.pending || next.phase !== "alive") break;
     }

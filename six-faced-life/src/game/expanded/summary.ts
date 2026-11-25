@@ -10,6 +10,7 @@ import { swordStyleName, swordRankName } from '../../i18n/sword';
 import { careerNodeText } from '../../i18n/careers';
 import type { CareerNodeId } from './career-catalogue';
 import { socialText } from '../../i18n/social';
+import { successionHistory, successionDetails } from '../../i18n/succession';
 export function legacySummary(l: LegacyLife) {
   return {
     age: l.age,
@@ -102,6 +103,11 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
         ? `เงินเมื่อสิ้นชีวิต ${l.coins} เหรียญ เงินสูงสุด ${x.economy.peak} เหรียญ ทรัพย์สิน ${x.economy.assets} ผลงานสำคัญ ${x.standing.feats.length} รายการ ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "ได้รับ" : "สูญเสีย"}`).join("; ")}`
         : `Coins at death: ${l.coins}; peak personal wealth: ${x.economy.peak}; assets: ${x.economy.assets}; distinct major contributions: ${x.standing.feats.length}. ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "won" : "lost"}`).join("; ")}`,
     ].map((text, i) => {
+      if (i === 3 && x.succession) {
+        const details = successionDetails(l, lang);
+        if (x.succession.crisis.revealed) details.unshift(successionHistory(l, lang));
+        if (details.length) text = details.join(" ") + " " + text;
+      }
       if(x.social){
         const s=socialText(l,lang);
         if(i===0)text+=th?` ฐานันดรเมื่อเกิด: ${s.birthRank} ฐานันดรปัจจุบัน: ${s.currentStanding} เชื้อสายราชวงศ์: ${s.royalAncestry} ${s.association}`:` Birth rank: ${s.birthRank}. Current legal standing: ${s.currentStanding}. Royal ancestry: ${s.royalAncestry}. ${s.association}`;

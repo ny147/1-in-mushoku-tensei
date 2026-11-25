@@ -7,9 +7,66 @@ import {
 import { EXPANDED_EVENT_IDS } from "../game/expanded/balance";
 import { createExpandedLife } from "../game/expanded/origins";
 import { getDecision, choose, openActivity } from "../game/engine";
+import { applySuccessionYear } from "../game/expanded/succession-events";
+import { accede } from "../game/expanded/governance";
+import { recognizeAtCourt } from "../game/expanded/crown-service";
+
+function politicalFixture(id: string) {
+  const life = createExpandedLife({seed: 6, region: "asura"});
+  life.phase = "alive";
+  life.expansion.social!.debt = null;
+  life.expansion.standing.status = "noble";
+  life.age = id === "asura-household" ? 17 : 18;
+  life.expansion.birthYear = 424 - life.age;
+  applySuccessionYear(life);
+  const s = life.expansion.succession!;
+  if (id === "asura-result" || id === "asura-defeat" || id === "succession-withdrawal") {
+    life.pending = "expanded.asura-oath";
+    const side = s.winner === "ariel" ? "opposition" : "ariel";
+    const pledged = choose(life, `expanded.asura-oath.${side}`);
+    if (pledged.ruleset !== "expanded-1") throw Error("Expanded life required");
+    if (id === "succession-withdrawal") {
+      pledged.pending = "expanded.succession-withdrawal";
+      return pledged;
+    }
+    pledged.age++;
+    applySuccessionYear(pledged);
+    pledged.pending = "expanded.asura-result";
+    return id === "asura-result" ? pledged : choose(pledged, "expanded.asura-result.read");
+  }
+  if (id.startsWith("crown-")) {
+    life.age++;
+    recognizeAtCourt(life, true);
+    if (id !== "crown-petition") {
+      life.age += 3;
+      s.court.request = {openedYear:428, dueYear:428, extended:false, status:id === "crown-request" ? "open" : "final", resolutionYear:null};
+    }
+  }
+  if (id.startsWith("govern-")) {
+    life.age++;
+    accede(life);
+    const issue = id.slice(7);
+    if (issue === "relief" || issue === "dispute" || issue === "crisis") s.court.office!.pending = issue;
+  }
+  life.pending = `expanded.${id}`;
+  return life;
+}
 describe("expanded bilingual catalogue", () => {
   it("provides original Thai titles, bodies, options and outcomes for every registered event", () => {
     for (const id of EXPANDED_EVENT_IDS) {
+      if (/^(asura-|succession-withdrawal$|crown-|govern-)/.test(id)) {
+        const decision = getDecision(politicalFixture(id));
+        expect(decision?.id, id).toBe(`expanded.${id}`);
+        const thai = expandedDecisionText(decision!, "th");
+        expect(thai.title).toMatch(/[ก-๙]/);
+        expect(thai.text).toMatch(/[ก-๙]/);
+        for (const choice of thai.choices) {
+          expect(choice.label).toMatch(/[ก-๙]/);
+          expect(choice.description).toMatch(/[ก-๙]/);
+          expect(choice.outcome).toMatch(/[ก-๙]/);
+        }
+        continue;
+      }
       if (id === "parental-debt" || id === "debt-service-exit") {
         const responsibility = createExpandedLife({ seed: 1 });
         expect(responsibility.expansion.social?.debt).toBeTruthy();

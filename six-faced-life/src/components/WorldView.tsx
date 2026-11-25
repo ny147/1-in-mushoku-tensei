@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Life, RegionId } from "../game/types";
 import { RACES, REGIONS } from "../game/world";
 import { WorldMap } from "./WorldMap";
+import { successionHistory } from "../i18n/succession";
 
 export function WorldView({ life }: { life: Life | null }) {
   const { t, language } = useI18n();
@@ -113,13 +114,13 @@ export function WorldView({ life }: { life: Life | null }) {
           </h2>
           <p>
             {language === "th"
-              ? "ชีวิตใหม่เกิดอย่างสุ่มในปี K397–K427 ภัยพิบัติมานาเกิดใน K417 ความขัดแย้งสืบราชบัลลังก์อัสราสิ้นสุดด้วยแอเรียลขึ้นครองบัลลังก์ใน K425 ตัวเลขปีใช้ลำดับเหตุการณ์จากแหล่งข้อมูลรอง ไม่ใช่ผลตรวจสอบต้นฉบับครบถ้วน"
-              : "New lives are born uniformly in K397–K427. The Mana Calamity occurs in K417; the Asura succession ends with Ariel’s accession in K425. These year anchors use a secondary chronology, rather than a complete primary-text audit."}
+              ? "ชีวิตใหม่เกิดอย่างสุ่มในปี K397–K427 ภัยพิบัติมานาเกิดใน K417 ตัวเลขปีใช้ลำดับเหตุการณ์จากแหล่งข้อมูลรอง ไม่ใช่ผลตรวจสอบต้นฉบับครบถ้วน"
+              : "New lives are born uniformly in K397–K427. The Mana Calamity occurs in K417. These year anchors use a secondary chronology, rather than a complete primary-text audit."}{" "}{successionHistory(life, language)}
           </p>
           <p>
             {language === "th"
-              ? "มิกุรด์และสเปิร์ดเกิดบนทวีปปีศาจ ส่วนที่อื่นยังมีเผ่าพันธุ์ตามพื้นที่ ความขัดแย้งในภูมิภาคและเหตุการณ์หลัง K430 เป็นเรื่องแต่งสำหรับเกม การท้าชิงเจ็ดมหาอำนาจเปิดเฉพาะอันดับ 5–7 หลัง K430 เท่านั้น ผลทางประวัติศาสตร์หลักยังคงเดิม"
-              : "Migurd and Superd protagonists begin on the Demon Continent. Regional conflicts and continuation after K430 are authored game material. Seven Great Powers challenges permit only positions 5–7, after K430; fixed historical outcomes remain unchanged."}
+              ? "มิกุรด์และสเปิร์ดเกิดบนทวีปปีศาจ ส่วนที่อื่นยังมีเผ่าพันธุ์ตามพื้นที่ ความขัดแย้งในภูมิภาคและเหตุการณ์หลัง K430 เป็นเรื่องแต่งสำหรับเกม การท้าชิงเจ็ดมหาอำนาจเปิดเฉพาะอันดับ 5–7 หลัง K430 เท่านั้น"
+              : "Migurd and Superd protagonists begin on the Demon Continent. Regional conflicts and continuation after K430 are authored game material. Seven Great Powers challenges permit only positions 5–7, after K430."}
           </p>
           <p>
             {language === "th"

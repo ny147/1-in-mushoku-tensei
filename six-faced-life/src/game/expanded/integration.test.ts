@@ -30,6 +30,7 @@ describe("expanded seeded lifetimes and storage", () => {
         const next = choice ? choose(life, choice.id) : advance(life, "year");
         if (life.pending)
           expect(choice, `blocked ${life.pending}`).toBeDefined();
+        expect(next, `seed ${seed} stalled at age ${life.age} on ${choice?.id ?? life.pending}`).not.toBe(life);
         expect(
           isLife(next),
           `seed ${seed} age ${next.age} event ${next.pending}`,

@@ -132,6 +132,8 @@ export const HAZARDS = {
 };
 export const EXPANDED_EVENT_IDS = [
   'parental-debt', 'debt-service-exit',
+  'asura-oath', 'asura-household', 'asura-result', 'asura-defeat', 'succession-withdrawal',
+  'crown-petition', 'crown-request', 'crown-standing', 'govern-relief', 'govern-dispute', 'govern-crisis',
   'career-path','career-work',
   'sword-select', 'sword-mentor', 'sword-trial', 'sword-abandon',
   "training",
@@ -172,3 +174,10 @@ export const EXPANDED_EVENT_IDS = [
 export const validEventId = (id: unknown): id is string =>
   typeof id === "string" &&
   EXPANDED_EVENT_IDS.some((k) => id === `expanded.${k}`);
+
+/** Personal consequences are authored balance, separate from the world winner. */
+export const ASURA_CRISIS = {
+  supply: 12, supplyBonus: 8, recognition: 40,
+  escapeFee: 12, escapeChance: 25, paidBonus: 20, friendBonus: 20,
+  friendStrength: 50, resistChance: 20, resistCap: 65,
+} as const;

@@ -1,3 +1,21 @@
+# Asura succession crisis — Stage 2, 2026-11-25
+
+The [Stage 2 implementation plan](docs/superpowers/plans/2026-11-23-asura-succession.md)
+was approved for implementation on the existing `codex/asura-succession-plan`
+branch and [PR #35](https://github.com/ny147/1-in-mushoku-tensei/pull/35).
+K424 allegiance, household protection, the seeded K425 result, defeat,
+custody, permanent exile, court service and playable rule are implemented.
+A reigning protagonist must remain in Asura while holding office. A life
+born after accession records the year it hears the K425 news.
+
+On Node 22.16.0, all 778 tests in 90 files passed, including 500 seeded
+lifetime and restoration runs. The production build passed with Vite's
+existing chunk-size warning. Isolated headless Chrome on port 5174 checked
+household flight, adult surrender and a claimant's relief decision at 390
+and 1280 pixels across English and Thai. Each check confirmed keyboard
+choice and save restoration, with no page errors or horizontal overflow.
+The user reviews and merges PR #35 manually.
+
 # Superd birth odds, 2026-11-22
 
 New Demon Continent protagonists roll 55% Migurd, 25% dwarf, and 20% Superd.

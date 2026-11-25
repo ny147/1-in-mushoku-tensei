@@ -10,8 +10,8 @@ describe('local history and original conflicts',()=>{
     }
     const later=createExpandedLife({seed:1});later.expansion.birthYear=420;applyHistoryYear(later);expect(later.expansion.history.some(h=>h.code==='calamity')).toBe(false);
   });
-  it('keeps Ariel accession fixed regardless of player ability or faction',()=>{
-    const l=createExpandedLife({seed:1});l.expansion.birthYear=400;l.age=25;l.expansion.politics.faction='hitogami';applyHistoryYear(l);
+  it('keeps Ariel accession fixed on the pre-Stage-2 route regardless of player ability or faction',()=>{
+    const l=createExpandedLife({seed:1});delete l.expansion.succession;l.expansion.birthYear=400;l.age=25;l.expansion.politics.faction='hitogami';applyHistoryYear(l);
     expect(l.expansion.history.some(h=>h.code==='ariel-accession')).toBe(true);
   });
   it('does not use personal RNG and keeps at least five quiet years between conflicts',()=>{

@@ -42,6 +42,12 @@ Players read and act on a desktop or phone. They choose English or Thai for each
 
 ## Current behavior
 
+The Asura succession turns local noble standing and royal ancestry into
+chronicle choices in K424. The seeded K425 result is independent of the player's
+pledge. Personal outcomes include court recognition, captivity, permanent exile
+and an alternate reign for an eligible opposition claimant. The ruler's personal
+income and the public treasury are separate. Binding decisions pause Watch mode.
+
 - The birth record places the chronicle action before the origins and household
   disclosure. It keeps identity, known aptitude or assessment state, and any
   immediate survival, material or household liability warning in view.

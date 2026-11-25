@@ -3,6 +3,7 @@ import { PARENTAL_DEBT } from "./balance";
 import { worldYear } from "./facts";
 import { appoint } from "./careers";
 import { clamp } from "./random";
+import { inCustody } from "./succession-restrictions";
 
 /** Only this voluntary transition turns household liability into personal debt. */
 export function acceptParentalDebt(life: ExpandedLife, route: "instalments" | "service" | "refuse"): boolean {
@@ -85,7 +86,7 @@ export function housingSurcharge(life: ExpandedLife, year: number): number {
 /** Scheduling remains manual and independent of whether parents survived. */
 export function parentalResponsibilityDue(life: ExpandedLife): boolean {
   const d = life.expansion.social?.debt;
-  return life.phase === "alive" && life.age >= PARENTAL_DEBT.personalAge &&
+  return life.phase === "alive" && !inCustody(life) && life.age >= PARENTAL_DEBT.personalAge &&
     !!d && d.status === "household" && d.balance > 0 && d.decisionYear === null;
 }
 

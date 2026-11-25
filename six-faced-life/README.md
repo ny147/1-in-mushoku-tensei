@@ -146,6 +146,14 @@ marriage, dangerous service and legendary challenges require manual decisions ev
 in Watch mode. Only Seven Great Powers positions 5–7 are attainable after K430.
 
 Orsted's organization recruits in K425–K430 and Hitogami's apostles in K417–K430.
+
+In K424, adult nobles and royal family members living in Asura face a binding
+allegiance choice. Children choose how their household seeks safety. The seeded
+K425 result gives Ariel an 80% chance and the opposition a 20% chance. Personal
+choices determine recognition and survival. A defeated supporter may surrender,
+escape, or resist. Asuran exile is permanent. An eligible royal claimant who wins
+can continue the same life as ruler with royal pay and a separate public treasury.
+Lives with an existing succession record retain their earlier history.
 To qualify, be at least 18, have no faction, choose **Develop a friendship** in
 **The people beside you**, and reach 100 magic XP, 100 XP in one sword style, or
 20 standing reputation. Each eligible faction has a 17.5% chance to offer

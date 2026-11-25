@@ -2,6 +2,7 @@ import type { ExpandedLife, RegionId } from "../types";
 import { draw, clamp } from "./random";
 import { fact, worldYear } from "./facts";
 import { recordFamilyDeath } from "./family";
+import { applySuccessionYear } from "./succession-events";
 export interface Conflict {
   start: number;
   end: number;
@@ -83,12 +84,14 @@ export function applyHistoryYear(life: ExpandedLife): string[] {
   }
   if (
     (year === 424 || year === 425) &&
+    !x.succession &&
     record(
       year === 425 ? "ariel-accession" : "asura-succession",
       life.region === "asura" ? "civilian" : "news",
     )
   )
     due.push("expanded.succession");
+  if (x.succession) due.push(...applySuccessionYear(life));
   const conflict = regionalConflict(x.worldSeed, life.region, year);
   if (
     conflict &&

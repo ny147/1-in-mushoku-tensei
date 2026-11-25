@@ -14,6 +14,8 @@ import { activateCareerPaths } from './expanded/career-migration';
 import { validateCareerPaths } from './expanded/career-validation';
 import { validateSocialState } from './expanded/social-validation';
 import { activateSocialState } from './expanded/social-migration';
+import { activateSuccession } from "./expanded/succession-state";
+import { validSuccession } from "./expanded/succession-validation";
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -98,6 +100,7 @@ export function isLife(v: unknown): v is Life {
         x.optionalActivity !== v.pending ||
         ![
           "debt-service-exit",
+          "crown-petition",
           "career",
           'career-path', 'career-work',
           "training",
@@ -331,6 +334,7 @@ export function isLife(v: unknown): v is Life {
     (v.expansion as import('./expanded/types').ExpandedState).social,
     v as unknown as import('./types').ExpandedLife,
   )) return false;
+  if (expanded && !validSuccession(v as unknown as import("./types").ExpandedLife)) return false;
   if (
     expanded &&
     v.pending !== null &&
@@ -366,10 +370,10 @@ export function loadGame(storage: StorageLike): {
           ? save.active.ruleset === "expanded-1"
             ? save.active.phase === "ended"
               ? save.active
-              : activateSocialState(activateCareerPaths(migrateSwordState(
+              : activateSuccession(activateSocialState(activateCareerPaths(migrateSwordState(
                   migrateTalents(migrateEducationAccess(save.active)),
                    getExpandedDecisionSnapshot(save.active),
-                )))
+                ))))
             : migrateLife(save.active)
           : null,
         archive: save.archive.map((l) =>

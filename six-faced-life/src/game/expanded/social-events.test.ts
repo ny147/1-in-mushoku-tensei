@@ -142,9 +142,13 @@ describe("manual parental responsibility", () => {
     }
     expect(l).toBeDefined();
     l!.phase = "alive"; l!.age = 14; l!.pending = null; l!.stats.health = 100;
+    l!.region = "asura";
+    l!.expansion.standing.status = "noble";
     const n = advance(l!, "year") as ExpandedLife;
-    expect(n.pending).toBe("expanded.succession");
-    expect(n.expansion.queue).toEqual(["expanded.parental-debt", "expanded.work", "expanded.university"]);
+    expect(n.pending).toBe("expanded.asura-household");
+    const afterShelter = choose(n, "expanded.asura-household.stay") as ExpandedLife;
+    expect(afterShelter.pending).toBe("expanded.parental-debt");
+    expect(afterShelter.expansion.queue).toEqual(["expanded.work", "expanded.university"]);
   });
   it("retains due liability through a full saved queue and inserts once as it drains", () => {
     const l = debtor(); l.pending = "expanded.reading";

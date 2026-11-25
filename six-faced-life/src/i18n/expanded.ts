@@ -747,6 +747,7 @@ export function expandedRecordLabel(
     calamity: ["Mana Calamity", "ภัยพิบัติมานา"],
     "asura-succession": ["Asura succession", "การสืบราชบัลลังก์อัสรา"],
     "ariel-accession": ["Ariel’s accession", "แอเรียลขึ้นครองบัลลังก์"],
+    "opposition-accession": ["The opposition takes the throne", "ฝ่ายตรงข้ามขึ้นครองบัลลังก์"],
     "authored-conflict": [
       "Authored regional conflict",
       "ความขัดแย้งในภูมิภาคที่แต่งขึ้น",

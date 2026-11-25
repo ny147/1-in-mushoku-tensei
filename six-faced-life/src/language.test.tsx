@@ -94,7 +94,7 @@ describe("new-life language ownership", () => {
       academic: false,
       knowledge: 21,
       displayedGain: 3,
-      pending: "expanded.succession",
+      pending: "expanded.asura-result",
     },
   ])(
     "previews Thai and restores choices and outcomes for seed $seed",
@@ -141,7 +141,7 @@ describe("new-life language ownership", () => {
         ).toBeNull();
         expect(document.activeElement).toBe(
           screen.getByRole("heading", {
-            name: "ความขัดแย้งสืบราชบัลลังก์อัสรา",
+            name: "การขึ้นครองราชย์แห่งอัสรา",
           }),
         );
         expect(
@@ -167,7 +167,7 @@ describe("new-life language ownership", () => {
       if (pending)
         expect(
           screen.getByRole("heading", {
-            name: "ความขัดแย้งสืบราชบัลลังก์อัสรา",
+            name: "การขึ้นครองราชย์แห่งอัสรา",
           }),
         ).toBeTruthy();
       expect(
