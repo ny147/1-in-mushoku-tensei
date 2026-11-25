@@ -12,6 +12,9 @@ import App from "./App";
 import { beginLife, choose, createLife, openActivity } from "./game/engine";
 import { loadGame, saveGame, SAVE_KEY } from "./game/storage";
 import { createExpandedLife } from "./game/expanded/origins";
+import { introducePartner } from "./game/expanded/family";
+import { applySuccessionYear, dueCrisisDecision } from "./game/expanded/succession-events";
+import { getDecision } from "./game/engine";
 import { enterCareerNode } from './game/expanded/career-paths';
 import type { ExpandedLife } from "./game/types";
 
@@ -209,6 +212,60 @@ beforeEach(() => {
   window.history.replaceState({}, '', '/');
   window.localStorage.clear();
   vi.spyOn(window, "scrollTo").mockImplementation(() => {});
+});
+
+it.each(["en", "th"] as const)("keeps a royal proposal manual and saves the marriage in %s", language => {
+  vi.useFakeTimers();
+  let life = createExpandedLife({seed: 0, region: "asura", language});
+  for (let seed = 1; seed < 5000 && !(life.expansion.social?.royalHouse && life.expansion.birthYear <= 407); seed++)
+    life = createExpandedLife({seed, region: "asura", language});
+  expect(life.expansion.social?.royalHouse).toBe("asura");
+  life.phase = "alive";
+  life.age = 425 - life.expansion.birthYear;
+  life.expansion.social!.debt = null;
+  applySuccessionYear(life);
+  life.pending = dueCrisisDecision(life);
+  life = choose(life, "expanded.asura-result.read") as ExpandedLife;
+  const prospect = introducePartner(life)!;
+  prospect.strength = 75;
+  life = openActivity(life, "royal-marriage") as ExpandedLife;
+  expect(life.pending).toBe("expanded.royal-marriage");
+  const accept = getDecision(life)!.choices.find(c => c.id.startsWith("expanded.royal-marriage.accept"))!;
+  const label = language === "th" ? getDecision(life)!.localized!.choices[accept.id].label : accept.label;
+  saveGame(localStorage, {version: 1, active: life, archive: []});
+  const view = render(<App />);
+  if (language === "en") {
+    fireEvent.click(screen.getByRole("checkbox", {name: "Watch mode"}));
+    fireEvent.click(screen.getByRole("button", {name: "Play time"}));
+    const hidden = vi.spyOn(document, "hidden", "get").mockReturnValue(true);
+    fireEvent(document, new Event("visibilitychange"));
+    act(() => vi.advanceTimersByTime(2200));
+    expect(loadGame(localStorage).data.active?.pending).toBe(life.pending);
+    hidden.mockRestore();
+    fireEvent(document, new Event("visibilitychange"));
+  }
+  const button = screen.getByText(label).closest("button")!;
+  button.focus();
+  expect(document.activeElement).toBe(button);
+  if (language === "en") {
+    const failure = vi.spyOn(Storage.prototype, "setItem").mockImplementationOnce(() => {
+      throw new DOMException("Full", "QuotaExceededError");
+    });
+    fireEvent.click(button);
+    expect(screen.getByRole("alert").textContent).toMatch(/not been saved/i);
+    expect(loadGame(localStorage).data.active?.pending).toBe(life.pending);
+    failure.mockRestore();
+    fireEvent.click(screen.getByRole("button", {name: "Retry save"}));
+  } else {
+    fireEvent.click(button);
+  }
+  const stored = loadGame(localStorage).data.active as ExpandedLife;
+  expect(stored.expansion.family.marriages).toHaveLength(1);
+  expect(stored.expansion.family.marriages[0].person).toBe(prospect.id);
+  expect(stored.expansion.house?.marriage.alliances).toHaveLength(1);
+  view.unmount();
+  render(<App />);
+  expect(loadGame(localStorage).data.active).toEqual(stored);
 });
 
 describe("clear next actions and recovery", () => {

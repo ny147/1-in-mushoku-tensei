@@ -266,6 +266,7 @@ export function validateSocialState(
       "endedYear",
       "endReason",
       ...(Object.hasOwn(t, "lastCreditYear") ? ["lastCreditYear"] : []),
+      ...(Object.hasOwn(t, "lastPauseReason") ? ["lastPauseReason"] : []),
     ]) ||
     !int(t.acceptedBalance, 1) ||
     t.acceptedBalance !== d.initial - d.childhoodPaid ||
@@ -289,6 +290,10 @@ export function validateSocialState(
     t.completedYears === 0
       ? t.lastCreditYear !== null
       : !int(t.lastCreditYear, t.startedYear + t.completedYears, t.lastYear)
+  )) return false;
+  if (Object.hasOwn(t, "lastPauseReason") && (
+    t.lastYear <= t.startedYear || t.lastCreditYear === t.lastYear ||
+    !one(t.lastPauseReason, ["health", "study", "region", "occupation", "custody", "governing", "exile", "commitment"])
   )) return false;
   if (t.endedYear === null)
     return (

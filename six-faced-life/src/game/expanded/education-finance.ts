@@ -6,6 +6,15 @@ import {
   type FundingRecord,
 } from "./career-access";
 import { ensureEducationAccess } from "./education-access-state";
+import {
+  quoteHouseSponsorship,
+  reserveHouseSponsorship,
+  sameHouseSponsorship,
+  settleHouseSponsorship,
+  spendHouseTuition,
+  sponsorTuitionPayment,
+  type HouseSponsorQuote,
+} from "./house-sponsorship";
 export interface EducationCost {
   purpose: EducationPurpose;
   admission: number;
@@ -21,6 +30,7 @@ export interface EducationQuote extends EducationCost {
   family: number;
   personal: number;
   loan: number;
+  sponsor?: HouseSponsorQuote;
 }
 export interface EducationYear {
   worldYear: number;
@@ -40,15 +50,21 @@ const components = [
   "starterFee",
 ] as const;
 export const reservedTotal = (r?: FundingRecord) =>
-  r ? r.reserved.family + r.reserved.personal + r.reserved.loan : 0;
+  r ? r.reserved.family + r.reserved.personal + r.reserved.loan + (r.reserved.sponsor ?? 0) : 0;
 export function quoteEducation(
   l: ExpandedLife,
   cost: EducationCost,
+  useSponsor = false,
 ): EducationQuote {
   const total = components.reduce((s, k) => s + cost[k], 0);
-  const family = Math.min(total, Math.floor(l.expansion.economy.familyFunds));
-  const personal = Math.min(total - family, Math.floor(l.coins));
-  return { ...cost, total, family, personal, loan: total - family - personal };
+  const sponsor = useSponsor ? quoteHouseSponsorship(l, cost) : null;
+  const remainder = total - (sponsor?.amount ?? 0);
+  const family = Math.min(remainder, Math.floor(l.expansion.economy.familyFunds));
+  const personal = Math.min(remainder - family, Math.floor(l.coins));
+  const quote: EducationQuote = { ...cost, total, family, personal, loan: remainder - family - personal };
+  if (sponsor) quote.sponsor = sponsor;
+  else delete quote.sponsor;
+  return quote;
 }
 export function reserveEducation(
   l: ExpandedLife,
@@ -63,8 +79,9 @@ export function reserveEducation(
     (!borrow && q.loan > 0)
   )
     return false;
-  const current = quoteEducation(l, q);
+  const current = quoteEducation(l, q, !!q.sponsor);
   if (
+    !sameHouseSponsorship(current.sponsor, q.sponsor) ||
     [...components, "total", "family", "personal", "loan"].some(
       (k) =>
         current[k as keyof EducationQuote] !== q[k as keyof EducationQuote],
@@ -88,6 +105,10 @@ export function reserveEducation(
   r.borrowed += q.loan;
   r.balance += q.loan;
   r.reserved = { family: q.family, personal: q.personal, loan: q.loan };
+  if (q.sponsor) {
+    r.reserved.sponsor = q.sponsor.amount;
+    reserveHouseSponsorship(l, q.sponsor);
+  }
   finance.purposes[q.purpose] = r;
   return true;
 }
@@ -96,6 +117,7 @@ export function consumeEducation(
   purpose: EducationPurpose,
   amount: number,
   annualYear?: number,
+  tuition = 0,
 ): boolean {
   const f = l.expansion.finance,
     r = f?.purposes[purpose];
@@ -104,11 +126,14 @@ export function consumeEducation(
     !r ||
     !Number.isSafeInteger(amount) ||
     amount < 0 ||
-    reservedTotal(r) < amount ||
+    !Number.isSafeInteger(tuition) || tuition < 0 || tuition > amount ||
     (annualYear !== undefined && f.lastConsumptionYear >= annualYear)
   )
     return false;
-  let remaining = amount;
+  const sponsored = sponsorTuitionPayment(l, r, purpose, tuition);
+  let remaining = amount - sponsored;
+  if (r.reserved.family + r.reserved.personal + r.reserved.loan < remaining) return false;
+  if (sponsored > 0) spendHouseTuition(l, r, sponsored);
   for (const source of ["family", "personal", "loan"] as const) {
     const paid = Math.min(remaining, r.reserved[source]);
     r.reserved[source] -= paid;
@@ -123,6 +148,7 @@ export function refundEducation(
 ): void {
   const r = l.expansion.finance?.purposes[purpose];
   if (!r) return;
+  settleHouseSponsorship(l, purpose);
   r.balance -= r.reserved.loan;
   r.cancelled += r.reserved.loan;
   l.coins = Math.min(1_000_000, l.coins + r.reserved.personal);
@@ -178,6 +204,8 @@ export function allocateEducationRepayment(l: ExpandedLife, budget: number): num
 export function closeEducationDebt(l: ExpandedLife): void {
   const f = l.expansion.finance;
   if (!f) return;
+  const sponsor = l.expansion.house?.sponsorship;
+  if (sponsor) settleHouseSponsorship(l, sponsor.purpose, true);
   for (const r of Object.values(f.purposes)) {
     r.cancelled += r.reserved.loan;
     r.balance -= r.reserved.loan;

@@ -10,6 +10,7 @@ import { requirement, type Requirement } from "./education";
 import { maxSwordXp } from "./sword-state";
 import { worldYear } from "./facts";
 import { draw } from "./random";
+import { consumesWorkThisYear } from "./house-service";
 
 export function careerNode(l: ExpandedLife): CareerNode | null {
   const id = l.expansion.careerPaths?.active;
@@ -151,6 +152,7 @@ export function enterCareerNode(
     !s ||
     !isCareerNode(id) ||
     l.phase !== "alive" ||
+    consumesWorkThisYear(l) ||
     l.expansion.education.stage === "university"
   )
     return false;
@@ -181,6 +183,7 @@ export function promoteCareerNode(l: ExpandedLife, id: CareerNodeId): boolean {
     !s ||
     !isCareerNode(id) ||
     l.phase !== "alive" ||
+    consumesWorkThisYear(l) ||
     l.expansion.education.stage === "university"
   )
     return false;

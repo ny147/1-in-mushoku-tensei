@@ -2,6 +2,7 @@ import type { ExpandedLife } from "../game/types";
 import { useI18n } from "../i18n/context";
 import { socialText, type SocialPresentation } from "../i18n/social";
 import { successionDetails } from "../i18n/succession";
+import { houseStandingText } from "../i18n/houses";
 
 export function StandingDetails({
   life,
@@ -40,6 +41,7 @@ export function StandingDetails({
         ))}
       </dl>
       {successionDetails(life, language).map(line => <p key={line}>{line}</p>)}
+      {houseStandingText(life, language).map(line => <p key={line}>{line}</p>)}
     </details>
   );
 }

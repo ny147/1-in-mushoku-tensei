@@ -86,7 +86,7 @@ export interface FundingRecord {
   cancelled: number;
   balance: number;
   closedUnpaid: number;
-  reserved: { family: number; personal: number; loan: number };
+  reserved: { family: number; personal: number; loan: number; sponsor?: number };
 }
 export interface EducationFinance {
   version: 1;

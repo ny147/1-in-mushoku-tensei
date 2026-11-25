@@ -10,7 +10,13 @@
 
 **Spec:** [Standing consequences, Stage 3](../specs/2026-11-13-standing-consequences-design.md#stage-3-broader-house-sponsorship-and-royal-marriages). [Stage 2 implementation](2026-11-23-asura-succession.md).
 
-**Status:** Proposed for review against merged `main` at `55315b9`.
+**Status:** Approved and implemented in PR #36 from `55315b9`. See the [checkpoint](../../../CONTINUE.md) for verification.
+
+## Implementation record
+
+- Eligible house petitions grant protection for the next local annual settlement with a three-year cooldown. Stage 2 crown benefits retain their own terms.
+- Royal marriage proposals require a local existing courtship prospect and open once the succession is settled. Reigning protagonists can consider new proposals after leaving office.
+- Reviews added regressions for the first age-15 university offer, precedence for historical choices, tuition separated from living costs, and refusal after a title is regained. House service pauses ordinary career advancement and its work hazards.
 
 ## Rules for review
 

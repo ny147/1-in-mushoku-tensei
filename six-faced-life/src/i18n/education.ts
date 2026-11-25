@@ -1,7 +1,17 @@
 import type { ExpandedLife, Language } from "../game/types";
 import type { EducationQuote } from "../game/expanded/education-finance";
 import type { TrainingQuote } from "../game/expanded/training";
+import { houseSponsorName } from "./houses";
+import { moneyText } from "./money";
 export type EducationPair = readonly [string, string];
+export function sponsorshipDescription(q: EducationQuote, language: Language): string {
+  if (!q.sponsor) return "";
+  const house = houseSponsorName(q.sponsor.providerId, language);
+  const m = (n: number) => moneyText(n, language);
+  return language === "th"
+    ? `${house}กันเงิน ${m(q.sponsor.amount)}ไว้จ่ายเฉพาะค่าเรียน ส่วนที่เหลือมาจากเงินครอบครัว ${m(q.family)} เงินส่วนตัว ${m(q.personal)} และเงินกู้การศึกษา ${m(q.loan)} หากใช้เงินตระกูลไปแล้ว ต้องรับงานให้ตระกูลในท้องถิ่นหนึ่งปีเต็มหลังจบหรือถอนตัว เงินที่ยังไม่ได้ใช้จะคืนตระกูลเดิม`
+    : `${house} reserves ${m(q.sponsor.amount)} for tuition. The remainder uses ${m(q.family)} from family, ${m(q.personal)} from personal funds and ${m(q.loan)} from an education loan. If any house funds are spent, one full year of local house service is due after completion or withdrawal. Unused house silver returns to that house.`;
+}
 export function talentAssessmentText(
   life: ExpandedLife,
   language: Language,

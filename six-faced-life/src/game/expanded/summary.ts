@@ -11,6 +11,7 @@ import { careerNodeText } from '../../i18n/careers';
 import type { CareerNodeId } from './career-catalogue';
 import { socialText } from '../../i18n/social';
 import { successionHistory, successionDetails } from '../../i18n/succession';
+import { houseEducationText, houseStandingText } from '../../i18n/houses';
 export function legacySummary(l: LegacyLife) {
   return {
     age: l.age,
@@ -103,6 +104,14 @@ export function buildSummary(l: ExpandedLife): CompletedSummary {
         ? `เงินเมื่อสิ้นชีวิต ${l.coins} เหรียญ เงินสูงสุด ${x.economy.peak} เหรียญ ทรัพย์สิน ${x.economy.assets} ผลงานสำคัญ ${x.standing.feats.length} รายการ ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "ได้รับ" : "สูญเสีย"}`).join("; ")}`
         : `Coins at death: ${l.coins}; peak personal wealth: ${x.economy.peak}; assets: ${x.economy.assets}; distinct major contributions: ${x.standing.feats.length}. ${x.standing.titles.map((t) => `K${t.year}: ${t.position} ${t.won ? "won" : "lost"}`).join("; ")}`,
     ].map((text, i) => {
+      if (i === 3) {
+        const local = houseStandingText(l, lang).join(" ");
+        if (local) text = local + " " + text;
+      }
+      if (i === 2) {
+        const sponsorship = houseEducationText(l, lang);
+        if (sponsorship) text = sponsorship + " " + text;
+      }
       if (i === 3 && x.succession) {
         const details = successionDetails(l, lang);
         if (x.succession.crisis.revealed) details.unshift(successionHistory(l, lang));

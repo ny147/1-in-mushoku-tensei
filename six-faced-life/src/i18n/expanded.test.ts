@@ -10,6 +10,37 @@ import { getDecision, choose, openActivity } from "../game/engine";
 import { applySuccessionYear } from "../game/expanded/succession-events";
 import { accede } from "../game/expanded/governance";
 import { recognizeAtCourt } from "../game/expanded/crown-service";
+import { activateHouseState } from "../game/expanded/house-state";
+import { advanceHouseYear } from "../game/expanded/house-service";
+import { introducePartner } from "../game/expanded/family";
+import { associationForRegion } from "../game/expanded/social-state";
+
+function houseFixture(id: string) {
+  const life = createExpandedLife({seed: 6, region: "asura"});
+  life.phase = "alive";
+  life.age = 20;
+  life.expansion.standing.status = "noble";
+  life.expansion.social!.debt = null;
+  if (id === "royal-marriage") {
+    life.expansion.social!.royalHouse = "asura";
+    life.expansion.social!.association = associationForRegion("asura", "birth", life.expansion.birthYear, "asura");
+    Object.assign(life.expansion.succession!.crisis, {route: "news", revealed: true, outcome: "news"});
+    introducePartner(life)!.strength = 85;
+    return openActivity(activateHouseState(life), "royal-marriage");
+  }
+  life.expansion.social!.association = associationForRegion("asura", "earned", life.expansion.birthYear + life.age);
+  const active = activateHouseState(life);
+  if (id === "house-petition") return openActivity(active, "house-petition");
+  active.age += 3;
+  advanceHouseYear(active);
+  if (id === "house-standing") {
+    const provider = active.expansion.house!.service.providers["asura-local"]!;
+    provider.refusals = 3;
+    provider.request!.status = "final";
+  }
+  active.pending = `expanded.${id}`;
+  return active;
+}
 
 function politicalFixture(id: string) {
   const life = createExpandedLife({seed: 6, region: "asura"});
@@ -54,8 +85,9 @@ function politicalFixture(id: string) {
 describe("expanded bilingual catalogue", () => {
   it("provides original Thai titles, bodies, options and outcomes for every registered event", () => {
     for (const id of EXPANDED_EVENT_IDS) {
-      if (/^(asura-|succession-withdrawal$|crown-|govern-)/.test(id)) {
-        const decision = getDecision(politicalFixture(id));
+      if (/^(asura-|succession-withdrawal$|crown-|govern-|house-|royal-marriage$)/.test(id)) {
+        const fixture = /^(house-|royal-marriage$)/.test(id) ? houseFixture(id) : politicalFixture(id);
+        const decision = getDecision(fixture);
         expect(decision?.id, id).toBe(`expanded.${id}`);
         const thai = expandedDecisionText(decision!, "th");
         expect(thai.title).toMatch(/[ก-๙]/);

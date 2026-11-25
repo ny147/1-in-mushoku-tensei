@@ -119,6 +119,7 @@ export interface CompletedSummary {
   narrative: { en: string; th: string };
 }
 export interface ExpandedState {
+  house?: import("./house-state").HouseState;
   succession?: import("./succession-state").SuccessionState;
   social?: import('./social-state').SocialState;
   careerPaths?: import('./career-state').CareerPathState;

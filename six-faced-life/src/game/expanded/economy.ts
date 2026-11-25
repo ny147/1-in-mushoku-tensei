@@ -8,8 +8,10 @@ import { worldYear, fact } from "./facts";
 import { clamp, draw } from "./random";
 import { annualIncomeExpanded } from "./careers";
 import { isRuler } from "./governance";
-import { isCourtServiceYear } from "./crown-service";
+import { serviceAssignment, type ServiceAssignment } from "./service-priority";
 import { regionalConflict } from "./history";
+import { houseProtectionActive } from "./house-service";
+import { royalMarriageProtection } from "./royal-marriage";
 import { applyHouseholdDebtYear, housingSurcharge, debtServiceYear, type DebtServiceYear } from "./parental-debt";
 export interface Risk {
   cause: string;
@@ -18,7 +20,7 @@ export interface Risk {
 export interface EconomyYear extends EducationYear {
   additionalShelterCosts: number;
 }
-export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = debtServiceYear(life, worldYear(life))): EconomyYear {
+export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = debtServiceYear(life, worldYear(life)), assignment: ServiceAssignment = serviceAssignment(life)): EconomyYear {
   const x = life.expansion,
     e = x.economy,
     year = worldYear(life);
@@ -52,7 +54,7 @@ export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = 
     return {worldYear: year, creditorService:false, additionalShelterCosts:0, earnedIncome:0,
       necessaryEducationCosts:0, dependantCosts, universityAttendance:false, unmetNeeds:e.lastExpenses < dependantCosts};
   }
-  const income = annualIncomeExpanded(life, service.eligible);
+  const income = annualIncomeExpanded(life, service.eligible, assignment);
   const householdDeduction = applyHouseholdDebtYear(life);
   const additionalShelterCosts = housingSurcharge(life, year);
   const attending = x.education.stage === "university" && !isRuler(life);
@@ -66,14 +68,18 @@ export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = 
   // Scholarships pay actual necessities, never deposit an allowance in the purse.
   if (attending && x.education.scholarship)
     resources += 18;
+  let prepaidTuition = 0;
   if (attending && !x.education.scholarship) {
     let grant = Math.min(58, x.education.budget);
     if (
       x.finance?.purposes.university &&
-      !consumeEducation(life, "university", grant, year)
+      !consumeEducation(life, "university", grant, year, Math.min(tuition, grant))
     )
       grant = 0;
-    resources += grant;
+    // A sponsored enrollment's tuition is paid before the living allowance enters the purse.
+    if (x.house?.sponsorship?.status === "studying" && x.house.sponsorship.purpose === "university")
+      prepaidTuition = Math.min(tuition, grant);
+    resources += grant - prepaidTuition;
     x.education.budget -= grant;
   }
   const use = (cost: number) => {
@@ -84,7 +90,7 @@ export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = 
   e.unmetFood = use(8);
   e.unmetShelter = use(6 + additionalShelterCosts);
   e.unmetCare = use(4);
-  const unmetExtra = use(extras);
+  const unmetExtra = use(extras - prepaidTuition);
   e.lastIncome = income;
   e.lastExpenses =
     18 + additionalShelterCosts + extras -
@@ -121,7 +127,7 @@ export function applyEconomyYear(life: ExpandedLife, service: DebtServiceYear = 
     unmetNeeds: e.unmetFood + e.unmetShelter + e.unmetCare + unmetExtra > 0,
   };
 }
-export function survivalRisks(life: ExpandedLife): Risk[] {
+export function survivalRisks(life: ExpandedLife, assignment: ServiceAssignment = serviceAssignment(life)): Risk[] {
   const e = life.expansion.economy,
     year = worldYear(life);
   const persecution =
@@ -146,16 +152,17 @@ export function survivalRisks(life: ExpandedLife): Risk[] {
         (life.stats.health < 35 ? 2 : 1) *
         (life.focus === "rest" ? 0.7 : 1),
     },
-    { cause: "unsafe-work", chance: e.unsafeWork && !inCustody(life) && !isRuler(life) && !isCourtServiceYear(life) ? HAZARDS.unsafe : 0 },
+    { cause: "unsafe-work", chance: e.unsafeWork && !inCustody(life) && !isRuler(life) &&
+        (assignment === null || assignment === "creditor") ? HAZARDS.unsafe : 0 },
     {
       cause: "violence",
-      chance: violence * (year <= e.protectionUntil ? 0.5 : 1),
+      chance: violence * (year <= e.protectionUntil || houseProtectionActive(life) || royalMarriageProtection(life) ? 0.5 : 1),
     },
     { cause: "travel", chance: !inCustody(life) && year <= e.travelUntil ? HAZARDS.travel : 0 },
   ];
 }
-export function checkSurvival(life: ExpandedLife): string | null {
-  for (const risk of survivalRisks(life))
+export function checkSurvival(life: ExpandedLife, assignment: ServiceAssignment = serviceAssignment(life)): string | null {
+  for (const risk of survivalRisks(life, assignment))
     if (draw(life) < clamp(risk.chance, 0, 0.9)) return risk.cause;
   return life.age >= life.deathAge
     ? "aging"

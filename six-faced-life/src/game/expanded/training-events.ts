@@ -1,5 +1,5 @@
-import type { Choice, Decision, ExpandedLife } from "../types";
-import { ORDINARY_ROLES, isOrdinaryRole } from "./career-access";
+import type { Choice, Decision, ExpandedLife, Language } from "../types";
+import { ORDINARY_ROLES, isOrdinaryRole, type TrainingMode } from "./career-access";
 import { ensureEducationAccess, emptyTraining } from "./education-access-state";
 import {
   quoteTraining,
@@ -22,9 +22,61 @@ import { careerPathText } from '../../i18n/careers';
 import {
   courseDescription,
   fundingDescription,
+  sponsorshipDescription,
   ew,
   type EducationPair,
 } from "../../i18n/education";
+import { houseSponsorName } from "../../i18n/houses";
+import { moneyText } from "../../i18n/money";
+import type { EducationQuote } from "./education-finance";
+
+// The live decision binds the displayed terms to its action ID. A stale button
+// can therefore never agree to a different provider, loan or course on refresh.
+const sponsorPrefix = "sponsor-enroll-";
+function sponsorAction(q: EducationQuote & { mode?: TrainingMode }): string | null {
+  const s = q.sponsor;
+  if (!s) return null;
+  const mode = q.mode ?? "university";
+  return sponsorPrefix + [s.providerId, s.year, s.purpose, s.amount, mode,
+    q.remainingUnits, q.school ?? "none", q.total, q.family, q.personal, q.loan].join("_");
+}
+
+function trainingRefundDescription(life: ExpandedLife, language: Language): string {
+  const contract = life.expansion.house?.sponsorship;
+  const general = ew("refund", language);
+  if (contract?.status !== "studying" || life.expansion.training?.active !== contract.purpose) return general;
+  const house = houseSponsorName(contract.providerId, language);
+  const unused = moneyText(contract.amount - contract.spent, language);
+  return language === "th"
+    ? `${general} คืนเงิน ${unused}ให้${house}${contract.spent > 0 ? " และยังต้องรับงานให้ตระกูลหนึ่งปี" : ""}`
+    : `${general} ${unused} in unused tuition returns to the ${house}.${contract.spent > 0 ? " One year of house service remains due." : ""}`;
+}
+
+export function houseSponsorshipChoiceOutcome(before: ExpandedLife, after: ExpandedLife, id: string, language: Language): string | null {
+  const [, key, action] = id.split(".");
+  const contract = after.expansion.house?.sponsorship;
+  const th = language === "th";
+  if ((key === "training-quote" || key === "university") && action?.startsWith(sponsorPrefix)) {
+    if (!contract || contract.status !== "studying" || before.expansion.house?.sponsorship?.status === "studying")
+      return th ? "ยืนยันเงื่อนไขไม่ได้ จึงยังไม่ได้เริ่มเรียนหรือกันเงินไว้" : "The terms could not be confirmed. No enrollment or reservation was made.";
+    const house = houseSponsorName(contract.providerId, language);
+    return th
+      ? `เริ่มเรียนแล้ว ${house}กันเงิน ${moneyText(contract.amount, language)}ไว้จ่ายค่าเรียน`
+      : `Enrolled with ${moneyText(contract.amount, language)} reserved for tuition by the ${house}.`;
+  }
+  const switched = key === "training-quote" && (action === "enroll-funded" || action === "enroll-loan");
+  const withdrew = key === "training" && action === "withdraw";
+  if ((switched || withdrew) && before.expansion.house?.sponsorship?.status === "studying" &&
+    contract && contract.status !== "studying") {
+    const house = houseSponsorName(contract.providerId, language);
+    const unused = contract.amount - contract.spent;
+    const returned = moneyText(unused, language);
+    return th
+      ? `${switched ? "เปลี่ยนหลักสูตรแล้ว" : "ถอนตัวแล้ว"}${unused ? ` คืนเงิน ${returned}ให้${house}` : ""}${contract.status === "owed" ? " ยังต้องรับงานให้ตระกูลหนึ่งปี" : ""}`
+      : `${switched ? "Switched training courses." : "Withdrew from training."}${unused ? ` Returned ${returned} to the ${house}.` : ""}${contract.status === "owed" ? " One year of house service is due." : ""}`;
+  }
+  return null;
+}
 
 export function trainingDecision(l: ExpandedLife): Decision | null {
   const key = l.pending?.slice(9);
@@ -66,6 +118,18 @@ export function trainingDecision(l: ExpandedLife): Decision | null {
       outcome: ew("recorded", "th"),
     };
   };
+  const sponsorOption = (q: EducationQuote & { mode?: TrainingMode }) => {
+    const action = sponsorAction(q);
+    if (!action) return;
+    option(
+      action,
+      q.loan ? [
+        `Accept sponsorship and borrow ${moneyText(q.loan, "en")}`,
+        `รับทุนตระกูลและกู้ ${moneyText(q.loan, "th")}`,
+      ] : ["Accept sponsorship and enroll", "รับทุนตระกูลและเริ่มเรียน"],
+      [sponsorshipDescription(q, "en"), sponsorshipDescription(q, "th")],
+    );
+  };
   let title: EducationPair = [ew("title"), ew("title", "th")],
     text: EducationPair = [ew("intro"), ew("intro", "th")];
   if (key === "training") {
@@ -102,7 +166,7 @@ export function trainingDecision(l: ExpandedLife): Decision | null {
       option(
         "withdraw",
         [ew("withdraw"), ew("withdraw", "th")],
-        [ew("refund"), ew("refund", "th")],
+        [trainingRefundDescription(l, "en"), trainingRefundDescription(l, "th")],
       );
     }
     for (const role of ORDINARY_ROLES) {
@@ -168,8 +232,9 @@ export function trainingDecision(l: ExpandedLife): Decision | null {
             `กู้ ${q.loan} เหรียญและเริ่มฝึก`,
           ]
         : ["Use quoted funds and enroll", "ใช้เงินตามใบเสนอและเริ่มฝึก"],
-      [ew("refund"), ew("refund", "th")],
+      [trainingRefundDescription(l, "en"), trainingRefundDescription(l, "th")],
     );
+    sponsorOption(quoteTraining(l, role, mode, true));
     option("back", [ew("back"), ew("back", "th")]);
   } else if (key === "training-placement") {
     const role = t.selection?.role;
@@ -225,6 +290,7 @@ export function trainingDecision(l: ExpandedLife): Decision | null {
         text,
         missing.length > 0 || !!t.active,
       );
+    sponsorOption(universityQuote(l, true));
   }
   if(key==='training' && l.expansion.careerPaths?.selection) {
     title=[careerPathText(l.expansion.careerPaths.selection,'en'),careerPathText(l.expansion.careerPaths.selection,'th')];
@@ -264,6 +330,10 @@ export function applyTrainingChoice(l: ExpandedLife, id: string): boolean {
         quote: universityQuote(l),
         borrow: action === "enroll-loan",
       });
+    if (action.startsWith(sponsorPrefix)) {
+      const quote = universityQuote(l, true);
+      if (sponsorAction(quote) === action) enrollUniversity(l, { quote, borrow: quote.loan > 0 });
+    }
     return true;
   }
   if (action === "later") return true;
@@ -302,6 +372,10 @@ export function applyTrainingChoice(l: ExpandedLife, id: string): boolean {
         quoteTraining(l, t.selection.role, t.selection.mode),
         action === "enroll-loan",
       );
+    if (action.startsWith(sponsorPrefix)) {
+      const quote = quoteTraining(l, t.selection.role, t.selection.mode, true);
+      if (sponsorAction(quote) === action) enrollTraining(l, quote, quote.loan > 0);
+    }
   } else if (
     key === "training-placement" &&
     action.startsWith("accept-") &&

@@ -2,6 +2,7 @@ import type { Decision, ExpandedLife } from "../types";
 import { worldYear } from "./facts";
 import { inCustody, permanentlyExiled } from "./succession-restrictions";
 import { validOffice, type RulerOffice } from "./governance";
+import { serviceAssignment, servicePause, type ServiceAssignment, type ServicePause } from "./service-priority";
 
 interface CrownRequest {
   openedYear: number;
@@ -9,6 +10,8 @@ interface CrownRequest {
   extended: boolean;
   status: "open" | "service" | "served" | "paid" | "refused" | "final" | "relinquished";
   resolutionYear: number | null;
+  acceptedYear?: number;
+  pauseReason?: ServicePause;
 }
 export interface CourtState {
   recognitionYear: number | null;
@@ -34,10 +37,7 @@ function activeCourt(life: ExpandedLife) {
     c.relinquishedYear === null && !permanentlyExiled(life) ? c : null;
 }
 function availableForService(life: ExpandedLife) {
-  const x = life.expansion;
-  return !inCustody(life) && life.region === "asura" && life.stats.health >= 20 &&
-    x.social?.debt?.status !== "service" && x.education.stage !== "university" &&
-    !(x.training?.active && !x.training.paused && x.training.mode === "full-time");
+  return !servicePause(life, "asura") && serviceAssignment(life) === null;
 }
 export function canPetition(life: ExpandedLife): boolean {
   const c = activeCourt(life);
@@ -45,19 +45,23 @@ export function canPetition(life: ExpandedLife): boolean {
     c.nextPetitionYear !== null && worldYear(life) >= c.nextPetitionYear;
 }
 export function isCourtServiceYear(life: ExpandedLife): boolean {
-  const r = activeCourt(life)?.request, year = worldYear(life);
-  return !!r && (r.status === "served" && r.resolutionYear === year ||
-    r.status === "service" && year >= r.dueYear && availableForService(life));
+  return serviceAssignment(life) === "crown";
 }
-export function advanceCourtYear(life: ExpandedLife) {
+export function advanceCourtYear(life: ExpandedLife, assignment: ServiceAssignment = serviceAssignment(life)) {
   const c = activeCourt(life), year = worldYear(life);
   if (!c || c.recognitionYear === null) return;
   const r = c.request;
   if (r && ["service", "open", "final"].includes(r.status)) {
     if (year < r.dueYear) return;
-    if (!availableForService(life)) {
+    const pause = r.status === "service" && assignment === "crown" ? null : servicePause(life, "asura") ??
+      ((r.status === "service" ? assignment !== "crown" : assignment !== null) ? "commitment" : null);
+    if (pause) {
       r.dueYear = year + 1;
-    } else if (r.status === "service") {
+      r.pauseReason = pause;
+      return;
+    }
+    delete r.pauseReason;
+    if (r.status === "service") {
       r.status = "served";
       r.resolutionYear = year;
       c.refusals = 0;
@@ -134,7 +138,7 @@ export function applyCourtChoice(life: ExpandedLife, id: string): boolean {
   }
   if (!r) return false;
   switch (action) {
-    case "service": r.status = "service"; r.dueYear = year + 1; break;
+    case "service": r.status = "service"; r.acceptedYear = year; r.dueYear = year + 1; break;
     case "extend": r.extended = true; r.dueYear = year + 1; break;
     case "pay": life.coins -= 12; r.status = "paid"; r.resolutionYear = year; break;
     case "refuse":
@@ -166,6 +170,9 @@ export function validCourtState(value: unknown, life: ExpandedLife): value is Co
   if (typeof r !== "object" || !past(r.openedYear) || r.openedYear < c.recognitionYear + 3 ||
     (r.openedYear - c.recognitionYear) % 3 !== 0 || !past(r.dueYear, year + 1) || r.dueYear < r.openedYear ||
     typeof r.extended !== "boolean" || !["open","service","served","paid","refused","final","relinquished"].includes(r.status)) return false;
+  if (r.acceptedYear !== undefined && (!past(r.acceptedYear) || r.acceptedYear < r.openedYear ||
+      r.acceptedYear >= r.dueYear || !["service", "served"].includes(r.status))) return false;
+  if (r.pauseReason !== undefined && !["custody", "governing", "health", "study", "region", "exile", "commitment"].includes(r.pauseReason)) return false;
   const resolved = ["served","paid","refused","relinquished"].includes(r.status);
   return (resolved ? past(r.resolutionYear) && r.resolutionYear! >= r.openedYear : r.resolutionYear === null) &&
     (r.status !== "final" || c.refusals === 3) &&

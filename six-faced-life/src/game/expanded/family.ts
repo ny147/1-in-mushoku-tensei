@@ -11,6 +11,7 @@ import { FIRST_NAMES, RACES } from "../world";
 import { draw, clamp, sampleCount } from "./random";
 import { generateGenetics } from "./genetics";
 import { fact, worldYear } from "./facts";
+import { closeRoyalMarriageAlliance } from "./royal-marriage";
 const familyStream = (l: ExpandedLife) => ({
   get rng() {
     return l.expansion.familyRng;
@@ -112,6 +113,7 @@ export function divorce(l: ExpandedLife, id: string) {
   if (!m) return;
   m.end = worldYear(l);
   m.reason = "divorce";
+  closeRoyalMarriageAlliance(l, m);
   const p = l.expansion.family.people.find((p) => p.id === id);
   if (p) {
     p.partner = null;
@@ -296,6 +298,7 @@ export function recordFamilyDeath(
     if (m.person === id && m.end === null) {
       m.end = year;
       m.reason = "widowhood";
+      closeRoyalMarriageAlliance(l, m);
     }
   fact(l, "family", code, p.name);
   return true;

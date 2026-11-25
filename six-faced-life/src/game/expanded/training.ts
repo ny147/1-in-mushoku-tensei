@@ -14,6 +14,7 @@ import {
   refundEducation,
   type EducationQuote,
 } from "./education-finance";
+import { sameHouseSponsorship, settleHouseSponsorship } from "./house-sponsorship";
 import { appoint } from "./careers";
 import { requirement, type Requirement } from "./education";
 import { fact, worldYear } from "./facts";
@@ -38,6 +39,7 @@ export function quoteTraining(
   l: ExpandedLife,
   role: OrdinaryRole,
   mode: TrainingMode,
+  useSponsor = false,
 ): TrainingQuote {
   const t = l.expansion.training ?? emptyTraining(l.expansion.birthYear),
     c = trainingDefinition(l,role),
@@ -78,41 +80,39 @@ export function quoteTraining(
       starterFee: c.starterFee,
       remainingUnits,
       school,
-    }),
+    }, useSponsor),
     mode,
     remainingYears: Math.ceil(remainingUnits / (mode === "full-time" ? 2 : 1)),
     income: mode === "full-time" ? 24 : 0,
   };
+}
+export function canEnrollTraining(l: ExpandedLife, role: unknown): role is OrdinaryRole {
+  if (
+    l.phase !== "alive" ||
+    l.age < 15 ||
+    l.expansion.education.stage === "university" ||
+    !isOrdinaryRole(role) ||
+    (!!l.expansion.swords &&
+      !!trainingDefinition(l, role).sword &&
+      !l.expansion.swords.selected &&
+      !l.expansion.swords.legacy)
+  )
+    return false;
+  const t = l.expansion.training;
+  return t?.active !== role && (t?.records[role].completedYear ?? null) === null;
 }
 export function enrollTraining(
   l: ExpandedLife,
   q: TrainingQuote,
   borrow: boolean,
 ): boolean {
+  const role = q.purpose;
+  if (!canEnrollTraining(l, role) || !["full-time", "part-time"].includes(q.mode)) return false;
+  const canonical = quoteTraining(l, role, q.mode, !!q.sponsor);
   if (
-    l.phase !== "alive" ||
-    l.age < 15 ||
-    l.expansion.education.stage === "university" ||
-    !isOrdinaryRole(q.purpose) ||
-    !["full-time", "part-time"].includes(q.mode) ||
-    (!!l.expansion.swords &&
-      !!trainingDefinition(l,q.purpose as OrdinaryRole)?.sword &&
-      !l.expansion.swords.selected &&
-      !l.expansion.swords.legacy)
-  )
-    return false;
-  const role = q.purpose,
-    t = l.expansion.training;
-  if (
-    t?.records[role].completedYear !== null &&
-    t?.records[role].completedYear !== undefined
-  )
-    return false;
-  if (t?.active === role) return false;
-  const canonical = quoteTraining(l, role, q.mode);
-  if (
+    !sameHouseSponsorship(canonical.sponsor, q.sponsor) ||
     Object.keys(canonical).some(
-      (k) =>
+      (k) => k !== "sponsor" &&
         canonical[k as keyof TrainingQuote] !== q[k as keyof TrainingQuote],
     )
   )
@@ -172,7 +172,8 @@ export function applyTrainingYear(l: ExpandedLife): void {
     c = trainingDefinition(l,role),
     r = t.records[role],
     units = Math.min(c.units - r.units, t.mode === "full-time" ? 2 : 1);
-  if (!consumeEducation(l, role, c.tuition ? units * 4 : 0, y)) return;
+  const tuition = c.tuition ? units * 4 : 0;
+  if (!consumeEducation(l, role, tuition, y, tuition)) return;
   t.lastYear = y;
   r.units += units;
   const target = (value: number) => Math.ceil((value * r.units) / c.units);
@@ -225,6 +226,7 @@ export function applyTrainingYear(l: ExpandedLife): void {
         track.spells.push(spell.id);
   }
   if (r.units === c.units) {
+    settleHouseSponsorship(l, role);
     r.completedYear = y;
     t.active = null;
     t.paused = false;

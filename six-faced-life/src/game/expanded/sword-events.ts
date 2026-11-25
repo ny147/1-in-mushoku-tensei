@@ -9,8 +9,8 @@ import {
 } from "./sword-state";
 import { serviceRecord } from "./history";
 import { draw, clamp } from "./random";
-import { fact, worldYear } from "./facts";
-import { creditorServiceReplacesWork } from "./parental-debt";
+import { fact } from "./facts";
+import { serviceAssignment } from "./service-priority";
 import {
   quoteSwordMentor,
   enrollSwordMentor,
@@ -329,7 +329,7 @@ export function swordApproach(
     style = s?.selected;
   if (
     !s ||
-    creditorServiceReplacesWork(l, worldYear(l)) ||
+    serviceAssignment(l) !== null ||
     !style ||
     s.compatibilityDecision?.id === `expanded.${event}` ||
     l.age < 18 ||

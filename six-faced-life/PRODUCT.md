@@ -48,6 +48,13 @@ pledge. Personal outcomes include court recognition, captivity, permanent exile
 and an alternate reign for an eligible opposition claimant. The ruler's personal
 income and the public treasury are separate. Binding decisions pause Watch mode.
 
+Local noble standing opens tuition sponsorship and recurring house duties.
+The chronicle quotes the provider's contribution and service before enrollment.
+Financial hardship can defer a duty. Repeated deliberate refusal can suspend
+benefits and lead to a decision about relinquishing the title. An unmarried
+adult Asuran dynasty character can consider a political alliance with an
+eligible existing prospect. The marriage uses the ordinary family records.
+
 - The birth record places the chronicle action before the origins and household
   disclosure. It keeps identity, known aptitude or assessment state, and any
   immediate survival, material or household liability warning in view.

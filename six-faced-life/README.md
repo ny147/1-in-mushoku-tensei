@@ -154,6 +154,13 @@ choices determine recognition and survival. A defeated supporter may surrender,
 escape, or resist. Asuran exile is permanent. An eligible royal claimant who wins
 can continue the same life as ruler with royal pay and a separate public treasury.
 Lives with an existing succession record retain their earlier history.
+
+Local noble households in Asura, Ranoa and Millis can sponsor eligible tuition
+and request contributions or service. Sponsorship uses the house's reserve.
+If the house pays tuition, one eligible year of service follows study. Unused
+funds return to the house. Adult Asuran dynasty characters can choose political
+marriage with an eligible local prospect after the succession. The alliance
+records temporary protection alongside the existing family record.
 To qualify, be at least 18, have no faction, choose **Develop a friendship** in
 **The people beside you**, and reach 100 magic XP, 100 XP in one sword style, or
 20 standing reputation. Each eligible faction has a 17.5% chance to offer
