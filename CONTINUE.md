@@ -1,3 +1,11 @@
+# House sponsorship and royal marriage — Stage 3 plan, 2026-11-25
+
+PR #35 is merged into `main` at `55315b9`. The
+[Stage 3 implementation plan](docs/superpowers/plans/2026-11-25-house-sponsorship-and-royal-marriage.md)
+is on `codex/house-sponsorship-plan` for review. It specifies provider funds,
+tuition accounting, local duties and political marriage. The proposed balance,
+eligibility and lineage rules await review before application implementation.
+
 # Asura succession crisis — Stage 2, 2026-11-25
 
 The [Stage 2 implementation plan](docs/superpowers/plans/2026-11-23-asura-succession.md)
