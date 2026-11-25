@@ -19,9 +19,9 @@ The focused implementation and App regression run passed 52 tests. The Node
 Chromium on port 5174 exercised sponsored training and withdrawal, a duty
 refusal and royal marriage at 1280 px in English and 390 px in Thai. Keyboard
 choices and reload worked with no horizontal overflow or browser errors.
-The last full suite result before review fixes was 819 passing tests. The
-post-review suite is running. Inspect `six-faced-life/.openai/stage3-handoff-tests.log`
-and rerun `npm test` from `six-faced-life/` if that run did not finish.
+The post-review `npm test` run passed all 822 tests in 94 files.
+Implementation commit `a9c5dc3` is pushed to PR #36, which the user
+reviews and merges manually.
 
 At the November 25 pre-handoff usage check in Asia/Bangkok, 8% of the
 five-hour window and 61% of the weekly window remained. Reset times were
