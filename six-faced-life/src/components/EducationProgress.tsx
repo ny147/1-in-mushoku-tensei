@@ -4,6 +4,7 @@ import { ORDINARY_ROLES, ordinaryEntry } from "../game/expanded/career-access";
 import { expandedLabel } from "../i18n/expanded";
 import { ew } from "../i18n/education";
 import { useI18n } from "../i18n/context";
+import { houseEducationText } from "../i18n/houses";
 export function EducationProgress({
   life,
   onOpenTraining,
@@ -18,6 +19,7 @@ export function EducationProgress({
   if (life.age < 15) return null;
   const active = t?.active,
     record = active ? t.records[active] : null;
+  const sponsorship = houseEducationText(life, language);
   const complete = ORDINARY_ROLES.filter(
     (role) => t?.records[role].completedYear != null,
   );
@@ -37,6 +39,7 @@ export function EducationProgress({
       <h2 id="education-progress-heading">
         {th ? "การฝึกและเงินเพื่อการศึกษา" : "Training and education finance"}
       </h2>
+      {sponsorship && <p>{sponsorship}</p>}
       {active && record ? (
         <>
           <h3>

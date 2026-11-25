@@ -1,3 +1,32 @@
+# House sponsorship and royal marriage — Stage 3, 2026-11-25
+
+PR #35 is merged into `main` at `55315b9`. The
+[Stage 3 implementation plan](docs/superpowers/plans/2026-11-25-house-sponsorship-and-royal-marriage.md)
+was approved and implemented on `codex/house-sponsorship-plan` in
+[PR #36](https://github.com/ny147/1-in-mushoku-tensei/pull/36). Local house
+reserves pay eligible tuition, unused funding returns to its provider, and
+annual settlement credits the oldest eligible service obligation. House
+requests track deliberate refusals. Eligible dynasts can choose a political
+marriage through their existing family records.
+
+A house petition grants protection for the next eligible local annual
+settlement and reopens after three years. Reigning characters defer new
+royal marriage proposals until their reign ends. The current marriage
+candidate must already be local. Prior succession and ancestry stay factual.
+
+The focused implementation and App regression run passed 52 tests. The Node
+22.16.0 production build passed with Vite's bundle-size warning. Isolated
+Chromium on port 5174 exercised sponsored training and withdrawal, a duty
+refusal and royal marriage at 1280 px in English and 390 px in Thai. Keyboard
+choices and reload worked with no horizontal overflow or browser errors.
+The post-review `npm test` run passed all 822 tests in 94 files.
+Implementation commit `a9c5dc3` is pushed to PR #36, which the user
+reviews and merges manually.
+
+At the November 25 pre-handoff usage check in Asia/Bangkok, 8% of the
+five-hour window and 61% of the weekly window remained. Reset times were
+November 26 at 00:02:18 and November 28 at 19:27:19 respectively.
+
 # Asura succession crisis — Stage 2, 2026-11-25
 
 The [Stage 2 implementation plan](docs/superpowers/plans/2026-11-23-asura-succession.md)

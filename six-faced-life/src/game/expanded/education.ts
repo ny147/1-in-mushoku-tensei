@@ -5,6 +5,7 @@ import {
   refundEducation,
   type EducationQuote,
 } from "./education-finance";
+import { sameHouseSponsorship } from "./house-sponsorship";
 import type { ExpandedLife } from "../types";
 import { ensureEducationAccess } from "./education-access-state";
 import { fact } from "./facts";
@@ -67,7 +68,7 @@ export function educationRequirements(life: ExpandedLife): Requirement[] {
     ),
   ];
 }
-export function universityQuote(life: ExpandedLife): EducationQuote {
+export function universityQuote(life: ExpandedLife, useSponsor = false): EducationQuote {
   const scholarship = scholarshipEligible(life);
   return quoteEducation(life, {
     purpose: "university",
@@ -78,7 +79,13 @@ export function universityQuote(life: ExpandedLife): EducationQuote {
     starterFee: 0,
     remainingUnits: 0,
     school: null,
-  });
+  }, useSponsor);
+}
+export function canEnrollUniversity(life: ExpandedLife): boolean {
+  return life.phase === "alive" && canRelocate(life, "ranoa") &&
+    !life.expansion.training?.active &&
+    !["university", "graduated"].includes(life.expansion.education.stage) &&
+    educationRequirements(life).every((r) => r.id === "funding" || r.met);
 }
 export function enrollUniversity(
   life: ExpandedLife,
@@ -86,19 +93,13 @@ export function enrollUniversity(
 ): boolean {
   const x = life.expansion,
     e = x.education;
-  if (
-    life.phase !== "alive" ||
-    !canRelocate(life, "ranoa") ||
-    x.training?.active ||
-    ["university", "graduated"].includes(e.stage) ||
-    educationRequirements(life).some((r) => r.id !== "funding" && !r.met)
-  )
-    return false;
-  const quote = universityQuote(life),
+  if (!canEnrollUniversity(life)) return false;
+  const quote = universityQuote(life, !!funding?.quote.sponsor),
     q = funding?.quote ?? quote;
   if (
+    !sameHouseSponsorship(quote.sponsor, q.sponsor) ||
     Object.keys(quote).some(
-      (k) => quote[k as keyof EducationQuote] !== q[k as keyof EducationQuote],
+      (k) => k !== "sponsor" && quote[k as keyof EducationQuote] !== q[k as keyof EducationQuote],
     )
   )
     return false;

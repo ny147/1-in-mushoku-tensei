@@ -8,9 +8,14 @@ import { debtServiceExitAvailable } from './social-events';
 import { parentalResponsibilityDue } from './parental-debt';
 import { canPetition, isCourtServiceYear } from './crown-service';
 import { isRuler } from './governance';
+import { activateHouseState } from "./house-state";
+import { canPetitionHouse, consumesWorkThisYear } from "./house-service";
+import { quoteRoyalMarriage, prepareRoyalMarriageProposal } from "./royal-marriage";
 
 export const ACTIVITIES = [
   "crown-petition",
+  "house-petition",
+  "royal-marriage",
   "debt-service-exit",
   "career",
   'career-work',
@@ -26,6 +31,8 @@ export const ACTIVITIES = [
 export type Activity = (typeof ACTIVITIES)[number];
 const minimumAge: Record<Activity, number> = {
   "crown-petition": 0,
+  "house-petition": 18,
+  "royal-marriage": 18,
   "debt-service-exit": 15,
   career: 15,
   "career-work": 15,
@@ -48,9 +55,11 @@ export function activitiesBlock(life: ExpandedLife) {
 }
 
 export function activityOpening(life: ExpandedLife, key: Activity) {
+  if (key === "house-petition" && !canPetitionHouse(life)) return {kind: "irrelevant"} as const;
+  if (key === "royal-marriage" && !quoteRoyalMarriage(life)) return {kind: "irrelevant"} as const;
   if (key === "crown-petition" && !canPetition(life)) return { kind: "irrelevant" } as const;
   if (key === "travel" && isRuler(life)) return { kind: "irrelevant" } as const;
-  if ((isRuler(life) || isCourtServiceYear(life)) &&
+  if ((isRuler(life) || isCourtServiceYear(life) || consumesWorkThisYear(life)) &&
     ["career", "career-work", "training", "instruction", "sword-mentor", "university"].includes(key))
     return { kind: "irrelevant" } as const;
   if (key === "debt-service-exit" && !debtServiceExitAvailable(life)) {
@@ -82,9 +91,11 @@ export function openExpandedActivity(
   l: ExpandedLife,
   key: Activity,
 ): ExpandedLife {
-  if (!activityAvailable(l, key)) return l;
-  const n = structuredClone(activateCareerPaths(l));
+  const active = activateHouseState(l);
+  if (!activityAvailable(active, key)) return l;
+  const n = structuredClone(activateCareerPaths(active));
   n.pending = `expanded.${key}`;
   n.expansion.optionalActivity = n.pending;
+  if (key === "royal-marriage") prepareRoyalMarriageProposal(n);
   return getExpandedDecision(n) ? n : l;
 }

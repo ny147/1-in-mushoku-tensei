@@ -10,9 +10,8 @@ import { getProgression } from "../progression";
 import { talentMultiplier } from "./genetics";
 import { grantSwordXp, maxSwordXp, swordMeets } from "./sword-state";
 import { careerVacancy, pathIncome, syncCareerNode } from './career-paths';
-import { creditorServiceReplacesWork } from "./parental-debt";
 import { isRuler } from "./governance";
-import { isCourtServiceYear } from "./crown-service";
+import { serviceAssignment, type ServiceAssignment } from "./service-priority";
 import { inCustody } from "./succession-restrictions";
 
 /** Adopted lives use current legal standing; old outstanding offers keep birth rules. */
@@ -103,7 +102,7 @@ export function appoint(
     isOrdinaryRole(role) &&
     record?.completedYear != null;
   if (
-    isRuler(l) || isCourtServiceYear(l) ||
+    isRuler(l) || replacesCareerWork(l) ||
     l.expansion.education.stage === "university" ||
     !OCCUPATIONS.includes(role) ||
     (!!l.expansion.careerPaths && !careerVacancy(l,role)) ||
@@ -165,11 +164,10 @@ export function appoint(
   syncCareerNode(l);
   return true;
 }
-export function careerIncomeExpanded(l: ExpandedLife, creditorService = creditorServiceReplacesWork(l, worldYear(l))): number {
+export function careerIncomeExpanded(l: ExpandedLife, creditorService = false, assignment: ServiceAssignment = serviceAssignment(l)): number {
   if (inCustody(l)) return 0;
   if (isRuler(l)) return worldYear(l) > l.expansion.succession!.court.office!.accessionYear ? 60 : 0;
-  if (isCourtServiceYear(l)) return 0;
-  if (creditorService) return 0;
+  if (assignment || creditorService) return 0;
   if(l.expansion.careerPaths)return pathIncome(l);
   const t = l.expansion.training;
   if (t?.active && !t.paused && t.mode === "full-time") return 24;
@@ -180,15 +178,15 @@ export function careerIncomeExpanded(l: ExpandedLife, creditorService = creditor
   );
 }
 /** Annual earnings before necessities, shared by accounting and choice feedback. */
-export function annualIncomeExpanded(l: ExpandedLife, creditorService = creditorServiceReplacesWork(l, worldYear(l))): number {
+export function annualIncomeExpanded(l: ExpandedLife, creditorService = false, assignment: ServiceAssignment = serviceAssignment(l)): number {
   if (inCustody(l)) return 0;
-  if (isRuler(l) || isCourtServiceYear(l)) return careerIncomeExpanded(l, creditorService);
-  if (creditorService) return 0;
+  if (isRuler(l)) return careerIncomeExpanded(l, creditorService, assignment);
+  if (assignment || creditorService) return 0;
   if (l.age < 15 || l.expansion.education.stage === "university") return 0;
   const t = l.expansion.training;
   if (t?.active && !t.paused && t.mode === "full-time") return 24;
   return (
-    careerIncomeExpanded(l, creditorService) +
+    careerIncomeExpanded(l, creditorService, assignment) +
     (l.focus === "work" && PAY[l.expansion.career.role] > 0 ? 6 : 0)
   );
 }
@@ -219,8 +217,11 @@ export function promote(l: ExpandedLife): boolean {
   fact(l, "career", "promoted", x.career.role, c.level);
   return true;
 }
-export function applyCareerYear(l: ExpandedLife, attendingFullTime = false) {
-  if (isRuler(l) || isCourtServiceYear(l)) return;
+function replacesCareerWork(life: ExpandedLife, assignment = serviceAssignment(life)): boolean {
+  return assignment !== null && assignment !== "creditor";
+}
+export function applyCareerYear(l: ExpandedLife, attendingFullTime = false, assignment = serviceAssignment(l)) {
+  if (isRuler(l) || replacesCareerWork(l, assignment)) return;
   const x = l.expansion,
     c = x.career.records[x.career.role];
   if (

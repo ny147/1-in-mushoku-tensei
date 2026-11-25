@@ -4,6 +4,7 @@ import { worldYear } from "./facts";
 import { appoint } from "./careers";
 import { clamp } from "./random";
 import { inCustody } from "./succession-restrictions";
+import { serviceAssignment, servicePause, type ServiceAssignment, type ServicePause } from "./service-priority";
 
 /** Only this voluntary transition turns household liability into personal debt. */
 export function acceptParentalDebt(life: ExpandedLife, route: "instalments" | "service" | "refuse"): boolean {
@@ -101,7 +102,7 @@ export interface DebtServiceYear {
   eligible: boolean;
   support: number;
   credit: number;
-  pauseReason: "none" | "health" | "study" | "region" | "occupation" | "not-started" | "ended";
+  pauseReason: "none" | ServicePause | "occupation" | "not-started" | "ended";
 }
 export function quoteDebtService(life: ExpandedLife): DebtServiceQuote | null {
   const s = life.expansion.social, d = s?.debt;
@@ -115,15 +116,14 @@ export function debtServiceSupport(life: ExpandedLife, year: number): number {
   return PARENTAL_DEBT.serviceBasicSupport + dependants;
 }
 /** Read-only snapshot retained throughout the annual accounting cycle. */
-export function debtServiceYear(life: ExpandedLife, year: number): DebtServiceYear {
+export function debtServiceYear(life: ExpandedLife, year: number, assignment: ServiceAssignment = serviceAssignment(life, year)): DebtServiceYear {
   const x = life.expansion, d = x.social?.debt, s = d?.service;
   let pauseReason: DebtServiceYear["pauseReason"] = "none";
   if (life.phase !== "alive" || !d || !s || d.status !== "service" || s.endedYear !== null) pauseReason = "ended";
   else if (life.age < PARENTAL_DEBT.personalAge || year <= s.startedYear) pauseReason = "not-started";
-  else if (life.stats.health < PARENTAL_DEBT.serviceHealth) pauseReason = "health";
-  else if (x.education.stage === "university" || x.training?.active && !x.training.paused && x.training.mode === "full-time") pauseReason = "study";
-  else if (life.region !== s.region) pauseReason = "region";
-  else if (x.career.role !== "laborer") pauseReason = "occupation";
+  else if (assignment !== "creditor") {
+    pauseReason = servicePause(life, s.region) ?? (x.career.role !== "laborer" ? "occupation" : "commitment");
+  }
   const eligible = pauseReason === "none";
   return { year, eligible, pauseReason, support: eligible ? debtServiceSupport(life, year) : 0, credit: eligible ? Math.min(PARENTAL_DEBT.annualServiceCredit, d!.balance) : 0 };
 }
@@ -138,7 +138,13 @@ export function creditDebtServiceYear(life: ExpandedLife, year: DebtServiceYear)
   const d = life.expansion.social?.debt, s = d?.service;
   if (life.phase !== "alive" || !d || !s || d.status !== "service" || s.endedYear !== null || year.year !== worldYear(life) || year.year <= s.startedYear || year.year <= s.lastYear) return;
   s.lastYear = year.year;
-  if (!year.eligible) return;
+  if (!year.eligible) {
+    if (!["none", "ended", "not-started"].includes(year.pauseReason)) {
+      s.lastPauseReason = year.pauseReason as ServicePause | "occupation";
+    }
+    return;
+  }
+  delete s.lastPauseReason;
   const credit = Math.min(d.balance, year.credit, PARENTAL_DEBT.annualServiceCredit);
   d.balance -= credit; d.servicePaid += credit; s.completedYears++;
   s.lastCreditYear = year.year;

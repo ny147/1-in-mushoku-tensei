@@ -2,8 +2,10 @@ import { trainingDecision, applyTrainingChoice } from "./training-events";
 import { socialDecision, applySocialChoice } from "./social-events";
 import { crisisDecision, applyCrisisChoice } from "./succession-events";
 import { restrictionDecision, restrictDestinations, applyRestrictionChoice } from "./succession-restrictions";
-import { courtDecision, applyCourtChoice } from "./crown-service";
+import { courtDecision, applyCourtChoice, courtCard, courtOption } from "./crown-service";
 import { governanceDecision, applyGovernanceChoice } from "./governance";
+import { houseServiceDecision, applyHouseServiceChoice, consumesWorkThisYear } from "./house-service";
+import { royalMarriageDecision, applyRoyalMarriageChoice } from "./royal-marriage";
 import { careerProject, applyCareerProject } from './career-work';
 import { careerDecision, applyCareerChoice } from './career-events';
 import {
@@ -62,7 +64,7 @@ import { draw, clamp } from "./random";
 import { REGIONS } from "../world";
 import { historicalRecord, canServeHistory, serviceRecord } from "./history";
 import { recordNobleAssociation } from "./social-state";
-import { creditorServiceReplacesWork } from "./parental-debt";
+import { serviceAssignment } from "./service-priority";
 export const MANUAL = new Set([
   "orsted",
   "hitogami",
@@ -91,15 +93,26 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
 // Sword migration stores and validates the original decision payload.
 export function getExpandedDecisionSnapshot(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
+  if (life.expansion.house) {
+    const house = houseServiceDecision(life) ?? royalMarriageDecision(life);
+    if (house) return house;
+  }
   if (life.expansion.succession) {
     const political = restrictionDecision(life) ?? crisisDecision(life) ?? courtDecision(life) ?? governanceDecision(life);
     if (political) return political;
   }
   const social = socialDecision(life);
   if (social) return social;
+  if (careerDecisionDeferred(life, life.pending)) {
+    const decision = courtCard(life.pending, ["Work and training deferred", "พักงานและการฝึกชั่วคราว"],
+      ["House service takes the place of ordinary work this year.", "งานรับใช้สกุลแทนงานประจำในปีนี้"]);
+    courtOption(decision, "later", ["Close this opportunity", "ปิดโอกาสนี้"],
+      ["Return to your chronicle.", "กลับไปยังบันทึกชีวิต"]);
+    return decision;
+  }
   const saved = life.expansion.swords?.compatibilityDecision;
   if (saved?.id === life.pending) {
-    if (["expanded.service", "expanded.assignment"].includes(saved.id) && creditorServiceReplacesWork(life, worldYear(life)))
+    if (["expanded.service", "expanded.assignment"].includes(saved.id) && serviceAssignment(life))
       return { ...saved, choices: saved.choices.map(c => c.id.endsWith(".later") ? c : { ...c, disabled: true }) };
     return saved;
   }
@@ -367,7 +380,7 @@ export function getExpandedDecisionSnapshot(life: ExpandedLife): Decision | null
   }
   if (life.age < 18)
     choices = choices.filter((c) => !c.id.endsWith(".service"));
-  if ((key === "service" || key === "assignment") && creditorServiceReplacesWork(life, y))
+  if ((key === "service" || key === "assignment") && serviceAssignment(life, y))
     choices = choices.map(c => c.id.endsWith(".later") ? c : { ...c, disabled: true });
   if (["succession", "conflict"].includes(key) && !canServeHistory(life, key))
     choices = choices.filter((c) => !c.id.endsWith(".service"));
@@ -425,10 +438,28 @@ export function appointmentAvailable(life: ExpandedLife, role: string) {
   };
   return draw(stream) < (role === "professor" ? 0.02 : 0.1);
 }
+const workDecisions = new Set(["expanded.work", "expanded.career", "expanded.career-path",
+  "expanded.career-work", "expanded.training", "expanded.training-quote", "expanded.training-placement"]);
+function careerDecisionDeferred(life: ExpandedLife, id: string): boolean {
+  return workDecisions.has(id) && consumesWorkThisYear(life);
+}
+
 export function applyExpandedChoice(
   life: ExpandedLife,
   id: string,
 ): string | null {
+  if (careerDecisionDeferred(life, id.slice(0, id.lastIndexOf(".")))) return null;
+  if (life.expansion.house && (id.startsWith("expanded.house-") || id.startsWith("expanded.royal-marriage."))) {
+    const decisionId = id.slice(0, id.lastIndexOf("."));
+    const previous = life.pending;
+    life.pending = decisionId;
+    try {
+      applyHouseServiceChoice(life, id) || applyRoyalMarriageChoice(life, id);
+    } finally {
+      life.pending = previous;
+    }
+    return null;
+  }
   if (life.expansion.succession) {
     if (applyRestrictionChoice(life, id)) return null;
     if (id.startsWith("expanded.asura-")) return applyCrisisChoice(life, id);
@@ -450,7 +481,7 @@ export function applyExpandedChoice(
   const [, key, action] = id.split("."),
     x = life.expansion,
     y = worldYear(life);
-  if ((key === "service" || key === "assignment") && action !== "later" && creditorServiceReplacesWork(life, y)) return null;
+  if ((key === "service" || key === "assignment") && action !== "later" && serviceAssignment(life, y)) return null;
   if ((key === "service" || key === "assignment") && isSwordStyle(action))
     return applySwordApproach(life, key, action);
   const queue = (event: string) => {

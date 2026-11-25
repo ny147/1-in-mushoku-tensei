@@ -2,6 +2,7 @@ import type { ExpandedLife, RegionId } from "../types";
 import { SOCIAL_BIRTH } from "./balance";
 import { draw } from "./random";
 import { worldYear } from "./facts";
+import type { ServicePause } from "./service-priority";
 
 export interface HouseAssociation {
   id: "asura-local" | "ranoa-local" | "millis-local" | "asura-royal";
@@ -26,6 +27,7 @@ export interface DebtService {
   lastYear: number;
   /** Missing only in pre-field saves; null means no service year credited yet. */
   lastCreditYear?: number | null;
+  lastPauseReason?: ServicePause | "occupation";
   endedYear: number | null;
   endReason: "completed" | "exit" | "death" | null;
 }

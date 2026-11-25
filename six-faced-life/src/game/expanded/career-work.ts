@@ -5,7 +5,7 @@ import { worldYear, fact } from "./facts";
 import { draw, clamp } from "./random";
 import { grantSwordXp } from "./sword-state";
 import { talentMultiplier } from "./genetics";
-import { creditorServiceReplacesWork } from "./parental-debt";
+import { serviceAssignment } from "./service-priority";
 export type CareerProjectKind = "safe" | "risk" | "research";
 export interface CareerProjectQuote {
   branch: CareerBranchId;
@@ -27,6 +27,7 @@ export function creditCareerWork(
   l: ExpandedLife,
   year: number,
   attendance: { fullTime: boolean; university: boolean },
+  assignment = serviceAssignment(l, year),
 ): void {
   const s = l.expansion.careerPaths,
     n = careerNode(l);
@@ -40,7 +41,7 @@ export function creditCareerWork(
     return;
   s.lastWorkYear = year;
   if (
-    !n ||
+    !n || assignment !== null && assignment !== "creditor" ||
     attendance.fullTime ||
     attendance.university ||
     l.expansion.education.stage === "university"
@@ -81,7 +82,7 @@ export function careerProject(
     !["safe", "risk", "research"].includes(kind) ||
     l.phase !== "alive" ||
     l.age < 15 ||
-    creditorServiceReplacesWork(l, worldYear(l)) ||
+    serviceAssignment(l) !== null ||
     l.expansion.education.stage === "university" ||
     s.lastProjectYear >= worldYear(l) ||
     (t?.active && !t.paused && t.mode === "full-time")

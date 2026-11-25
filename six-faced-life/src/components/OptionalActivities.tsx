@@ -7,6 +7,8 @@ import {
 } from "../game/expanded/activities";
 import { useI18n } from "../i18n/context";
 const names: Record<Activity, [string, string]> = {
+  "house-petition": ["Petition your house", "ยื่นคำร้องต่อสกุล"],
+  "royal-marriage": ["Review a royal marriage proposal", "พิจารณาข้อเสนอสมรสทางราชวงศ์"],
   "crown-petition": ["Petition for household relief", "ยื่นคำร้องขอเงินช่วยเหลือครัวเรือน"],
   "debt-service-exit": ["Review creditor service", "ทบทวนสัญญาทำงานใช้หนี้"],
   career: ["Browse careers", "ดูอาชีพ"],

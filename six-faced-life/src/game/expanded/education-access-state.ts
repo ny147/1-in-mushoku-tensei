@@ -127,7 +127,7 @@ export function validateEducationAccess(
         !obj(r.reserved) ||
         !["family", "personal", "loan"].every((k) =>
           int((r.reserved as Record<string, unknown>)[k]),
-        )
+        ) || (r.reserved.sponsor !== undefined && (!obj(x.house) || !int(r.reserved.sponsor, 48)))
       )
         return false;
       const { borrowed, repaid, cancelled, balance, closedUnpaid } =
@@ -166,7 +166,8 @@ export function validateEducationAccess(
     const remaining =
       funding.reserved.family +
       funding.reserved.personal +
-      funding.reserved.loan;
+      funding.reserved.loan +
+      (funding.reserved.sponsor ?? 0);
     if (
       remaining !==
       (course.tuition ? (course.units - record.units) * 4 : 0) +
