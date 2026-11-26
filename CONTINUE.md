@@ -1,3 +1,15 @@
+# Asura oath eligibility regression — 2026-11-26
+
+Branch `codex/origin-standing-audit` starts at `d4cb8ff`. This test-only
+follow-up to #9 compares matched poor Asuran characters in K424–K425.
+Only the fixture's present standing differs. The noble receives a manual
+oath at 18; the commoner learns the result as news at 19 without a reward.
+There are no simulation or balance changes.
+
+A direct engine probe on the base confirmed both routes and the commoner's
+unchanged purse after reading the result. The PR still needs the Vitest and
+production build checks. Review before merging; no deployment was requested.
+
 # House sponsorship and royal marriage — Stage 3, 2026-11-25
 
 PR #35 is merged into `main` at `55315b9`. The

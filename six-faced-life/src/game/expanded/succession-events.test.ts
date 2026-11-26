@@ -122,3 +122,32 @@ it("keeps sheltered children outside adult outcomes after an eighteenth birthday
   expect(l.coins).toBe(purse);
   expect(absent.home).toBe("demon");
 });
+
+it("opens the K424 oath for a poor noble but not a matched poor commoner", () => {
+  const commoner = createExpandedLife({ seed: 6, region: "asura" });
+  expect(commoner.expansion.birthYear).toBe(406);
+  expect(commoner.expansion.origin.wealth).toBe("poor");
+  expect(commoner.expansion.standing.status).toBe("commoner");
+  commoner.phase = "alive";
+  commoner.age = 17;
+  commoner.expansion.social!.debt = null;
+
+  const noble = structuredClone(commoner);
+  noble.expansion.standing.status = "noble";
+
+  const commonerAt18 = advanceExpanded(commoner, "year");
+  const nobleAt18 = advanceExpanded(noble, "year");
+  expect(commonerAt18.age).toBe(18);
+  expect(nobleAt18.age).toBe(18);
+  expect(commonerAt18.coins).toBe(nobleAt18.coins);
+  expect(commonerAt18.expansion.succession?.crisis.route).toBe("news");
+  expect(commonerAt18.pending).not.toBe("expanded.asura-oath");
+  expect(nobleAt18.pending).toBe("expanded.asura-oath");
+  expect(getExpandedDecision(nobleAt18)?.requiresManual).toBe(true);
+
+  const commonerAt19 = advanceExpanded(commonerAt18, "year");
+  expect(commonerAt19.pending).toBe("expanded.asura-result");
+  const informed = chooseExpanded(commonerAt19, "expanded.asura-result.read");
+  expect(informed.expansion.succession?.crisis.outcome).toBe("news");
+  expect(informed.coins).toBe(commonerAt19.coins);
+});
