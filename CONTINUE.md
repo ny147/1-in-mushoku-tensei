@@ -1,3 +1,7 @@
+# Choice result reading mode — 2026-11-26
+
+The approved default is Short for each new session. The result panel offers Full to restore the original narrative and keeps the selected mode across choices. English and Thai use full copy whenever a reviewed summary is unavailable. This change is on `codex/choice-result-reading-mode` for manual review.
+
 # House sponsorship and royal marriage — Stage 3, 2026-11-25
 
 PR #35 is merged into `main` at `55315b9`. The
