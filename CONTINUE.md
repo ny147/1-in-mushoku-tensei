@@ -3,7 +3,8 @@
 Added the GitHub pull request template and matching `AGENTS.md` guidance on
 `codex/pull-request-template`. Pull request bodies describe the change, what
 improves, its impact, verification, and related work. CLI and API submissions
-fill in the same sections explicitly. This is a documentation-only change;
+fill in the same sections explicitly. PR titles use lowercase type prefixes
+such as `feat:` and `fix:`. This is a documentation-only change;
 no gameplay, save, dependency, or deployment changes.
 
 # Choice result reading mode — 2026-11-26
