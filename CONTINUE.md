@@ -1,3 +1,7 @@
+# Shared choice reading control — 2026-11-26
+
+The approved revision places one Text length control above the decision and its result. It applies the session preference to both stages, with localized full-copy fallback for decision text and option descriptions. Branch `codex/shared-choice-reading-control` starts from `24a0a9e` for manual review.
+
 # Pull request template — 2026-11-26
 
 Added the GitHub pull request template and matching `AGENTS.md` guidance on
