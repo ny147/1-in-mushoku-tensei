@@ -47,7 +47,8 @@ import type { Entry, Focus, Life, MagicSchool, Stat } from "../game/types";
 import { WorldMap } from "./WorldMap";
 import { getProgression, MAGIC_SCHOOLS } from "../game/progression";
 import { CareerProgress, Spellbook, StudyFocus } from "./Progression";
-import { ChoiceOutcome, type ChoiceResult } from "./ChoiceOutcome";
+import { shortDecisionText } from "../i18n/short-decision-text";
+import { ChoiceReadingControl, useChoiceReadingMode, ChoiceOutcome, type ChoiceResult } from "./ChoiceOutcome";
 import { Landscape } from "./Landscape";
 import { OptionalActivities } from "./OptionalActivities";
 import type { Activity } from "../game/expanded/activities";
@@ -331,14 +332,15 @@ export function DecisionPanel({
   outcome?: ChoiceResult | null;
   decisionGuidance?: string;
 }) {
-  const { t } = useI18n();
+  const { t, language } = useI18n();
+  const mode = useChoiceReadingMode();
+  const readingText = (copy: string) => mode === "short" ? shortDecisionText(t(copy), language) : t(copy);
 
   const canonicalDecision = getDecision(life);
   const decision = canonicalDecision
     ? currentDecisionText(canonicalDecision, life, life.language ?? "en")
     : null;
-  if (!decision && outcome) return <ChoiceOutcome result={outcome} />;
-  if (!decision)
+  if (!decision && !outcome)
     return (
       <section className="quiet-moment">
         <Feather size={23} strokeWidth={1.2} />
@@ -355,61 +357,66 @@ export function DecisionPanel({
       </section>
     );
   return (
-    <section className="decision-panel" aria-labelledby="decision-heading">
-      <div className="decision-heading">
-        <span>
-          <Sparkles size={17} />
-          {t("A choice awaits")}
-        </span>
-        <span>{t(decision.kind)}</span>
-      </div>
-      <h2 id="decision-heading" tabIndex={-1}>
-        {t(decision.title)}
-      </h2>
-      <p className="decision-narrative">{t(decision.text)}</p>
-      <p className="decision-note" aria-live="polite">
-        <span className="tiny-dot" />
-        {t(decisionGuidance)}
-      </p>
-      <div className="choices">
-        {decision.choices.map((choice) => {
-          const cost = choice.cost ?? 0;
-          const disabled = choice.disabled || cost > life.coins;
-          const effects = choiceEffects(life, choice, life.language ?? "en");
-          return (
-            <button
-              className="choice"
-              disabled={disabled}
-              key={choice.id}
-              onClick={() => onChoose(choice.id)}
-            >
-              <span className="choice-dot" />
-              <span>
-                <strong>{t(choice.label)}</strong>
-                <small>
-                  {t(choice.description)}
-                  {cost > 0 && <> · {t(`Costs ${cost} silver`)}</>}
-                  {t(
-                    cost > life.coins
-                      ? ` · Need ${cost - life.coins} more silver`
-                      : "",
-                  )}
-                </small>
-                {effects.length > 0 && (
-                  <small className="choice-effects">
-                    <b>
-                      {life.language === "th" ? "ผลที่ได้รับ: " : "Effects: "}
-                    </b>
-                    {effects.join(" · ")}
-                  </small>
-                )}
-              </span>
-              <ArrowRight size={17} />
-            </button>
-          );
-        })}
-      </div>
-    </section>
+    <>
+      <ChoiceReadingControl />
+      {decision ? (
+        <section className="decision-panel" aria-labelledby="decision-heading">
+          <div className="decision-heading">
+            <span>
+              <Sparkles size={17} />
+              {t("A choice awaits")}
+            </span>
+            <span>{t(decision.kind)}</span>
+          </div>
+          <h2 id="decision-heading" tabIndex={-1}>
+            {t(decision.title)}
+          </h2>
+          <p className="decision-narrative">{readingText(decision.text)}</p>
+          <p className="decision-note" aria-live="polite">
+            <span className="tiny-dot" />
+            {t(decisionGuidance)}
+          </p>
+          <div className="choices">
+            {decision.choices.map((choice) => {
+              const cost = choice.cost ?? 0;
+              const disabled = choice.disabled || cost > life.coins;
+              const effects = choiceEffects(life, choice, life.language ?? "en");
+              return (
+                <button
+                  className="choice"
+                  disabled={disabled}
+                  key={choice.id}
+                  onClick={() => onChoose(choice.id)}
+                >
+                  <span className="choice-dot" />
+                  <span>
+                    <strong>{t(choice.label)}</strong>
+                    <small>
+                      {readingText(choice.description)}
+                      {cost > 0 && <> · {t(`Costs ${cost} silver`)}</>}
+                      {t(
+                        cost > life.coins
+                          ? ` · Need ${cost - life.coins} more silver`
+                          : "",
+                      )}
+                    </small>
+                    {effects.length > 0 && (
+                      <small className="choice-effects">
+                        <b>
+                          {life.language === "th" ? "ผลที่ได้รับ: " : "Effects: "}
+                        </b>
+                        {effects.join(" · ")}
+                      </small>
+                    )}
+                  </span>
+                  <ArrowRight size={17} />
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ) : outcome && <ChoiceOutcome result={outcome} />}
+    </>
   );
 }
 const entryIcons: Record<Entry["kind"], typeof Heart> = {

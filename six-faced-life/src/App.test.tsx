@@ -336,10 +336,13 @@ describe("clear next actions and recovery", () => {
     saveGame(window.localStorage, saved);
     const view = render(<App />);
     const pick = () => fireEvent.click(screen.getByRole("button", { name: /^ฟัง มอง แล้วเรียนรู้/ }));
+    const control = screen.getByRole("group", { name: "ความยาวของข้อความ" });
+    expect(screen.getByText("คุณยังจำชีวิตก่อนได้ จะเริ่มชีวิตใหม่นี้อย่างไร")).toBeTruthy();
     pick();
+    expect(screen.getByRole("group", { name: "ความยาวของข้อความ" })).toBe(control);
     expect(screen.getByText("คุณเก็บความลับไว้และเริ่มเข้าใจภาษา")).toBeTruthy();
     fireEvent.click(screen.getByRole("radio", { name: "แบบเต็ม" }));
-    expect(within(screen.getByRole("radiogroup").closest("section")!).getByText("คุณเก็บความลับไว้กับตัว ถ้อยคำเริ่มมีความหมาย และโลกก็ค่อย ๆ แปลกหน้าน้อยลง")).toBeTruthy();
+    expect(within(screen.getByRole("heading", { name: "ฟัง มอง แล้วเรียนรู้", level: 2 }).closest("section")!).getByText("คุณเก็บความลับไว้กับตัว ถ้อยคำเริ่มมีความหมาย และโลกก็ค่อย ๆ แปลกหน้าน้อยลง")).toBeTruthy();
     view.unmount();
     saveGame(window.localStorage, saved);
     render(<App />);
@@ -356,7 +359,7 @@ describe("clear next actions and recovery", () => {
     fireEvent.click(screen.getByRole("button", { name: /^Learn the incantation carefully/ }));
     const result = screen.getByRole("region", { name: "Your choice" });
     const copy = within(result).getByText("The familiar structure of an incantation gives your magic a safe beginning.");
-    fireEvent.click(within(result).getByRole("radio", { name: "Full" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Full" }));
     expect(copy.textContent).toBe("The familiar structure of an incantation gives your magic a safe beginning.");
   });
 
@@ -379,15 +382,23 @@ describe("clear next actions and recovery", () => {
     vi.useFakeTimers();
     startPending();
     render(<App />);
+    const control = screen.getByRole("group", { name: "Text length" });
+    expect(screen.getByText("You remember your past life. How will you begin this one?")).toBeTruthy();
+    expect(screen.getByText("Keep your secret and learn the language.")).toBeTruthy();
+    fireEvent.click(within(control).getByRole("radio", { name: "Full" }));
+    expect(screen.getByText(/You open your eyes to wooden beams/)).toBeTruthy();
+    expect(screen.getByText("Keep your memories close and learn the language around you.")).toBeTruthy();
+    fireEvent.click(within(control).getByRole("radio", { name: "Short" }));
     fireEvent.click(
       screen.getByRole("button", { name: /^Listen\. Watch\. Learn\./ }),
     );
     const result = screen.getByRole("region", { name: "Your choice" });
-    expect(within(result).getByRole("radio", { name: "Short", checked: true })).toBeTruthy();
+    expect(screen.getByRole("group", { name: "Text length" })).toBe(control);
+    expect(screen.getByRole("radio", { name: "Short", checked: true })).toBeTruthy();
     expect(within(result).getByText("You keep your secret and learn the language.")).toBeTruthy();
     expect(document.activeElement).toBe(within(result).getByRole("heading"));
     const savedChoice = window.localStorage.getItem(SAVE_KEY);
-    fireEvent.click(within(result).getByRole("radio", { name: "Full" }));
+    fireEvent.click(screen.getByRole("radio", { name: "Full" }));
     expect(within(result).getByText("You keep your secret. Words begin to take shape, and the world slowly becomes less unfamiliar.")).toBeTruthy();
     expect(window.localStorage.getItem(SAVE_KEY)).toBe(savedChoice);
     expect(within(result).getByText("Knowledge +8")).toBeTruthy();

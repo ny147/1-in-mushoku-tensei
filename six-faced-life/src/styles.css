@@ -4312,3 +4312,21 @@ h2[tabindex="-1"] {
   .character-rail { grid-template-columns: repeat(auto-fit, minmax(min(100%, max(180px, 45%)), 1fr)); }
   .main-nav > :is(button, a) { min-width: 0; overflow-wrap: anywhere; }
 }
+
+.choice-reading-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1rem;
+  margin: 0 0 .75rem;
+  padding: 0;
+  min-width: 0;
+  border: 0;
+}
+.choice-reading-control legend { font-weight: 600; }
+.choice-reading-control label {
+  display: inline-flex;
+  gap: .4rem;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+}

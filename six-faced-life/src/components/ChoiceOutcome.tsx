@@ -14,6 +14,29 @@ export function ChoiceReadingProvider({ children }: { children: ReactNode }) {
   return <ReadingContext.Provider value={preference}>{children}</ReadingContext.Provider>;
 }
 
+export function useChoiceReadingMode() {
+  return useContext(ReadingContext)?.[0] ?? "full";
+}
+
+export function ChoiceReadingControl() {
+  const preference = useContext(ReadingContext);
+  const { language } = useI18n();
+  if (!preference) return null;
+  const thai = language === "th";
+  return (
+    <fieldset className="choice-reading-control">
+      <legend>{thai ? "ความยาวของข้อความ" : "Text length"}</legend>
+      {(["short", "full"] as const).map((mode) => (
+        <label key={mode}>
+          <input type="radio" name="choice-reading-mode" checked={preference[0] === mode}
+            onChange={() => preference[1](mode)} />
+          {mode === "short" ? (thai ? "แบบย่อ" : "Short") : (thai ? "แบบเต็ม" : "Full")}
+        </label>
+      ))}
+    </fieldset>
+  );
+}
+
 export interface ChoiceResult {
   lifeId: string;
   title: string;
@@ -42,27 +65,15 @@ export function describeChoice(before: Life, after: Life): ChoiceResult {
 
 export function ChoiceOutcome({ result }: { result: ChoiceResult }) {
   const { t, language } = useI18n();
-  const preference = useContext(ReadingContext);
+  const mode = useChoiceReadingMode();
   const full = t(result.text);
-  const text = preference?.[0] === "short" ? (result.shortText ?? shortChoiceText(full, language)) : full;
-  const thai = language === "th";
+  const text = mode === "short" ? (result.shortText ?? shortChoiceText(full, language)) : full;
 
   return (
     <section className="choice-outcome" aria-label={t("Your choice")}>
       <h2 id="outcome-heading" tabIndex={-1}>
         {t(result.title)}
       </h2>
-      {preference && (
-        <div role="radiogroup" aria-label={thai ? "ความยาวของผลการเลือก" : "Result length"}>
-          {(["short", "full"] as const).map((mode) => (
-            <label key={mode}>
-              <input type="radio" name="choice-reading-mode"
-                checked={preference[0] === mode} onChange={() => preference[1](mode)} />
-              {mode === "short" ? (thai ? "แบบย่อ" : "Short") : (thai ? "แบบเต็ม" : "Full")}
-            </label>
-          ))}
-        </div>
-      )}
       <p className="outcome-narrative">{text}</p>
       {result.changes.length > 0 && (
         <ul className="outcome-changes" aria-label={t("What changed")}>

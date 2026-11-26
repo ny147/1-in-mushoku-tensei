@@ -2,7 +2,7 @@
 
 A playable reincarnated-life simulator in the world of Mushoku Tensei, inspired by the life-simulation structure of [1 in 8 Billion](https://1in8b.life/en/).
 
-Choice results open in Short mode. Select Full beside the result to read the original account. The game remembers this setting until you reopen it. Results without a summary in your language show the full account in both modes.
+Use Text length above a choice to switch between Short and Full for the prompt, options and result. Full restores the original wording. Short uses the full wording whenever a summary is unavailable in your language. The game remembers your selection until you reopen it, then starts in Short.
 
 Your original protagonist remembers another life. Discover a birthplace and family, make childhood discoveries, study magic or swordsmanship, earn a living, form relationships, travel, grow older, and begin again after an ending.
 
