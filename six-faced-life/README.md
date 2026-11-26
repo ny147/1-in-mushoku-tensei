@@ -2,6 +2,8 @@
 
 A playable reincarnated-life simulator in the world of Mushoku Tensei, inspired by the life-simulation structure of [1 in 8 Billion](https://1in8b.life/en/).
 
+Choice results open in Short mode. Select Full beside the result to read the original account. The game remembers this setting until you reopen it. Results without a summary in your language show the full account in both modes.
+
 Your original protagonist remembers another life. Discover a birthplace and family, make childhood discoveries, study magic or swordsmanship, earn a living, form relationships, travel, grow older, and begin again after an ending.
 
 Play online at **[six-faced-life.vercel.app](https://six-faced-life.vercel.app)**. Keep using that stable hostname to continue a hosted life; local development and unique deployment URLs have separate browser saves.

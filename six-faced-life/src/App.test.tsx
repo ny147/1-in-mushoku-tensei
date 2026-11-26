@@ -330,6 +330,36 @@ describe("clear next actions and recovery", () => {
     return life;
   }
 
+  it("restores Thai full copy and opens the next session in short mode", () => {
+    const life = beginLife(createLife({ ruleset: "legacy-1", seed: 32, language: "th" }));
+    const saved = { version: 1 as const, active: life, archive: [] };
+    saveGame(window.localStorage, saved);
+    const view = render(<App />);
+    const pick = () => fireEvent.click(screen.getByRole("button", { name: /^ฟัง มอง แล้วเรียนรู้/ }));
+    pick();
+    expect(screen.getByText("คุณเก็บความลับไว้และเริ่มเข้าใจภาษา")).toBeTruthy();
+    fireEvent.click(screen.getByRole("radio", { name: "แบบเต็ม" }));
+    expect(within(screen.getByRole("radiogroup").closest("section")!).getByText("คุณเก็บความลับไว้กับตัว ถ้อยคำเริ่มมีความหมาย และโลกก็ค่อย ๆ แปลกหน้าน้อยลง")).toBeTruthy();
+    view.unmount();
+    saveGame(window.localStorage, saved);
+    render(<App />);
+    pick();
+    expect(screen.getByRole("radio", { name: "แบบย่อ", checked: true })).toBeTruthy();
+  });
+
+  it("shows the complete account in Short when a choice has no summary", () => {
+    const life = beginLife(createLife({ ruleset: "legacy-1", seed: 32 }));
+    life.pending = "first-spell";
+    life.age = 5;
+    saveGame(window.localStorage, { version: 1, active: life, archive: [] });
+    render(<App />);
+    fireEvent.click(screen.getByRole("button", { name: /^Learn the incantation carefully/ }));
+    const result = screen.getByRole("region", { name: "Your choice" });
+    const copy = within(result).getByText("The familiar structure of an incantation gives your magic a safe beginning.");
+    fireEvent.click(within(result).getByRole("radio", { name: "Full" }));
+    expect(copy.textContent).toBe("The familiar structure of an incantation gives your magic a safe beginning.");
+  });
+
   it("takes the player to the blocking choice without advancing time", () => {
     const life = startPending();
     render(<App />);
@@ -353,9 +383,14 @@ describe("clear next actions and recovery", () => {
       screen.getByRole("button", { name: /^Listen\. Watch\. Learn\./ }),
     );
     const result = screen.getByRole("region", { name: "Your choice" });
-    expect(within(result).getByText(/You keep your secret/)).toBeTruthy();
-    expect(within(result).getByText("Knowledge +8")).toBeTruthy();
+    expect(within(result).getByRole("radio", { name: "Short", checked: true })).toBeTruthy();
+    expect(within(result).getByText("You keep your secret and learn the language.")).toBeTruthy();
     expect(document.activeElement).toBe(within(result).getByRole("heading"));
+    const savedChoice = window.localStorage.getItem(SAVE_KEY);
+    fireEvent.click(within(result).getByRole("radio", { name: "Full" }));
+    expect(within(result).getByText("You keep your secret. Words begin to take shape, and the world slowly becomes less unfamiliar.")).toBeTruthy();
+    expect(window.localStorage.getItem(SAVE_KEY)).toBe(savedChoice);
+    expect(within(result).getByText("Knowledge +8")).toBeTruthy();
     expect(within(result).queryByRole("button")).toBeNull();
     expect(
       screen.getByText(
@@ -373,6 +408,8 @@ describe("clear next actions and recovery", () => {
       screen.getByRole("heading", { name: "Letters from another world" }),
     ).toBeTruthy();
     expect(loadGame(window.localStorage).data.active?.age).toBe(3);
+    fireEvent.click(screen.getByRole("button", { name: /^Teach yourself to read/ }));
+    expect(screen.getByRole("radio", { name: "Full", checked: true })).toBeTruthy();
   });
 
   it.each(["en", "th"] as const)(

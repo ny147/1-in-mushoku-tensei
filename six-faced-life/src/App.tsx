@@ -61,7 +61,7 @@ import {useLifeScene} from './components/life-scene/useLifeScene';
 import { selectSwordStyle } from "./game/engine";
 import { Archive, Ending } from "./components/Archive";
 import { WorldView } from "./components/WorldView";
-import { describeChoice, type ChoiceResult } from "./components/ChoiceOutcome";
+import { ChoiceReadingProvider, describeChoice, type ChoiceResult } from "./components/ChoiceOutcome";
 import { routeHref, type Page } from './navigation';
 import { useAppNavigation } from './useAppNavigation';
 import type { MouseEvent as ReactMouseEvent } from 'react';
@@ -419,6 +419,7 @@ export default function App() {
   const reviewDecision = () => focusContent("decision-heading");
 
   return (
+    <ChoiceReadingProvider>
     <LanguageProvider language={language}>
       <div className="app-shell">
         <a className="skip-link" href="#main-content">
@@ -866,6 +867,7 @@ export default function App() {
         </main>
       </div>
     </LanguageProvider>
+    </ChoiceReadingProvider>
   );
 }
 
