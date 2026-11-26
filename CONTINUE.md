@@ -1,3 +1,11 @@
+# Pull request template — 2026-11-26
+
+Added the GitHub pull request template and matching `AGENTS.md` guidance on
+`codex/pull-request-template`. Pull request bodies describe the change, what
+improves, its impact, verification, and related work. CLI and API submissions
+fill in the same sections explicitly. This is a documentation-only change;
+no gameplay, save, dependency, or deployment changes.
+
 # Choice result reading mode — 2026-11-26
 
 The approved default is Short for each new session. The result panel offers Full to restore the original narrative and keeps the selected mode across choices. English and Thai use full copy whenever a reviewed summary is unavailable. This change is on `codex/choice-result-reading-mode` for manual review.

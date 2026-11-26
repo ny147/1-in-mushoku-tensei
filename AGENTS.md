@@ -211,6 +211,10 @@ npm run build
   such as `git push -u origin codex/<short-task-name>`, and create or update its PR
   with **`main` as the base branch**. Do not rely on the forge's default base.
   Follow-up commits update the task's existing open PR.
+  Fill out all headings from [the pull request template](.github/pull_request_template.md)
+  directly in the PR body, including PRs opened via CLI or API. Replace the
+  prompts with task-specific details, note any unrun checks, and write `None`
+  under Related work if there is no relevant issue or spec.
 - Run `git fetch origin --prune` before final handoff and report whether the task branch
   contains the latest `origin/main`. If freshness cannot be verified, report the
   blocker and leave the PR in draft. Mark it ready only when required checks pass.
