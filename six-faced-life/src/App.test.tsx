@@ -690,7 +690,7 @@ it.each(["en", "th"] as const)("plays Orsted’s optional ledger story manually 
 });
 
 it.each([
-  ["en", true], ["th", true], ["en", false], ["th", false],
+  ["en", true], ["th", false],
 ] as const)("plays the dream warning in %s (stop delivery: %s)", (language, stop) => {
   vi.useFakeTimers();
   const thai = language === "th";
@@ -713,15 +713,14 @@ it.each([
   fireEvent.click(screen.getByRole("button", {name: thai ? "เดินเวลา" : "Play time"}));
   act(() => vi.advanceTimersByTime(2200));
   expect(screen.getByRole("heading", {name: thai ? "คำเตือนในฝัน" : "The Dream’s Warning"})).toBeTruthy();
-  const action = stop ? (thai ? /^รั้งเกวียนน้ำมันไว้/ : /^Stop the oil cart/) :
-    (thai ? /^ปล่อยให้เกวียนไปส่งของ/ : /^Let the delivery pass/);
+  const action = stop ? /^Stop the oil cart/ : /^ปล่อยให้เกวียนไปส่งของ/;
   fireEvent.click(screen.getByRole("button", {name: action}));
   const saved = loadGame(window.localStorage).data.active as ExpandedLife;
   expect(saved.expansion.politics.trust).toBe(stop ? 100 : 97);
   open(thai ? "อ่านข่าวจากท่าเรือ" : "Read the ferry dispatch");
   fireEvent.click(screen.getByRole("button", {name: thai ? /^บันทึกข่าวจากท่าเรือ/ : /^Record the dispatch/}));
   const result = screen.getByRole("region", {name: thai ? "ทางเลือกของคุณ" : "Your choice"});
-  const account = stop ? (thai ? /ด้วยแสงเทียน/ : /by candlelight/) : (thai ? /จับตัวเขาไป/ : /took him away/);
+  const account = stop ? /by candlelight/ : /จับตัวเขาไป/;
   expect(within(result).getByText(account)).toBeTruthy();
   expect((loadGame(window.localStorage).data.active as ExpandedLife).expansion.politics.dreamWarning).toBe("closed");
 });

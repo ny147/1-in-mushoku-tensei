@@ -7,60 +7,54 @@ import type { Career } from "../types";
 import { pathIncome } from "./career-paths";
 
 describe("lossless career recognition", () => {
-  it.each(OCCUPATIONS)(
-    "retains %s work across levels and languages",
-    (role) => {
-      for (const language of ["en", "th"] as const)
-        for (const level of [0, 1, 2, 3]) {
-          const l = createExpandedLife({ seed: 1, language });
-          delete l.expansion.careerPaths;
-          l.phase = "alive";
-          l.age = 30;
-          l.pending = null;
-          l.expansion.queue = [];
-          l.expansion.career.role = role;
-          const mirror: Partial<Record<Occupation, Career>> = {
-            laborer: "guard",
-            farmer: "merchant",
-            swordsman: "guard",
-            mage: "healer",
-            cleric: "healer",
-            knight: "guard",
-            professor: "teacher",
-          };
-          l.career = mirror[role] ?? (role as Career);
-          l.expansion.career.records[role] = {
-            level,
-            xp: 45,
-            years: 3,
-            reputation: 10,
-          };
-          const before = JSON.stringify(l),
-            n = activateCareerPaths(l);
-          expect(JSON.stringify(l)).toBe(before);
-          expect(n.rng).toBe(l.rng);
-          expect(n.history).toEqual(l.history);
-          expect(n.expansion.career).toEqual(l.expansion.career);
-          expect(n.expansion.finance).toEqual(l.expansion.finance);
-          expect(n.coins).toBe(l.coins);
-          expect(n.expansion.careerPaths?.requests).toBe(0);
-          expect(activateCareerPaths(n)).toBe(n);
-          if (PAY[role])
-            expect(pathIncome(n)).toBeGreaterThanOrEqual(
-              PAY[role] + [0, 8, 18, 32][level],
-            );
-          else expect(n.expansion.careerPaths?.active).toBeNull();
-          if (role === "teacher")
-            expect(n.expansion.careerPaths?.active).toBe("teacher-unspecified");
-          if (role === "adventurer")
-            expect(n.expansion.careerPaths?.active).toBe(
-              ["adventure-f", "adventure-d", "adventure-b", "adventure-s"][
-                level
-              ],
-            );
+  it("preserves the work record and inherited pay for every occupation and level", () => {
+    const mirror: Partial<Record<Occupation, Career>> = {
+      laborer: "guard",
+      farmer: "merchant",
+      swordsman: "guard",
+      mage: "healer",
+      cleric: "healer",
+      knight: "guard",
+      professor: "teacher",
+    };
+    for (const role of OCCUPATIONS) {
+      for (const [level, language] of (["en", "th", "en", "th"] as const).entries()) {
+        const label = `${role}, level ${level}, ${language}`;
+        const life = createExpandedLife({ seed: 1, language });
+        delete life.expansion.careerPaths;
+        life.phase = "alive";
+        life.age = 30;
+        life.pending = null;
+        life.expansion.queue = [];
+        life.expansion.career.role = role;
+        life.career = mirror[role] ?? (role as Career);
+        life.expansion.career.records[role] = { level, xp: 45, years: 3, reputation: 10 };
+
+        const before = structuredClone(life);
+        const migrated = activateCareerPaths(life);
+        const { careerPaths, ...expansion } = migrated.expansion;
+        expect(life, label).toEqual(before);
+        expect({ ...migrated, expansion }, label).toEqual(before);
+        expect(careerPaths?.requests, label).toBe(0);
+        expect(activateCareerPaths(migrated), label).toBe(migrated);
+        if (PAY[role]) {
+          expect(pathIncome(migrated), label).toBeGreaterThanOrEqual(
+            PAY[role] + [0, 8, 18, 32][level],
+          );
+        } else {
+          expect(careerPaths?.active, label).toBeNull();
         }
-    },
-  );
+        if (role === "teacher") {
+          expect(careerPaths?.active, label).toBe("teacher-unspecified");
+        }
+        if (role === "adventurer") {
+          expect(careerPaths?.active, label).toBe(
+            ["adventure-f", "adventure-d", "adventure-b", "adventure-s"][level],
+          );
+        }
+      }
+    }
+  });
   it("does not fabricate unused roles or past requests", () => {
     const l = createExpandedLife({ seed: 1 });
     l.phase = "alive";

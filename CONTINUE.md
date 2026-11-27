@@ -31,6 +31,26 @@ no gameplay, save, dependency, or deployment changes.
 
 The approved default is Short for each new session. The result panel offers Full to restore the original narrative and keeps the selected mode across choices. English and Thai use full copy whenever a reviewed summary is unavailable. This change is on `codex/choice-result-reading-mode` for manual review.
 
+# Test suite cleanup — 2026-11-27
+
+`codex/prune-redundant-tests` ([PR #45](https://github.com/ny147/1-in-mushoku-tensei/pull/45))
+consolidates new-life routing coverage, removes a
+short language-independence test covered by full seeded lifetimes, and trims
+equivalent invalid-language inputs. Debt and service release scenarios run
+once each across a mix of English and Thai saves. The career outcome still
+renders in both languages from one recorded project. Application code is unchanged.
+
+The follow-up groups malformed social records by validation rule and keeps
+representative raw-save recovery checks. It checks every occupation and level
+once across English and Thai career saves, pairs the two Dream Warning outcomes
+with the two App languages, and relies on the storage codec suite for the
+maximum-length archive round trip. The 500-lifetime and 10,000-Superd checks
+still run in the full suite.
+
+On Node 22.16.0, `npm test` passed 797 tests in 94 files in 74.73 seconds,
+down from 859 tests in 95 files in 80.80 seconds before the first pass.
+`npm run build` passed with the existing Vite chunk-size warning.
+
 # House sponsorship and royal marriage — Stage 3, 2026-11-25
 
 PR #35 is merged into `main` at `55315b9`. The

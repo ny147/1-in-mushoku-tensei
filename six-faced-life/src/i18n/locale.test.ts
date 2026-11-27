@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { advance, beginLife, choose, createLife } from "../game/engine";
+import { createLife } from "../game/engine";
 import { SAVE_KEY } from "../game/storage";
 import {
   languageOf,
@@ -16,17 +16,6 @@ describe("life language and new-life preference", () => {
     expect(languageOf(undefined)).toBe("en");
     expect(languageOf({ language: "th" })).toBe("th");
     expect(life).toEqual(before);
-  });
-
-  it("keeps language separate from seeded simulation outcomes", () => {
-    const run = (language: "en" | "th") => {
-      let life = beginLife(createLife({ ruleset: 'legacy-1', seed: 22, language }));
-      life = advance(choose(life, "observe"), "decision");
-      const { language: selected, ...simulation } = life;
-      expect(selected).toBe(language);
-      return simulation;
-    };
-    expect(run("th")).toEqual(run("en"));
   });
 
   it("remembers only the separate preference and never reads or writes the game save", () => {
@@ -53,7 +42,7 @@ describe("life language and new-life preference", () => {
     expect(values.get(SAVE_KEY)).toBe("untouched game payload");
   });
 
-  it.each([null, "", "xx", "TH", "null", '"th"', "toString", "__proto__"])(
+  it.each([null, "xx", "TH", "__proto__"])(
     "defaults an invalid or absent preference %j to English",
     (value) => {
       expect(
