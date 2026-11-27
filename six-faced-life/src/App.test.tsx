@@ -725,3 +725,53 @@ it.each([
   expect(within(result).getByText(account)).toBeTruthy();
   expect((loadGame(window.localStorage).data.active as ExpandedLife).expansion.politics.dreamWarning).toBe("closed");
 });
+
+describe.each(["en", "th"] as const)("Laplace Factor in %s", language => {
+  const thai = language === "th";
+  function start(manifestation: "none" | "mana" | "physical" | "appearance", discovered = false, auraImpaired = false) {
+    const life = createExpandedLife({seed: 2, language});
+    life.phase = "alive";
+    life.age = 8;
+    life.pending = null;
+    Object.assign(life.expansion.genetics, {
+      carrier: manifestation !== "none", manifestation, signs: manifestation !== "none", discovered, auraImpaired,
+    });
+    saveGame(window.localStorage, {version:1, active:life, archive:[]});
+  }
+  function profile() {
+    window.history.replaceState(null, "", "?view=character");
+    render(<App />);
+    return screen.getByText(thai ? "ปัจจัยลาปลาซ" : "Laplace Factor", {selector:"dt"}).parentElement!;
+  }
+  it.each(["none", "mana"] as const)("shows the stored %s status before discovery", manifestation => {
+    start(manifestation, false, manifestation === "mana");
+    const row = profile();
+    expect(row.querySelector("dd")?.textContent).toBe(manifestation === "none" ? (thai ? "ไม่มี" : "No") : (thai ? "มี" : "Yes"));
+    expect(row.querySelectorAll("dd")).toHaveLength(1);
+  });
+  it.each(["physical","appearance","mana"] as const)("explains confirmed %s effects", manifestation => {
+    start(manifestation, true);
+    const row = profile();
+    expect(row.textContent).toContain(manifestation === "physical" ? "15%" : manifestation === "mana" ? "25%" :
+      thai ? "ไม่มีโบนัสค่าสถานะ" : "no stat bonus");
+    expect(row.textContent).not.toMatch(/battle aura|ออร่าต่อสู้/);
+  });
+  it("keeps the mentor decision manual and records the real finding", () => {
+    vi.useFakeTimers();
+    start("mana", false, true);
+    window.history.replaceState(null, "", "?view=chronicle");
+    const app = render(<App />);
+    fireEvent.click(screen.getByRole("checkbox",{name:thai ? "โหมดเฝ้าดู" : "Watch mode"}));
+    fireEvent.click(screen.getByText(thai ? "กิจกรรมที่เลือกทำได้" : "Optional activities",{exact:true}));
+    fireEvent.click(screen.getByRole("button",{name:thai ? "ถามครูเรื่องสัญญาณผิดปกติระหว่างฝึก" : "Ask about an unusual training sign"}));
+    fireEvent.click(screen.getByRole("button",{name:thai ? "เดินเวลา" : "Play time"}));
+    act(()=>vi.advanceTimersByTime(2200));
+    expect(screen.getByRole("heading",{name:thai ? "สัญญาณระหว่างฝึก" : "A sign during practice"})).toBeTruthy();
+    fireEvent.click(screen.getByRole("button",{name:thai ? /^ยินยอมรับการตรวจ/ : /^Accept the assessment/}));
+    expect(screen.getByRole("region",{name:thai ? "ทางเลือกของคุณ" : "Your choice"}).textContent).toContain("25%");
+    app.unmount();
+    const row = profile();
+    expect(row.textContent).toContain(thai ? "ออร่าต่อสู้" : "battle aura");
+    expect(row.textContent).toContain("25%");
+  });
+});

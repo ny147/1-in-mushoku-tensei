@@ -296,3 +296,12 @@ describe("optional Laplace Factor assessment", () => {
     expect(openActivity(life,"discovery")).toBe(life);
   });
 });
+
+it("keeps an adult random discovery without an optional marker valid", () => {
+  const life = adult();
+  Object.assign(life.expansion.genetics,{carrier:true,manifestation:"mana",signs:true,discovered:false});
+  life.pending="expanded.discovery";
+  expect(isLife(life)).toBe(true);
+  expect(getDecision(life)?.title).toBe("Understanding an observed sign");
+  expect((choose(life,"expanded.discovery.assess") as typeof life).expansion.genetics.discovered).toBe(true);
+});

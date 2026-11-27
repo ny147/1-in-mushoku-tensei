@@ -58,7 +58,7 @@ import {
   addSocialTie,
   divorce,
 } from "./family";
-import { discoverGenetics } from "./genetics";
+import { canAssessObservedSign, discoverGenetics } from "./genetics";
 import { worldYear, fact } from "./facts";
 import { draw, clamp } from "./random";
 import { REGIONS } from "../world";
@@ -96,6 +96,17 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
 // Sword migration stores and validates the original decision payload.
 export function getExpandedDecisionSnapshot(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
+  if (life.pending === "expanded.discovery" && life.expansion.optionalActivity === life.pending) {
+    if (!canAssessObservedSign(life)) return null;
+    const card = courtCard(life.pending, ["A sign during practice", "สัญญาณระหว่างฝึก"],
+      ["Your mentor sets down the practice rod. “I noticed something unusual while you trained. May I take a closer look?” The assessment is free.",
+       "ครูวางไม้ฝึกลง “ตอนเจ้าฝึก ข้าสังเกตเห็นอะไรแปลกไป ขอข้าตรวจดูสักหน่อยได้ไหม” การตรวจครั้งนี้ไม่มีค่าใช้จ่าย"]);
+    courtOption(card, "assess", ["Accept the assessment", "ยินยอมรับการตรวจ"],
+      ["Ask the mentor to explain the sign.", "ให้ครูตรวจและอธิบายสัญญาณที่พบ"]);
+    courtOption(card, "later", ["Keep it private", "เก็บเรื่องนี้ไว้ก่อน"],
+      ["You leave the sign unexplored. You can ask your mentor again.", "คุณยังไม่ตรวจสัญญาณนี้ และกลับมาถามครูได้ภายหลัง"]);
+    return card;
+  }
   if (life.pending === "expanded.hitogami-dream") return dreamDecision(life);
   if (life.pending === "expanded.orsted-ledger") return ledgerDecision(life);
   if (life.expansion.house) {

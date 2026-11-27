@@ -255,3 +255,7 @@ Adult Orsted members can investigate a disputed supply entry through Optional ac
 ## The Dream’s Warning
 
 Adult Hitogami apostles can open a dream warning through Optional activities. Stopping an oil delivery earns up to six faction trust. Letting it through earns none. Return to the activity to learn what happened at the ferry and record the dispatch. If the apostle defects first, the dispatch enters the chronicle when they leave. Each life can commit to one outcome.
+
+## The Laplace Factor Awakens
+
+Character shows the active protagonist’s Laplace Factor status immediately. From age eight, an observed training sign lets a player ask their mentor for a free assessment in Optional activities. The player can keep the sign private and come back later. Consent records the manifestation and reveals its effects on the profile. Mana and physical manifestations affect yearly focus training under the existing rules. Appearance alone grants no stat bonus.

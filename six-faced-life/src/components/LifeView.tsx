@@ -7,6 +7,7 @@ import { swordStyleName } from "../i18n/sword";
 import { useI18n } from "../i18n/context";
 import { ExpandedDetails, ExpandedFamily } from "./ExpandedDetails";
 import { careerTitle } from "../game/simulation";
+import { confirmedFactorText } from "../i18n/factor";
 import { expandedLabel } from "../i18n/expanded";
 import { talentAssessmentText } from "../i18n/education";
 import { entryText } from "../i18n/story";
@@ -793,6 +794,15 @@ export function CharacterView({
                     : t(life.aptitude)}
                 </dd>
               </div>
+              {life.ruleset === "expanded-1" && life.phase !== "ended" && (
+                <div>
+                  <dt>{language === "th" ? "ปัจจัยลาปลาซ" : "Laplace Factor"}</dt>
+                  <dd>{life.expansion.genetics.carrier
+                    ? (language === "th" ? "มี" : "Yes")
+                    : (language === "th" ? "ไม่มี" : "No")}</dd>
+                  {life.expansion.genetics.discovered && <dd>{confirmedFactorText(life.expansion.genetics, language)}</dd>}
+                </div>
+              )}
               <div>
                 <dt>{t("Temperament")}</dt>
                 <dd>{t(life.personality)}</dd>

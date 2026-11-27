@@ -1,5 +1,6 @@
 import { resolveDreamChoice } from "./dream-warning";
 import { resolveLedgerChoice } from "./orsted-ledger";
+import { confirmedFactorText } from "../../i18n/factor";
 import { applyTrainingYear, fullTimeTraining } from "./training";
 import { repayEducationYear, closeEducationDebt } from "./education-finance";
 import type { ExpandedLife, Focus } from "../types";
@@ -195,6 +196,13 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
       key: "expanded.education-choice",
       params: { title: educationText.label, text: educationText.outcome },
     };
+  if (id === "expanded.discovery.assess" && !life.expansion.genetics.discovered && next.expansion.genetics.discovered) {
+    const record = next.history[next.history.length - 1];
+    record.text = "Laplace Factor confirmed. " + confirmedFactorText(next.expansion.genetics, "en");
+    record.message = {key: "expanded.education-choice", params: {
+      title: educationText?.label ?? "ขอรับการประเมิน", text: "ตรวจพบปัจจัยลาปลาซ " + confirmedFactorText(next.expansion.genetics, "th"),
+    }};
+  }
   const careerOutcome=houseSponsorshipChoiceOutcome(life,next,id,'en') ?? careerChoiceOutcome(life,next,id,'en');
   if(careerOutcome) {
     const record=next.history[next.history.length-1];

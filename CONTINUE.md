@@ -1,10 +1,6 @@
-# Laplace Factor assessment — paused on 2026-11-27
+# The Laplace Factor Awakens — 2026-11-27
 
-Task branch `codex/laplace-factor-assessment` was started from main at `05caba7`. The approved design and plan, plus the initial domain regression tests, are committed and pushed. Implementation of the assessment and profile is incomplete; the initial tests have not been verified by Dot.
-
-Latest user direction: do not add a general birth-odds display. Show the active character's actual Laplace Factor Yes/No immediately, in English and Thai. After the free optional assessment from age eight with an observed sign, show the character's actual manifestation, gameplay effects, and any applicable drawback. No changes to inheritance odds, training balance, or existing save behavior.
-
-The coding workspace stopped with “Your workspace is out of credits. Add credits to continue.” No reliable remaining-window or reset readings were available. On resumption: fetch origin, check usage, review the initial regression in `six-faced-life/src/game/expanded/activities.test.ts`, and run `npm test -- src/game/expanded/activities.test.ts` from `six-faced-life/` before implementing. Finish the profile and bilingual UI tests, run the full test/build and isolated browser checks. Use this same task branch and draft PR; do not merge or deploy.
+PR #43 on `codex/laplace-factor-assessment` adds voluntary discovery from age eight and immediate carrier status on the active Character profile. Assessment records the actual manifestation and reveals its existing gameplay effects. Usage windows were unavailable. The [spec](docs/superpowers/specs/2026-11-27-laplace-factor-assessment.md) and [plan](docs/superpowers/plans/2026-11-27-laplace-factor-assessment.md) describe the approved scope.
 
 # The Dream’s Warning — 2026-11-27
 
