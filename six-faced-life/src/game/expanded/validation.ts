@@ -99,6 +99,14 @@ export function validateExpansion(
     return false;
   const birthYear = v.birthYear;
   const year = birthYear + age;
+  const road = v.longRoadHome;
+  if (road !== undefined && (!obj(road) || !one(road.route, ["refuge", "passage"]) ||
+    !int(road.dueYear, Math.max(418, birthYear + 9), year + 1) ||
+    !one(road.resolution, ["pending", "recovered", "boarded", "cancelled", "left", "ended"]) ||
+    (road.resolution === "pending" && phase !== "alive") ||
+    (road.resolution === "ended" && phase !== "ended") ||
+    (road.resolution === "recovered" && road.route !== "refuge") ||
+    (one(road.resolution, ["boarded", "cancelled"]) && road.route !== "passage"))) return false;
   if (v.social !== undefined && (!obj(v.social) || v.social.version !== 1)) return false;
   if (!validateEducationAccess(v, year, phase)) return false;
   if (
@@ -344,6 +352,7 @@ export function validateExpansion(
         n(f.value, -1_000_000, Number.MAX_SAFE_INTEGER),
     ) ||
     !arr(v.queue, 16, validEventId) ||
+    v.queue.includes("expanded.long-road-home") ||
     v.queue.includes("expanded.hitogami-dream") ||
     v.queue.includes("expanded.orsted-ledger") ||
     new Set(v.queue).size !== v.queue.length ||

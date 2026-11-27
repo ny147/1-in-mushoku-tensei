@@ -6,9 +6,9 @@ import {
   type EducationQuote,
 } from "./education-finance";
 import { sameHouseSponsorship } from "./house-sponsorship";
-import type { ExpandedLife } from "../types";
+import type { ExpandedLife, RegionId } from "../types";
 import { ensureEducationAccess } from "./education-access-state";
-import { fact } from "./facts";
+import { fact, worldYear } from "./facts";
 import { canRelocate, inCustody } from "./succession-restrictions";
 import { clamp } from "./random";
 import { getProgression } from "../progression";
@@ -37,6 +37,13 @@ export function assessTalent(life: ExpandedLife) {
   );
   fact(life, "education", "assessment", "", e.assessment);
 }
+export function moveByOrdinaryTravel(life: ExpandedLife, destination: RegionId) {
+  life.region = destination;
+  life.expansion.origin.locality = destination === "asura" ? "countryside" : "settlement";
+  life.expansion.economy.travelUntil = worldYear(life) + 1;
+  fact(life, "history", "migration", destination);
+}
+
 export function travelCost(life: ExpandedLife) {
   return life.region === "demon" ? 120 : life.region === "begaritt" ? 90 : 40;
 }
