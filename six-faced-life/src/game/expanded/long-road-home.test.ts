@@ -33,7 +33,7 @@ describe("The Long Road Home", () => {
     expect(open(l)).toBe(l);
     h.exposure="support"; h.locality="countryside";
     expect(open(l)).toBe(l);
-    h.locality="fittoa"; l.age=7;
+    h.locality="fittoa"; l.expansion.birthYear=410; l.age=7;
     expect(open(l)).toBe(l);
     l.age=8; l.expansion.queue.push("expanded.reading");
     expect(open(l)).toBe(l);

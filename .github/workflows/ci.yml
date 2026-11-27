@@ -88,6 +88,8 @@ jobs:
                       assert browser.execute_script('return document.documentElement.scrollWidth <= innerWidth + 1')
                       assert browser.execute_script("return [...document.querySelectorAll('.choice')].every(b=>b.scrollWidth <= b.clientWidth+1)")
                   name='The Long Road Home' if lang=='en' else 'หนทางไกลกลับบ้าน'
+                  watch=browser.find_element(By.CSS_SELECTOR,'input[type=checkbox]')
+                  if not watch.is_selected(): browser.execute_script('arguments[0].click()',watch)
                   activity(name)
                   layout()
                   browser.refresh()
