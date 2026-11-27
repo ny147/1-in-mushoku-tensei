@@ -87,18 +87,28 @@ jobs:
                   def layout():
                       assert browser.execute_script('return document.documentElement.scrollWidth <= innerWidth + 1')
                       assert browser.execute_script("return [...document.querySelectorAll('.choice')].every(b=>b.scrollWidth <= b.clientWidth+1)")
+                  def reading_modes(text):
+                      for mode in ['full','short']:
+                          radios=browser.find_elements(By.CSS_SELECTOR,'input[name="choice-reading-mode"]')
+                          radio=radios[1 if mode=='full' else 0]
+                          radio.click()
+                          assert radio.is_selected()
+                          assert text in browser.find_element(By.CSS_SELECTOR,'.decision-panel').text
+                          layout()
                   name='The Long Road Home' if lang=='en' else 'หนทางไกลกลับบ้าน'
                   watch=browser.find_element(By.CSS_SELECTOR,'input[type=checkbox]')
                   if not watch.is_selected(): browser.execute_script('arguments[0].click()',watch)
                   activity(name)
                   layout()
                   browser.refresh()
+                  reading_modes('120')
                   find('button','Stay at the refuge' if lang=='en' else 'จองเรือไปอัสรา').click()
                   wait.until(lambda d:d.find_element(By.CSS_SELECTOR,'.outcome-narrative').text)
                   find('button','+1 year' if lang=='en' else '+1 ปี').click()
                   activity(name)
                   layout()
                   browser.refresh()
+                  reading_modes('Health +' if lang=='en' else '120')
                   find('button','Record your recovery' if lang=='en' else 'ขึ้นเรือไปอัสรา').click()
                   result=wait.until(lambda d:d.find_element(By.CSS_SELECTOR,'.outcome-narrative').text)
                   assert ('Health +' in result if lang=='en' else '120 เหรียญเงิน' in result),result

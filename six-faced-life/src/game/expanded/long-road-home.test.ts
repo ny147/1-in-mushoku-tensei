@@ -96,3 +96,17 @@ describe("The Long Road Home", () => {
     expect(l.expansion.longRoadHome?.resolution).toBe("ended");
   });
 });
+
+it("closes a passenger reservation in both languages without an extra fare or move", () => {
+  const booked=pick(open(survivor()),"passage");
+  const moved=choose(openActivity(booked,"travel"),"expanded.travel.move-ranoa") as ExpandedLife;
+  expect([moved.region,moved.coins]).toEqual(["ranoa",booked.coins-120]);
+  const cancellation=moved.history.find(e=>e.message?.params?.title==="หนทางไกลกลับบ้าน");
+  expect(cancellation?.text).toContain("reserved passage to Asura was cancelled without charge");
+  expect(cancellation?.message?.params?.text).toContain("จองเรือไปอัสรา");
+  finishExpanded(booked,"illness");
+  expect([booked.region,booked.coins]).toEqual(["demon",200]);
+  const ending=booked.history.find(e=>e.message?.params?.title==="หนทางไกลกลับบ้าน");
+  expect(ending?.text).toContain("No fare was collected");
+  expect(ending?.message?.params?.text).toContain("ไม่มีการเก็บค่าโดยสาร");
+});

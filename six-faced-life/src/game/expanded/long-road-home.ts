@@ -89,8 +89,17 @@ export function closeRoad(life: ExpandedLife, reason: "left" | "ended") {
   const road = life.expansion.longRoadHome;
   if (road?.resolution !== "pending") return;
   road.resolution = reason;
-  const en = reason === "left" ? "You left the displaced settlement independently. Your refuge arrangement ended." : "Your refuge arrangement ended with your life.";
-  const th = reason === "left" ? "คุณออกจากชุมชนผู้พลัดถิ่นด้วยตนเอง ข้อตกลงที่ที่พักพิงจึงสิ้นสุดลง" : "ข้อตกลงที่ที่พักพิงสิ้นสุดลงเมื่อชีวิตของคุณจบลง";
+  const passage = road.route === "passage";
+  const en = reason === "left"
+    ? (passage ? "You left by another route. Your reserved passage to Asura was cancelled without charge."
+      : "You left the displaced settlement before completing your recovery at the refuge.")
+    : (passage ? "Your life ended before you boarded for Asura. No fare was collected."
+      : "Your life ended before you could complete your recovery at the refuge.");
+  const th = reason === "left"
+    ? (passage ? "คุณออกเดินทางด้วยวิธีอื่น การจองเรือไปอัสราจึงถูกยกเลิกโดยไม่เสียค่าโดยสาร"
+      : "คุณออกจากชุมชนผู้พลัดถิ่นก่อนจะพักฟื้นที่ที่พักพิงเสร็จ")
+    : (passage ? "ชีวิตของคุณสิ้นสุดลงก่อนขึ้นเรือไปอัสรา จึงไม่มีการเก็บค่าโดยสาร"
+      : "ชีวิตของคุณสิ้นสุดลงก่อนที่จะพักฟื้นที่ที่พักพิงเสร็จ");
   entry(life,"long-road-home.closed","The Long Road Home",en,"world");
   life.history[life.history.length-1].message={key:"expanded.education-choice",params:{title:"หนทางไกลกลับบ้าน",text:th}};
 }
