@@ -1,6 +1,6 @@
 # The Long Road Home
 
-**Proposed for Weerawich’s review.** Approval covers writing this design. Gameplay implementation requires a separate decision. [Original feature backlog #9](https://github.com/ny147/1-in-mushoku-tensei/issues/9)
+**Approved for implementation by Weerawich on 27 November 2026.** [Original feature backlog #9](https://github.com/ny147/1-in-mushoku-tensei/issues/9)
 
 ## Goal and scope
 
