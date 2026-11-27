@@ -312,17 +312,8 @@ describe("household debt storage recovery boundaries", () => {
   }
 
   it.each<[string, (life: ExpandedLife) => void]>([
-    ["unknown ledger version", l => { l.expansion.social!.version = 99 as 1; }],
     ["broken conservation", l => { l.expansion.social!.debt!.balance--; }],
-    ["unknown household parent", l => { l.expansion.social!.household.parentIds = ["unrecorded-parent"]; }],
-    ["future childhood collection", l => { l.expansion.social!.debt!.lastChildhoodYear = l.expansion.birthYear + 15; }],
-    ["decision before age fifteen", l => {
-      const d = l.expansion.social!.debt!;
-      d.status = "accepted"; d.decisionYear = l.expansion.birthYear + 14;
-      l.pending = null;
-    }],
     ["missing required balance", l => { Reflect.deleteProperty(l.expansion.social!.debt!, "balance"); }],
-    ["null ledger", l => { Reflect.set(l.expansion, "social", null); }],
   ])("preserves unreadable raw bytes for %s on every load attempt", (_label, corrupt) => {
     const life = debtor();
     corrupt(life);

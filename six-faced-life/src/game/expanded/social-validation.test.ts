@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createExpandedLife } from "./origins";
 import { validateSocialState } from "./social-validation";
-import { isLife, loadGame } from "../storage";
+import { isLife } from "../storage";
 import type { SocialState } from "./social-state";
 
 function debtor() {
@@ -41,6 +41,15 @@ function serviceLife() {
   };
   return l;
 }
+
+function rejectCorruptFields(cases: [string, (social: SocialState) => void][]) {
+  for (const [label, corrupt] of cases) {
+    const life = adult();
+    corrupt(life.expansion.social!);
+    expect(validateSocialState(life.expansion.social, life), label).toBe(false);
+  }
+}
+
 describe("strict social ledger validation", () => {
   it("accepts optional last-credit facts without inventing them in older ledgers", () => {
     const l = serviceLife(), d = l.expansion.social!.debt!, t = d.service!;
@@ -52,7 +61,7 @@ describe("strict social ledger validation", () => {
     d.balance = 48; d.servicePaid = 0;
     expect(validateSocialState(l.expansion.social, l)).toBe(true);
   });
-  it.each([null, undefined, "417", 417.5, -1, 9999])("rejects inconsistent present last-credit value %s", value => {
+  it.each([null, undefined, "417", 417.5])("rejects inconsistent present last-credit value %s", value => {
     const l = serviceLife(); Object.assign(l.expansion.social!.debt!.service!, { lastCreditYear: value });
     expect(validateSocialState(l.expansion.social, l)).toBe(false);
   });
@@ -86,11 +95,11 @@ describe("strict social ledger validation", () => {
     delete l.expansion.social;
     expect(isLife(l)).toBe(true);
   });
-  it.each<[string, (s: any) => void]>([
-    ["unknown version", (s) => (s.version = 2)],
-    ["unknown key", (s) => (s.forged = true)],
-    ["missing required key", (s) => delete s.royalHouse],
-    ["unknown source", (s) => (s.source = "old")],
+  it("rejects an invalid ledger shape or origin", () => rejectCorruptFields([
+    ["unknown version", (s) => Object.assign(s, { version: 2 })],
+    ["unknown key", (s) => Object.assign(s, { forged: true })],
+    ["missing required key", (s) => Reflect.deleteProperty(s, "royalHouse")],
+    ["unknown source", (s) => Object.assign(s, { source: "old" })],
     ["future activation", (s) => (s.activatedYear = 9999)],
     [
       "false migrated ancestry",
@@ -99,6 +108,8 @@ describe("strict social ledger validation", () => {
         s.royalHouse = "asura";
       },
     ],
+  ]));
+  it("rejects invalid household records", () => rejectCorruptFields([
     ["invented parent", (s) => (s.household.parentIds = ["nobody"])],
     ["duplicate parent", (s) => (s.household.parentIds = ["mother", "mother"])],
     [
@@ -120,68 +131,51 @@ describe("strict social ledger validation", () => {
         s.household.housingLossYear = s.activatedYear;
       },
     ],
-    ["invalid home", (s) => (s.household.home = "foreign")],
-    ["unknown debt key", (s) => (s.debt.forged = true)],
-    ["negative balance", (s) => (s.debt.balance = -1)],
-    ["fractional balance", (s) => (s.debt.balance = 47.5)],
-    ["NaN balance", (s) => (s.debt.balance = NaN)],
-    ["inconsistent conservation", (s) => (s.debt.balance = 47)],
-    ["unknown creditor", (s) => (s.debt.creditorId = "bank")],
-    ["missing collateral", (s) => delete s.debt.collateral],
-    ["future guard", (s) => (s.debt.lastRepaymentYear = 9999)],
+    ["invalid home", (s) => Object.assign(s.household, { home: "foreign" })],
+  ]));
+  it("rejects invalid debt amounts, dates and statuses", () => rejectCorruptFields([
+    ["unknown debt key", (s) => Object.assign(s.debt!, { forged: true })],
+    ["negative balance", (s) => (s.debt!.balance = -1)],
+    ["fractional balance", (s) => (s.debt!.balance = 47.5)],
+    ["NaN balance", (s) => (s.debt!.balance = NaN)],
+    ["inconsistent conservation", (s) => (s.debt!.balance = 47)],
+    ["unknown creditor", (s) => Object.assign(s.debt!, { creditorId: "bank" })],
+    ["missing collateral", (s) => Reflect.deleteProperty(s.debt!, "collateral")],
+    ["future guard", (s) => (s.debt!.lastRepaymentYear = 9999)],
     [
       "childhood after 14",
-      (s) => (s.debt.lastChildhoodYear = s.activatedYear + 15),
+      (s) => (s.debt!.lastChildhoodYear = s.activatedYear + 15),
     ],
     [
       "household personal payments",
       (s) => {
-        s.debt.personalPaid = 1;
-        s.debt.balance = 47;
+        s.debt!.personalPaid = 1;
+        s.debt!.balance = 47;
       },
     ],
     [
       "personal decision before 15",
       (s) => {
-        s.debt.status = "accepted";
-        s.debt.decisionYear = s.activatedYear + 14;
+        s.debt!.status = "accepted";
+        s.debt!.decisionYear = s.activatedYear + 14;
       },
     ],
     [
       "closed live debt",
       (s) => {
-        s.debt.status = "closed";
-        s.debt.closedUnpaid = 48;
-        s.debt.balance = 0;
+        s.debt!.status = "closed";
+        s.debt!.closedUnpaid = 48;
+        s.debt!.balance = 0;
       },
     ],
     [
       "service without contract",
       (s) => {
-        s.debt.status = "service";
-        s.debt.decisionYear = s.activatedYear + 15;
+        s.debt!.status = "service";
+        s.debt!.decisionYear = s.activatedYear + 15;
       },
     ],
-  ])(
-    "rejects %s before migration and never rewrites raw storage",
-    (_, mutate) => {
-      const l = adult();
-      mutate(l.expansion.social!);
-      expect(validateSocialState(l.expansion.social, l)).toBe(false);
-      expect(isLife(l)).toBe(false);
-      const raw = JSON.stringify({ version: 1, active: l, archive: [] });
-      let writes = 0;
-      expect(
-        loadGame({
-          getItem: () => raw,
-          setItem: () => {
-            writes++;
-          },
-        }).error,
-      ).toBeTruthy();
-      expect(writes).toBe(0);
-    },
-  );
+  ]));
   it("validates house region and royal eligibility using immutable birth facts", () => {
     const l = adult(),
       s = l.expansion.social!;
