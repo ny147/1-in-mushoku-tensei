@@ -1,3 +1,11 @@
+# Laplace Factor assessment — paused on 2026-11-27
+
+Task branch `codex/laplace-factor-assessment` was started from main at `05caba7`. The approved design and plan, plus the initial domain regression tests, are committed and pushed. Implementation of the assessment and profile is incomplete; the initial tests have not been verified by Dot.
+
+Latest user direction: do not add a general birth-odds display. Show the active character's actual Laplace Factor Yes/No immediately, in English and Thai. After the free optional assessment from age eight with an observed sign, show the character's actual manifestation, gameplay effects, and any applicable drawback. No changes to inheritance odds, training balance, or existing save behavior.
+
+The coding workspace stopped with “Your workspace is out of credits. Add credits to continue.” No reliable remaining-window or reset readings were available. On resumption: fetch origin, check usage, review the initial regression in `six-faced-life/src/game/expanded/activities.test.ts`, and run `npm test -- src/game/expanded/activities.test.ts` from `six-faced-life/` before implementing. Finish the profile and bilingual UI tests, run the full test/build and isolated browser checks. Use this same task branch and draft PR; do not merge or deploy.
+
 # The Dream’s Warning — 2026-11-27
 
 The [spec](docs/superpowers/specs/2026-11-27-hitogami-dream-warning.md) and [plan](docs/superpowers/plans/2026-11-27-hitogami-dream-warning.md) describe an optional Hitogami delivery warning on `codex/hitogami-dream-warning`, based on `9700f6f`. The player’s decision persists until the ferry dispatch is recorded. Domain and rendered app tests cover both outcomes and both languages. [Runner verification](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/45923659644) passed the full suite and build and exercised the mission in isolated Chrome profiles. English at 1280 px stopped the cart and Thai at 390 px allowed it through. Both reloaded, recorded the dispatch and passed horizontal-fit checks. Account usage windows were unavailable.
