@@ -1,6 +1,6 @@
 # The Long Road Home — 2026-11-27
 
-PR #44 implements the [approved design](docs/superpowers/specs/2026-11-27-long-road-home-design.md) and [plan](docs/superpowers/plans/2026-11-27-long-road-home.md) on `codex/long-road-home-design`. A dated Fittoa displacement unlocks the refuge and return-passage choices. The follow-up uses the route-selection year, rechecks normal travel conditions, and records the actual result. Account usage windows were unavailable.
+PR #44 implements the [approved design](docs/superpowers/specs/2026-11-27-long-road-home-design.md) and [plan](docs/superpowers/plans/2026-11-27-long-road-home.md) on `codex/long-road-home-design`. A dated Fittoa displacement unlocks the refuge and return-passage choices. The follow-up uses the route-selection year, rechecks normal travel conditions, and records the actual result. [Runner verification](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/45957768909) passed English desktop (1280 px) refuge recovery and Thai phone-width (390 px) passage to Asura. Both exercised Short and Full, next-year availability, reload and horizontal fit. Account usage windows were unavailable.
 
 # The Laplace Factor Awakens — 2026-11-27
 
