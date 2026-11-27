@@ -1,6 +1,6 @@
 # The Dream’s Warning — 2026-11-27
 
-The [spec](docs/superpowers/specs/2026-11-27-hitogami-dream-warning.md) and [plan](docs/superpowers/plans/2026-11-27-hitogami-dream-warning.md) describe an optional Hitogami delivery warning on `codex/hitogami-dream-warning`, based on `9700f6f`. The player’s decision persists until the ferry dispatch is recorded. Domain and rendered app tests cover both outcomes and both languages. Account usage windows were unavailable.
+The [spec](docs/superpowers/specs/2026-11-27-hitogami-dream-warning.md) and [plan](docs/superpowers/plans/2026-11-27-hitogami-dream-warning.md) describe an optional Hitogami delivery warning on `codex/hitogami-dream-warning`, based on `9700f6f`. The player’s decision persists until the ferry dispatch is recorded. Domain and rendered app tests cover both outcomes and both languages. [Runner verification](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/45923659644) passed the full suite and build and exercised the mission in isolated Chrome profiles. English at 1280 px stopped the cart and Thai at 390 px allowed it through. Both reloaded, recorded the dispatch and passed horizontal-fit checks. Account usage windows were unavailable.
 
 # Orsted’s first assignment — 2026-11-27
 
