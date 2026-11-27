@@ -251,3 +251,7 @@ and factual records. Save keys and browser origins remain unchanged.
 ## Orsted’s first assignment
 
 Adult Orsted members can investigate a disputed supply entry through Optional activities. They can defer the lead or return to file a report. A signed statement earns up to 8 faction trust. Withholding the witness’s identity earns up to 4. The chronicle records the actual gain, capped at 100 total trust. Defection ends an unfinished investigation. This optional story can be completed once per life, and both stages require a manual choice.
+
+## The Dream’s Warning
+
+Adult Hitogami apostles can open a dream warning through Optional activities. Stopping an oil delivery earns up to six faction trust. Letting it through earns none. Return to the activity to learn what happened at the ferry and record the dispatch. If the apostle defects first, the dispatch enters the chronicle when they leave. Each life can commit to one outcome.

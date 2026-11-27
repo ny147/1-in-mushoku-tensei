@@ -85,17 +85,18 @@ function politicalFixture(id: string) {
 describe("expanded bilingual catalogue", () => {
   it("provides original Thai titles, bodies, options and outcomes for every registered event", () => {
     for (const id of EXPANDED_EVENT_IDS) {
-      if (id === "orsted-ledger") {
+      if (id === "orsted-ledger" || id === "hitogami-dream") {
         const member = createExpandedLife({seed: 2});
         member.phase = "alive";
         member.age = 35;
         delete member.expansion.social;
-        member.expansion.politics.faction = "orsted";
+        member.expansion.politics.faction = id === "orsted-ledger" ? "orsted" : "hitogami";
         const lead = openActivity(member, id);
-        const report = openActivity(choose(lead, "expanded.orsted-ledger.investigate"), id);
+        const action = id === "orsted-ledger" ? "investigate" : "stop";
+        const report = openActivity(choose(lead, `expanded.${id}.${action}`), id);
         for (const stage of [lead, report]) {
           const decision = getDecision(stage)!;
-          expect(decision.id).toBe("expanded.orsted-ledger");
+          expect(decision.id).toBe(`expanded.${id}`);
           const thai = expandedDecisionText(decision, "th");
           expect(thai.title).toMatch(/[ก-๙]/);
           expect(thai.text).toMatch(/[ก-๙]/);

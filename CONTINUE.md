@@ -1,3 +1,7 @@
+# The Dream’s Warning — 2026-11-27
+
+The [spec](docs/superpowers/specs/2026-11-27-hitogami-dream-warning.md) and [plan](docs/superpowers/plans/2026-11-27-hitogami-dream-warning.md) describe an optional Hitogami delivery warning on `codex/hitogami-dream-warning`, based on `9700f6f`. The player’s decision persists until the ferry dispatch is recorded. Domain and rendered app tests cover both outcomes and both languages. Account usage windows were unavailable.
+
 # Orsted’s first assignment — 2026-11-27
 
 Branch `codex/orsted-first-assignment` starts at `9dcde2b`. The [approved spec](docs/superpowers/specs/2026-11-27-orsted-first-assignment.md) and [implementation plan](docs/superpowers/plans/2026-11-27-orsted-first-assignment.md) cover the optional ledger investigation and its two reports. Tests exercise the public simulation, save loader and bilingual app entry point. Account usage windows were unavailable in this session.

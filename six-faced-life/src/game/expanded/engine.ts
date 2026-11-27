@@ -1,3 +1,4 @@
+import { resolveDreamChoice } from "./dream-warning";
 import { resolveLedgerChoice } from "./orsted-ledger";
 import { applyTrainingYear, fullTimeTraining } from "./training";
 import { repayEducationYear, closeEducationDebt } from "./education-finance";
@@ -169,9 +170,10 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   grantSwordXp(next, swordGain);
   syncLearning(next, magicGain);
   // The selected card above authorizes the action against the original pending state.
-  const cause = decision?.id === "expanded.orsted-ledger"
-    ? resolveLedgerChoice(next, id)
-    : applyExpandedChoice(next, id);
+  let cause: string | null = null;
+  if (decision?.id === "expanded.hitogami-dream") resolveDreamChoice(next, id);
+  else if (decision?.id === "expanded.orsted-ledger") resolveLedgerChoice(next, id);
+  else cause = applyExpandedChoice(next, id);
   if (next.expansion.swords) {
     next.expansion.swords.compatibilityDecision = null;
     next.expansion.swords.compatibilityStudy = null;

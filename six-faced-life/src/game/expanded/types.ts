@@ -188,6 +188,7 @@ export interface ExpandedState {
     titles: { year: number; position: 5 | 6 | 7; won: boolean }[];
   };
   politics: {
+    dreamWarning?: "stopped" | "passed" | "closed";
     orstedLedger?: "investigating" | "full" | "protected" | "ended";
     faction: Faction | null;
     trust: number;
