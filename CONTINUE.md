@@ -1,3 +1,7 @@
+# Orsted’s first assignment — 2026-11-27
+
+Branch `codex/orsted-first-assignment` starts at `9dcde2b`. The [approved spec](docs/superpowers/specs/2026-11-27-orsted-first-assignment.md) and [implementation plan](docs/superpowers/plans/2026-11-27-orsted-first-assignment.md) cover the optional ledger investigation and its two reports. Tests exercise the public simulation, save loader and bilingual app entry point. Account usage windows were unavailable in this session.
+
 # Shared choice reading control — 2026-11-26
 
 The approved revision places one Text length control above the decision and its result. It applies the session preference to both stages, with localized full-copy fallback for decision text and option descriptions. Branch `codex/shared-choice-reading-control` starts from `24a0a9e` for manual review.

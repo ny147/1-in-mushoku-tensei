@@ -247,3 +247,7 @@ Active old expanded lives retain recorded work, occupation-specific earned pay a
 inherited recognition without invented requests. Conversion waits for old pending
 and queued offers to resolve. Legacy and completed lives keep their original rules
 and factual records. Save keys and browser origins remain unchanged.
+
+## Orsted’s first assignment
+
+Adult Orsted members can investigate a disputed supply entry through Optional activities. They can defer the lead or return to file a report. A signed statement earns up to 8 faction trust. Withholding the witness’s identity earns up to 4. The chronicle records the actual gain, capped at 100 total trust. Defection ends an unfinished investigation. This optional story can be completed once per life, and both stages require a manual choice.

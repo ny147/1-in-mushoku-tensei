@@ -65,6 +65,8 @@ import { REGIONS } from "../world";
 import { historicalRecord, canServeHistory, serviceRecord } from "./history";
 import { recordNobleAssociation } from "./social-state";
 import { serviceAssignment } from "./service-priority";
+import { ledgerDecision } from "./orsted-ledger";
+
 export const MANUAL = new Set([
   "orsted",
   "hitogami",
@@ -93,6 +95,7 @@ export function getExpandedDecision(life: ExpandedLife): Decision | null {
 // Sword migration stores and validates the original decision payload.
 export function getExpandedDecisionSnapshot(life: ExpandedLife): Decision | null {
   if (!life.pending || life.phase !== "alive") return null;
+  if (life.pending === "expanded.orsted-ledger") return ledgerDecision(life);
   if (life.expansion.house) {
     const house = houseServiceDecision(life) ?? royalMarriageDecision(life);
     if (house) return house;
