@@ -59,10 +59,15 @@ export function talentMultiplier(
     ? 1.25
     : 1;
 }
+export function canAssessObservedSign(life: ExpandedLife) {
+  const genes = life.expansion.genetics;
+  return life.age >= 8 && genes.carrier && genes.signs && !genes.discovered;
+}
+
 export function discoverGenetics(l: ExpandedLife): boolean {
   const g = l.expansion.genetics;
   if (
-    !g.carrier ||
+    g.discovered || !g.carrier ||
     l.age < 8 ||
     (!g.signs && l.training.magicXp < 80 && maxSwordXp(l) < 80)
   )

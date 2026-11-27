@@ -7,6 +7,7 @@ import {
 } from "../game/expanded/activities";
 import { useI18n } from "../i18n/context";
 const names: Record<Activity, [string, string]> = {
+  discovery: ["Ask about an unusual training sign", "ถามครูเรื่องสัญญาณผิดปกติระหว่างฝึก"],
   "hitogami-dream": ["The Dream’s Warning", "คำเตือนในฝัน"],
   "orsted-ledger": ["Orsted’s ledger assignment", "ภารกิจบัญชีเสบียงของออร์สเตด"],
   "house-petition": ["Petition your house", "ยื่นคำร้องต่อสกุล"],
