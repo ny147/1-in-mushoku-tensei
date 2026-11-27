@@ -254,3 +254,45 @@ describe("the dream’s warning", () => {
     expect(openActivity(rejoined, key)).toBe(rejoined);
   });
 });
+
+describe("optional Laplace Factor assessment", () => {
+  it.each([8, 28])("lets an eligible player defer, reload and discover once at age %i", age => {
+    const life = adult();
+    life.age = age;
+    const genes = life.expansion.genetics;
+    Object.assign(genes, {carrier:true, manifestation:"physical", auraImpaired:false, signs:true, discovered:false});
+    const decision = openActivity(life, "discovery");
+    expect(decision.pending).toBe("expanded.discovery");
+    const saved = loadGame({getItem:()=>JSON.stringify({version:1,active:decision,archive:[]}),setItem:()=>{}});
+    expect(saved.error).toBeFalsy();
+    const restored = saved.data.active!;
+    expect(canAutoChoose(restored)).toBe(false);
+    const deferred = choose(restored, "expanded.discovery.later") as typeof life;
+    expect(deferred.expansion.genetics.discovered).toBe(false);
+    expect(deferred.expansion.facts.some(f => f.code === "factor")).toBe(false);
+    const confirmed = choose(openActivity(deferred,"discovery"),"expanded.discovery.assess") as typeof life;
+    expect(confirmed.expansion.genetics.discovered).toBe(true);
+    expect(confirmed.history.at(-1)?.text).toContain("Physical potential");
+    expect(confirmed.expansion.facts.filter(f=>f.code==="factor")).toHaveLength(1);
+    expect(openActivity(confirmed,"discovery")).toBe(confirmed);
+    expect(confirmed.rng).toBe(life.rng);
+  });
+  it("requires an observed sign and keeps other decisions first", () => {
+    const life = adult();
+    Object.assign(life.expansion.genetics,{carrier:true,manifestation:"appearance",discovered:false,signs:false});
+    life.training.magicXp=100;
+    expect(openActivity(life,"discovery")).toBe(life);
+    life.expansion.genetics.signs=true;
+    life.age=7;
+    expect(openActivity(life,"discovery")).toBe(life);
+    life.age=8;
+    life.pending="expanded.assessment";
+    expect(openActivity(life,"discovery")).toBe(life);
+    life.pending=null;
+    life.expansion.queue.push("expanded.reading");
+    expect(openActivity(life,"discovery")).toBe(life);
+    life.expansion.queue.pop();
+    life.expansion.genetics.carrier=false;
+    expect(openActivity(life,"discovery")).toBe(life);
+  });
+});
