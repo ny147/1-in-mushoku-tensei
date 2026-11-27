@@ -10,11 +10,12 @@ const ready = () =>
     "expanded.memory.observe",
   );
 describe("expanded annual transactions", () => {
-  it("routes expanded creation and explicit legacy compatibility", () => {
+  it("defaults to expanded creation and honors either explicit ruleset", () => {
+    expect(createLife({ seed: 1 }).ruleset).toBe("expanded-1");
     expect(createLife({ seed: 1, ruleset: "expanded-1" }).ruleset).toBe(
       "expanded-1",
     );
-    expect(createLife({ seed: 1, ruleset:'legacy-1' }).ruleset).toBeUndefined();
+    expect(createLife({ seed: 1, ruleset: "legacy-1" }).ruleset).toBeUndefined();
   });
   it("drains same-year decisions without repeating annual effects and survives reload exactly", () => {
     const life = ready();

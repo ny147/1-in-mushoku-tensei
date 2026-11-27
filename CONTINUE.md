@@ -31,6 +31,19 @@ no gameplay, save, dependency, or deployment changes.
 
 The approved default is Short for each new session. The result panel offers Full to restore the original narrative and keeps the selected mode across choices. English and Thai use full copy whenever a reviewed summary is unavailable. This change is on `codex/choice-result-reading-mode` for manual review.
 
+# Test suite cleanup — 2026-11-27
+
+`codex/prune-redundant-tests` consolidates new-life routing coverage, removes a
+short language-independence test covered by full seeded lifetimes, and trims
+equivalent invalid-language inputs. Debt and service release scenarios run
+once each across a mix of English and Thai saves. The career outcome still
+renders in both languages from one recorded project. Application code is unchanged.
+
+On Node 22.16.0, `npm test` went from 859 passing tests in 95 files to
+844 passing tests in 94 files. Both full runs took about 81 seconds.
+The final career localization file passed its three focused tests.
+`npm run build` passed with the existing Vite chunk-size warning.
+
 # House sponsorship and royal marriage — Stage 3, 2026-11-25
 
 PR #35 is merged into `main` at `55315b9`. The

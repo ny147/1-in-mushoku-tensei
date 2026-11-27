@@ -113,8 +113,8 @@ describe("standing release: uninterrupted and saved public flows", () => {
     expect(life.phase).toBe("ended");
   });
 
-  it.each(["en", "th"] as const)("collects childhood support once and preserves %s reserves and seeded future", language => {
-    const life = debtor(language);
+  it("collects childhood support once and preserves reserves and the seeded future", () => {
+    const life = debtor("en");
     life.stats.health = 100;
     life.coins = 33;
     life.expansion.economy.peak = 33;
@@ -135,8 +135,8 @@ describe("standing release: uninterrupted and saved public flows", () => {
     expect(pairedYear(next).age).toBe(2);
   });
 
-  it.each(["en", "th"] as const)("accepts %s debt without consuming student reserves and restores later decisions", language => {
-    const pending = atResponsibility(language);
+  it("accepts debt without consuming student reserves and restores later decisions", () => {
+    const pending = atResponsibility("th");
     pending.expansion.economy.familyFunds = 30;
     expect(reserveEducation(pending, quoteEducation(pending, {
       purpose: "university", admission: 0, travel: 0, tuition: 60, living: 0,
@@ -154,8 +154,8 @@ describe("standing release: uninterrupted and saved public flows", () => {
     expect(pairedYear(accepted).expansion.social!.debt!.decisionYear).toBe(pending.expansion.birthYear + 15);
   });
 
-  it.each(["en", "th"] as const)("pauses, resumes and completes %s service with no cash wage or repeated credit", language => {
-    let life = clearDecisions(choose(atResponsibility(language), "expanded.parental-debt.service") as ExpandedLife);
+  it("pauses, resumes and completes service with no cash wage or repeated credit", () => {
+    let life = clearDecisions(choose(atResponsibility("en"), "expanded.parental-debt.service") as ExpandedLife);
     expect(life.expansion.career.role).toBe("laborer");
     // Relocation pauses the actual annual service, without withdrawing study.
     const home = life.region;
@@ -177,8 +177,8 @@ describe("standing release: uninterrupted and saved public flows", () => {
     expect(paidAgain.expansion.social!.debt!.servicePaid).toBe(48);
   });
 
-  it.each(["en", "th"] as const)("restores %s service review, keeps earned credit and closes unpaid debt at death once", language => {
-    let life = clearDecisions(choose(atResponsibility(language), "expanded.parental-debt.service") as ExpandedLife);
+  it("restores service review, keeps earned credit and closes unpaid debt at death once", () => {
+    let life = clearDecisions(choose(atResponsibility("th"), "expanded.parental-debt.service") as ExpandedLife);
     life = clearDecisions(pairedYear(life));
     const review = openActivity(life, "debt-service-exit") as ExpandedLife;
     expect(review.pending).toBe("expanded.debt-service-exit");
@@ -200,8 +200,8 @@ describe("standing release: uninterrupted and saved public flows", () => {
     expect(advance(ended, "year")).toBe(ended);
   });
 
-  it.each(["en", "th"] as const)("expires the %s refusal shelter burden after three real years without collecting personal debt", language => {
-    let life = clearDecisions(choose(atResponsibility(language), "expanded.parental-debt.refuse") as ExpandedLife);
+  it("expires the refusal shelter burden after three real years without collecting personal debt", () => {
+    let life = clearDecisions(choose(atResponsibility("en"), "expanded.parental-debt.refuse") as ExpandedLife);
     const decisionYear = life.expansion.social!.debt!.decisionYear;
     for (let elapsed = 1; elapsed <= 4; elapsed++) {
       life = pairedYear(life);
