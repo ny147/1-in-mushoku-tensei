@@ -652,3 +652,39 @@ it.each(["en","th"] as const)("keeps %s time controls in order and focuses the f
  fireEvent.click(screen.getByRole("button",{name:language==="en"?"Open your full spellbook":"เปิดตำราเวทฉบับเต็ม"}));
  expect(document.activeElement?.id).toBe("spellbook-heading");
 });
+
+it.each(["en", "th"] as const)("plays Orsted’s optional ledger story manually in %s", (language) => {
+  vi.useFakeTimers();
+  const thai = language === "th";
+  const life = createExpandedLife({ seed: 2, language });
+  life.phase = "alive";
+  life.age = 35;
+  life.pending = null;
+  delete life.expansion.social;
+  life.expansion.politics.faction = "orsted";
+  life.expansion.politics.trust = 98;
+  saveGame(window.localStorage, { version: 1, active: life, archive: [] });
+  render(<App />);
+  const summary = screen.getByText(thai ? "กิจกรรมที่เลือกทำได้" : "Optional activities", {exact: true});
+  const open = () => {
+    if (!summary.closest("details")?.open) fireEvent.click(summary);
+    fireEvent.click(screen.getByRole("button", {name: thai ? "ภารกิจบัญชีเสบียงของออร์สเตด" : "Orsted’s ledger assignment"}));
+  };
+  const manual = (title: string) => {
+    fireEvent.click(screen.getByRole("button", {name: thai ? "เดินเวลา" : "Play time"}));
+    act(() => vi.advanceTimersByTime(2200));
+    expect(screen.getByRole("heading", {name: title})).toBeTruthy();
+  };
+  fireEvent.click(screen.getByRole("checkbox", {name: thai ? "โหมดเฝ้าดู" : "Watch mode"}));
+  open();
+  manual(thai ? "เบาะแสในบัญชีเสบียง" : "A lead in the ledger");
+  fireEvent.click(screen.getByRole("button", {name: thai ? /^สืบเรื่องเกวียนที่หายไป/ : /^Investigate the missing wagon/}));
+  open();
+  manual(thai ? "ลายเซ็นของเสมียน" : "The clerk’s signature");
+  fireEvent.click(screen.getByRole("button", {name: thai ? /^ปกปิดตัวพยาน/ : /^Protect the witness/}));
+  const result = screen.getByRole("region", {name: thai ? "ทางเลือกของคุณ" : "Your choice"});
+  expect(within(result).getByText(thai ? /คุณส่งใบรับเสบียงโดยปกปิดชื่อเสมียน.*\+2/ : /withheld the clerk’s name.*\+2/)).toBeTruthy();
+  const saved = loadGame(window.localStorage).data.active as ExpandedLife;
+  expect(saved.expansion.politics.orstedLedger).toBe("protected");
+  expect(saved.expansion.politics.trust).toBe(100);
+});

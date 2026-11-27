@@ -188,6 +188,7 @@ export interface ExpandedState {
     titles: { year: number; position: 5 | 6 | 7; won: boolean }[];
   };
   politics: {
+    orstedLedger?: "investigating" | "full" | "protected" | "ended";
     faction: Faction | null;
     trust: number;
     refused: Partial<Record<Faction, number>>;

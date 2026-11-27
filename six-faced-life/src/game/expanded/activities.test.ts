@@ -131,3 +131,71 @@ describe("player-initiated optional activities", () => {
     expect(canAutoChoose(next)).toBe(false);
   });
 });
+
+describe("Orsted’s first assignment", () => {
+  const key = "orsted-ledger" as const;
+  const id = "expanded.orsted-ledger.";
+  function member() {
+    const life = adult();
+    life.expansion.politics.faction = "orsted";
+    life.expansion.politics.trust = 20;
+    return life;
+  }
+  function reload(life: ReturnType<typeof member>) {
+    const restored = loadGame({
+      getItem: () => JSON.stringify({version: 1, active: life, archive: []}),
+      setItem: () => { throw Error("Unexpected write"); },
+    });
+    expect(restored.error).toBeFalsy();
+    return restored.data.active as typeof life;
+  }
+  it("respects membership, age and existing commitments", () => {
+    const life = adult();
+    expect(openActivity(life, key)).toBe(life);
+    life.expansion.politics.faction = "hitogami";
+    expect(openActivity(life, key)).toBe(life);
+    life.expansion.politics.faction = "orsted";
+    life.age = 17;
+    expect(openActivity(life, key)).toBe(life);
+    life.age = 18;
+    life.expansion.queue.push("expanded.reading");
+    expect(openActivity(life, key)).toBe(life);
+    life.expansion.queue.pop();
+    life.pending = "expanded.assignment";
+    expect(openActivity(life, key)).toBe(life);
+    expect(getDecision(life)?.id).toBe("expanded.assignment");
+    const legacy = createLife({ruleset: "legacy-1", seed: 2});
+    expect(openActivity(legacy, key)).toBe(legacy);
+  });
+  it.each([["full", 8], ["protect", 4]] as const)("resolves %s once after reload", (action, gain) => {
+    const life = member();
+    const first = reload(openActivity(life, key) as typeof life);
+    expect(canAutoChoose(first)).toBe(false);
+    const later = choose(first, id + "later") as typeof life;
+    expect(later.expansion.politics.orstedLedger).toBeUndefined();
+    const started = choose(openActivity(later, key), id + "investigate") as typeof life;
+    const second = reload(openActivity(started, key) as typeof life);
+    expect(canAutoChoose(second)).toBe(false);
+    const done = choose(second, id + action) as typeof life;
+    expect(done.expansion.politics.trust).toBe(20 + gain);
+    expect(done.rng).toBe(life.rng);
+    expect(done.history.at(-1)?.text).toContain("+" + gain);
+    expect(openActivity(done, key)).toBe(done);
+    expect(choose(done, id + action)).toBe(done);
+  });
+  it("records the capped reward and closes an investigation on defection", () => {
+    const life = member();
+    life.expansion.politics.trust = 99;
+    const started = choose(openActivity(life, key), id + "investigate") as typeof life;
+    const capped = choose(openActivity(started, key), id + "full") as typeof life;
+    expect(capped.expansion.politics.trust).toBe(100);
+    expect(capped.history.at(-1)?.text).toContain("+1");
+    started.pending = "expanded.defect";
+    const left = choose(started, "expanded.defect.accept") as typeof life;
+    expect(left.expansion.politics.orstedLedger).toBe("ended");
+    expect(left.expansion.politics.trust).toBe(0);
+    left.expansion.politics.faction = "orsted";
+    const rejoined = reload(left);
+    expect(openActivity(rejoined, key)).toBe(rejoined);
+  });
+});

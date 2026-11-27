@@ -203,6 +203,9 @@ export function validateExpansion(
   if (
     !obj(v.politics) ||
     !one(v.politics.faction, [null, "orsted", "hitogami"]) ||
+    (v.politics.orstedLedger !== undefined &&
+      (!one(v.politics.orstedLedger, ["investigating", "full", "protected", "ended"]) ||
+        age < 18 || (v.politics.orstedLedger === "investigating" && v.politics.faction !== "orsted"))) ||
     !n(v.politics.trust, 0, 100) ||
     !int(v.politics.obligations, 0, 1000) ||
     !int(v.politics.pursuitUntil, 396, 1500) ||
@@ -338,6 +341,7 @@ export function validateExpansion(
         n(f.value, -1_000_000, Number.MAX_SAFE_INTEGER),
     ) ||
     !arr(v.queue, 16, validEventId) ||
+    v.queue.includes("expanded.orsted-ledger") ||
     new Set(v.queue).size !== v.queue.length ||
     !arr(
       v.history,

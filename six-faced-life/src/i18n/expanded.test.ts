@@ -85,6 +85,28 @@ function politicalFixture(id: string) {
 describe("expanded bilingual catalogue", () => {
   it("provides original Thai titles, bodies, options and outcomes for every registered event", () => {
     for (const id of EXPANDED_EVENT_IDS) {
+      if (id === "orsted-ledger") {
+        const member = createExpandedLife({seed: 2});
+        member.phase = "alive";
+        member.age = 35;
+        delete member.expansion.social;
+        member.expansion.politics.faction = "orsted";
+        const lead = openActivity(member, id);
+        const report = openActivity(choose(lead, "expanded.orsted-ledger.investigate"), id);
+        for (const stage of [lead, report]) {
+          const decision = getDecision(stage)!;
+          expect(decision.id).toBe("expanded.orsted-ledger");
+          const thai = expandedDecisionText(decision, "th");
+          expect(thai.title).toMatch(/[ก-๙]/);
+          expect(thai.text).toMatch(/[ก-๙]/);
+          for (const choice of thai.choices) {
+            expect(choice.label).toMatch(/[ก-๙]/);
+            expect(choice.description).toMatch(/[ก-๙]/);
+            expect(choice.outcome).toMatch(/[ก-๙]/);
+          }
+        }
+        continue;
+      }
       if (/^(asura-|succession-withdrawal$|crown-|govern-|house-|royal-marriage$)/.test(id)) {
         const fixture = /^(house-|royal-marriage$)/.test(id) ? houseFixture(id) : politicalFixture(id);
         const decision = getDecision(fixture);

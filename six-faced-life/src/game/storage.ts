@@ -100,6 +100,7 @@ export function isLife(v: unknown): v is Life {
       (typeof x.optionalActivity !== "string" ||
         x.optionalActivity !== v.pending ||
         ![
+          "orsted-ledger",
           "debt-service-exit",
           "crown-petition",
           "house-petition",

@@ -53,6 +53,7 @@ export function refuseFaction(l: ExpandedLife, faction: Faction) {
 export function defect(l: ExpandedLife) {
   const p = l.expansion.politics;
   if (!p.faction) return;
+  if (p.faction === "orsted" && p.orstedLedger === "investigating") p.orstedLedger = "ended";
   p.faction = null;
   p.trust = 0;
   p.pursuitUntil = worldYear(l) + 3;

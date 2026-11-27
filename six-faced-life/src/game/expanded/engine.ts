@@ -1,3 +1,4 @@
+import { resolveLedgerChoice } from "./orsted-ledger";
 import { applyTrainingYear, fullTimeTraining } from "./training";
 import { repayEducationYear, closeEducationDebt } from "./education-finance";
 import type { ExpandedLife, Focus } from "../types";
@@ -167,7 +168,10 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
     allocateSwordStyle(next, action);
   grantSwordXp(next, swordGain);
   syncLearning(next, magicGain);
-  const cause = applyExpandedChoice(next, id);
+  // The selected card above authorizes the action against the original pending state.
+  const cause = decision?.id === "expanded.orsted-ledger"
+    ? resolveLedgerChoice(next, id)
+    : applyExpandedChoice(next, id);
   if (next.expansion.swords) {
     next.expansion.swords.compatibilityDecision = null;
     next.expansion.swords.compatibilityStudy = null;
