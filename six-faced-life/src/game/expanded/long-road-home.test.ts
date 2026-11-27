@@ -7,7 +7,9 @@ import { finishExpanded } from "./engine";
 import type { ExpandedLife } from "../types";
 
 function survivor(): ExpandedLife {
-  const life = createExpandedLife({seed:2});
+  let seed=0;
+  let life=createExpandedLife({seed});
+  while (life.expansion.birthYear > 409) life=createExpandedLife({seed:++seed});
   delete life.expansion.social;
   life.phase = "alive";
   life.age = Math.max(25, 420 - life.expansion.birthYear);
@@ -65,6 +67,11 @@ describe("The Long Road Home", () => {
     const booked=reload(pick(open(l),"passage"));
     expect(booked.coins).toBe(120);
     booked.age++; booked.coins=119;
+    const restricted=structuredClone(booked);
+    restricted.coins=200;
+    restricted.expansion.succession!.restrictions.exile = {year:420,confiscated:0,movedIds:[],stayedIds:[],lostHousing:false};
+    const banned=open(restricted);
+    expect(getDecision(banned)?.choices.find(c=>c.id.endsWith(".board"))?.disabled).toBe(true);
     const blocked=open(booked);
     expect(pick(blocked,"board")).toBe(blocked);
     const waited=pick(blocked,"wait");

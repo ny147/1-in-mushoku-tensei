@@ -259,3 +259,7 @@ Adult Hitogami apostles can open a dream warning through Optional activities. St
 ## The Laplace Factor Awakens
 
 Character shows the active protagonist’s Laplace Factor status immediately. From age eight, an observed training sign lets a player ask their mentor for a free assessment in Optional activities. The player can keep the sign private and come back later. Consent records the manifestation and reveals its effects on the profile. Mana and physical manifestations affect yearly focus training under the existing rules. Appearance alone grants no stat bonus.
+
+## The Long Road Home
+
+From age eight, survivors whose K417 record places them in Fittoa can open the refuge story while still displaced on the Demon Continent. Stay for up to 10 health from the following year, or reserve passage to the Asuran countryside under normal travel rules. The current fare is charged only on boarding. Both scenes are optional and manual. An independent move, cancellation or death closes a committed route.

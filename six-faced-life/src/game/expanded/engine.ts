@@ -1,3 +1,4 @@
+import { resolveRoadChoice, closeRoad, isDisplaced } from "./long-road-home";
 import { resolveDreamChoice } from "./dream-warning";
 import { resolveLedgerChoice } from "./orsted-ledger";
 import { confirmedFactorText } from "../../i18n/factor";
@@ -110,6 +111,7 @@ export function beginExpanded(life: ExpandedLife): ExpandedLife {
 }
 export function finishExpanded(life: ExpandedLife, cause: string) {
   if (life.phase === "ended") return;
+  closeRoad(life, "ended");
   if (isRuler(life)) closeOffice(life, "death");
   closeRoyalMarriageAlliance(life);
   closeEducationDebt(life);
@@ -172,9 +174,11 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   syncLearning(next, magicGain);
   // The selected card above authorizes the action against the original pending state.
   let cause: string | null = null;
-  if (decision?.id === "expanded.hitogami-dream") resolveDreamChoice(next, id);
+  if (decision?.id === "expanded.long-road-home") resolveRoadChoice(next, id);
+  else if (decision?.id === "expanded.hitogami-dream") resolveDreamChoice(next, id);
   else if (decision?.id === "expanded.orsted-ledger") resolveLedgerChoice(next, id);
   else cause = applyExpandedChoice(next, id);
+  if (!isDisplaced(next)) closeRoad(next, "left");
   if (next.expansion.swords) {
     next.expansion.swords.compatibilityDecision = null;
     next.expansion.swords.compatibilityStudy = null;
@@ -422,7 +426,10 @@ export function advanceExpanded(
   if (mode === "tick") {
     if (!inCustody(next) && !isRuler(next)) creditSwordMentorship(next, Math.min(0.25, delta, 1 - next.progress));
     next.progress += Math.min(0.25, delta);
-    if (next.progress >= 1 - 1e-9) year(next);
+    if (next.progress >= 1 - 1e-9) {
+      year(next);
+      if (!isDisplaced(next)) closeRoad(next, "left");
+    }
     else {
       if (!inCustody(next) && !isRuler(next)) queueReadySwordTrial(next);
       if (next.expansion.queue.length) drain(next);
@@ -431,6 +438,7 @@ export function advanceExpanded(
     for (let i = 0; i < (mode === "year" ? 1 : 12); i++) {
       if (!inCustody(next) && !isRuler(next)) creditSwordMentorship(next, 1 - next.progress);
       year(next);
+      if (!isDisplaced(next)) closeRoad(next, "left");
       if (next.pending || next.phase !== "alive") break;
     }
   return next;

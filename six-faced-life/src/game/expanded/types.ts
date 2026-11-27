@@ -126,6 +126,11 @@ export interface ExpandedState {
   swords?: import('./sword-state').SwordState;
   training?: import("./career-access").TrainingState;
   finance?: import("./career-access").EducationFinance;
+  longRoadHome?: {
+    route: "refuge" | "passage";
+    dueYear: number;
+    resolution: "pending" | "recovered" | "boarded" | "cancelled" | "left" | "ended";
+  };
   optionalActivity?: string | null;
   version: 1;
   birthYear: number;

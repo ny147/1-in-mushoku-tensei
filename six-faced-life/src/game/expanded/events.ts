@@ -31,6 +31,7 @@ import {
   educationRequirements,
   assessTalent,
   enrollUniversity,
+  moveByOrdinaryTravel,
   travelCost,
 } from "./education";
 import {
@@ -66,6 +67,7 @@ import { historicalRecord, canServeHistory, serviceRecord } from "./history";
 import { recordNobleAssociation } from "./social-state";
 import { serviceAssignment } from "./service-priority";
 import { dreamDecision } from "./dream-warning";
+import { roadDecision } from "./long-road-home";
 import { ledgerDecision } from "./orsted-ledger";
 
 export const MANUAL = new Set([
@@ -107,6 +109,7 @@ export function getExpandedDecisionSnapshot(life: ExpandedLife): Decision | null
       ["You leave the sign unexplored. You can ask your mentor again.", "คุณยังไม่ตรวจสัญญาณนี้ และกลับมาถามครูได้ภายหลัง"]);
     return card;
   }
+  if (life.pending === "expanded.long-road-home") return roadDecision(life);
   if (life.pending === "expanded.hitogami-dream") return dreamDecision(life);
   if (life.pending === "expanded.orsted-ledger") return ledgerDecision(life);
   if (life.expansion.house) {
@@ -549,10 +552,7 @@ export function applyExpandedChoice(
     fact(life, "need", "household-aid");
   }
   if (key === "travel" && action.startsWith("move-")) {
-    life.region = action.slice(5) as RegionId;
-    x.origin.locality = life.region === "asura" ? "countryside" : "settlement";
-    x.economy.travelUntil = y + 1;
-    fact(life, "history", "migration", life.region);
+    moveByOrdinaryTravel(life, action.slice(5) as RegionId);
   }
   if (
     ["calamity", "succession", "conflict"].includes(key) &&

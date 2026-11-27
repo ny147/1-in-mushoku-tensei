@@ -102,6 +102,7 @@ export function isLife(v: unknown): v is Life {
         ![
           "discovery",
           "hitogami-dream",
+          "long-road-home",
           "orsted-ledger",
           "debt-service-exit",
           "crown-petition",

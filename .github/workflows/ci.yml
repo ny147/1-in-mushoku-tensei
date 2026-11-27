@@ -44,6 +44,65 @@ jobs:
         run: npm run build:vercel
       - name: Check Vercel configuration syntax
         run: node -e "JSON.parse(require('node:fs').readFileSync('vercel.json', 'utf8'))"
+      - name: Isolated Fittoa aftermath desktop and phone walkthrough
+        run: |
+          python -m pip install --quiet selenium
+          npm run dev -- --port 5174 > "$RUNNER_TEMP/dream-vite.log" 2>&1 &
+          for attempt in {1..30}; do curl -fsS http://127.0.0.1:5174/ >/dev/null && break; sleep 1; done
+          python - <<'PY'
+          from selenium import webdriver
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait
+          from selenium.webdriver.chrome.options import Options
+          import json
+          for lang,width,follow in [('en',1280,True),('th',390,False)]:
+              options=Options()
+              options.add_argument('--headless=new')
+              options.add_argument('--disable-dev-shm-usage')
+              with webdriver.Chrome(options=options) as browser:
+                  browser.execute_cdp_cmd('Emulation.setDeviceMetricsOverride',dict(width=width,height=850,deviceScaleFactor=1,mobile=width<600))
+                  browser.get('http://127.0.0.1:5174/')
+                  seed=browser.execute_async_script("""
+                    const [language, done] = arguments;
+                    Promise.all([import('/src/game/expanded/origins.ts'),import('/src/game/storage.ts')]).then(([o,s])=>{
+                      let seed=0,l=o.createExpandedLife({seed,language});
+                      while(l.expansion.birthYear>402) l=o.createExpandedLife({seed:++seed,language});
+                      Object.assign(l,{phase:'alive',age:421-l.expansion.birthYear,pending:null,region:'demon',coins:400});
+                      delete l.expansion.social;
+                      l.expansion.origin.locality='displaced'; l.expansion.economy.peak=400;
+                      l.expansion.history.push({year:417,code:'calamity',region:'asura',locality:'fittoa',exposure:'civilian'});
+                      l.expansion.lastRandom=l.age; l.stats.health=93;
+                      s.saveGame(localStorage,{version:1,active:l,archive:[]}); done(true);
+                    }).catch(e=>done(String(e)));
+                  """,lang)
+                  assert seed is True, seed
+                  browser.get('http://127.0.0.1:5174/?view=chronicle')
+                  wait=WebDriverWait(browser,15)
+                  def find(tag,label):
+                      return wait.until(lambda d: next((e for e in d.find_elements(By.TAG_NAME,tag) if e.is_displayed() and e.text.startswith(label)),False))
+                  def activity(label):
+                      summary=find('summary','Optional activities' if lang=='en' else 'กิจกรรมที่เลือกทำได้')
+                      if not summary.find_element(By.XPATH,'..').get_dom_attribute('open'): summary.click()
+                      find('button',label).click()
+                  def layout():
+                      assert browser.execute_script('return document.documentElement.scrollWidth <= innerWidth + 1')
+                      assert browser.execute_script("return [...document.querySelectorAll('.choice')].every(b=>b.scrollWidth <= b.clientWidth+1)")
+                  name='The Long Road Home' if lang=='en' else 'หนทางไกลกลับบ้าน'
+                  activity(name)
+                  layout()
+                  browser.refresh()
+                  find('button','Stay at the refuge' if lang=='en' else 'จองเรือไปอัสรา').click()
+                  wait.until(lambda d:d.find_element(By.CSS_SELECTOR,'.outcome-narrative').text)
+                  find('button','+1 year' if lang=='en' else '+1 ปี').click()
+                  activity(name)
+                  layout()
+                  browser.refresh()
+                  find('button','Record your recovery' if lang=='en' else 'ขึ้นเรือไปอัสรา').click()
+                  result=wait.until(lambda d:d.find_element(By.CSS_SELECTOR,'.outcome-narrative').text)
+                  assert ('Health +' in result if lang=='en' else '120 เหรียญเงิน' in result),result
+                  layout()
+                  print('Verified',lang,width,'px: route, next year, reload, resolution and horizontal fit.',result)
+          PY
       - name: Retain diagnostic build
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

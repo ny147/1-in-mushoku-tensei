@@ -17,8 +17,11 @@ import { ledgerAvailable } from "./orsted-ledger";
 
 import { canAssessObservedSign } from "./genetics";
 
+import { roadAvailable } from "./long-road-home";
+
 export const ACTIVITIES = [
   "discovery",
+  "long-road-home",
   "hitogami-dream",
   "orsted-ledger",
   "crown-petition",
@@ -39,6 +42,7 @@ export const ACTIVITIES = [
 export type Activity = (typeof ACTIVITIES)[number];
 const minimumAge: Record<Activity, number> = {
   discovery: 8,
+  "long-road-home": 8,
   "hitogami-dream": 18,
   "orsted-ledger": 18,
   "crown-petition": 0,
@@ -67,6 +71,7 @@ export function activitiesBlock(life: ExpandedLife) {
 
 export function activityOpening(life: ExpandedLife, key: Activity) {
   if (key === "discovery" && !canAssessObservedSign(life)) return { kind: "irrelevant" } as const;
+  if (key === "long-road-home" && !roadAvailable(life)) return {kind:"irrelevant"} as const;
   if (key === "hitogami-dream" && !dreamAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "orsted-ledger" && !ledgerAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "house-petition" && !canPetitionHouse(life)) return {kind: "irrelevant"} as const;
