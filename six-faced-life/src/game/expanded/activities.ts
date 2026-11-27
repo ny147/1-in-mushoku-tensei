@@ -12,9 +12,11 @@ import { activateHouseState } from "./house-state";
 import { canPetitionHouse, consumesWorkThisYear } from "./house-service";
 import { quoteRoyalMarriage, prepareRoyalMarriageProposal } from "./royal-marriage";
 
+import { dreamAvailable } from "./dream-warning";
 import { ledgerAvailable } from "./orsted-ledger";
 
 export const ACTIVITIES = [
+  "hitogami-dream",
   "orsted-ledger",
   "crown-petition",
   "house-petition",
@@ -33,6 +35,7 @@ export const ACTIVITIES = [
 ] as const;
 export type Activity = (typeof ACTIVITIES)[number];
 const minimumAge: Record<Activity, number> = {
+  "hitogami-dream": 18,
   "orsted-ledger": 18,
   "crown-petition": 0,
   "house-petition": 18,
@@ -59,6 +62,7 @@ export function activitiesBlock(life: ExpandedLife) {
 }
 
 export function activityOpening(life: ExpandedLife, key: Activity) {
+  if (key === "hitogami-dream" && !dreamAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "orsted-ledger" && !ledgerAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "house-petition" && !canPetitionHouse(life)) return {kind: "irrelevant"} as const;
   if (key === "royal-marriage" && !quoteRoyalMarriage(life)) return {kind: "irrelevant"} as const;

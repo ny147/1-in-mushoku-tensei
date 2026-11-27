@@ -134,7 +134,7 @@ export const EXPANDED_EVENT_IDS = [
   'parental-debt', 'debt-service-exit',
   'asura-oath', 'asura-household', 'asura-result', 'asura-defeat', 'succession-withdrawal',
   'crown-petition', 'crown-request', 'crown-standing', 'govern-relief', 'govern-dispute', 'govern-crisis',
-  'orsted-ledger',
+  'orsted-ledger', 'hitogami-dream',
   'house-petition', 'house-request', 'house-standing', 'royal-marriage',
   'career-path','career-work',
   'sword-select', 'sword-mentor', 'sword-trial', 'sword-abandon',

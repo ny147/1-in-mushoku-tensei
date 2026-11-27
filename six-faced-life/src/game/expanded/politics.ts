@@ -1,5 +1,6 @@
 import type { ExpandedLife } from "../types";
 import type { Faction } from "./types";
+import { closeDreamOnDefection } from "./dream-dispatch";
 import { fact, worldYear } from "./facts";
 import { draw, clamp } from "./random";
 import { maxSwordXp, selectedSwordTrack, swordMeets } from "./sword-state";
@@ -54,6 +55,7 @@ export function defect(l: ExpandedLife) {
   const p = l.expansion.politics;
   if (!p.faction) return;
   if (p.faction === "orsted" && p.orstedLedger === "investigating") p.orstedLedger = "ended";
+  if (p.faction === "hitogami") closeDreamOnDefection(l);
   p.faction = null;
   p.trust = 0;
   p.pursuitUntil = worldYear(l) + 3;

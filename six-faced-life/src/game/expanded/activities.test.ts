@@ -199,3 +199,58 @@ describe("Orsted’s first assignment", () => {
     expect(openActivity(rejoined, key)).toBe(rejoined);
   });
 });
+
+describe("the dream’s warning", () => {
+  const key = "hitogami-dream" as const;
+  const prefix = "expanded.hitogami-dream.";
+  function apostle() {
+    const life = adult();
+    life.expansion.politics.faction = "hitogami";
+    life.expansion.politics.trust = 98;
+    return life;
+  }
+  function reload(life: ReturnType<typeof adult>) {
+    const saved = loadGame({getItem: () => JSON.stringify({version: 1, active: life, archive: []}), setItem: () => {}});
+    expect(saved.error).toBeFalsy();
+    return saved.data.active as typeof life;
+  }
+  it.each(["stop", "pass"] as const)("keeps the %s consequence across reload and awards trust once", action => {
+    const life = apostle();
+    const first = reload(openActivity(life, key) as typeof life);
+    expect(canAutoChoose(first)).toBe(false);
+    expect(choose(first, prefix + "read")).toBe(first);
+    const chosen = reload(choose(first, prefix + action) as typeof life);
+    const trust = action === "stop" ? 100 : 98;
+    expect(chosen.expansion.politics.trust).toBe(trust);
+    expect(chosen.pending).toBeNull();
+    expect(chosen.history.at(-1)?.text).toContain(action === "stop" ? "+2" : "went through");
+    const report = reload(openActivity(chosen, key) as typeof life);
+    expect(choose(report, prefix + action)).toBe(report);
+    const done = reload(choose(report, prefix + "read") as typeof life);
+    expect(done.history.at(-1)?.text).toContain(action === "stop" ? "ran out of lamp oil" : "found the ferryman");
+    expect(done.expansion.politics.trust).toBe(trust);
+    expect(done.rng).toBe(life.rng);
+    expect(openActivity(done, key)).toBe(done);
+  });
+  it("keeps commitments first and prevents defection from resetting the dream", () => {
+    const life = apostle();
+    life.expansion.queue.push("expanded.reading");
+    expect(openActivity(life, key)).toBe(life);
+    life.expansion.queue.pop();
+    for (const faction of [null, "orsted"] as const) {
+      life.expansion.politics.faction = faction;
+      expect(openActivity(life, key)).toBe(life);
+    }
+    life.expansion.politics.faction = "hitogami";
+    life.age = 17;
+    expect(openActivity(life, key)).toBe(life);
+    life.age = 35;
+    const chosen = choose(openActivity(life, key), prefix + "pass") as typeof life;
+    chosen.pending = "expanded.defect";
+    const left = choose(chosen, "expanded.defect.accept") as typeof life;
+    expect(left.history.some(e => e.text.includes("found the ferryman"))).toBe(true);
+    left.expansion.politics.faction = "hitogami";
+    const rejoined = reload(left);
+    expect(openActivity(rejoined, key)).toBe(rejoined);
+  });
+});

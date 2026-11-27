@@ -7,6 +7,7 @@ import {
 } from "../game/expanded/activities";
 import { useI18n } from "../i18n/context";
 const names: Record<Activity, [string, string]> = {
+  "hitogami-dream": ["The Dream’s Warning", "คำเตือนในฝัน"],
   "orsted-ledger": ["Orsted’s ledger assignment", "ภารกิจบัญชีเสบียงของออร์สเตด"],
   "house-petition": ["Petition your house", "ยื่นคำร้องต่อสกุล"],
   "royal-marriage": ["Review a royal marriage proposal", "พิจารณาข้อเสนอสมรสทางราชวงศ์"],
@@ -48,7 +49,11 @@ export function OptionalActivities({
   const later = opportunities.filter(({ opening }) =>
     opening.kind !== "available" && opening.kind !== "irrelevant",
   );
-  const name = (key: Activity) => names[key][language === "th" ? 1 : 0];
+  const name = (key: Activity) => {
+    if (key === "hitogami-dream" && life.expansion.politics.dreamWarning)
+      return language === "th" ? "อ่านข่าวจากท่าเรือ" : "Read the ferry dispatch";
+    return names[key][language === "th" ? 1 : 0];
+  };
 
   return (
     <details className="optional-activities">
