@@ -1,6 +1,6 @@
 # The Laplace Factor Awakens — 2026-11-27
 
-PR #43 on `codex/laplace-factor-assessment` adds voluntary discovery from age eight and immediate carrier status on the active Character profile. Assessment records the actual manifestation and reveals its existing gameplay effects. Usage windows were unavailable. The [spec](docs/superpowers/specs/2026-11-27-laplace-factor-assessment.md) and [plan](docs/superpowers/plans/2026-11-27-laplace-factor-assessment.md) describe the approved scope.
+PR #43 on `codex/laplace-factor-assessment` adds voluntary discovery from age eight and immediate carrier status on the active Character profile. Assessment records the actual manifestation and reveals its existing gameplay effects. English desktop and Thai phone-width Chrome walkthroughs passed in [run 45953838742](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/45953838742). Usage windows were unavailable. The [spec](docs/superpowers/specs/2026-11-27-laplace-factor-assessment.md) and [plan](docs/superpowers/plans/2026-11-27-laplace-factor-assessment.md) describe the approved scope.
 
 # The Dream’s Warning — 2026-11-27
 
