@@ -73,7 +73,7 @@ jobs:
                     }).catch(e=>done(String(e)));
                   """,lang)
                   assert seed is True, seed
-                  browser.refresh()
+                  browser.get('http://127.0.0.1:5174/?view=chronicle')
                   wait=WebDriverWait(browser,15)
                   def find(tag,label):
                       return wait.until(lambda d: next((e for e in d.find_elements(By.TAG_NAME,tag) if e.is_displayed() and e.text.startswith(label)),False))
@@ -88,6 +88,7 @@ jobs:
                   pick=find('button','Stop the oil cart' if follow else 'ปล่อยให้เกวียนไปส่งของ')
                   layout()
                   pick.click()
+                  wait.until(lambda d:d.find_element(By.CSS_SELECTOR,'.outcome-narrative').is_displayed())
                   browser.refresh()
                   activity('Read the ferry dispatch' if lang=='en' else 'อ่านข่าวจากท่าเรือ')
                   read=find('button','Record the dispatch' if lang=='en' else 'บันทึกข่าวจากท่าเรือ')
