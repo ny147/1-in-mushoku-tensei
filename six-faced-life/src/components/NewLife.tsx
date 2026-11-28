@@ -37,11 +37,15 @@ export function NewLife({
   return (
     <div className="new-life page-enter">
       <div className="opening-art">
-        <Landscape
-          alt={t(
-            "An original painting of a sunlit fantasy village, golden fields, and distant mountains",
-          )}
-        />
+        <picture className="landscape">
+          <img
+            src="/assets/asura-golden-hour.webp"
+            alt={t("An original painting of a sunlit fantasy village, golden fields, and distant mountains")}
+            width={1024}
+            height={1536}
+            fetchPriority="high"
+          />
+        </picture>
         <div className="opening-shade" />
         <div className="opening-art-copy">
           <Leaf size={26} strokeWidth={1.3} />
@@ -57,7 +61,7 @@ export function NewLife({
         <h1 id="page-title" tabIndex={-1}>
           {t("A new world.")}
           <br />
-          {t("A second chance.")}
+          <span>{t("A second chance.")}</span>
         </h1>
         <p className="opening-description">
           {t("You remember a life before this one.")}

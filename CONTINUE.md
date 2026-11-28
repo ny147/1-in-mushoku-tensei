@@ -1,3 +1,15 @@
+# Golden-hour chronicle — 2026-11-28
+
+On `codex/golden-hour-chronicle`, the new-life screen opens on an original
+illustration of a traveler in Asura's wheat fields. The shared navigation,
+paper surfaces and decision controls draw their colors from the sunset.
+
+Isolated Chrome on port 5187 verified the English desktop at 1440 px and
+Thai phone at 390 px through setup, the birth record, a pending choice after
+reload and keyboard selection. Both fit horizontally and reported no
+page or console errors. All 806 tests passed with two workers. The production
+build passed with the existing chunk-size warning.
+
 # Passage from Rikarisu — 2026-11-28
 
 On `codex/passage-from-rikarisu`, a Migurd character age 15 or older in a Demon

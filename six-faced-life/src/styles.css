@@ -77,19 +77,20 @@
 
 :root {
   font-family: LifeSans, Arial, sans-serif;
-  color: #303b32;
-  background: #f6f4ee;
+  color: #32362c;
+  background: #f7efdf;
   font-size: 14px;
   font-synthesis: none;
-  --paper: #f6f4ee;
-  --white: #fdfcf8;
-  --ink: #303b32;
-  --muted: #697065;
-  --line: #dedfd3;
-  --green: #365442;
-  --green-dark: #284433;
-  --sage: #e9ede2;
-  --gold: #967c43;
+  --paper: #f7efdf;
+  --white: #fffbf1;
+  --ink: #32362c;
+  --muted: #625e50;
+  --line: #dfd0b5;
+  --green: #354e41;
+  --green-dark: #223c32;
+  --sage: #e7ebde;
+  --gold: #89652f;
+  --sunset-ink: #88482c;
   --serif: Chronicle, Georgia, serif;
 }
 html:lang(th) {
@@ -223,7 +224,8 @@ button:disabled {
   opacity: 0.45;
 }
 ::selection {
-  background: #dce4ce;
+  background: #f3d59d;
+  color: var(--ink);
 }
 input,
 select {
@@ -242,7 +244,7 @@ button svg {
   width: 226px;
   position: fixed;
   inset: 0 auto 0 0;
-  background: #f0f0e7;
+  background: linear-gradient(165deg, #dae5e6, #f6ead4 190px, #efe3ca 100%);
   border-right: 1px solid var(--line);
   padding: 33px 19px 22px;
   display: flex;
@@ -317,8 +319,8 @@ button svg {
   background: #e6e9dd;
 }
 .main-nav > :is(button, a).active {
-  background: #dfe5d8;
-  color: #324f3b;
+  background: var(--green);
+  color: var(--white);
   font-weight: 600;
 }
 .nav-active-dot {
@@ -330,6 +332,7 @@ button svg {
   margin-left: auto;
 }
 .active .nav-active-dot {
+  background: #efc483;
   display: block;
 }
 .nav-count {
@@ -438,6 +441,7 @@ button svg {
   min-height: 100vh;
 }
 .topbar {
+  background: var(--white);
   min-height: 76px;
   border-bottom: 1px solid var(--line);
   display: flex;
@@ -522,7 +526,7 @@ button svg {
   min-height: 32px;
   padding: 7px 11px;
   font-size: 12px;
-  background: #fdfcf7;
+  background: var(--white);
   gap: 7px;
 }
 .icon-button {
@@ -671,7 +675,7 @@ button svg {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #fdfcf8;
+  background: #fffbf1;
   transition: transform 0.15s ease;
 }
 .auto-control input:checked + .switch {
@@ -811,8 +815,9 @@ button svg {
   color: #eeefdecc;
 }
 .decision-panel {
-  background: #fcfcf5;
-  border: 1px solid #d8ddca;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--gold);
   border-radius: 9px;
   padding: 22px 24px 17px;
   margin-top: 23px;
@@ -865,9 +870,9 @@ button svg {
   text-align: left;
   width: 100%;
   padding: 12px 13px;
-  border: 1px solid #dce0d0;
+  border: 1px solid var(--line);
   border-radius: 5px;
-  background: #fdfdf9;
+  background: #fff8e9;
 }
 .choice:hover:not(:disabled) {
   border-color: #a8b68e;
@@ -985,7 +990,7 @@ button svg {
   transform: rotate(180deg);
 }
 .focus-options {
-  background: #fcfcf5;
+  background: #fff8e9;
   border: 1px solid var(--line);
   border-radius: 6px;
   margin-top: 7px;
@@ -1550,7 +1555,7 @@ button svg {
   display: grid;
   grid-template-columns: minmax(0, 1.12fr) minmax(300px, 1fr);
   min-height: 630px;
-  background: #fdfcf6;
+  background: var(--white);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 35px #3c492012;
@@ -1572,14 +1577,14 @@ button svg {
 .opening-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, #1b3223d9, #19312000 65%);
+  background: linear-gradient(0deg, #251e1bf2, #34212685 23%, transparent 60%);
 }
 .opening-art-copy {
   position: absolute;
   bottom: 51px;
   left: 33px;
   right: 25px;
-  color: #f1f3df;
+  color: #fff8e6;
 }
 .opening-art-copy > p {
   font-family: var(--serif);
@@ -1593,7 +1598,7 @@ button svg {
   bottom: 14px;
   left: 33px;
   font-size: 10px;
-  color: #cbd4bd;
+  color: #fff0ce;
 }
 .opening-copy {
   padding: 46px 39px 28px;
@@ -1611,6 +1616,9 @@ button svg {
   font-weight: 500;
   line-height: 1.04;
   letter-spacing: -0.03em;
+}
+.opening-copy h1 span {
+  color: var(--sunset-ink);
 }
 .opening-description {
   font-size: 14px;
@@ -1636,8 +1644,8 @@ button svg {
 }
 .opening-copy input,
 .opening-copy select {
-  background: #f9f9f1;
-  border: 1px solid #dfe2d1;
+  background: #fffcf6;
+  border: 1px solid #b9ab90;
   border-radius: 5px;
   width: 100%;
   font-size: 13px;
@@ -1707,7 +1715,7 @@ button svg {
   color: #68703c;
 }
 .birth-record {
-  background: #fdfcf7;
+  background: var(--white);
   border-radius: 10px;
   overflow: hidden;
   max-width: 850px;
@@ -2657,6 +2665,9 @@ button svg {
     min-height: 220px;
     height: 220px;
   }
+  .opening-shade {
+    background: linear-gradient(90deg, #201b17d9, #2d211c8c 64%, #2d211c24);
+  }
   .opening-art .landscape img {
     object-position: center 55%;
   }
@@ -2754,7 +2765,7 @@ button svg {
     justify-content: space-between;
     border-bottom: 1px solid var(--line);
     padding: 0 20px;
-    background: #f0f0e7;
+    background: linear-gradient(165deg, #dae5e6, #f6ead4 190px, #efe3ca 100%);
     position: relative;
     z-index: 30;
   }
@@ -3441,7 +3452,7 @@ button svg {
 .study-focus select {
   width: 100%;
   min-height: 37px;
-  background: #fdfcf8;
+  background: #fffbf1;
   border: 1px solid #d1d8c5;
   border-radius: 5px;
   padding: 7px 9px;
@@ -3737,7 +3748,7 @@ button svg {
   object-fit: cover;
 }
 .opening-art .landscape img {
-  object-position: 32% center;
+  object-position: center 53%;
 }
 .time-guidance {
   width: 100%;
@@ -4085,7 +4096,7 @@ h2[tabindex="-1"] {
 .retrospective {
   margin-block: 24px;
   padding-block: 20px;
-  border-block: 1px solid #dedfd3;
+  border-block: 1px solid #dfd0b5;
   overflow-wrap: anywhere;
 }
 .expanded-details h2,
@@ -4093,7 +4104,7 @@ h2[tabindex="-1"] {
   margin: 0 0 12px;
 }
 .expanded-calendar {
-  color: #365442;
+  color: #354e41;
   font-weight: 600;
 }
 .expanded-facts {
@@ -4102,7 +4113,7 @@ h2[tabindex="-1"] {
   gap: 12px 24px;
 }
 .expanded-facts dt {
-  color: #697065;
+  color: #625e50;
   font-size: 12px;
 }
 .expanded-facts dd {
@@ -4110,12 +4121,12 @@ h2[tabindex="-1"] {
   font-weight: 500;
 }
 .expanded-warning {
-  background: #e9ede2;
+  background: #e7ebde;
   padding: 12px;
   line-height: 1.7;
 }
 .expanded-note {
-  color: #697065;
+  color: #625e50;
   font-size: 12px;
   line-height: 1.8;
 }
@@ -4147,7 +4158,7 @@ h2[tabindex="-1"] {
   line-height: 1.8;
 }
 .requirement-list [data-met="false"] {
-  color: #697065;
+  color: #625e50;
 }
 .family-ledger {
   list-style: none;
@@ -4155,11 +4166,11 @@ h2[tabindex="-1"] {
 }
 .family-ledger li {
   padding-block: 10px;
-  border-bottom: 1px solid #dedfd3;
+  border-bottom: 1px solid #dfd0b5;
 }
 .family-ledger span {
   display: block;
-  color: #697065;
+  color: #625e50;
   font-size: 12px;
 }
 .retrospective {
