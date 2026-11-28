@@ -24,17 +24,24 @@ export const requirement = (
   current: number,
   required: number,
 ): Requirement => ({ id, current, required, met: current >= required });
-export function assessTalent(life: ExpandedLife) {
-  const e = life.expansion.education,
-    g = life.expansion.genetics;
-  e.assessed = true;
-  e.assessment = clamp(
+export const UNIVERSITY_KNOWLEDGE = 40;
+export const SCHOLARSHIP_SCORE = 60;
+
+export function talentAssessmentScore(life: ExpandedLife) {
+  const g = life.expansion.genetics;
+  return clamp(
     Math.floor(
       life.stats.knowledge +
         Math.sqrt(life.training.magicXp) * 3 +
         (g.magicTalent || g.academicTalent ? 20 : 0),
     ),
   );
+}
+
+export function assessTalent(life: ExpandedLife) {
+  const e = life.expansion.education;
+  e.assessed = true;
+  e.assessment = talentAssessmentScore(life);
   fact(life, "education", "assessment", "", e.assessment);
 }
 export function moveByOrdinaryTravel(life: ExpandedLife, destination: RegionId) {
@@ -51,17 +58,17 @@ export function scholarshipEligible(life: ExpandedLife) {
   const x = life.expansion;
   return (
     x.education.assessed &&
-    x.education.assessment >= 60 &&
-    (x.genetics.magicTalent || x.genetics.academicTalent)
+    x.education.assessment >= SCHOLARSHIP_SCORE &&
+    (x.genetics.magicTalent || x.genetics.academicTalent || x.beastfolkMentor?.completed === "letter")
   );
 }
 export function educationRequirements(life: ExpandedLife): Requirement[] {
   return [
     requirement("age", life.age, 15),
-    requirement("knowledge", life.stats.knowledge, 40),
+    requirement("knowledge", life.stats.knowledge, UNIVERSITY_KNOWLEDGE),
     requirement(
       "readiness",
-      life.training.magicXp >= 60 || life.expansion.education.assessment >= 60
+      life.training.magicXp >= 60 || life.expansion.education.assessment >= SCHOLARSHIP_SCORE
         ? 1
         : 0,
       1,

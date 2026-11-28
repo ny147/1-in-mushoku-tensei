@@ -99,6 +99,16 @@ export function validateExpansion(
     return false;
   const birthYear = v.birthYear;
   const year = birthYear + age;
+  const mentor = v.beastfolkMentor;
+  if (mentor !== undefined && (
+    !obj(mentor) || phase === "birth" || !int(mentor.startedYear, birthYear + 12, year) ||
+    (mentor.studiedYear !== undefined && !int(mentor.studiedYear, mentor.startedYear + 1, year)) ||
+    (mentor.completed !== undefined && (
+      !one(mentor.completed, ["letter", "local-work"]) ||
+      age < 15 || mentor.startedYear === year ||
+      (mentor.completed === "letter" && mentor.studiedYear === undefined)
+    ))
+  )) return false;
   const road = v.longRoadHome;
   if (road !== undefined && (!obj(road) || !one(road.route, ["refuge", "passage"]) ||
     !int(road.dueYear, Math.max(418, birthYear + 9), year + 1) ||
@@ -353,6 +363,7 @@ export function validateExpansion(
     ) ||
     !arr(v.queue, 16, validEventId) ||
     v.queue.includes("expanded.long-road-home") ||
+    v.queue.includes("expanded.beastfolk-mentor") ||
     v.queue.includes("expanded.hitogami-dream") ||
     v.queue.includes("expanded.orsted-ledger") ||
     new Set(v.queue).size !== v.queue.length ||

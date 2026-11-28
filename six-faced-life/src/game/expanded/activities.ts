@@ -18,10 +18,12 @@ import { ledgerAvailable } from "./orsted-ledger";
 import { canAssessObservedSign } from "./genetics";
 
 import { roadAvailable } from "./long-road-home";
+import { mentorAvailable } from "./beastfolk-mentor";
 
 export const ACTIVITIES = [
   "discovery",
   "long-road-home",
+  "beastfolk-mentor",
   "hitogami-dream",
   "orsted-ledger",
   "crown-petition",
@@ -43,6 +45,7 @@ export type Activity = (typeof ACTIVITIES)[number];
 const minimumAge: Record<Activity, number> = {
   discovery: 8,
   "long-road-home": 8,
+  "beastfolk-mentor": 12,
   "hitogami-dream": 18,
   "orsted-ledger": 18,
   "crown-petition": 0,
@@ -72,6 +75,7 @@ export function activitiesBlock(life: ExpandedLife) {
 export function activityOpening(life: ExpandedLife, key: Activity) {
   if (key === "discovery" && !canAssessObservedSign(life)) return { kind: "irrelevant" } as const;
   if (key === "long-road-home" && !roadAvailable(life)) return {kind:"irrelevant"} as const;
+  if (key === "beastfolk-mentor" && !mentorAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "hitogami-dream" && !dreamAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "orsted-ledger" && !ledgerAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "house-petition" && !canPetitionHouse(life)) return {kind: "irrelevant"} as const;
@@ -79,7 +83,7 @@ export function activityOpening(life: ExpandedLife, key: Activity) {
   if (key === "crown-petition" && !canPetition(life)) return { kind: "irrelevant" } as const;
   if (key === "travel" && isRuler(life)) return { kind: "irrelevant" } as const;
   if ((isRuler(life) || isCourtServiceYear(life) || consumesWorkThisYear(life)) &&
-    ["career", "career-work", "training", "instruction", "sword-mentor", "university"].includes(key))
+    ["career", "career-work", "training", "instruction", "sword-mentor", "university", "beastfolk-mentor"].includes(key))
     return { kind: "irrelevant" } as const;
   if (key === "debt-service-exit" && !debtServiceExitAvailable(life)) {
     return { kind: "irrelevant" } as const;

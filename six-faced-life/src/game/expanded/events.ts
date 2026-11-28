@@ -68,6 +68,7 @@ import { recordNobleAssociation } from "./social-state";
 import { serviceAssignment } from "./service-priority";
 import { dreamDecision } from "./dream-warning";
 import { roadDecision } from "./long-road-home";
+import { mentorDecision } from "./beastfolk-mentor";
 import { ledgerDecision } from "./orsted-ledger";
 
 export const MANUAL = new Set([
@@ -110,6 +111,7 @@ export function getExpandedDecisionSnapshot(life: ExpandedLife): Decision | null
     return card;
   }
   if (life.pending === "expanded.long-road-home") return roadDecision(life);
+  if (life.pending === "expanded.beastfolk-mentor") return mentorDecision(life);
   if (life.pending === "expanded.hitogami-dream") return dreamDecision(life);
   if (life.pending === "expanded.orsted-ledger") return ledgerDecision(life);
   if (life.expansion.house) {

@@ -1,4 +1,5 @@
 import { resolveRoadChoice, closeRoad, isDisplaced } from "./long-road-home";
+import { creditMentorStudy, resolveMentorChoice } from "./beastfolk-mentor";
 import { resolveDreamChoice } from "./dream-warning";
 import { resolveLedgerChoice } from "./orsted-ledger";
 import { confirmedFactorText } from "../../i18n/factor";
@@ -175,6 +176,7 @@ export function chooseExpanded(life: ExpandedLife, id: string): ExpandedLife {
   // The selected card above authorizes the action against the original pending state.
   let cause: string | null = null;
   if (decision?.id === "expanded.long-road-home") resolveRoadChoice(next, id);
+  else if (decision?.id === "expanded.beastfolk-mentor") resolveMentorChoice(next, id);
   else if (decision?.id === "expanded.hitogami-dream") resolveDreamChoice(next, id);
   else if (decision?.id === "expanded.orsted-ledger") resolveLedgerChoice(next, id);
   else cause = applyExpandedChoice(next, id);
@@ -317,6 +319,7 @@ function year(life: ExpandedLife) {
     finishExpanded(life, cause);
     return;
   }
+  if (!governing) creditMentorStudy(life);
   const attending = life.expansion.education.stage === "university";
   if (!governing) applyEducationYear(life);
   const priorRole = life.expansion.career.role;

@@ -1,6 +1,6 @@
 import { EVENT_MAP } from "./events";
 import { CAREERS, FOCUSES, RACES, REGIONS } from "./world";
-import type { Career, Life, SaveData } from "./types";
+import type { Career, ExpandedLife, Life, SaveData } from "./types";
 import { isProgression, migrateLife } from "./progression";
 import { validateExpansion } from "./expanded/validation";
 import { validEventId } from "./expanded/balance";
@@ -17,6 +17,7 @@ import { activateSocialState } from './expanded/social-migration';
 import { activateSuccession } from "./expanded/succession-state";
 import { validSuccession } from "./expanded/succession-validation";
 import { activateHouseState, validateHouseState } from "./expanded/house-state";
+import { mentorAvailable } from "./expanded/beastfolk-mentor";
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -94,6 +95,10 @@ export function isLife(v: unknown): v is Life {
     )
       return false;
     const x = v.expansion as import("./expanded/types").ExpandedState;
+    if (x.beastfolkMentor && v.race !== "beastfolk") return false;
+    if (v.pending === "expanded.beastfolk-mentor" &&
+      (x.optionalActivity !== v.pending || !mentorAvailable(v as unknown as ExpandedLife)))
+      return false;
     if (
       x.optionalActivity !== undefined &&
       x.optionalActivity !== null &&
@@ -103,6 +108,7 @@ export function isLife(v: unknown): v is Life {
           "discovery",
           "hitogami-dream",
           "long-road-home",
+          "beastfolk-mentor",
           "orsted-ledger",
           "debt-service-exit",
           "crown-petition",

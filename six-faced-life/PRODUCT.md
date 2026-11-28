@@ -156,7 +156,7 @@ eligible existing prospect. The marriage uses the ordinary family records.
 
 - New lives use the separate `expanded-1` ruleset. Existing lives retain legacy rules and seeded futures. Expanded origins include a uniformly sampled K397–K427 birth year, separate wealth/status, locality and Superd Demon Continent starts. Economic needs and cause-specific hazards create real early endings; care and protection improve odds.
 - New protagonists born on the Demon Continent roll 55% Migurd, 25% dwarf, and 20% Superd. A randomly selected birthplace gives about a 1.8% overall chance of a Superd birth.
-- Expanded education has free talent assessment, readiness/funding requirements, full scholarships for demonstrated exceptional talent, probation, withdrawal and successful graduation. Independent occupation ledgers cover ordinary work and the requested specialized paths; one primary occupation earns pay. Noble standing, faction allegiance and Seven Great Powers positions 5–7 remain separate tracks.
+- Expanded education has free talent assessment, readiness/funding requirements, full scholarships for demonstrated exceptional talent or an earned Great Forest recommendation, probation, withdrawal and successful graduation. Independent occupation ledgers cover ordinary work and the requested specialized paths; one primary occupation earns pay. Noble standing, faction allegiance and Seven Great Powers positions 5–7 remain separate tracks.
 - Named history has fixed major outcomes and local exposure. Regional conflicts and post-K430 continuation are authored adaptations. Faction recruitment, adult marriage, dangerous service and legendary challenges remain manual in Watch mode. The world guide distinguishes chronology evidence from game balance.
 - Each eligible faction has a 17.5% recruitment chance in a year open to random events, including when both factions are eligible. The ordinary random-event chance is 25%. At most one random event appears in a year.
 - Accepting allegiance commits a life to one faction. Defection ends active membership and leaves the former faction as the only side that can recruit the player later. Older lives that already switched sides use their most recent allegiance.
@@ -263,3 +263,14 @@ Character shows the active protagonist’s Laplace Factor status immediately. Fr
 ## The Long Road Home
 
 From age eight, survivors whose K417 record places them in Fittoa can open the refuge story while still displaced on the Demon Continent. Stay for up to 10 health from the following year, or reserve passage to the Asuran countryside under normal travel rules. The current fare is charged only on boarding. Both scenes are optional and manual. An independent move, cancellation or death closes a committed route.
+
+## A Letter to Ranoa
+
+Beastfolk characters in the Great Forest can meet a local teacher through
+Optional activities from age 12. After accepting her lessons, spend a year in
+the forest with Read & learn as your focus. From age 15, at least 40 Knowledge
+and an assessment score of 60 or higher earn a recommendation for Ranoa's full
+scholarship.
+Use University admission to enroll and travel under the usual rules.
+Alternatively, take a one-time nursery job for up to 12 silver from age 15.
+Either choice completes the story. You can return later to decide.
