@@ -593,7 +593,7 @@ export default function App() {
           >
             {page !== "new" &&
               !(life?.phase === "birth" && page === "chronicle") && (
-                <header className="page-heading">
+                <header className={showTime ? "page-heading chronicle-heading" : "page-heading"}>
                   <div>
                     <h1 id="page-title" tabIndex={-1}>
                       {page === "chronicle"

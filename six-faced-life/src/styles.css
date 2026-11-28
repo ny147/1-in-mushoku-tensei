@@ -577,6 +577,24 @@ button svg {
   font-size: 12px;
   color: var(--muted);
 }
+.page-heading.chronicle-heading {
+  padding: clamp(14px, 2.4vw, 32px);
+  color: #fff8e6;
+  background: linear-gradient(90deg, #25271ff5 0%, #35281dd9 38%, #36291d30 75%, #34271dcf),
+    url("/assets/asura-golden-hour.webp") center 37% / cover;
+  border-radius: 8px;
+  border-bottom: 3px solid var(--gold);
+}
+.chronicle-heading p,
+.chronicle-heading .age-display > span {
+  color: #fff0cf;
+}
+.chronicle-heading .age-display {
+  background: #30271ee6;
+  border: 1px solid #ac8c58;
+  border-radius: 5px;
+  padding: 6px 12px;
+}
 .time-bar {
   position: relative;
   display: flex;
@@ -846,6 +864,7 @@ button svg {
   padding: 3px 6px;
 }
 .decision-panel > h2 {
+  color: var(--sunset-ink);
   font-size: 28px;
   font-weight: 600;
   line-height: 1.17;
@@ -875,8 +894,8 @@ button svg {
   background: #fff8e9;
 }
 .choice:hover:not(:disabled) {
-  border-color: #a8b68e;
-  background: #eff3e5;
+  border-color: var(--gold);
+  background: #faedcf;
 }
 .choice-dot {
   height: 11px;
@@ -1281,7 +1300,7 @@ button svg {
   width: 100%;
   overflow: hidden;
   border-radius: 7px;
-  background: #e7eae0;
+  background: #d6e5e3;
 }
 .world-map > svg {
   width: 100%;
@@ -1324,13 +1343,14 @@ button svg {
   box-shadow: 0 0 0 4px #f4f5e4bb;
 }
 .map-location.selected {
-  color: #2d4a2e;
+  color: #63391f;
+  font-weight: 700;
 }
 .map-location.selected .map-location-dot {
-  background: #3b623b;
+  background: var(--sunset-ink);
   box-shadow:
-    0 0 0 5px #eaf0d8,
-    0 0 0 6px #829c69;
+    0 0 0 5px #fff4d9,
+    0 0 0 6px var(--gold);
 }
 .rail-quote {
   text-align: center;
@@ -1828,9 +1848,11 @@ button svg {
   background: transparent;
 }
 .character-passport {
-  padding: 28px 0 35px;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  padding: clamp(18px, 3vw, 36px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(90deg, #fff7e7 14%, #fff7e7fa 42%, #fff4dec2 62%, transparent 85%),
+    #fff7e7 url("/assets/asura-golden-hour.webp") right 33% / 60% auto no-repeat;
   display: flex;
   align-items: center;
   gap: 24px;
@@ -1839,8 +1861,9 @@ button svg {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  background: #e2e7d5;
-  color: #60714b;
+  background: #67442f;
+  color: #fff1d4;
+  border: 4px double #e7bc78;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1855,11 +1878,13 @@ button svg {
   bottom: 1px;
   right: -5px;
   background: var(--paper);
+  color: var(--sunset-ink);
   padding: 4px;
   box-sizing: content-box;
   border-radius: 50%;
 }
 .character-passport h2 {
+  color: var(--sunset-ink);
   font-size: 36px;
   font-weight: 500;
 }
@@ -1938,8 +1963,10 @@ button svg {
   gap: 6px;
 }
 .world-page > .world-map {
+  max-width: 833px;
+  margin-inline: auto;
   max-height: 500px;
-  border: 1px solid #d9dfce;
+  border: 3px double #a58a60;
 }
 .world-page > .world-map > svg {
   max-height: 500px;
@@ -1974,10 +2001,24 @@ button svg {
   border-radius: 5px;
   color: #647058;
 }
-.region-list > button:hover,
+.region-list > button:hover {
+  background: #f6e8ce;
+}
 .region-list > button.active {
-  background: #e5eadb;
-  color: #46613b;
+  background: var(--green);
+  color: var(--white);
+}
+.region-plate {
+  overflow: hidden;
+  border-radius: 6px 6px 0 0;
+  border-bottom: 3px solid var(--gold);
+  margin-bottom: 16px;
+}
+.region-plate img {
+  display: block;
+  width: 100%;
+  height: clamp(80px, 12vw, 150px);
+  object-fit: cover;
 }
 .you-tag {
   margin-left: auto;
@@ -3191,8 +3232,10 @@ button svg {
     font-size: 13px;
   }
   .character-passport {
-    padding: 20px 0 27px;
+    padding: 20px 15px;
     gap: 18px;
+    background-image: linear-gradient(90deg, #fff7e7fa, #fff7e7eb 72%, #fff7e7ad),
+      url("/assets/asura-golden-hour.webp");
   }
   .portrait-seal {
     width: 65px;

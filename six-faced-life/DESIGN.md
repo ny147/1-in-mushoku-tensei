@@ -184,6 +184,8 @@ Reviewed against the source on 2026-10-24. This is the current implementation gu
 
 ## Colors
 
+The active chronicle uses a compact sunset masthead with a dark reading area for the name and age. The character record pairs a sepia monogram with the wheat-field illustration. The world atlas uses blue water, ochre coastlines and a compass rose. Its regional entry shows the selected region’s landscape, including when the phone picker replaces map buttons.
+
 The opening is an illustrated book cover. A lone traveler looks across wheat fields under a blue and apricot sky. The title echoes the sunset in russet ink. Sky-tinted navigation fades to wheat parchment, forest ink marks the current destination, and an ochre rule marks pending decisions. Regional pixel scenes retain their own landscape palettes.
 
 ### Primary
