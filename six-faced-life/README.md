@@ -262,8 +262,7 @@ preference to on. Device reduced-motion preferences take priority and show a
 still frame. Hidden tabs, offscreen scenes and completed lives also stay still.
 Short reactions never block decisions or replay saved history. A pending phone
 decision hides the scene to keep the story visible. Failed or still-loading art
-uses the original painted landscape as a complete fallback. New-life and other
-painted screens retain their original artwork; archive previews have no live scene.
+uses the original painted landscape as a complete fallback. The new-life cover shows an original traveler crossing the wheat fields of Asura at sunset. The birth record keeps the countryside panorama. Archive previews have no live scene.
 
 
 ## Six career paths

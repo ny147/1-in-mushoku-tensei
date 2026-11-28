@@ -58,6 +58,9 @@ export function WorldView({ life }: { life: Life | null }) {
               ))}
             </select>
           </div>
+          <div className="region-plate">
+            <img src={`/assets/pixel-life/regions/${selected}.png`} alt="" width={768} height={256} />
+          </div>
           <div className="region-title">
             <Mountain size={25} strokeWidth={1.2} />
             <h2>{t(region.name)}</h2>

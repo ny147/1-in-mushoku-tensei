@@ -2,17 +2,17 @@
 name: Six-Faced Life
 description: A quiet illustrated chronicle of a second life.
 colors:
-  paper: "#f6f4ee"
-  white: "#fdfcf8"
-  ink: "#303b32"
-  muted: "#697065"
-  line: "#dedfd3"
-  green: "#365442"
-  green-dark: "#284433"
-  sage: "#e9ede2"
-  gold: "#967c43"
-  sidebar: "#f0f0e7"
-  decision-paper: "#fcfcf5"
+  paper: "#f7efdf"
+  white: "#fffbf1"
+  ink: "#32362c"
+  muted: "#625e50"
+  line: "#dfd0b5"
+  green: "#354e41"
+  green-dark: "#223c32"
+  sage: "#e7ebde"
+  gold: "#89652f"
+  sidebar: "#efe3ca"
+  decision-paper: "#fff8e9"
 typography:
   display:
     fontFamily: "Chronicle, Georgia, serif"
@@ -184,7 +184,9 @@ Reviewed against the source on 2026-10-24. This is the current implementation gu
 
 ## Colors
 
-The palette combines mossy greens and warm neutral paper; the frontmatter records the source values.
+The active chronicle uses a compact sunset masthead with a dark reading area for the name and age. The character record pairs a sepia monogram with the wheat-field illustration. The world atlas uses blue water, ochre coastlines and a compass rose. Its regional entry shows the selected region’s landscape, including when the phone picker replaces map buttons.
+
+The opening is an illustrated book cover. A lone traveler looks across wheat fields under a blue and apricot sky. The title echoes the sunset in russet ink. Sky-tinted navigation fades to wheat parchment, forest ink marks the current destination, and an ochre rule marks pending decisions. Regional pixel scenes retain their own landscape palettes.
 
 ### Primary
 

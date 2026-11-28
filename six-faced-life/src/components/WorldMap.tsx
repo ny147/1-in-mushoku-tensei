@@ -34,16 +34,16 @@ export function WorldMap({
             <path
               d="M1 14q7-5 14 0t14 0"
               fill="none"
-              stroke="#c9d4cb"
+              stroke="#9ab7b8"
               strokeWidth=".6"
             />
           </pattern>
         </defs>
-        <rect width="800" height="480" fill="#e7eae0" />
+        <rect width="800" height="480" fill="#d6e5e3" />
         <rect width="800" height="480" fill="url(#map-water)" />
         <g
-          fill="#d0d5bb"
-          stroke="#a9b49b"
+          fill="#efd9ac"
+          stroke="#95794f"
           strokeWidth="1.4"
           strokeLinejoin="round"
         >
@@ -53,23 +53,23 @@ export function WorldMap({
           <path d="m154 332 32-32 45 5 15-17 34 12 5 36 28 23-19 42-41 21-30-18-45 9-23-37z" />
           <path d="m613 337 22-13 18 14 10 25-20 13-25-14z" />
         </g>
-        <g stroke="#a7ae96" strokeWidth="1" fill="none" opacity=".8">
+        <g stroke="#9d8156" strokeWidth="1" fill="none" opacity=".8">
           <path d="m182 112 12-19 13 18 12-23 17 21M274 106l11-21 16 23 12-13 13 16M402 275l13-22 16 24 17-30 18 29M593 113l16-21 15 20 14-17 16 21" />
           <path
             d="M153 180q70-16 127 22t57-60M406 290q42 15 72-16"
-            stroke="#a2bfc0"
+            stroke="#84a7ad"
             strokeWidth="2"
           />
         </g>
         <path
           d="M242 200Q276 120 289 115M294 145Q395 162 441 281M451 268Q554 232 622 143M216 218Q222 288 221 350"
           fill="none"
-          stroke="#b9b29a"
+          stroke="#99795a"
           strokeDasharray="5 6"
         />
         {!compact && (
           <g
-            fill="#6b796c"
+            fill="#455d5b"
             fontFamily="Georgia,serif"
             fontSize="12"
             letterSpacing="3"
@@ -77,6 +77,11 @@ export function WorldMap({
             <text x="79" y="440">
               {t("THE SIX-FACED WORLD")}
             </text>
+            <g transform="translate(682 379)" aria-hidden="true" stroke="#795734">
+              <circle r="17" fill="none" />
+              <path d="M0 -27 5 -5 22 0 5 5 0 26 -5 5 -22 0 -5 -5Z" fill="#fff5db" />
+              <path d="M0 -27 5 -5 0 0ZM22 0 5 5 0 0ZM0 26 -5 5 0 0ZM-22 0 -5 -5 0 0Z" fill="#986843" />
+            </g>
             <text x="668" y="430">
               {t("N ↑")}
             </text>

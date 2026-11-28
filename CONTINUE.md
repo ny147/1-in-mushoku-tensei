@@ -1,3 +1,27 @@
+# Golden-hour chronicle — 2026-11-28
+
+On `codex/golden-hour-chronicle`, the new-life screen opens on an original
+illustration of a traveler in Asura's wheat fields. The shared navigation,
+paper surfaces and decision controls draw their colors from the sunset.
+
+Isolated Chrome on port 5187 verified the English desktop at 1440 px and
+Thai phone at 390 px through setup, the birth record, a pending choice after
+reload and keyboard selection. Both fit horizontally and reported no
+page or console errors. All 806 tests passed with two workers. The production
+build passed with the existing chunk-size warning.
+
+The follow-up extends the cover to the chronicle masthead, character passport and
+illustrated world atlas. Chrome verified all three routes at 1440 px in English
+and 390 px in Thai, all six region illustrations, keyboard navigation, choice
+selection after reload, horizontal fit and map proportions. The full suite
+again passed all 806 tests and the production build passed with the same warning.
+
+Checkpoint at 20:56 Bangkok on November 28. The five-hour window had 7%
+remaining (resets November 29 at 00:57) and the weekly window had 85%
+remaining (resets December 5 at 19:57). The opening commit is `ea488ca`;
+the in-game changes accompany this checkpoint on the same branch. The next
+step is manual review and merge of [PR #49](https://github.com/ny147/1-in-mushoku-tensei/pull/49).
+
 # Passage from Rikarisu — 2026-11-28
 
 On `codex/passage-from-rikarisu`, a Migurd character age 15 or older in a Demon
