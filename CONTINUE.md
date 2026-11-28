@@ -1,3 +1,18 @@
+# A Letter to Ranoa — 2026-11-28
+
+On `codex/beastfolk-ranoa-mentor`, Beastfolk characters in the Great Forest
+can study with a local teacher. A year of Read & learn and a qualifying
+assessment earn a recommendation for Ranoa's full scholarship. The other
+ending pays up to 12 silver for one nursery job. The existing University
+admission activity handles enrollment and travel. [Implementation plan](docs/superpowers/plans/2026-11-28-beastfolk-ranoa-mentor.md)
+
+Isolated headless Chrome on port 5174 verified the English scholarship at
+1280 px and the Thai nursery job at 390 px. Both walked through the two
+scenes, switched reading modes, selected by keyboard, and survived reload.
+There was no horizontal overflow or page or console error.
+The local full test run passed 802 tests in 95 files. The production build
+passed with Vite's existing chunk-size warning.
+
 # Seeded lifetime CI timeout — 2026-11-28
 
 The Vercel build after PR #45 stopped when the 500-life regression exceeded its

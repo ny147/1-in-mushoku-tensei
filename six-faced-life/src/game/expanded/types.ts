@@ -126,6 +126,11 @@ export interface ExpandedState {
   swords?: import('./sword-state').SwordState;
   training?: import("./career-access").TrainingState;
   finance?: import("./career-access").EducationFinance;
+  beastfolkMentor?: {
+    startedYear: number;
+    studiedYear?: number;
+    completed?: "letter" | "local-work";
+  };
   longRoadHome?: {
     route: "refuge" | "passage";
     dueYear: number;
