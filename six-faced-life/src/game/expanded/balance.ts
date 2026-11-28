@@ -130,11 +130,12 @@ export const HAZARDS = {
   persecution: 0.155,
   travel: 0.004,
 };
+export const DEMON_CONTINENT_FARE = 120;
 export const EXPANDED_EVENT_IDS = [
   'parental-debt', 'debt-service-exit',
   'asura-oath', 'asura-household', 'asura-result', 'asura-defeat', 'succession-withdrawal',
   'crown-petition', 'crown-request', 'crown-standing', 'govern-relief', 'govern-dispute', 'govern-crisis',
-  'long-road-home', 'beastfolk-mentor', 'orsted-ledger', 'hitogami-dream',
+  'long-road-home', 'beastfolk-mentor', 'rikarisu-passage', 'orsted-ledger', 'hitogami-dream',
   'house-petition', 'house-request', 'house-standing', 'royal-marriage',
   'career-path','career-work',
   'sword-select', 'sword-mentor', 'sword-trial', 'sword-abandon',

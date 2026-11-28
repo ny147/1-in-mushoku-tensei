@@ -19,11 +19,13 @@ import { canAssessObservedSign } from "./genetics";
 
 import { roadAvailable } from "./long-road-home";
 import { mentorAvailable } from "./beastfolk-mentor";
+import { rikarisuPassageAvailable } from "./rikarisu-passage";
 
 export const ACTIVITIES = [
   "discovery",
   "long-road-home",
   "beastfolk-mentor",
+  "rikarisu-passage",
   "hitogami-dream",
   "orsted-ledger",
   "crown-petition",
@@ -46,6 +48,7 @@ const minimumAge: Record<Activity, number> = {
   discovery: 8,
   "long-road-home": 8,
   "beastfolk-mentor": 12,
+  "rikarisu-passage": 15,
   "hitogami-dream": 18,
   "orsted-ledger": 18,
   "crown-petition": 0,
@@ -76,6 +79,7 @@ export function activityOpening(life: ExpandedLife, key: Activity) {
   if (key === "discovery" && !canAssessObservedSign(life)) return { kind: "irrelevant" } as const;
   if (key === "long-road-home" && !roadAvailable(life)) return {kind:"irrelevant"} as const;
   if (key === "beastfolk-mentor" && !mentorAvailable(life)) return { kind: "irrelevant" } as const;
+  if (key === "rikarisu-passage" && !rikarisuPassageAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "hitogami-dream" && !dreamAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "orsted-ledger" && !ledgerAvailable(life)) return { kind: "irrelevant" } as const;
   if (key === "house-petition" && !canPetitionHouse(life)) return {kind: "irrelevant"} as const;

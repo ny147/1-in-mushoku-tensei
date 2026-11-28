@@ -274,3 +274,12 @@ scholarship.
 Use University admission to enroll and travel under the usual rules.
 Alternatively, take a one-time nursery job for up to 12 silver from age 15.
 Either choice completes the story. You can return later to decide.
+
+## Passage from Rikarisu
+
+Migurd characters age 15 or older in a Demon Continent settlement can meet a
+caravan outfitter through Optional activities. Accept the offer and spend an
+available year there with Earn a living as your focus. Then choose up to 48
+silver or have the outfitter cover the full fare to Ranoa. The fare applies
+when you enroll through University admission from the settlement. Admission,
+tuition and living costs follow the usual funding rules.

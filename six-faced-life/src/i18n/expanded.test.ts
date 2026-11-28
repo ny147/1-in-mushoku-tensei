@@ -85,7 +85,8 @@ function politicalFixture(id: string) {
 describe("expanded bilingual catalogue", () => {
   it("provides original Thai titles, bodies, options and outcomes for every registered event", () => {
     for (const id of EXPANDED_EVENT_IDS) {
-      if (id === "orsted-ledger" || id === "hitogami-dream" || id === "long-road-home" || id === "beastfolk-mentor") {
+      if (id === "orsted-ledger" || id === "hitogami-dream" || id === "long-road-home" ||
+          id === "beastfolk-mentor" || id === "rikarisu-passage") {
         const member = createExpandedLife({seed: 2});
         member.phase = "alive";
         member.age = 35;
@@ -100,15 +101,25 @@ describe("expanded bilingual catalogue", () => {
           member.race = "beastfolk";
           member.region = "forest";
         }
+        if (id === "rikarisu-passage") {
+          member.race = "migurd";
+          member.region = "demon";
+          member.expansion.origin.locality = "settlement";
+        }
         const lead = openActivity(member, id);
         const actions = {
           "orsted-ledger": "investigate",
           "long-road-home": "refuge",
           "beastfolk-mentor": "study",
+          "rikarisu-passage": "accept",
           "hitogami-dream": "stop",
         };
         const committed = choose(lead, `expanded.${id}.${actions[id]}`);
         if (id === "long-road-home" || id === "beastfolk-mentor") committed.age++;
+        if (id === "rikarisu-passage" && committed.ruleset === "expanded-1") {
+          committed.age++;
+          committed.expansion.rikarisuPassage!.workedYear = committed.expansion.birthYear + committed.age;
+        }
         const report = openActivity(committed, id);
         for (const stage of [lead, report]) {
           const decision = getDecision(stage)!;

@@ -5,11 +5,13 @@ import {
   activityOpening,
   type Activity,
 } from "../game/expanded/activities";
+import { rikarisuPassageTitle } from "../game/expanded/rikarisu-passage";
 import { useI18n } from "../i18n/context";
-const names: Record<Activity, [string, string]> = {
+const names: Record<Activity, readonly [string, string]> = {
   discovery: ["Ask about an unusual training sign", "ถามครูเรื่องสัญญาณผิดปกติระหว่างฝึก"],
   "long-road-home": ["The Long Road Home", "หนทางไกลกลับบ้าน"],
   "beastfolk-mentor": ["A Letter to Ranoa", "จดหมายถึงราโนอา"],
+  "rikarisu-passage": rikarisuPassageTitle,
   "hitogami-dream": ["The Dream’s Warning", "คำเตือนในฝัน"],
   "orsted-ledger": ["Orsted’s ledger assignment", "ภารกิจบัญชีเสบียงของออร์สเตด"],
   "house-petition": ["Petition your house", "ยื่นคำร้องต่อสกุล"],
