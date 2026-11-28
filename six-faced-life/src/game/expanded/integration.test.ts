@@ -27,23 +27,29 @@ describe("expanded seeded lifetimes and storage", () => {
     expect(next.progression!.magic.water.xp).toBe(12);
     expect(next.progression!.magic.water.spells).toContain("water-drop");
   });
-  it("keeps 500 complete lives valid and restoration futures identical at every decision", async () => {
-    for (let seed = 0; seed < 500; seed++) {
+  // Give each seed range its own timeout so slower CI runners can finish all 500 lives.
+  it.each([
+    { firstSeed: 0, lastSeed: 166 },
+    { firstSeed: 167, lastSeed: 333 },
+    { firstSeed: 334, lastSeed: 499 },
+  ])("keeps lives valid and restored decisions identical for seeds $firstSeed–$lastSeed", async ({ firstSeed, lastSeed }) => {
+    for (let seed = firstSeed; seed <= lastSeed; seed++) {
       let life = beginLife(createExpandedLife({ seed }));
       for (let step = 0; step < 2000 && life.phase !== "ended"; step++) {
         const choice = safeChoice(life);
         const next = choice ? choose(life, choice.id) : advance(life, "year");
         if (life.pending)
-          expect(choice, `blocked ${life.pending}`).toBeDefined();
+          expect(choice, `seed ${seed} blocked at age ${life.age} on ${life.pending}`).toBeDefined();
         expect(next, `seed ${seed} stalled at age ${life.age} on ${choice?.id ?? life.pending}`).not.toBe(life);
         expect(
           isLife(next),
           `seed ${seed} age ${next.age} event ${next.pending}`,
         ).toBe(true);
         if (choice)
-          expect(choose(JSON.parse(JSON.stringify(life)), choice.id)).toEqual(
-            next,
-          );
+          expect(
+            choose(JSON.parse(JSON.stringify(life)), choice.id),
+            `seed ${seed} restored at age ${life.age} on ${choice.id}`,
+          ).toEqual(next);
         life = next;
       }
       expect(life.phase, `seed ${seed}`).toBe("ended");
