@@ -13,6 +13,8 @@ import { canRelocate, inCustody } from "./succession-restrictions";
 import { clamp } from "./random";
 import { getProgression } from "../progression";
 import { syncCareerNode } from './career-paths';
+import { earnedRikarisuFare } from "./rikarisu-passage";
+import { DEMON_CONTINENT_FARE } from "./balance";
 export interface Requirement {
   id: string;
   current: number;
@@ -52,7 +54,10 @@ export function moveByOrdinaryTravel(life: ExpandedLife, destination: RegionId) 
 }
 
 export function travelCost(life: ExpandedLife) {
-  return life.region === "demon" ? 120 : life.region === "begaritt" ? 90 : 40;
+  return life.region === "demon" ? DEMON_CONTINENT_FARE : life.region === "begaritt" ? 90 : 40;
+}
+function universityTravelCost(life: ExpandedLife) {
+  return earnedRikarisuFare(life) ? 0 : travelCost(life);
 }
 export function scholarshipEligible(life: ExpandedLife) {
   const x = life.expansion;
@@ -78,7 +83,7 @@ export function educationRequirements(life: ExpandedLife): Requirement[] {
       scholarshipEligible(life)
         ? 10000
         : life.expansion.economy.familyFunds + life.coins,
-      80 + 232 + travelCost(life),
+      80 + 232 + universityTravelCost(life),
     ),
   ];
 }
@@ -87,7 +92,7 @@ export function universityQuote(life: ExpandedLife, useSponsor = false): Educati
   return quoteEducation(life, {
     purpose: "university",
     admission: scholarship ? 0 : 80,
-    travel: scholarship ? 0 : travelCost(life),
+    travel: scholarship ? 0 : universityTravelCost(life),
     tuition: scholarship ? 0 : 160,
     living: scholarship ? 0 : 72,
     starterFee: 0,
@@ -120,8 +125,11 @@ export function enrollUniversity(
   const scholarship = scholarshipEligible(life);
   if (!scholarship && !reserveEducation(life, q, funding?.borrow ?? false))
     return false;
-  if (!scholarship)
+  if (!scholarship) {
     consumeEducation(life, "university", quote.admission + quote.travel);
+    const passage = earnedRikarisuFare(life);
+    if (passage) passage.settlement = "used";
+  }
   e.scholarship = scholarship;
   e.budget = scholarship ? 0 : 232;
   e.stage = "university";

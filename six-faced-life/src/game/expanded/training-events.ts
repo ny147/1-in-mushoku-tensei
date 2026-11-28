@@ -29,6 +29,7 @@ import {
 import { houseSponsorName } from "../../i18n/houses";
 import { moneyText } from "../../i18n/money";
 import type { EducationQuote } from "./education-finance";
+import { earnedRikarisuFare } from "./rikarisu-passage";
 
 // The live decision binds the displayed terms to its action ID. A stale button
 // can therefore never agree to a different provider, loan or course on refresh.
@@ -271,8 +272,14 @@ export function trainingDecision(l: ExpandedLife): Decision | null {
       missing = educationRequirements(l).filter(
         (r) => r.id !== "funding" && !r.met,
       );
+    const scholarship = scholarshipEligible(l);
+    const fareCovered = earnedRikarisuFare(l);
     const desc = (lang: "en" | "th") =>
-      `${scholarshipEligible(l)?(lang==="th"?"ทุนการศึกษาจ่ายค่าสมัคร ค่าเรียน ค่าครองชีพ และค่าเดินทางทั้งหมด ไม่ต้องกู้":"Scholarship covers admission, tuition, living and travel; no borrowing."):""} ${fundingDescription(q, lang)} ${ew("policy", lang)} ${missing.map((r) => `${expandedLabel(r.id, lang)} ${Math.floor(r.current)}/${r.required}`).join("; ")} ${l.expansion.training?.active ? (lang === "th" ? "ต้องถอนตัวจากการฝึกอาชีพก่อน" : "Withdraw from active career training before enrolling.") : ""}`;
+      `${scholarship
+        ? (lang === "th" ? "ทุนการศึกษาจ่ายค่าสมัคร ค่าเรียน ค่าครองชีพ และค่าเดินทางทั้งหมด ไม่ต้องกู้" : "Scholarship covers admission, tuition, living and travel; no borrowing.")
+        : fareCovered
+          ? (lang === "th" ? "เจ้าของร้านจากริคาริสุจ่ายค่าเดินทางให้ทั้งหมดเมื่อคุณเข้าเรียน" : "Your earned Rikarisu passage covers the full fare when you enroll.")
+          : ""} ${fundingDescription(q, lang)} ${ew("policy", lang)} ${missing.map((r) => `${expandedLabel(r.id, lang)} ${Math.floor(r.current)}/${r.required}`).join("; ")} ${l.expansion.training?.active ? (lang === "th" ? "ต้องถอนตัวจากการฝึกอาชีพก่อน" : "Withdraw from active career training before enrolling.") : ""}`;
     text = [desc("en"), desc("th")];
     option(
       "enroll",

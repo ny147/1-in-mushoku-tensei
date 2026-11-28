@@ -1,3 +1,19 @@
+# Passage from Rikarisu — 2026-11-28
+
+On `codex/passage-from-rikarisu`, a Migurd character age 15 or older in a Demon
+Continent settlement can work a year for a caravan outfitter. The player can
+take up to 48 silver or have the outfitter cover the full Ranoa fare when
+enrolling. Only enrollment that uses the earned fare consumes it.
+[Design](docs/superpowers/specs/2026-11-28-passage-from-rikarisu-design.md) · [Plan](docs/superpowers/plans/2026-11-28-passage-from-rikarisu.md)
+
+Isolated Chrome on port 5174 verified fare redemption and the exact university
+quote in English at 1280 px, and the 48-silver payment in Thai at 390 px.
+Both checked keyboard choices, reading mode, pending and settled reloads,
+horizontal fit, and the absence of page and console errors.
+The default local test run hit the existing five-second career-training UI
+timeout. With `VITEST_MAX_WORKERS=2`, all 806 tests in 96 files passed. The
+production build passed with Vite's existing chunk-size warning.
+
 # A Letter to Ranoa — 2026-11-28
 
 On `codex/beastfolk-ranoa-mentor`, Beastfolk characters in the Great Forest

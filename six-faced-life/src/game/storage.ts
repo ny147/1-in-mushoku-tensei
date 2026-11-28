@@ -18,6 +18,7 @@ import { activateSuccession } from "./expanded/succession-state";
 import { validSuccession } from "./expanded/succession-validation";
 import { activateHouseState, validateHouseState } from "./expanded/house-state";
 import { mentorAvailable } from "./expanded/beastfolk-mentor";
+import { rikarisuPassageAvailable } from "./expanded/rikarisu-passage";
 
 export const SAVE_KEY = "six-faced-life.v1";
 export interface StorageLike {
@@ -95,6 +96,10 @@ export function isLife(v: unknown): v is Life {
     )
       return false;
     const x = v.expansion as import("./expanded/types").ExpandedState;
+    if (x.rikarisuPassage && v.race !== "migurd") return false;
+    if (v.pending === "expanded.rikarisu-passage" &&
+      (x.optionalActivity !== v.pending || !rikarisuPassageAvailable(v as unknown as ExpandedLife)))
+      return false;
     if (x.beastfolkMentor && v.race !== "beastfolk") return false;
     if (v.pending === "expanded.beastfolk-mentor" &&
       (x.optionalActivity !== v.pending || !mentorAvailable(v as unknown as ExpandedLife)))
@@ -109,6 +114,7 @@ export function isLife(v: unknown): v is Life {
           "hitogami-dream",
           "long-road-home",
           "beastfolk-mentor",
+          "rikarisu-passage",
           "orsted-ledger",
           "debt-service-exit",
           "crown-petition",
