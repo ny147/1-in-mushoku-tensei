@@ -1,3 +1,15 @@
+# Seeded lifetime CI timeout — 2026-11-28
+
+The Vercel build after PR #45 stopped when the 500-life regression exceeded its
+60-second test timeout. `codex/seeded-lifetime-ci-timeout` runs seeds 0–166,
+167–333, and 334–499 as three cases with independent 60-second timeouts.
+Each seed still checks state validity, completion, and restored choice outcomes.
+
+The original case passed locally in 26.39 seconds. With `CI=true`,
+`npm run build:vercel` passed 799 tests in 94 files, then built the application
+with the existing Vite chunk-size warning. Vercel project access was unavailable
+through the connector. The user reviews and merges the fix manually.
+
 # The Long Road Home — 2026-11-27
 
 PR #44 implements the [approved design](docs/superpowers/specs/2026-11-27-long-road-home-design.md) and [plan](docs/superpowers/plans/2026-11-27-long-road-home.md) on `codex/long-road-home-design`. A dated Fittoa displacement unlocks the refuge and return-passage choices. The follow-up uses the route-selection year, rechecks normal travel conditions, and records the actual result. [Runner verification](https://github.com/ny147/1-in-mushoku-tensei/actions/runs/45957768909) passed English desktop (1280 px) refuge recovery and Thai phone-width (390 px) passage to Asura. Both exercised Short and Full, next-year availability, reload and horizontal fit. Account usage windows were unavailable.
